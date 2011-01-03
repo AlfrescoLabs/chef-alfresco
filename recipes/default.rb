@@ -16,3 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe "java"
+include_recipe "openoffice::headless"
+include_recipe "imagemagick"
+include_recipe "tomcat"
