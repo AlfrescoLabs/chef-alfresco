@@ -18,6 +18,9 @@
 #
 
 include_recipe "java"
+include_recipe "mysql::client"
 include_recipe "openoffice::headless"
+include_recipe "openoffice::apps"
 include_recipe "imagemagick"
+include_recipe "swftools"
 include_recipe "tomcat"
