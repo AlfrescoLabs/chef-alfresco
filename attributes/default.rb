@@ -25,3 +25,10 @@ when "debian","ubuntu"
 else
   node[:java][:install_flavor] = "openjdk"
 end
+
+default[:alfresco][:version] = "3.4.c"
+default[:alfresco][:zip_sha256] = "90c9181e35e167d89aa212b668d504d2"
+
+default[:alfresco][:db][:user]      = "alfresco"
+default[:alfresco][:db][:password]  = "alfresco"
+default[:alfresco][:db][:database]  = "alfresco"
