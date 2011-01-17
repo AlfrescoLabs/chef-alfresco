@@ -45,7 +45,7 @@ default[:alfresco][:db][:database]  = "alfresco"
 default[:alfresco][:db][:jdbc_url]  = "jdbc:mysql://localhost/#{node[:alfresco][:db][:database]}?useUnicode=yes&characterEncoding=UTF-8"
 
 default[:alfresco][:root_dir] = "/srv/alfresco/alf_data"
-default[:alfresco][:ooo][:exe]  = "/usr/bin/soffice"
+default[:alfresco][:ooo][:exe]  = "/usr/lib/openoffice/program/soffice"
 default[:alfresco][:ooo][:enabled]  = "true"
 default[:alfresco][:img][:root]  = "/usr"
 default[:alfresco][:swf][:exe]  = "/usr/bin/pdf2swf"
