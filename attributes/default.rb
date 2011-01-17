@@ -37,6 +37,8 @@ default[:alfresco][:version] = "3.4.c"
 default[:alfresco][:zip_url] = "http://dl.alfresco.com/release/community/build-3335/alfresco-community-3.4.c.zip?dl_file=release/community/build-3335/alfresco-community-3.4.c.zip"
 default[:alfresco][:zip_sha256] = "90c9181e35e167d89aa212b668d504d2"
 
+default[:alfresco][:iptables_allow] = "enable"
+
 default[:alfresco][:db][:user]      = "alfresco"
 default[:alfresco][:db][:password]  = "alfresco"
 default[:alfresco][:db][:database]  = "alfresco"
