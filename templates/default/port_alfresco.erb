@@ -1,0 +1,17 @@
+<% if node[:alfresco][:imap][:server][:enabled] == "true" -%>
+
+# alfresco imap server
+-A FWR -p tcp -m tcp --dport <%= node[:alfresco][:imap][:server][:port] %> -j ACCEPT
+<% end -%>
+<% if node[:alfresco][:cifs][:enabled] == "true" -%>
+
+# alfresco cifs server
+-A FWR -p tcp -m tcp --dport <%= node[:alfresco][:cifs][:tcpip_smb][:port] %> -j ACCEPT
+-A FWR -p tcp -m udp --dport <%= node[:alfresco][:cifs][:tcpip_smb][:port] %> -j ACCEPT
+-A FWR -p tcp -m tcp --dport <%= node[:alfresco][:cifs][:netbios_smb][:name_port] %> -j ACCEPT
+-A FWR -p tcp -m udp --dport <%= node[:alfresco][:cifs][:netbios_smb][:name_port] %> -j ACCEPT
+-A FWR -p tcp -m tcp --dport <%= node[:alfresco][:cifs][:netbios_smb][:datagram_port] %> -j ACCEPT
+-A FWR -p tcp -m udp --dport <%= node[:alfresco][:cifs][:netbios_smb][:datagram_port] %> -j ACCEPT
+-A FWR -p tcp -m tcp --dport <%= node[:alfresco][:cifs][:netbios_smb][:session_port] %> -j ACCEPT
+-A FWR -p tcp -m udp --dport <%= node[:alfresco][:cifs][:netbios_smb][:session_port] %> -j ACCEPT
+<% end -%>
