@@ -21,8 +21,12 @@ include_recipe "java"
 
 package "libxalan2-java"
 package "unzip"           # to unzip the alfresco archive
+package "fastjar"         # to overlay log4j.properties in alfresco.war
 
 include_recipe "mysql::server"
+require 'rubygems'
+Gem.clear_paths
+require 'mysql'
 
 include_recipe "openoffice::headless"
 include_recipe "openoffice::apps"
@@ -56,14 +60,67 @@ remote_file archive_zip do
   checksum  node[:alfresco][:zip_sha256]
 end
 
+directory node[:alfresco][:root_dir] do
+  owner     node[:tomcat][:user]
+  group     node[:tomcat][:group]
+  mode      "0755"
+  recursive true
+end
+
 bash "extract_bin" do
   user    "root"
   group   "root"
   creates "#{node[:tomcat][:home]}/bin/apply_amps.sh"
   code    <<-CODE
-    unzip -j #{archive_zip} bin/*.jar -d #{temp_dir} && \
-    unzip -j #{archive_zip} bin/*.sh -d #{temp_dir}
+    unzip -jo #{archive_zip} bin/*.jar -d #{node[:tomcat][:home]}/bin/ && \
+    unzip -jo #{archive_zip} bin/*.sh -d #{node[:tomcat][:home]}/bin/ && \
+    perl -pi -e 's| tomcat/temp| #{node[:tomcat][:tmp_dir]}|g' \
+      #{node[:tomcat][:home]}/bin/clean_tomcat.sh && \
+    perl -pi -e 's| tomcat/work| #{node[:tomcat][:work_dir]}|g' \
+      #{node[:tomcat][:home]}/bin/clean_tomcat.sh && \
+    perl -pi -e 's/\r\n/\n/' \
+      #{node[:tomcat][:home]}/bin/clean_tomcat.sh
   CODE
+end
+
+bash "extract_shared" do
+  user    "root"
+  group   "root"
+  creates "#{node[:tomcat][:base]}/shared/classes/alfresco"
+  code    <<-CODE
+    unzip #{archive_zip} web-server/shared/classes/* \
+      -d #{node[:tomcat][:base]}/shared/classes/ && \
+    mv #{node[:tomcat][:base]}/shared/classes/web-server/shared/classes/* \
+      #{node[:tomcat][:base]}/shared/classes/ && \
+    rm -rf #{node[:tomcat][:base]}/shared/classes/web-server
+  CODE
+end
+
+bash "extract_mysql_jar" do
+  user    "root"
+  group   "root"
+  creates "#{node[:tomcat][:home]}/lib/mysql-connector-java-5.1.13-bin.jar"
+  code    <<-CODE
+    unzip -jo #{archive_zip} web-server/lib/*.jar \
+      -d #{node[:tomcat][:home]}/lib/
+  CODE
+  notifies :restart, "service[tomcat]", :immediately
+end
+
+template "#{node[:tomcat][:base]}/shared/classes/alfresco-global.properties" do
+  source  "alfresco-global.properties.erb"
+  owner   node[:tomcat][:user]
+  group   node[:tomcat][:group]
+  mode    "0640"
+  notifies :restart, "service[tomcat]", :immediately
+end
+
+template "#{node[:tomcat][:base]}/shared/classes/log4j.properties" do
+  source  "log4j.properties.erb"
+  owner   node[:tomcat][:user]
+  group   node[:tomcat][:group]
+  mode    "0644"
+  notifies :restart, "service[tomcat]", :immediately
 end
 
 execute "mysql-create-alfresco-database" do
@@ -93,15 +150,65 @@ template "/etc/mysql/alfresco-grants.sql" do
   notifies :run, "execute[mysql-install-alfresco-privileges]", :immediately
 end
 
-bash "deploy_wars" do
-  user    "tomcat6"
-  group   "tomcat6"
-  creates "#{webapp_dir}/alfresco.war"
-  code    <<-CODE
-    unzip -j #{archive_zip} web-server/webapps/*.war -d #{temp_dir} && \
-    mv #{temp_dir}/alfresco.war #{webapp_dir}/alfresco.war && \
-    sleep 5 && \
-    mv #{temp_dir}/share.war #{webapp_dir}/share.war
-  CODE
-  action  :nothing
+execute "clean_previous_tomcat_deployment" do
+  command "sh #{node[:tomcat][:home]}/bin/clean_tomcat.sh"
+  not_if %{test -f #{webapp_dir}/alfresco.war}
 end
+
+%w{ alfresco.war share.war}.each do |war|
+  bash "deploy_#{war}" do
+    user    "tomcat6"
+    group   "tomcat6"
+    creates "#{webapp_dir}/#{war}"
+    code    <<-CODE
+      unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \
+      mkdir -p #{temp_dir}/WEB-INF/classes && \
+      cp #{node[:tomcat][:base]}/shared/classes/log4j.properties \
+        #{temp_dir}/WEB-INF/classes && \
+      (cd #{temp_dir} && \
+        jar -uf #{temp_dir}/#{war} WEB-INF/classes/log4j.properties) && \
+      rm -rf #{temp_dir}/WEB-INF/classes && \
+      mv #{temp_dir}/#{war} #{webapp_dir}/#{war} && \
+      sleep 10
+    CODE
+  end
+end
+
+if node[:alfresco][:nginx][:proxy] && node[:alfresco][:nginx][:proxy] == "enable"
+  include_recipe "nginx::source"
+
+  if node[:alfresco][:nginx][:www_redirect] && 
+      node[:alfresco][:nginx][:www_redirect] == "disable"
+    www_redirect = false
+  else
+    www_redirect = true
+  end
+
+  template "#{node[:nginx][:dir]}/sites-available/alfresco.conf" do
+    source      "nginx_alfresco.conf.erb"
+    owner       'root'
+    group       'root'
+    mode        '0644'
+    variables(
+      :host_name    => node[:alfresco][:nginx][:host_name],
+      :host_aliases => node[:alfresco][:nginx][:host_aliases],
+      :listen_ports => node[:alfresco][:nginx][:listen_ports],
+      :www_redirect => www_redirect
+    )
+
+    if File.exists?("#{node[:nginx][:dir]}/sites-enabled/alfresco.conf")
+      notifies  :restart, 'service[nginx]'
+    end
+  end
+
+  nginx_site "alfresco.conf" do
+    if node[:alfresco][:nginx_proxy] && 
+        node[:alfresco][:nginx_proxy] == "disable"
+      enable false
+    else
+      enable true
+    end
+  end
+end
+
+

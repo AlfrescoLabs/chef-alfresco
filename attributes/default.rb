@@ -21,14 +21,35 @@
 
 case node.platform
 when "debian","ubuntu"
-  node[:java][:install_flavor] = "sun"
+  set[:java][:install_flavor] = "sun"
 else
-  node[:java][:install_flavor] = "openjdk"
+  set[:java][:install_flavor] = "openjdk"
 end
 
+set[:mysql][:bind_address] = "0.0.0.0"
+
+default[:alfresco][:java_opts] = "-Xms128m -Xmx1024m -XX:MaxPermSize=128m -Djava.awt.headless=true"
+set[:tomcat][:java_options] = node[:alfresco][:java_opts]
+
+set[:tomcat][:restart_timing] = "immediately"
+
 default[:alfresco][:version] = "3.4.c"
+default[:alfresco][:zip_url] = "http://dl.alfresco.com/release/community/build-3335/alfresco-community-3.4.c.zip?dl_file=release/community/build-3335/alfresco-community-3.4.c.zip"
 default[:alfresco][:zip_sha256] = "90c9181e35e167d89aa212b668d504d2"
 
 default[:alfresco][:db][:user]      = "alfresco"
 default[:alfresco][:db][:password]  = "alfresco"
 default[:alfresco][:db][:database]  = "alfresco"
+default[:alfresco][:db][:jdbc_url]  = "jdbc:mysql://localhost/#{node[:alfresco][:db][:database]}?useUnicode=yes&characterEncoding=UTF-8"
+
+default[:alfresco][:root_dir] = "/srv/alfresco/alf_data"
+default[:alfresco][:ooo][:exe]  = "/usr/bin/soffice"
+default[:alfresco][:ooo][:enabled]  = "true"
+default[:alfresco][:img][:root]  = "/usr"
+default[:alfresco][:swf][:exe]  = "/usr/bin/pdf2swf"
+
+default[:alfresco][:nginx][:proxy]        = "enable"
+default[:alfresco][:nginx][:www_redirect] = "enable"
+default[:alfresco][:nginx][:listen_ports] = [ 80 ]
+default[:alfresco][:nginx][:host_name]    = "0.0.0.0"
+default[:alfresco][:nginx][:host_aliases] = []

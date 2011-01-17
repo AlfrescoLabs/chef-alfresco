@@ -1,0 +1,150 @@
+###############################
+## Common Alfresco Properties #
+###############################
+
+#
+# Sample custom content and index data location
+#
+dir.root=<%= node[:alfresco][:root_dir] %>
+
+#
+# Sample database connection properties
+#
+db.username=<%= node[:alfresco][:db][:user] %>
+db.password=<%= node[:alfresco][:db][:password] %>
+
+#
+# External locations
+#-------------
+ooo.exe=<%= node[:alfresco][:ooo][:exe] %>
+ooo.enabled=<%= node[:alfresco][:ooo][:exe] %>
+#jodconverter.officeHome=./OpenOffice.org
+#jodconverter.portNumbers=8101
+#jodconverter.enabled=true
+img.root=<%= node[:alfresco][:img][:root] %>
+swf.exe=<%= node[:alfresco][:swf][:exe] %>
+
+#
+# Property to control whether schema updates are performed automatically.
+# Updates must be enabled during upgrades as, apart from the static upgrade scripts,
+# there are also auto-generated update scripts that will need to be executed.  After
+# upgrading to a new version, this can be disabled.
+#
+#db.schema.update=true
+
+#
+# MySQL connection
+#
+db.driver=org.gjt.mm.mysql.Driver
+db.url=<%= node[:alfresco][:db][:jdbc_url] %>
+
+#
+# Oracle connection
+#
+#db.driver=oracle.jdbc.OracleDriver
+#db.url=jdbc:oracle:thin:@localhost:1521:alfresco
+
+#
+# SQLServer connection
+# Requires jTDS driver version 1.2.5 and SNAPSHOT isolation mode
+# Enable TCP protocol on fixed port 1433
+# Prepare the database with:
+# ALTER DATABASE alfresco SET ALLOW_SNAPSHOT_ISOLATION ON; 
+#
+#db.driver=net.sourceforge.jtds.jdbc.Driver
+#db.url=jdbc:jtds:sqlserver://localhost:1433/alfresco
+#db.txn.isolation=4096
+
+#
+# PostgreSQL connection (requires postgresql-8.2-504.jdbc3.jar or equivalent)
+#
+#db.driver=org.postgresql.Driver
+#db.url=jdbc:postgresql://localhost:5432/alfresco
+
+#
+# Index Recovery Mode
+#-------------
+#index.recovery.mode=AUTO
+
+#
+# Outbound Email Configuration
+#-------------
+#mail.host=
+#mail.port=25
+#mail.username=anonymous
+#mail.password=
+#mail.encoding=UTF-8
+#mail.from.default=alfresco@alfresco.org
+#mail.smtp.auth=false
+
+#
+# Alfresco Email Service and Email Server
+#-------------
+
+# Enable/Disable the inbound email service.  The service could be used by processes other than
+# the Email Server (e.g. direct RMI access) so this flag is independent of the Email Service.
+#-------------
+#email.inbound.enabled=true
+
+# Email Server properties 
+#-------------
+#email.server.enabled=true
+#email.server.port=25
+#email.server.domain=alfresco.com
+#email.inbound.unknownUser=anonymous
+
+# A comma separated list of email REGEX patterns of allowed senders.
+# If there are any values in the list then all sender email addresses
+# must match. For example:
+#   .*\@alfresco\.com, .*\@alfresco\.org
+# Allow anyone:
+#-------------
+#email.server.allowed.senders=.*
+
+#
+# The default authentication chain
+# To configure external authentication subsystems see:
+# http://wiki.alfresco.com/wiki/Alfresco_Authentication_Subsystems
+#-------------
+#authentication.chain=alfrescoNtlm1:alfrescoNtlm
+
+#
+# URL Generation Parameters (The ${localname} token is replaced by the local server name)
+#-------------
+#alfresco.context=alfresco
+#alfresco.host=${localname}
+#alfresco.port=8080
+#alfresco.protocol=http
+#
+#share.context=share
+#share.host=${localname}
+#share.port=8080
+#share.protocol=http
+
+#imap.server.enabled=true
+#imap.server.port=143
+#imap.server.host=localhost
+
+# The RMI registry host and port is defined in the alfresco-shared.properties file
+#
+# To make your RMI services available from other machines you will need to change 
+# alfresco.rmi.services.host from "localhost".
+# alfresco.rmi.services.port=50500
+# alfresco.rmi.services.host=localhost
+#
+# RMI service ports for the individual services.
+# These seven services are available remotely.
+#
+# Assign individual ports for each service for best performance 
+# or run several services on the same port. You can even run everything on 50500 if needed.
+#
+# Select 0 to use a random unused port.
+# 
+#avm.rmi.service.port=50501
+#avmsync.rmi.service.port=50502
+#attribute.rmi.service.port=50503
+#authentication.rmi.service.port=50504
+#repo.rmi.service.port=50505
+#action.rmi.service.port=50506
+#wcm-deployment-receiver.rmi.service.port=50507
+#monitor.rmi.service.port=50508
