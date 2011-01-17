@@ -60,3 +60,14 @@ default[:alfresco][:nginx][:www_redirect] = "enable"
 default[:alfresco][:nginx][:listen_ports] = [ 80 ]
 default[:alfresco][:nginx][:host_name]    = "0.0.0.0"
 default[:alfresco][:nginx][:host_aliases] = []
+
+default[:alfresco][:url][:alfresco][:context]   = "alfresco"
+default[:alfresco][:url][:alfresco][:host]      = "${localname}"
+default[:alfresco][:url][:alfresco][:port]      = "8080"
+default[:alfresco][:url][:alfresco][:protocol]  = "http"
+
+default[:alfresco][:url][:share][:context]   = "share"
+default[:alfresco][:url][:share][:host]      = "${localname}"
+default[:alfresco][:url][:share][:port]      = "8080"
+default[:alfresco][:url][:share][:protocol]  = "http"
+

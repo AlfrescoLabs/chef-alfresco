@@ -127,15 +127,15 @@ mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
 #
 # URL Generation Parameters (The ${localname} token is replaced by the local server name)
 #-------------
-#alfresco.context=alfresco
-#alfresco.host=${localname}
-#alfresco.port=8080
-#alfresco.protocol=http
-#
-#share.context=share
-#share.host=${localname}
-#share.port=8080
-#share.protocol=http
+alfresco.context=<%= node[:alfresco][:url][:alfresco][:context] %>
+alfresco.host=<%= node[:alfresco][:url][:alfresco][:host] %>
+alfresco.port=<%= node[:alfresco][:url][:alfresco][:port] %>
+alfresco.protocol=<%= node[:alfresco][:url][:alfresco][:protocol] %>
+
+share.context=<%= node[:alfresco][:url][:share][:context] %>
+share.host=<%= node[:alfresco][:url][:share][:host] %>
+share.port=<%= node[:alfresco][:url][:share][:port] %>
+share.protocol=<%= node[:alfresco][:url][:share][:protocol] %>
 
 #imap.server.enabled=true
 #imap.server.port=143
