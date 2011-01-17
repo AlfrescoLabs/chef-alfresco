@@ -69,13 +69,29 @@ db.url=<%= node[:alfresco][:db][:jdbc_url] %>
 #
 # Outbound Email Configuration
 #-------------
-#mail.host=
-#mail.port=25
-#mail.username=anonymous
-#mail.password=
-#mail.encoding=UTF-8
-#mail.from.default=alfresco@alfresco.org
-#mail.smtp.auth=false
+mail.protocol=<%= node[:alfresco][:mail][:protocol] %>
+<% if node[:alfresco][:mail][:host] -%>
+mail.host=<%= node[:alfresco][:mail][:host] %>
+<% end -%>
+mail.port=<%= node[:alfresco][:mail][:port] %>
+mail.username=<%= node[:alfresco][:mail][:username] %>
+<% if node[:alfresco][:mail][:password] -%>
+mail.password=<%= node[:alfresco][:mail][:password] %>
+<% end -%>
+mail.encoding=<%= node[:alfresco][:mail][:encoding] %>
+mail.from.default=<%= node[:alfresco][:mail][:from][:default] %>
+mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
+
+<% if node[:alfresco][:mail][:smtps][:starttls][:enable] -%>
+mail.smtps.starttls.enable=<%= node[:alfresco][:mail][:smtps][:starttls][:enable] %>
+<% end -%>
+<% if node[:alfresco][:mail][:smtps][:auth] -%>
+mail.smtps.auth=<%= node[:alfresco][:mail][:smtps][:auth] %>
+<% end -%>
+
+<% if node[:alfresco][:mail][:smtp][:auth] -%>
+mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
+<% end -%>
 
 #
 # Alfresco Email Service and Email Server

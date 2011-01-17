@@ -48,6 +48,13 @@ default[:alfresco][:ooo][:enabled]  = "true"
 default[:alfresco][:img][:root]  = "/usr"
 default[:alfresco][:swf][:exe]  = "/usr/bin/pdf2swf"
 
+default[:alfresco][:mail][:protocol]        = "smtp"
+default[:alfresco][:mail][:port]            = "25"
+default[:alfresco][:mail][:username]        = "anonymous"
+default[:alfresco][:mail][:encoding]        = "UTF-8"
+default[:alfresco][:mail][:from][:default]  = "alfresco@alfresco.org"
+default[:alfresco][:mail][:smtp][:auth]     = "false"
+
 default[:alfresco][:nginx][:proxy]        = "enable"
 default[:alfresco][:nginx][:www_redirect] = "enable"
 default[:alfresco][:nginx][:listen_ports] = [ 80 ]

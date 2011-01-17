@@ -123,6 +123,20 @@ template "#{node[:tomcat][:base]}/shared/classes/log4j.properties" do
   notifies :restart, "service[tomcat]", :immediately
 end
 
+cookbook_file "#{node[:tomcat][:base]}/shared/classes/alfresco/extension/custom-email-context.xml" do
+  source "custom-email-context.xml"
+  owner   node[:tomcat][:user]
+  group   node[:tomcat][:group]
+  mode    "0644"
+  notifies :restart, "service[tomcat]", :immediately
+
+  if node[:alfresco][:mail] && node[:alfresco][:mail][:smtps]
+    action :create
+  else
+    action :delete
+  end
+end
+
 execute "mysql-create-alfresco-database" do
   command "/usr/bin/mysqladmin -u root -p#{node[:mysql][:server_root_password]} create #{node[:alfresco][:db][:database]}"
   not_if do
