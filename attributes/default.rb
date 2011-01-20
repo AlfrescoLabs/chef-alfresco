@@ -45,10 +45,16 @@ default[:alfresco][:db][:database]  = "alfresco"
 default[:alfresco][:db][:jdbc_url]  = "jdbc:mysql://localhost/#{node[:alfresco][:db][:database]}?useUnicode=yes&characterEncoding=UTF-8"
 
 default[:alfresco][:root_dir] = "/srv/alfresco/alf_data"
-default[:alfresco][:ooo][:exe]  = "/usr/lib/openoffice/program/soffice"
-default[:alfresco][:ooo][:enabled]  = "true"
-default[:alfresco][:img][:root]  = "/usr"
+
+default[:alfresco][:img][:root] = "/usr"
 default[:alfresco][:swf][:exe]  = "/usr/bin/pdf2swf"
+
+default[:alfresco][:ooo][:exe]      = "/usr/lib/openoffice/program/soffice"
+default[:alfresco][:ooo][:enabled]  = "true"
+
+default[:alfresco][:jodconverter][:enabled]       = "true"
+default[:alfresco][:jodconverter][:office_home]   = "/usr/lib/openoffice"
+default[:alfresco][:jodconverter][:port_numbers]  = "8100"
 
 default[:alfresco][:mail][:protocol]        = "smtp"
 default[:alfresco][:mail][:port]            = "25"

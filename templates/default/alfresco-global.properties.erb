@@ -17,10 +17,10 @@ db.password=<%= node[:alfresco][:db][:password] %>
 # External locations
 #-------------
 ooo.exe=<%= node[:alfresco][:ooo][:exe] %>
-ooo.enabled=<%= node[:alfresco][:ooo][:exe] %>
-#jodconverter.officeHome=./OpenOffice.org
-#jodconverter.portNumbers=8101
-#jodconverter.enabled=true
+ooo.enabled=<%= node[:alfresco][:ooo][:enabled] %>
+jodconverter.officeHome=<%= node[:alfresco][:jodconverter][:office_home] %>
+jodconverter.portNumbers=<%= node[:alfresco][:jodconverter][:port_numbers] %>
+jodconverter.enabled=<%= node[:alfresco][:jodconverter][:enabled] %>
 img.root=<%= node[:alfresco][:img][:root] %>
 swf.exe=<%= node[:alfresco][:swf][:exe] %>
 
