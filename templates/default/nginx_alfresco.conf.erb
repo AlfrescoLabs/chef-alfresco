@@ -35,7 +35,7 @@ server {
     proxy_set_header Host $http_host;
   }
 
-  error_log         <%= node[:nginx][:log_dir] %>/<%= @app %>-error.log;
-  access_log        <%= node[:nginx][:log_dir] %>/<%= @app %>-access.log;
+  error_log         <%= node[:nginx][:log_dir] %>/alfresco-error.log;
+  access_log        <%= node[:nginx][:log_dir] %>/alfresco-access.log;
 }
 
