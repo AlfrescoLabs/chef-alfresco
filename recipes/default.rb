@@ -204,10 +204,11 @@ if node[:alfresco][:nginx][:proxy] && node[:alfresco][:nginx][:proxy] == "enable
     group       'root'
     mode        '0644'
     variables(
-      :host_name    => node[:alfresco][:nginx][:host_name],
-      :host_aliases => node[:alfresco][:nginx][:host_aliases],
-      :listen_ports => node[:alfresco][:nginx][:listen_ports],
-      :www_redirect => www_redirect
+      :host_name        => node[:alfresco][:nginx][:host_name],
+      :host_aliases     => node[:alfresco][:nginx][:host_aliases],
+      :listen_ports     => node[:alfresco][:nginx][:listen_ports],
+      :www_redirect     => www_redirect,
+      :max_upload_size  => node[:alfresco][:nginx][:client_max_body_size]
     )
 
     if File.exists?("#{node[:nginx][:dir]}/sites-enabled/alfresco.conf")

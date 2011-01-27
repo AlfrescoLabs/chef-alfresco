@@ -63,11 +63,12 @@ default[:alfresco][:mail][:encoding]        = "UTF-8"
 default[:alfresco][:mail][:from][:default]  = "alfresco@alfresco.org"
 default[:alfresco][:mail][:smtp][:auth]     = "false"
 
-default[:alfresco][:nginx][:proxy]        = "enable"
-default[:alfresco][:nginx][:www_redirect] = "enable"
-default[:alfresco][:nginx][:listen_ports] = [ 80 ]
-default[:alfresco][:nginx][:host_name]    = "0.0.0.0"
-default[:alfresco][:nginx][:host_aliases] = []
+default[:alfresco][:nginx][:proxy]                = "enable"
+default[:alfresco][:nginx][:www_redirect]         = "enable"
+default[:alfresco][:nginx][:listen_ports]         = [ 80 ]
+default[:alfresco][:nginx][:host_name]            = "0.0.0.0"
+default[:alfresco][:nginx][:host_aliases]         = []
+default[:alfresco][:nginx][:client_max_body_size] = "1024m"
 
 default[:alfresco][:url][:alfresco][:context]   = "alfresco"
 default[:alfresco][:url][:alfresco][:host]      = "${localname}"

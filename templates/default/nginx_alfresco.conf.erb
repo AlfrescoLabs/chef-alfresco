@@ -21,6 +21,8 @@ server {
 
   rewrite ^/$       http://<%= @host_name %>/share permanent;
 
+  client_max_body_size <%= @max_upload_size %>;
+
   location /alfresco {
     proxy_pass http://localhost:<%= node[:tomcat][:port] %>/alfresco;
     proxy_set_header X-Real-IP $remote_addr;
