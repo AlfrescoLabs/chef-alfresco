@@ -1,8 +1,10 @@
 #
 # Cookbook Name:: alfresco
-# Recipe:: default
+# attributes:: nginx_proxy_conf
 #
-# Copyright 2011, Fletcher Nichol
+# Author:: Fletcher Nichol (<fnichol@nichol.ca>)
+#
+# Copyright:: 2011, Fletcher Nichol
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,5 +19,4 @@
 # limitations under the License.
 #
 
-include_recipe 'alfresco::mysql_server'
-include_recipe 'alfresco::app_server'
+default[:alfresco][:iptables_allow] = "enable"

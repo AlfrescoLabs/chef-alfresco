@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: alfresco
-# Recipe:: default
+# Recipe:: iptables
 #
 # Copyright 2011, Fletcher Nichol
 #
@@ -17,5 +17,12 @@
 # limitations under the License.
 #
 
-include_recipe 'alfresco::mysql_server'
-include_recipe 'alfresco::app_server'
+if platform?("redhat","centos","debian","ubuntu")
+  iptables_rule "port_alfresco" do
+    if node[:alfresco][:iptables_allow] == "disable"
+      enable false
+    else
+      enable true
+    end
+  end
+end
