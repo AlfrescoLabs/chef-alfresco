@@ -22,6 +22,7 @@ Please [report][issues] any additional platforms so they can be added.
 
 This cookbook depends on the following external cookbooks:
 
+* [database][database_cb] (Opscode)
 * [imagemagick][imagemagick_cb] (Opscode)
 * [java][java_cb] (Opscode)
 * [mysql][mysql_cb] (Opscode)
@@ -132,6 +133,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [chef_repo]:      https://github.com/opscode/chef-repo
+[database_cb]:    http://community.opscode.com/cookbooks/database
 [imagemagick_cb]: http://community.opscode.com/cookbooks/imagemagick
 [java_cb]:        http://community.opscode.com/cookbooks/java
 [kgc]:            https://github.com/websterclay/knife-github-cookbooks#readme
