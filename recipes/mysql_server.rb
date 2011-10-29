@@ -19,54 +19,37 @@
 
 ### Setup Variables
 
-mysql_root_pass = node['mysql']['server_root_password']
-
 db_database = node['alfresco']['db']['database']
 db_user     = node['alfresco']['db']['user']
 db_pass     = node['alfresco']['db']['password']
+
+db_info = {
+  :host     => node['mysql']['bind_address'],
+  :port     => 3306,
+  :username => 'root',
+  :password => node['mysql']['server_root_password']
+}
 
 
 ### Include Recipe Dependencies
 
 include_recipe "mysql::server"
-
-require 'rubygems'
-Gem.clear_paths
-require 'mysql'
+gem_package "mysql"
+include_recipe "database"
 
 
-### Create Mysql Database Instance
+### Create Mysql Database Instance And Application User
 
-execute "mysql-create-alfresco-database" do
-  command <<-CODE
-    /usr/bin/mysqladmin -u root -p#{mysql_root_pass} create #{db_database}
-  CODE
+mysql_database db_database do
+  connection  db_info
+end
 
-  not_if do
-    m = Mysql.new("localhost", "root", mysql_root_pass)
-    m.list_dbs.include?(db_database)
+%w{localhost localhost.localdomain}.each do |user_host|
+  mysql_database_user db_user do
+    connection      db_info
+    database_name   db_database
+    password        db_pass
+    privileges      [ :all ]
+    host            user_host
   end
-end
-
-execute "mysql-install-alfresco-privileges" do
-  command <<-CODE
-    /usr/bin/mysql -u root -p#{mysql_root_pass} < /etc/mysql/alfresco-grants.sql
-  CODE
-
-  action  :nothing
-end
-
-template "/etc/mysql/alfresco-grants.sql" do
-  path    "/etc/mysql/alfresco-grants.sql"
-  source  "grants.sql.erb"
-  owner   "root"
-  group   "root"
-  mode    "0600"
-  variables(
-    :database => db_database,
-    :user     => db_user,
-    :password => db_pass
-  )
-
-  notifies :run, "execute[mysql-install-alfresco-privileges]", :immediately
 end
