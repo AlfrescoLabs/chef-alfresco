@@ -61,7 +61,10 @@ default[:alfresco][:mail][:port]            = "25"
 default[:alfresco][:mail][:username]        = "anonymous"
 default[:alfresco][:mail][:encoding]        = "UTF-8"
 default[:alfresco][:mail][:from][:default]  = "alfresco@alfresco.org"
-default[:alfresco][:mail][:smtp][:auth]     = "false"
+
+default[:alfresco][:mail][:smtp][:auth]               = "false"
+default[:alfresco][:mail][:smtps][:auth]              = "false"
+default[:alfresco][:mail][:smtps][:starttls][:enable] = "false"
 
 default[:alfresco][:url][:alfresco][:context]   = "alfresco"
 default[:alfresco][:url][:alfresco][:host]      = "${localname}"
