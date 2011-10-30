@@ -76,9 +76,18 @@ remote_file archive_zip do
 end
 
 
+### Add mysql-connector-java.jar To Tomcat lib Directory
+
+link "#{tomcat_dir}/lib/mysql-connector-java.jar" do
+  to      "/usr/share/java/mysql-connector-java.jar"
+  owner   "root"
+  group   "root"
+end
+
+
 ### Extract Binaries And Shared Assets
 
-execute "extract_bin" do
+execute "Extract bin files to #{tomcat_dir}/bin" do
   user      "root"
   group     "root"
   command   <<-COMMAND.gsub(/^ {2}/, '')
@@ -96,7 +105,7 @@ execute "extract_bin" do
   creates   "#{tomcat_dir}/bin/apply_amps.sh"
 end
 
-execute "extract_shared" do
+execute "Extract shared files to #{tomcat_base_dir}/shared/classes/alfresco" do
   user      "root"
   group     "root"
   command   <<-COMMAND.gsub(/^ {2}/, '')
@@ -111,7 +120,7 @@ execute "extract_shared" do
   creates   "#{tomcat_base_dir}/shared/classes/alfresco"
 end
 
-execute "extract_mysql_jar" do
+execute "Extract jar files to #{tomcat_dir}/lib" do
   user      "root"
   group     "root"
   command   <<-COMMAND.gsub(/^ {2}/, '')
@@ -119,7 +128,7 @@ execute "extract_mysql_jar" do
     unzip -jo #{archive_zip} web-server/lib/*.jar -d #{tomcat_dir}/lib/
   COMMAND
 
-  creates   "#{tomcat_dir}/lib/mysql-connector-java-5.1.13-bin.jar"
+  creates   "#{tomcat_dir}/lib/postgresql-9.0-801.jdbc4.jar"
   notifies  :restart, "service[tomcat]", :immediately
 end
 
@@ -162,14 +171,14 @@ end
 
 ### Deploy Alfresco Wars
 
-execute "clean_previous_tomcat_deployment" do
+execute "Clean previous Alfresco Tomcat deployment" do
   command   "sh #{tomcat_dir}/bin/clean_tomcat.sh"
 
   not_if    %{test -f #{webapp_dir}/alfresco.war}
 end
 
 %w{alfresco.war share.war}.each do |war|
-  execute "deploy_#{war}" do
+  execute "Deploy #{war}" do
     user      "tomcat6"
     group     "tomcat6"
     command   <<-COMMAND.gsub(/^ {4}/, '')
