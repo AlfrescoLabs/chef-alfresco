@@ -78,43 +78,46 @@ end
 
 ### Extract Binaries And Shared Assets
 
-bash "extract_bin" do
+execute "extract_bin" do
   user      "root"
   group     "root"
-  code      <<-CODE
-    unzip -jo #{archive_zip} bin/*.jar -d #{tomcat_dir}/bin/ && \
-    unzip -jo #{archive_zip} bin/*.sh -d #{tomcat_dir}/bin/ && \
-    perl -pi -e 's| tomcat/temp| #{temp_dir}|g' \
-      #{tomcat_dir}/bin/clean_tomcat.sh && \
-    perl -pi -e 's| tomcat/work| #{tomcat_work_dir}|g' \
-      #{tomcat_dir}/bin/clean_tomcat.sh && \
-    perl -pi -e 's/\r\n/\n/' \
+  command   <<-COMMAND.gsub(/^ {2}/, '')
+
+    unzip -jo #{archive_zip} bin/*.jar -d #{tomcat_dir}/bin/ && \\
+    unzip -jo #{archive_zip} bin/*.sh -d #{tomcat_dir}/bin/ && \\
+    perl -pi -e 's| tomcat/temp| #{temp_dir}|g' \\
+      #{tomcat_dir}/bin/clean_tomcat.sh && \\
+    perl -pi -e 's| tomcat/work| #{tomcat_work_dir}|g' \\
+      #{tomcat_dir}/bin/clean_tomcat.sh && \\
+    perl -pi -e 's/\r\n/\n/' \\
       #{tomcat_dir}/bin/clean_tomcat.sh
-  CODE
+  COMMAND
 
   creates   "#{tomcat_dir}/bin/apply_amps.sh"
 end
 
-bash "extract_shared" do
+execute "extract_shared" do
   user      "root"
   group     "root"
-  code      <<-CODE
-    unzip #{archive_zip} web-server/shared/classes/* \
-      -d #{tomcat_base_dir}/shared/classes/ && \
-    mv #{tomcat_base_dir}/shared/classes/web-server/shared/classes/* \
-      #{tomcat_base_dir}/shared/classes/ && \
+  command   <<-COMMAND.gsub(/^ {2}/, '')
+
+    unzip #{archive_zip} web-server/shared/classes/* \\
+      -d #{tomcat_base_dir}/shared/classes/ && \\
+    mv #{tomcat_base_dir}/shared/classes/web-server/shared/classes/* \\
+      #{tomcat_base_dir}/shared/classes/ && \\
     rm -rf #{tomcat_base_dir}/shared/classes/web-server
-  CODE
+  COMMAND
 
   creates   "#{tomcat_base_dir}/shared/classes/alfresco"
 end
 
-bash "extract_mysql_jar" do
+execute "extract_mysql_jar" do
   user      "root"
   group     "root"
-  code      <<-CODE
+  command   <<-COMMAND.gsub(/^ {2}/, '')
+
     unzip -jo #{archive_zip} web-server/lib/*.jar -d #{tomcat_dir}/lib/
-  CODE
+  COMMAND
 
   creates   "#{tomcat_dir}/lib/mysql-connector-java-5.1.13-bin.jar"
   notifies  :restart, "service[tomcat]", :immediately
@@ -166,20 +169,21 @@ execute "clean_previous_tomcat_deployment" do
 end
 
 %w{alfresco.war share.war}.each do |war|
-  bash "deploy_#{war}" do
+  execute "deploy_#{war}" do
     user      "tomcat6"
     group     "tomcat6"
-    code      <<-CODE
-      unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \
-      mkdir -p #{temp_dir}/WEB-INF/classes && \
-      cp #{tomcat_base_dir}/shared/classes/log4j.properties \
-        #{temp_dir}/WEB-INF/classes && \
-      (cd #{temp_dir} && \
-        jar -uf #{temp_dir}/#{war} WEB-INF/classes/log4j.properties) && \
-      rm -rf #{temp_dir}/WEB-INF/classes && \
-      mv #{temp_dir}/#{war} #{webapp_dir}/#{war} && \
+    command   <<-COMMAND.gsub(/^ {4}/, '')
+
+      unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \\
+      mkdir -p #{temp_dir}/WEB-INF/classes && \\
+      cp #{tomcat_base_dir}/shared/classes/log4j.properties \\
+        #{temp_dir}/WEB-INF/classes && \\
+      (cd #{temp_dir} && \\
+        jar -uf #{temp_dir}/#{war} WEB-INF/classes/log4j.properties) && \\
+      rm -rf #{temp_dir}/WEB-INF/classes && \\
+      mv #{temp_dir}/#{war} #{webapp_dir}/#{war} && \\
       sleep 10
-    CODE
+    COMMAND
 
     creates   "#{webapp_dir}/#{war}"
   end
