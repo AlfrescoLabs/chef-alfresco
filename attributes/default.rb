@@ -35,9 +35,9 @@ node.set[:tomcat][:java_options] = node[:alfresco][:java_opts]
 
 node.set[:tomcat][:restart_timing] = "immediately"
 
-default[:alfresco][:version] = "3.4.c"
-default[:alfresco][:zip_url] = "http://dl.alfresco.com/release/community/build-3335/alfresco-community-3.4.c.zip?dl_file=release/community/build-3335/alfresco-community-3.4.c.zip"
-default[:alfresco][:zip_sha256] = "90c9181e35e167d89aa212b668d504d2"
+default[:alfresco][:version] = "4.0.b"
+default[:alfresco][:zip_url] = "http://dl.alfresco.com/release/community/build-3835/alfresco-community-4.0.b.zip"
+default[:alfresco][:zip_sha256] = "2ea7671e9f9217c91eb0e37a32bd8bcc3a71ac6893c29c2cb80b9cb744f0b799"
 
 default[:alfresco][:db][:user]      = "alfresco"
 default[:alfresco][:db][:password]  = "alfresco"
