@@ -22,7 +22,7 @@
 case platform
 when "debian","ubuntu"
   node.set[:java][:install_flavor] = "sun"
-  node.set['alfresco']['pkgs']  = %w{libxalan2-java unzip fastjar}
+  node.set['alfresco']['pkgs']  = %w{libxalan2-java unzip fastjar libmysql-java}
 else
   node.set[:java][:install_flavor] = "openjdk"
   node.set['alfresco']['pkgs']  = []
