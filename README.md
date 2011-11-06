@@ -1,6 +1,6 @@
 # Description
 
-Installs Alfresco Community Edition.
+Installs [Alfresco Community Edition][alfresco_oss].
 
 # Requirements
 
@@ -14,7 +14,7 @@ File an [issue][issues] if this isn't the case.
 The following platforms have been tested with this cookbook, meaning that the
 recipes run on these platforms without error:
 
-* ubuntu
+* ubuntu (10.04 LTS)
 
 Please [report][issues] any additional platforms so they can be added.
 
@@ -98,9 +98,67 @@ Coming soon...
 
 Installs Alfresco Community Edition.
 
+## app\_server
+
+## mysql\_server
+
+## nginx\_proxy\_conf
+
+## iptables
+
 # Attributes
 
-Coming soon...
+## Package And Version
+
+### version
+
+### zip\_url
+
+### zip\_sha256
+
+## General Defaults
+
+### root\_dir
+
+### default\_hostname
+
+### default\_port
+
+### java\_opts
+
+## Database Settings
+
+### db/user
+
+### db/password
+
+### db/database
+
+### db/jdbc\_url
+
+## Mail Defaults
+
+### mail/protocol
+
+### mail/port
+
+### mail/username
+
+### mail/password
+
+### mail/from/default
+
+### mail/smtp/auth
+
+### mail/smtps/auth
+
+### mail/smtps/starttls/enable
+
+## Other Alfresco Services
+
+### imap/server/enabled
+
+### cifs/enabled
 
 # Resources and Providers
 
@@ -132,6 +190,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
+[alfresco_oss]:   http://www.alfresco.com/community
 [chef_repo]:      https://github.com/opscode/chef-repo
 [database_cb]:    http://community.opscode.com/cookbooks/database
 [imagemagick_cb]: http://community.opscode.com/cookbooks/imagemagick
