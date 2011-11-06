@@ -31,6 +31,13 @@ db_info = {
 }
 
 
+### Install Package Dependencies
+
+Array(node['alfresco']['mysql_server']['pkgs']).each do |pkg|
+  package pkg
+end
+
+
 ### Include Recipe Dependencies
 
 include_recipe "mysql::server"

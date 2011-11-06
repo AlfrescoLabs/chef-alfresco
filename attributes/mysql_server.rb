@@ -20,3 +20,13 @@
 #
 
 node.set[:mysql][:bind_address] = "0.0.0.0"
+
+
+### Platform Package Settings And Defaults
+
+case platform
+when "debian","ubuntu"
+  node.set['alfresco']['mysql_server']['pkgs']  = %w{make}
+else
+  node.set['alfresco']['mysql_server']['pkgs']  = []
+end
