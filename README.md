@@ -174,7 +174,7 @@ Ideally create a topic branch for every separate change you make.
 
 # License and Author
 
-Author:: Fletcher Nichol (<fnichol@nichol.ca>)
+Author:: [Fletcher Nichol][fnichol] (<fnichol@nichol.ca>) [![endorse](http://api.coderwall.com/fnichol/endorsecount.png)](http://coderwall.com/fnichol)
 
 Copyright 2011, Fletcher Nichol
 
