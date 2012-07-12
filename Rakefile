@@ -1,6 +1,6 @@
 #!/usr/bin/env rake
 
-@cookbook = "swftools"
+@cookbook = "alfresco"
 
 desc "Runs foodcritc linter"
 task :foodcritic do
