@@ -19,7 +19,7 @@
 
 if platform?("redhat","centos","debian","ubuntu")
   iptables_rule "port_alfresco" do
-    if node[:alfresco][:iptables_allow] == "disable"
+    if node['alfresco']['iptables_allow'] == "disable"
       enable false
     else
       enable true

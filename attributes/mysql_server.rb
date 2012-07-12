@@ -19,7 +19,7 @@
 # limitations under the License.
 #
 
-node.set[:mysql][:bind_address] = "0.0.0.0"
+node.set['mysql']['bind_address'] = "0.0.0.0"
 
 
 ### Platform Package Settings And Defaults

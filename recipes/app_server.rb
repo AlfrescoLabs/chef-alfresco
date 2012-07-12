@@ -24,7 +24,7 @@ zip_url   = node['alfresco']['zip_url'] || "http://no-url-set.example.com"
 zip_sha   = node['alfresco']['zip_sha256']
 zip_file  = "#{release}.zip"
 
-cache_path  = Chef::Config[:file_cache_path]
+cache_path  = Chef::Config['file_cache_path']
 archive_zip = "#{cache_path}/#{zip_file}"
 
 root_dir = node['alfresco']['root_dir']
@@ -159,7 +159,7 @@ cookbook_file "#{tomcat_base_dir}/shared/classes/alfresco/extension/custom-email
   group     alfresco_group
   mode      "0644"
 
-  if node[:alfresco][:mail] && node[:alfresco][:mail][:smtps]
+  if node['alfresco']['mail'] && node['alfresco']['mail']['smtps']
     action  :create
   else
     action  :delete

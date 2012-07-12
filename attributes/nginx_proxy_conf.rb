@@ -19,10 +19,10 @@
 # limitations under the License.
 #
 
-default[:alfresco][:nginx][:proxy]          = "enable"
-default[:alfresco][:nginx][:www_redirect]   = "enable"
-default[:alfresco][:nginx][:listen_ports]   = [ 80 ]
-default[:alfresco][:nginx][:host_name]      = node[:alfresco][:default_hostname]
-default[:alfresco][:nginx][:host_aliases]   = []
+default['alfresco']['nginx']['proxy']          = "enable"
+default['alfresco']['nginx']['www_redirect']   = "enable"
+default['alfresco']['nginx']['listen_ports']   = [ 80 ]
+default['alfresco']['nginx']['host_name']      = node['alfresco']['default_hostname']
+default['alfresco']['nginx']['host_aliases']   = []
 
-default[:alfresco][:nginx][:client_max_body_size] = "1024m"
+default['alfresco']['nginx']['client_max_body_size'] = "1024m"

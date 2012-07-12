@@ -17,37 +17,37 @@
 # limitations under the License.
 #
 
-if node[:alfresco][:nginx][:proxy] && node[:alfresco][:nginx][:proxy] == "enable"
+if node['alfresco']['nginx']['proxy'] && node['alfresco']['nginx']['proxy'] == "enable"
   include_recipe "nginx::source"
 
-  if node[:alfresco][:nginx][:www_redirect] &&
-      node[:alfresco][:nginx][:www_redirect] == "disable"
+  if node['alfresco']['nginx']['www_redirect'] &&
+      node['alfresco']['nginx']['www_redirect'] == "disable"
     www_redirect = false
   else
     www_redirect = true
   end
 
-  template "#{node[:nginx][:dir]}/sites-available/alfresco.conf" do
+  template "#{node['nginx']['dir']}/sites-available/alfresco.conf" do
     source      "nginx_alfresco.conf.erb"
     owner       'root'
     group       'root'
     mode        '0644'
     variables(
-      :host_name        => node[:alfresco][:nginx][:host_name],
-      :host_aliases     => node[:alfresco][:nginx][:host_aliases],
-      :listen_ports     => node[:alfresco][:nginx][:listen_ports],
+      :host_name        => node['alfresco']['nginx']['host_name'],
+      :host_aliases     => node['alfresco']['nginx']['host_aliases'],
+      :listen_ports     => node['alfresco']['nginx']['listen_ports'],
       :www_redirect     => www_redirect,
-      :max_upload_size  => node[:alfresco][:nginx][:client_max_body_size]
+      :max_upload_size  => node['alfresco']['nginx']['client_max_body_size']
     )
 
-    if File.exists?("#{node[:nginx][:dir]}/sites-enabled/alfresco.conf")
+    if File.exists?("#{node['nginx']['dir']}/sites-enabled/alfresco.conf")
       notifies  :restart, 'service[nginx]'
     end
   end
 
   nginx_site "alfresco.conf" do
-    if node[:alfresco][:nginx_proxy] &&
-        node[:alfresco][:nginx_proxy] == "disable"
+    if node['alfresco']['nginx_proxy'] &&
+        node['alfresco']['nginx_proxy'] == "disable"
       enable false
     else
       enable true

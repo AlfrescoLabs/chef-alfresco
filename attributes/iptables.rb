@@ -19,4 +19,4 @@
 # limitations under the License.
 #
 
-default[:alfresco][:iptables_allow] = "enable"
+default['alfresco']['iptables_allow'] = "enable"
