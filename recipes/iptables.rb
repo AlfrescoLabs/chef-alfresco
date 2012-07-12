@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-if platform?("redhat","centos","debian","ubuntu")
+if platform?("redhat","centos","debian","ubuntu","amazon","scientific")
   iptables_rule "port_alfresco" do
     if node['alfresco']['iptables_allow'] == "disable"
       enable false
