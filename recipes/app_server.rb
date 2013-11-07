@@ -177,10 +177,11 @@ execute "Clean previous Alfresco Tomcat deployment" do
   not_if    %{test -f #{webapp_dir}/alfresco.war}
 end
 
+# @TODO - Using Tomcat7 user/group; should be alfresco_user and alfresco_group
 %w{alfresco.war share.war}.each do |war|
   execute "Deploy #{war}" do
-    user      "tomcat6"
-    group     "tomcat6"
+    user      "tomcat7"
+    group     "tomcat7"
     command   <<-COMMAND.gsub(/^ {4}/, '')
 
       unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \\

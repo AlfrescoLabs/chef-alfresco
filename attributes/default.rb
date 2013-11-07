@@ -107,11 +107,12 @@ default['alfresco']['cifs']['netbios_smb']['session_port']  = "1139"
 
 ### Platform Package Settings And Defaults
 
+# @TODO - pull request: java flavor should be handled outside (cannot override it from Vagrantfile)
 case platform
 when "debian","ubuntu"
-  node.set['java']['install_flavor'] = "sun"
+#  node.set['java']['install_flavor'] = "sun"
   node.set['alfresco']['pkgs']  = %w{libxalan2-java unzip fastjar libmysql-java}
 else
-  node.set['java']['install_flavor'] = "openjdk"
+#  node.set['java']['install_flavor'] = "openjdk"
   node.set['alfresco']['pkgs']  = []
 end
