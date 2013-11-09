@@ -20,7 +20,6 @@
 #
 
 ### Alfresco Package And Version Info
-
 default['alfresco']['version'] = "4.0.b"
 default['alfresco']['zip_url'] =
   "http://dl.alfresco.com/release/community/build-3835/alfresco-community-4.0.b.zip"
@@ -29,6 +28,7 @@ default['alfresco']['zip_sha256'] =
 
 
 ### Default Stack-wide Host And Port Defaults
+default['alfresco']['log_dir'] = "#{node['tomcat']['log_dir']}"
 
 default['alfresco']['default_hostname'] = node['fqdn']
 default['alfresco']['default_port']     = "8080"

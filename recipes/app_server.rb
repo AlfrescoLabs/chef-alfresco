@@ -19,13 +19,18 @@
 
 ### Setup Variables
 
-release   = "alfresco-community-#{node['alfresco']['version']}"
-zip_url   = node['alfresco']['zip_url'] || "http://no-url-set.example.com"
-zip_sha   = node['alfresco']['zip_sha256']
-zip_file  = "#{release}.zip"
+release   = "#{node['alfresco']['version']}"
+repo_file  = "alfresco-#{release}.war"
+repo_url   = node['alfresco']['repo_url'] || "https://artifacts.alfresco.com/nexus/content/groups/public/org/alfresco/alfresco/4.2.e/#{repo_file}"
+repo_sha   = node['alfresco']['repo_sha256']
+share_file  = "share-#{release}.war"
+share_url   = node['alfresco']['repo_url'] || "https://artifacts.alfresco.com/nexus/content/groups/public/org/alfresco/share/4.2.e/#{share_file}"
+share_sha   = node['alfresco']['repo_sha256']
 
 cache_path  = Chef::Config['file_cache_path']
-archive_zip = "#{cache_path}/#{zip_file}"
+
+repo_archive = "#{cache_path}/#{repo_file}"
+share_archive = "#{cache_path}/#{share_file}"
 
 root_dir = node['alfresco']['root_dir']
 
@@ -67,70 +72,86 @@ directory root_dir do
 end
 
 
-### Download Alfresco Zip
+### Download Alfresco War files
 
-remote_file archive_zip do
-  source      zip_url
-  checksum    zip_sha
+remote_file "#{webapp_dir}/alfresco.war" do
+  source      repo_url
+  checksum    repo_sha
+  mode        "0644"
+end
+remote_file "#{webapp_dir}/share.war" do
+  source      share_url
+  checksum    share_sha
   mode        "0644"
 end
 
+# file "#{tomcat_dir}/webapps/alfresco.war" do
+#   content IO.read("#{repo_archive}")
+#   only_if {File.exists?("#{repo_archive}")}
+#   owner   "tomcat7"
+#   group   "tomcat7"
+# end
+# file "#{tomcat_dir}/webapps/share.war" do
+#   content IO.read("#{share_archive}")
+#   only_if {File.exists?("#{share_archive}")}
+#   owner   "tomcat7"
+#   group   "tomcat7"
+# end
 
 ### Add mysql-connector-java.jar To Tomcat lib Directory
-
 link "#{tomcat_dir}/lib/mysql-connector-java.jar" do
   to      "/usr/share/java/mysql-connector-java.jar"
-  owner   "root"
-  group   "root"
+  owner   alfresco_user
+  group   alfresco_group
 end
 
 
 ### Extract Binaries And Shared Assets
 
-execute "Extract bin files to #{tomcat_dir}/bin" do
-  user      "root"
-  group     "root"
-  command   <<-COMMAND.gsub(/^ {2}/, '')
+# execute "Extract bin files to #{tomcat_dir}/bin" do
+#   user      "root"
+#   group     "root"
+#   command   <<-COMMAND.gsub(/^ {2}/, '')
+# 
+#     unzip -jo #{archive_zip} bin/*.jar -d #{tomcat_dir}/bin/ && \\
+#     unzip -jo #{archive_zip} bin/*.sh -d #{tomcat_dir}/bin/ && \\
+#     perl -pi -e 's| tomcat/temp| #{temp_dir}|g' \\
+#       #{tomcat_dir}/bin/clean_tomcat.sh && \\
+#     perl -pi -e 's| tomcat/work| #{tomcat_work_dir}|g' \\
+#       #{tomcat_dir}/bin/clean_tomcat.sh && \\
+#     perl -pi -e 's/\r\n/\n/' \\
+#       #{tomcat_dir}/bin/clean_tomcat.sh
+#   COMMAND
+# 
+#   creates   "#{tomcat_dir}/bin/apply_amps.sh"
+# end
 
-    unzip -jo #{archive_zip} bin/*.jar -d #{tomcat_dir}/bin/ && \\
-    unzip -jo #{archive_zip} bin/*.sh -d #{tomcat_dir}/bin/ && \\
-    perl -pi -e 's| tomcat/temp| #{temp_dir}|g' \\
-      #{tomcat_dir}/bin/clean_tomcat.sh && \\
-    perl -pi -e 's| tomcat/work| #{tomcat_work_dir}|g' \\
-      #{tomcat_dir}/bin/clean_tomcat.sh && \\
-    perl -pi -e 's/\r\n/\n/' \\
-      #{tomcat_dir}/bin/clean_tomcat.sh
-  COMMAND
+# execute "Extract shared files to #{tomcat_base_dir}/shared/classes/alfresco" do
+#   user      "root"
+#   group     "root"
+#   command   <<-COMMAND.gsub(/^ {2}/, '')
+# 
+#     unzip #{archive_zip} web-server/shared/classes/* \\
+#       -d #{tomcat_base_dir}/shared/classes/ && \\
+#     mv #{tomcat_base_dir}/shared/classes/web-server/shared/classes/* \\
+#       #{tomcat_base_dir}/shared/classes/ && \\
+#     rm -rf #{tomcat_base_dir}/shared/classes/web-server
+#   COMMAND
+# 
+#   creates   "#{tomcat_base_dir}/shared/classes/alfresco"
+# end
 
-  creates   "#{tomcat_dir}/bin/apply_amps.sh"
-end
-
-execute "Extract shared files to #{tomcat_base_dir}/shared/classes/alfresco" do
-  user      "root"
-  group     "root"
-  command   <<-COMMAND.gsub(/^ {2}/, '')
-
-    unzip #{archive_zip} web-server/shared/classes/* \\
-      -d #{tomcat_base_dir}/shared/classes/ && \\
-    mv #{tomcat_base_dir}/shared/classes/web-server/shared/classes/* \\
-      #{tomcat_base_dir}/shared/classes/ && \\
-    rm -rf #{tomcat_base_dir}/shared/classes/web-server
-  COMMAND
-
-  creates   "#{tomcat_base_dir}/shared/classes/alfresco"
-end
-
-execute "Extract jar files to #{tomcat_dir}/lib" do
-  user      "root"
-  group     "root"
-  command   <<-COMMAND.gsub(/^ {2}/, '')
-
-    unzip -jo #{archive_zip} web-server/lib/*.jar -d #{tomcat_dir}/lib/
-  COMMAND
-
-  creates   "#{tomcat_dir}/lib/postgresql-9.0-801.jdbc4.jar"
-  notifies  :restart, "service[tomcat]", :immediately
-end
+# execute "Extract jar files to #{tomcat_dir}/lib" do
+#   user      "root"
+#   group     "root"
+#   command   <<-COMMAND.gsub(/^ {2}/, '')
+# 
+#     unzip -jo #{archive_zip} web-server/lib/*.jar -d #{tomcat_dir}/lib/
+#   COMMAND
+# 
+#   creates   "#{tomcat_dir}/lib/postgresql-9.0-801.jdbc4.jar"
+#   notifies  :restart, "service[tomcat]", :immediately
+# end
 
 
 ### Configure Alfresco Settings
@@ -153,20 +174,20 @@ template "#{tomcat_base_dir}/shared/classes/log4j.properties" do
   notifies  :restart, "service[tomcat]", :immediately
 end
 
-cookbook_file "#{tomcat_base_dir}/shared/classes/alfresco/extension/custom-email-context.xml" do
-  source    "custom-email-context.xml"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0644"
-
-  if node['alfresco']['mail'] && node['alfresco']['mail']['smtps']
-    action  :create
-  else
-    action  :delete
-  end
-
-  notifies  :restart, "service[tomcat]", :immediately
-end
+# cookbook_file "#{tomcat_base_dir}/shared/classes/alfresco/extension/custom-email-context.xml" do
+#   source    "custom-email-context.xml"
+#   owner     alfresco_user
+#   group     alfresco_group
+#   mode      "0644"
+# 
+#   if node['alfresco']['mail'] && node['alfresco']['mail']['smtps']
+#     action  :create
+#   else
+#     action  :delete
+#   end
+# 
+#   notifies  :restart, "service[tomcat]", :immediately
+# end
 
 
 ### Deploy Alfresco Wars
@@ -177,24 +198,25 @@ execute "Clean previous Alfresco Tomcat deployment" do
   not_if    %{test -f #{webapp_dir}/alfresco.war}
 end
 
-# @TODO - Using Tomcat7 user/group; should be alfresco_user and alfresco_group
-%w{alfresco.war share.war}.each do |war|
-  execute "Deploy #{war}" do
-    user      "tomcat7"
-    group     "tomcat7"
-    command   <<-COMMAND.gsub(/^ {4}/, '')
+# @TODO - Using Tomcat7 user/group
+# %w{alfresco.war share.war}.each do |war|
+#   execute "Deploy #{war}" do
+#     user      "tomcat7"
+#     group     "tomcat7"
+#     command   <<-COMMAND.gsub(/^ {4}/, '')
+# 
+#       unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \\
+#       mkdir -p #{temp_dir}/WEB-INF/classes && \\
+#       cp #{tomcat_base_dir}/shared/classes/log4j.properties \\
+#         #{temp_dir}/WEB-INF/classes && \\
+#       (cd #{temp_dir} && \\
+#         jar -uf #{temp_dir}/#{war} WEB-INF/classes/log4j.properties) && \\
+#       rm -rf #{temp_dir}/WEB-INF/classes && \\
+#       mv #{temp_dir}/#{war} #{webapp_dir}/#{war} && \\
+#       sleep 10
+#     COMMAND
+# 
+#     creates   "#{webapp_dir}/#{war}"
+#   end
+# end
 
-      unzip -j #{archive_zip} web-server/webapps/#{war} -d #{temp_dir} && \\
-      mkdir -p #{temp_dir}/WEB-INF/classes && \\
-      cp #{tomcat_base_dir}/shared/classes/log4j.properties \\
-        #{temp_dir}/WEB-INF/classes && \\
-      (cd #{temp_dir} && \\
-        jar -uf #{temp_dir}/#{war} WEB-INF/classes/log4j.properties) && \\
-      rm -rf #{temp_dir}/WEB-INF/classes && \\
-      mv #{temp_dir}/#{war} #{webapp_dir}/#{war} && \\
-      sleep 10
-    COMMAND
-
-    creates   "#{webapp_dir}/#{war}"
-  end
-end
