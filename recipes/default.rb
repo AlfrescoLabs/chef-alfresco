@@ -17,5 +17,12 @@
 # limitations under the License.
 #
 
-include_recipe 'alfresco::mysql_server'
-include_recipe 'alfresco::app_server'
+include_recipe "java"
+include_recipe "maven"
+include_recipe "tomcat"
+
+include_recipe "alfresco::mysql_server"
+include_recipe "alfresco::repository"
+include_recipe "alfresco::3rdparty"
+include_recipe "alfresco::share"
+include_recipe "alfresco::solr"

@@ -17,7 +17,10 @@
 # limitations under the License.
 #
 
-### Setup Variables
+### Include Recipe Dependencies
+include_recipe "mysql::server"
+include_recipe "mysql::client"
+include_recipe "database::mysql"
 
 db_database = node['alfresco']['db']['database']
 db_user     = node['alfresco']['db']['user']
@@ -30,23 +33,12 @@ db_info = {
   :password => node['mysql']['server_root_password']
 }
 
-
 ### Install Package Dependencies
-
 Array(node['alfresco']['mysql_server']['pkgs']).each do |pkg|
   package pkg
 end
 
-
-### Include Recipe Dependencies
-
-include_recipe "mysql::server"
-gem_package "mysql"
-include_recipe "database"
-
-
 ### Create Mysql Database Instance And Application User
-
 mysql_database db_database do
   connection  db_info
 end

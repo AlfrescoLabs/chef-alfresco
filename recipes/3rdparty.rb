@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: alfresco
-# Recipe:: iptables
+# Recipe:: default
 #
 # Copyright 2011, Fletcher Nichol
 #
@@ -16,13 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-if platform?("redhat","centos","debian","ubuntu","amazon","scientific")
-  iptables_rule "port_alfresco" do
-    if node['alfresco']['iptables_allow'] == "disable"
-      enable false
-    else
-      enable true
-    end
-  end
-end
+include_recipe "build-essential"
+include_recipe "openoffice::headless"
+include_recipe "openoffice::apps"
+include_recipe "imagemagick"
+include_recipe "swftools"

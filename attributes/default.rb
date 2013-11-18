@@ -19,6 +19,26 @@
 # limitations under the License.
 #
 
+default['alfresco']['mavenrepos'] = ["https://artifacts.alfresco.com/nexus/content/groups/public"]
+
+default['alfresco']['mysqlconnector']['version'] = "5.1.19"
+
+default['alfresco']['repository']['groupId'] = "org.alfresco"
+default['alfresco']['repository']['artifactId'] = "alfresco"
+default['alfresco']['repository']['version'] = "4.2.e"
+
+default['alfresco']['share']['groupId'] = node['alfresco']['repository']['groupId']
+default['alfresco']['share']['artifactId'] = "share"
+default['alfresco']['share']['version'] = node['alfresco']['repository']['version']
+
+default['alfresco']['solr']['groupId'] = "org.apache.solr"
+default['alfresco']['solr']['artifactId'] = "apache-solr"
+default['alfresco']['solr']['version'] = "1.4.1-alfresco-patched"
+
+default['alfresco']['solrconf']['groupId'] = node['alfresco']['repository']['groupId']
+default['alfresco']['solrconf']['artifactId'] = "alfresco-solr"
+default['alfresco']['solrconf']['version'] = node['alfresco']['repository']['version']
+
 ### Alfresco Package And Version Info
 default['alfresco']['version'] = "4.0.b"
 default['alfresco']['zip_url'] =
