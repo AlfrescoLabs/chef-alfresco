@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: alfresco
-# attributes:: nginx_proxy_conf
+# attributes:: default
 #
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 #
@@ -18,11 +18,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-default['alfresco']['nginx']['proxy']          = "enable"
-default['alfresco']['nginx']['www_redirect']   = "enable"
-default['alfresco']['nginx']['listen_ports']   = [ 80 ]
-default['alfresco']['nginx']['host_name']      = node['alfresco']['default_hostname']
-default['alfresco']['nginx']['host_aliases']   = []
-
-default['alfresco']['nginx']['client_max_body_size'] = "1024m"
+node.set['tomcat']['java_options'] = "-Xms128m -Xmx1024m -XX:MaxPermSize=128m -Djava.awt.headless=true"
+node.set['tomcat']['restart_timing'] = "immediately"

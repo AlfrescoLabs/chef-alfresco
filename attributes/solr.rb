@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: alfresco
-# attributes:: nginx_proxy_conf
+# attributes:: default
 #
 # Author:: Fletcher Nichol (<fnichol@nichol.ca>)
 #
@@ -18,5 +18,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+default['alfresco']['solr']['groupId'] = "org.apache.solr"
+default['alfresco']['solr']['artifactId'] = "apache-solr"
+default['alfresco']['solr']['version'] = "1.4.1-alfresco-patched"
 
-default['alfresco']['iptables_allow'] = "enable"
+default['alfresco']['solrconf']['groupId'] = node['alfresco']['repository']['groupId']
+default['alfresco']['solrconf']['artifactId'] = "alfresco-solr"
+default['alfresco']['solrconf']['version'] = node['alfresco']['repository']['version']
