@@ -50,7 +50,6 @@ end
     password        db_pass
     privileges      [ :all ]
     host            user_host
-
     action          :grant
   end
 end

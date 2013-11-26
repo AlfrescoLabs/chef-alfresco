@@ -33,52 +33,114 @@ alfresco_group            = node['tomcat']['group']
 cache_path                = Chef::Config['file_cache_path']
 
 Array(node['alfresco']['pkgs']).each do |pkg|
-  package pkg
+  package pkg do
+    action :install
+    subscribes  :install, "directory[/var/cache/local]", :immediately
+  end
 end
 
-# execute "clean-tomcat" do
-#   command   "sh #{tomcat_dir}/bin/clean_tomcat.sh"
-#   not_if    %{test -f #{webapp_dir}/alfresco.war}
-# end
+chef_gem 'nokogiri' do
+  action :install
+  subscribes  :install, "package[ruby1.9.1-dev]", :immediately
+end
+require 'nokogiri'
 
-directory root_dir do
+directory "root-dir" do
+  path        root_dir
   owner       alfresco_user
   group       alfresco_group
-  mode        "0755"
+  mode        "0775"
   recursive   true
+  subscribes :create, "package[tomcat7]"
 end
 
-template "#{tomcat_base_dir}/shared/classes/alfresco-global.properties" do
+template "alfresco-global" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
   source    "alfresco-global.properties.erb"
   owner     alfresco_user
   group     alfresco_group
-  mode      "0640"
-  notifies  :restart, "service[tomcat]"
+  mode      "0660"
+  subscribes :create, "directory[root-dir]", :immediately
 end
- 
-template "#{tomcat_base_dir}/shared/classes/log4j.properties" do
-  source    "log4j.properties.erb"
+
+directory "classes-alfresco" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco"
   owner     alfresco_user
   group     alfresco_group
-  mode      "0644"
-  notifies  :restart, "service[tomcat]"
+  mode      "0775"
+  subscribes :create, "template[alfresco-global]", :immediately
+end
+
+directory "alfresco-extension" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco/extension"
+  owner     alfresco_user
+  group     alfresco_group
+  mode      "0775"
+  subscribes :create, "directory[classes-alfresco]", :immediately
+end
+ 
+template "repo-log4j.properties" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco/extension/repo-log4j.properties"
+  source    "repo-log4j.properties.erb"
+  owner     alfresco_user
+  group     alfresco_group
+  mode      "0664"
+  subscribes :create, "directory[alfresco-extension]", :immediately
 end
 
 maven 'mysql-connector-java' do
   group_id  'mysql'
-  version   "#{mysql_connector_version}"
+  version   mysql_connector_version
   dest      "#{tomcat_dir}/lib/"
-  notifies  :restart, "service[tomcat]"
+  subscribes :install, "template[repo-log4j.properties]", :immediately
 end
 
 maven "alfresco" do
-  artifact_id "#{repo_artifactId}"
-  group_id "#{repo_groupId}"
-  version  "#{repo_version}"
+  artifact_id repo_artifactId
+  group_id repo_groupId
+  version  repo_version
   action :put
-  dest     "#{webapp_dir}"
+  dest     cache_path
   owner    alfresco_user
   packaging 'war'
   repositories maven_repos
-  notifies  :restart, "service[tomcat]"
+  subscribes :put, "maven[mysql-connector-java]", :immediately
+end
+
+ark "alfresco" do
+  url "file://#{cache_path}/alfresco.war"
+  path cache_path
+  owner alfresco_user
+  action :put
+  strip_leading_dir false
+  append_env_path false
+  subscribes   :put, "maven[alfresco]", :immediately
+end
+
+ruby_block "patch-repo-webxml" do
+  block do
+    file = File.open("#{cache_path}/alfresco/WEB-INF/web.xml", "r")
+    content = file.read
+    file.close
+
+    node = Nokogiri::HTML::DocumentFragment.parse(content)
+    node.search(".//web-app").attr('metadata-complete', 'true')
+    node.search(".//security-constraint").remove
+    content = node.to_html(:encoding => 'UTF-8', :indent => 2)
+
+    file = File.open("#{cache_path}/alfresco/WEB-INF/web.xml", "w")
+    file.write(content)
+    file.close unless file == nil    
+  end
+  subscribes :create, "ark[alfresco]", :immediately
+end
+
+ruby_block "deploy-alfresco" do
+  block do
+    require 'fileutils'
+    FileUtils.rm_rf "#{cache_path}/alfresco/alfresco"
+    FileUtils.cp_r "#{cache_path}/alfresco","#{webapp_dir}/alfresco"
+  end
+  subscribes :create, "ruby-block[patch-repo-webxml]", :immediately
+  notifies     :restart, "service[tomcat]"
 end

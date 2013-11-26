@@ -30,13 +30,14 @@ default['alfresco']['repository']['version'] = "4.2.e"
 default['alfresco']['img']['root'] = "/usr"
 default['alfresco']['swf']['exe']  = "/usr/bin/pdf2swf"
 
-default['alfresco']['ooo']['exe']      = "/usr/lib/openoffice/program/soffice"
+default['alfresco']['ooo']['exe']      = "/usr/bin/soffice"
 default['alfresco']['ooo']['enabled']  = "true"
 
 default['alfresco']['jodconverter']['enabled']       = "true"
-default['alfresco']['jodconverter']['office_home']   = "/usr/lib/openoffice"
+default['alfresco']['jodconverter']['office_home']   = "/usr/lib/libreoffice"
 default['alfresco']['jodconverter']['port_numbers']  = "8100"
 
+default['alfresco']['ftp']['enabled'] = false
 
 ### Mail Defaults
 

@@ -21,7 +21,11 @@
 
 # Used by all recipes that need to fetch artifacts from Maven
 default['alfresco']['mavenrepos'] = ["https://artifacts.alfresco.com/nexus/content/groups/public"]
-  
+
+# Used by repository and share recipes
+default['alfresco']['default_hostname'] = "localhost"
+default['alfresco']['default_port'] = "8080"
+
 # Used by repository, share and solr recipes
 default['alfresco']['root_dir'] = "/srv/alfresco/alf_data"
 default['alfresco']['log_dir'] = "#{node['tomcat']['log_dir']}"
@@ -47,7 +51,7 @@ default['alfresco']['url']['share']['protocol']  = "http"
 ### Platform Package Settings And Defaults
 case platform
 when "debian","ubuntu"
-  node.set['alfresco']['pkgs']  = %w{libxalan2-java unzip fastjar libmysql-java}
+  default['alfresco']['pkgs']  = %w{ruby1.9.1-dev libxalan2-java unzip fastjar libmysql-java libxslt-dev libxml2-dev}
 else
   node.set['alfresco']['pkgs']  = []
 end

@@ -26,7 +26,7 @@ node.set['mysql']['bind_address'] = "0.0.0.0"
 
 case platform
 when "debian","ubuntu"
-  node.set['alfresco']['mysql_server']['pkgs']  = %w{make}
+  default['alfresco']['mysql_server']['pkgs']  = %w{make}
 else
-  node.set['alfresco']['mysql_server']['pkgs']  = []
+  default['alfresco']['mysql_server']['pkgs']  = []
 end
