@@ -18,11 +18,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default['alfresco']['share']['groupId'] = node['alfresco']['groupId']
-default['alfresco']['share']['artifactId'] = "share"
-default['alfresco']['share']['version'] = node['alfresco']['version']
-
-default['alfresco']['share']['alfresco_protocol'] = node['alfresco']['url']['repo']['protocol']
-default['alfresco']['share']['alfresco_host'] = node['alfresco']['url']['repo']['host']
-default['alfresco']['share']['alfresco_port'] = node['alfresco']['url']['repo']['port']
-default['alfresco']['share']['alfresco_context'] = node['alfresco']['url']['repo']['context']
+default['alfresco']['maven']['username'] = "alfresco"
+default['alfresco']['maven']['password'] = "alfresco"

@@ -24,9 +24,9 @@ default['alfresco']['mysqlconnector']['version'] = "5.1.19"
 
 default['alfresco']['db']['jdbc_url']  = "jdbc:mysql://#{node['alfresco']['db']['host']}/#{node['alfresco']['db']['database']}?useUnicode=yes&characterEncoding=UTF-8"
 
-default['alfresco']['repository']['groupId'] = "org.alfresco"
+default['alfresco']['repository']['groupId'] = node['alfresco']['groupId']
 default['alfresco']['repository']['artifactId'] = "alfresco"
-default['alfresco']['repository']['version'] = "4.2.e"
+default['alfresco']['repository']['version'] = node['alfresco']['version']
 
 default['alfresco']['img']['root'] = "/usr"
 default['alfresco']['swf']['exe']  = "/usr/bin/pdf2swf"

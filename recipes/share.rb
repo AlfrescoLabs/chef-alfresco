@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-maven_repos               = node['alfresco']['mavenrepos']
+maven_repos               = node['alfresco']['maven']['repos']
 
 share_groupId             = node['alfresco']['share']['groupId']
 share_artifactId          = node['alfresco']['share']['artifactId']

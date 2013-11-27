@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-maven_repos               = node['alfresco']['mavenrepos']
+maven_repos               = node['alfresco']['maven']['repos']
 root_dir                  = node['alfresco']['root_dir']
 mysql_connector_version   = node['alfresco']['mysqlconnector']['version']
 

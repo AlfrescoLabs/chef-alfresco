@@ -20,7 +20,13 @@
 #
 
 # Used by all recipes that need to fetch artifacts from Maven
-default['alfresco']['mavenrepos'] = ["https://artifacts.alfresco.com/nexus/content/groups/public"]
+default['alfresco']['maven']['repo_type'] = "public"
+default['alfresco']['maven']['repo_id'] = "alfresco-#{node['alfresco']['maven']['repo_type']}"
+default['alfresco']['maven']['repo_url'] = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
+default['alfresco']['maven']['repos'] = ["#{node['alfresco']['maven']['repo_id']}::::#{node['alfresco']['maven']['repo_url']}"]
+
+default['alfresco']['groupId'] = "org.alfresco"
+default['alfresco']['version'] = "4.2.e"
 
 # Used by repository and share recipes
 default['alfresco']['default_hostname'] = "localhost"
