@@ -31,6 +31,9 @@ webapp_dir                = node['tomcat']['webapp_dir']
 context_dir               = node['tomcat']['context_dir']
 cache_path                = Chef::Config['file_cache_path']
 
+chef_gem "nokogiri"
+require 'nokogiri'
+
 # Download Solr configuration artifact in Chef cache
 maven "solr-conf" do
   artifact_id solr_conf_artifactId
@@ -97,13 +100,9 @@ ruby_block "patch-solr-webxml" do
     file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "r")
     content = file.read
     file.close
-    
-    # content = content.gsub(/<security-constraint>[^*]+<\/security-constraint>/){""}
-    # node = Nokogiri::HTML.fragment(content)
     node = Nokogiri::HTML::DocumentFragment.parse(content)
     node.search(".//security-constraint").remove
-    content = node.to_html(:encoding => 'UTF-8', :indent => 2)
-    
+    content = node.to_html(:encoding => 'UTF-8', :indent => 2)    
     file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "w")
     file.write(content)
     file.close unless file == nil    

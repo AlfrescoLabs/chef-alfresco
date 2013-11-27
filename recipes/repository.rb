@@ -32,17 +32,7 @@ alfresco_user             = node['tomcat']['user']
 alfresco_group            = node['tomcat']['group']
 cache_path                = Chef::Config['file_cache_path']
 
-Array(node['alfresco']['pkgs']).each do |pkg|
-  package pkg do
-    action :install
-    subscribes  :install, "directory[/var/cache/local]", :immediately
-  end
-end
-
-chef_gem 'nokogiri' do
-  action :install
-  subscribes  :install, "package[ruby1.9.1-dev]", :immediately
-end
+chef_gem "nokogiri"
 require 'nokogiri'
 
 directory "root-dir" do
@@ -51,7 +41,6 @@ directory "root-dir" do
   group       alfresco_group
   mode        "0775"
   recursive   true
-  subscribes :create, "package[tomcat7]"
 end
 
 template "alfresco-global" do

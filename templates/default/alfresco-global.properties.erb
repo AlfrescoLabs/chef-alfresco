@@ -74,10 +74,10 @@ mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
 #
 # URL Generation Parameters (The ${localname} token is replaced by the local server name)
 #-------------
-alfresco.context=<%= node[:alfresco][:url][:alfresco][:context] %>
-alfresco.host=<%= node[:alfresco][:url][:alfresco][:host] %>
-alfresco.port=<%= node[:alfresco][:url][:alfresco][:port] %>
-alfresco.protocol=<%= node[:alfresco][:url][:alfresco][:protocol] %>
+alfresco.context=<%= node[:alfresco][:url][:repo][:context] %>
+alfresco.host=<%= node[:alfresco][:url][:repo][:host] %>
+alfresco.port=<%= node[:alfresco][:url][:repo][:port] %>
+alfresco.protocol=<%= node[:alfresco][:url][:repo][:protocol] %>
 
 share.context=<%= node[:alfresco][:url][:share][:context] %>
 share.host=<%= node[:alfresco][:url][:share][:host] %>
@@ -87,6 +87,10 @@ share.protocol=<%= node[:alfresco][:url][:share][:protocol] %>
 imap.server.enabled=<%= node[:alfresco][:imap][:server][:enabled] %>
 imap.server.port=<%= node[:alfresco][:imap][:server][:port] %>
 imap.server.host=<%= node[:alfresco][:imap][:server][:host] %>
+
+solr.host=<%= node[:alfresco][:solr][:solr_host] %>
+solr.port=<%= node[:alfresco][:solr][:solr_port] %>
+solr.port.ssl=<%= node[:alfresco][:solr][:solr_portssl] %>
 
 #
 # CIFS Support

@@ -18,10 +18,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+### Platform Package Settings And Defaults
+#
 default['alfresco']['mysqlconnector']['version'] = "5.1.19"
 
-default['alfresco']['default_hostname'] = node['fqdn']
-default['alfresco']['default_port']     = "8080"
+default['alfresco']['db']['jdbc_url']  = "jdbc:mysql://#{node['alfresco']['db']['host']}/#{node['alfresco']['db']['database']}?useUnicode=yes&characterEncoding=UTF-8"
 
 default['alfresco']['repository']['groupId'] = "org.alfresco"
 default['alfresco']['repository']['artifactId'] = "alfresco"
@@ -57,6 +58,11 @@ default['alfresco']['imap']['server']['enabled']  = "false"
 default['alfresco']['imap']['server']['port']     = "1143"
 default['alfresco']['imap']['server']['host']     = "0.0.0.0"
 
+### Solr Defaults
+
+default['alfresco']['solr']['solr_host'] = node['alfresco']['url']['solr']['host']
+default['alfresco']['solr']['solr_port'] = node['alfresco']['url']['solr']['port']
+default['alfresco']['solr']['solr_portssl'] = node['alfresco']['default_portssl']
 
 ### CIFS Server Defaults
 

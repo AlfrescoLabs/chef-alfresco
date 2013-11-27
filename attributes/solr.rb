@@ -30,3 +30,8 @@ default['alfresco']['solrconf']['artifactId'] = "alfresco-solr"
 default['alfresco']['solrconf']['version'] = node['alfresco']['repository']['version']
 
 default['alfresco']['solr']['war_filename'] = "apache-solr-1.4.1.war"
+
+default['alfresco']['solr']['alfresco_host'] = node['alfresco']['url']['repo']['host']
+default['alfresco']['solr']['alfresco_context'] = "/#{node['alfresco']['url']['repo']['context']}"
+default['alfresco']['solr']['alfresco_port'] = node['alfresco']['url']['repo']['port']
+default['alfresco']['solr']['alfresco_portssl'] = node['alfresco']['default_portssl']

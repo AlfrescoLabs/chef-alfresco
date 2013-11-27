@@ -20,7 +20,6 @@ include_recipe "tomcat"
 
 chef_gem 'chef-rewind' do
   action :install
-  subscribes  :install, "package[ruby1.9.1-dev]", :immediately
 end
 require 'chef/rewind'
 

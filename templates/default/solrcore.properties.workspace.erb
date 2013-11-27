@@ -13,10 +13,10 @@ max.field.length=2147483647
 #
 # Properties loaded during alfresco tracking
 #
-alfresco.host=localhost
-alfresco.port=8080
-alfresco.port.ssl=8443
-alfresco.baseUrl=/alfresco
+alfresco.host=<%= node[:alfresco][:solr][:alfresco_host] %>
+alfresco.port=<%= node[:alfresco][:solr][:alfresco_port] %>
+alfresco.port.ssl=<%= node[:alfresco][:solr][:alfresco_portssl] %>
+alfresco.baseUrl=<%= node[:alfresco][:solr][:alfresco_context] %>
 alfresco.cron=0/30 * * * * ? *
 alfresco.stores=archive://SpacesStore
 alfresco.lag=1000

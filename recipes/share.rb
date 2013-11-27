@@ -28,6 +28,30 @@ alfresco_group            = node['tomcat']['group']
 tomcat_base_dir           = node['tomcat']['base']
 cache_path                = Chef::Config['file_cache_path']
 
+directory "share-classes-alfresco" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco"
+  owner     alfresco_user
+  group     alfresco_group
+  mode      "0775"
+end
+
+directory "web-extension" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco/web-extension"
+  owner     alfresco_user
+  group     alfresco_group
+  mode      "0775"
+  subscribes :create, "directory[share-classes-alfresco]", :immediately
+end
+ 
+template "share-config-custom.xml" do
+  path      "#{tomcat_base_dir}/shared/classes/alfresco/web-extension/share-config-custom.xml"
+  source    "share-config-custom.xml.erb"
+  owner     alfresco_user
+  group     alfresco_group
+  mode      "0664"
+  subscribes :create, "directory[web-extension]", :immediately
+end
+
 maven "share" do
   artifact_id share_artifactId
   group_id share_groupId
@@ -37,7 +61,7 @@ maven "share" do
   owner    alfresco_user
   packaging 'war'
   repositories maven_repos
-  subscribes   :put, "package[tomcat7]"
+  subscribes   :put, "template[share-config-custom.xml]", :immediately
 end
 
 ark "share" do

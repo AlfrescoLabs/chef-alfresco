@@ -24,34 +24,39 @@ default['alfresco']['mavenrepos'] = ["https://artifacts.alfresco.com/nexus/conte
 
 # Used by repository and share recipes
 default['alfresco']['default_hostname'] = "localhost"
+# @TEST default['alfresco']['default_hostname'] = node['fqdn']
 default['alfresco']['default_port'] = "8080"
+default['alfresco']['default_portssl'] = "8443"
+default['alfresco']['default_protocol'] = "http"
 
 # Used by repository, share and solr recipes
 default['alfresco']['root_dir'] = "/srv/alfresco/alf_data"
-default['alfresco']['log_dir'] = "#{node['tomcat']['log_dir']}"
+default['alfresco']['log_dir'] = node['tomcat']['log_dir']
 
 ### Database Settings - used bt mysql_server and repository recipes
 default['alfresco']['db']['user']      = "alfresco"
 default['alfresco']['db']['password']  = "alfresco"
 default['alfresco']['db']['database']  = "alfresco"
-default['alfresco']['db']['jdbc_url']  = "jdbc:mysql://localhost/#{node['alfresco']['db']['database']}?useUnicode=yes&characterEncoding=UTF-8"
+default['alfresco']['db']['host']  = node['alfresco']['default_hostname']
 
-# @TODO - Should be used by repository and share recipes
-default['alfresco']['url']['alfresco']['context']   = "alfresco"
-default['alfresco']['url']['alfresco']['host']      = node['alfresco']['default_hostname']
-default['alfresco']['url']['alfresco']['port']      = node['alfresco']['default_port']
-default['alfresco']['url']['alfresco']['protocol']  = "http"
+# @TODO - use contexts for deployment purposes
 
-# @TODO - use it for deployment purposes
+# Used by repository, share and solr recipes (see related .rb attributes files)
+default['alfresco']['url']['repo']['context']   = "alfresco"
+default['alfresco']['url']['repo']['host']      = node['alfresco']['default_hostname']
+default['alfresco']['url']['repo']['port']      = node['alfresco']['default_port']
+default['alfresco']['url']['repo']['protocol']  = node['alfresco']['default_protocol']
+
+default['alfresco']['url']['solr']['context']   = "solr" #@TODO - not used right now
+default['alfresco']['url']['solr']['host']      = node['alfresco']['default_hostname']
+default['alfresco']['url']['solr']['port']      = node['alfresco']['default_port']
+default['alfresco']['url']['solr']['protocol']  = node['alfresco']['default_protocol']
+
 default['alfresco']['url']['share']['context']   = "share"
 default['alfresco']['url']['share']['host']      = node['alfresco']['default_hostname']
 default['alfresco']['url']['share']['port']      = node['alfresco']['default_port']
-default['alfresco']['url']['share']['protocol']  = "http"
+default['alfresco']['url']['share']['protocol']  = node['alfresco']['default_protocol']
 
-### Platform Package Settings And Defaults
-case platform
-when "debian","ubuntu"
-  default['alfresco']['pkgs']  = %w{ruby1.9.1-dev libxalan2-java unzip fastjar libmysql-java libxslt-dev libxml2-dev}
-else
-  node.set['alfresco']['pkgs']  = []
-end
+default['alfresco']['url']['repo']['host']      = node['alfresco']['default_hostname']
+default['alfresco']['url']['share']['host']      = node['alfresco']['default_hostname']
+default['alfresco']['url']['solr']['host']      = node['alfresco']['default_hostname']

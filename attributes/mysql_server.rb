@@ -19,14 +19,6 @@
 # limitations under the License.
 #
 
-node.set['mysql']['bind_address'] = "0.0.0.0"
-
-
-### Platform Package Settings And Defaults
-
-case platform
-when "debian","ubuntu"
-  default['alfresco']['mysql_server']['pkgs']  = %w{make}
-else
-  default['alfresco']['mysql_server']['pkgs']  = []
-end
+default['mysql']['bind_address'] = "0.0.0.0"
+default['alfresco']['db']['repo_host'] = node['alfresco']['default_hostname']
+default['alfresco']['db']['port'] = 3306
