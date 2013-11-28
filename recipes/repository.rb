@@ -32,7 +32,6 @@ alfresco_user             = node['tomcat']['user']
 alfresco_group            = node['tomcat']['group']
 cache_path                = Chef::Config['file_cache_path']
 
-chef_gem "nokogiri"
 require 'nokogiri'
 
 directory "root-dir" do
@@ -41,7 +40,6 @@ directory "root-dir" do
   group       alfresco_group
   mode        "0775"
   recursive   true
-  subscribes  :create, "package[tomcat7]", :immediately
 end
 
 template "alfresco-global" do
