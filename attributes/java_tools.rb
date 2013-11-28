@@ -18,5 +18,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default['xml']['packages']    = %w[libxml2-dev libxslt-dev ruby1.9.1-dev libxalan2-java unzip fastjar libmysql-java]
-default['xml']['compiletime'] = true
+default['alfresco']['maven']['username'] = "alfresco"
+default['alfresco']['maven']['password'] = "alfresco"
+
+default['maven']['3']['url'] = "http://archive.apache.org/dist/maven/binaries/apache-maven-3.1.0-bin.tar.gz"

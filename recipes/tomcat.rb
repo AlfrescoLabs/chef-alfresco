@@ -18,9 +18,6 @@
 #
 # include_recipe "tomcat"
 # 
-# chef_gem 'chef-rewind' do
-#   action :install
-# end
 # require 'chef/rewind'
 
 #This block overrides the :start default action (inherited by "tomcat" recipe) into :stop
