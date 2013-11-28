@@ -18,24 +18,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-default['tomcat']['java_options'] = " -Xms128m -Xmx1024m -XX:MaxPermSize=400m -Djava.awt.headless=true"
-
-# default['tomcat']['ca_key'] = "ca.key"
-# default['tomcat']['repo_csr'] = "repo.csr"
-# default['tomcat']['ssl_keystore'] = "ssl.keystore"
-# default['tomcat']['ssl_truststore'] = "ssl.truststore"
-# default['tomcat']['ca_crt'] = "ca.crt"
-# default['tomcat']['ca_validity'] = 3650
-# default['tomcat']['ca_passphrase'] = "foobar"
-# default['tomcat']['dname'] = "CN=Alfresco CA, O=Alfresco Software Ltd.,L=Maidenhead,ST=UK,C=GB"
-# default['tomcat']['ca_subject'] = "/CN=Alfresco CA/O=Alfresco Software Ltd./L=Maidenhead/ST=UK/C=GB"
-# default['tomcat']['key_pass'] = "ciaociao"
-# default['tomcat']['store_pass'] = "passwd"
-# 
-# # Used for filling context.xml and JAVA_OPTS with right values
-# default["tomcat"]["keystore_file"] = node['tomcat']['ssl_keystore']
-# default["tomcat"]["keystore_type"] = "jceks"
-# default["tomcat"]["keystore_password"] = node['tomcat']['key_pass']
-# 
-# default['tomcat']['keystore_properties'] = "keystore-passwords.properties"
-# default['tomcat']['ssl_keystore_properties'] = "ssl-keystore-passwords.properties"

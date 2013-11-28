@@ -39,15 +39,6 @@ mysql_database db_database do
   connection  db_info
 end
 
-# mysql_database_user "localhost" do
-#   connection      db_info
-#   database_name   db_database
-#   password        db_pass
-#   privileges      [ :all ]
-#   host            "localhost"
-#   action          :grant
-# end
-
 mysql_database_user "#{node['alfresco']['db']['user']}" do
   connection      db_info
   database_name   db_database

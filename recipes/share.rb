@@ -36,51 +36,51 @@ directory "share-classes-alfresco" do
 end
 
 directory "web-extension" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco/web-extension"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0775"
-  subscribes :create, "directory[share-classes-alfresco]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco/web-extension"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0775"
+  subscribes  :create, "directory[share-classes-alfresco]", :immediately
 end
  
 template "share-config-custom.xml" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco/web-extension/share-config-custom.xml"
-  source    "share-config-custom.xml.erb"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0664"
-  subscribes :create, "directory[web-extension]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco/web-extension/share-config-custom.xml"
+  source      "share-config-custom.xml.erb"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0664"
+  subscribes  :create, "directory[web-extension]", :immediately
 end
 
 maven "share" do
-  artifact_id share_artifactId
-  group_id share_groupId
-  version  share_version
-  action :put
-  dest     cache_path
-  owner    alfresco_user
-  packaging 'war'
-  repositories maven_repos
-  subscribes   :put, "template[share-config-custom.xml]", :immediately
+  artifact_id   share_artifactId
+  group_id      share_groupId
+  version       share_version
+  action        :put
+  dest          cache_path
+  owner         alfresco_user
+  packaging     'war'
+  repositories  maven_repos
+  subscribes    :put, "template[share-config-custom.xml]", :immediately
 end
 
 ark "share" do
-  url "file://#{cache_path}/share.war"
-  path cache_path
-  owner alfresco_user
-  action :put
-  strip_leading_dir false
-  append_env_path false
-  subscribes   :put, "maven[share]", :immediately
+  url                 "file://#{cache_path}/share.war"
+  path                cache_path
+  owner               alfresco_user
+  action              :put
+  strip_leading_dir   false
+  append_env_path     false
+  subscribes          :put, "maven[share]", :immediately
 end
 
 template "share-log4j" do
-  path      "#{cache_path}/share/WEB-INF/classes/log4j.properties"
-  source    "share-log4j.properties.erb"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0664"
-  subscribes   :create, "ark[share]", :immediately
+  path        "#{cache_path}/share/WEB-INF/classes/log4j.properties"
+  source      "share-log4j.properties.erb"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0664"
+  subscribes  :create, "ark[share]", :immediately
 end
 
 ruby_block "deploy-share" do
@@ -89,6 +89,6 @@ ruby_block "deploy-share" do
     FileUtils.rm_rf "#{cache_path}/share/share"
     FileUtils.cp_r "#{cache_path}/share","#{webapp_dir}/share"
   end
-  subscribes :create, "template[share-log4j]", :immediately
-  notifies     :restart, "service[tomcat]"
+  subscribes  :create, "template[share-log4j]", :immediately
+  notifies    :restart, "service[tomcat]"
 end

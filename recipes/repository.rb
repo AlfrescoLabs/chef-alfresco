@@ -41,69 +41,70 @@ directory "root-dir" do
   group       alfresco_group
   mode        "0775"
   recursive   true
+  subscribes  :create, "package[tomcat7]", :immediately
 end
 
 template "alfresco-global" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
-  source    "alfresco-global.properties.erb"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0660"
-  subscribes :create, "directory[root-dir]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
+  source      "alfresco-global.properties.erb"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0660"
+  subscribes  :create, "directory[root-dir]", :immediately
 end
 
 directory "classes-alfresco" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0775"
-  subscribes :create, "template[alfresco-global]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0775"
+  subscribes  :create, "template[alfresco-global]", :immediately
 end
 
 directory "alfresco-extension" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco/extension"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0775"
-  subscribes :create, "directory[classes-alfresco]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco/extension"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0775"
+  subscribes  :create, "directory[classes-alfresco]", :immediately
 end
  
 template "repo-log4j.properties" do
-  path      "#{tomcat_base_dir}/shared/classes/alfresco/extension/repo-log4j.properties"
-  source    "repo-log4j.properties.erb"
-  owner     alfresco_user
-  group     alfresco_group
-  mode      "0664"
-  subscribes :create, "directory[alfresco-extension]", :immediately
+  path        "#{tomcat_base_dir}/shared/classes/alfresco/extension/repo-log4j.properties"
+  source      "repo-log4j.properties.erb"
+  owner       alfresco_user
+  group       alfresco_group
+  mode        "0664"
+  subscribes  :create, "directory[alfresco-extension]", :immediately
 end
 
 maven 'mysql-connector-java' do
-  group_id  'mysql'
-  version   mysql_connector_version
-  dest      "#{tomcat_dir}/lib/"
-  subscribes :install, "template[repo-log4j.properties]", :immediately
+  group_id    'mysql'
+  version     mysql_connector_version
+  dest        "#{tomcat_dir}/lib/"
+  subscribes  :install, "template[repo-log4j.properties]", :immediately
 end
 
 maven "alfresco" do
-  artifact_id repo_artifactId
-  group_id repo_groupId
-  version  repo_version
-  action :put
-  dest     cache_path
-  owner    alfresco_user
-  packaging 'war'
-  repositories maven_repos
-  subscribes :put, "maven[mysql-connector-java]", :immediately
+  artifact_id   repo_artifactId
+  group_id      repo_groupId
+  version       repo_version
+  action        :put
+  dest          cache_path
+  owner         alfresco_user
+  packaging     'war'
+  repositories  maven_repos
+  subscribes    :put, "maven[mysql-connector-java]", :immediately
 end
 
 ark "alfresco" do
   url "file://#{cache_path}/alfresco.war"
-  path cache_path
-  owner alfresco_user
-  action :put
+  path              cache_path
+  owner             alfresco_user
+  action            :put
   strip_leading_dir false
-  append_env_path false
-  subscribes   :put, "maven[alfresco]", :immediately
+  append_env_path   false
+  subscribes        :put, "maven[alfresco]", :immediately
 end
 
 ruby_block "patch-repo-webxml" do
@@ -130,6 +131,6 @@ ruby_block "deploy-alfresco" do
     FileUtils.rm_rf "#{cache_path}/alfresco/alfresco"
     FileUtils.cp_r "#{cache_path}/alfresco","#{webapp_dir}/alfresco"
   end
-  subscribes :create, "ruby-block[patch-repo-webxml]", :immediately
-  notifies     :restart, "service[tomcat]"
+  subscribes  :create, "ruby-block[patch-repo-webxml]", :immediately
+  notifies    :restart, "service[tomcat]"
 end

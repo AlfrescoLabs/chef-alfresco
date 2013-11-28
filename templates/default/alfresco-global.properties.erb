@@ -18,20 +18,8 @@ db.password=<%= node[:alfresco][:db][:password] %>
 #
 # Solr configuration
 #-------------
+index.subsystem.name=<%= node[:alfresco][:search] %>
 solr.secureComms=none
-
-#
-# Security
-#-------------
-#dir.keystore=<%= node[:tomcat][:config_dir] %>
-#encryption.keystore.location=${dir.keystore}/<%= node[:tomcat][:ssl_keystore] %>
-#encryption.keystore.keyMetaData.location=${dir.keystore}/<%= node[:tomcat][:ssl_keystore_properties] %>
-#encryption.keystore.backup.location=classpath:alfresco/keystore/backup-keystore
-#encryption.keystore.backup.keyMetaData.location=classpath:alfresco/keystore/backup-keystore-passwords.properties
-#encryption.ssl.keystore.location=${dir.keystore}/<%= node[:tomcat][:ssl_keystore] %>
-#encryption.ssl.keystore.keyMetaData.location=${dir.keystore}/<%= node[:tomcat][:ssl_keystore_properties] %>
-#encryption.ssl.truststore.location=${dir.keystore}/<%= node[:tomcat][:ssl_truststore] %>
-#encryption.ssl.truststore.keyMetaData.location=${dir.keystore}/ssl-truststore-passwords.properties
 
 #
 # External locations

@@ -24,9 +24,9 @@ default['alfresco']['mysqlconnector']['version'] = "5.1.19"
 
 default['alfresco']['db']['jdbc_url']  = "jdbc:mysql://#{node['alfresco']['db']['host']}/#{node['alfresco']['db']['database']}?useUnicode=yes&characterEncoding=UTF-8"
 
-default['alfresco']['repository']['groupId'] = node['alfresco']['groupId']
+default['alfresco']['repository']['groupId']    = node['alfresco']['groupId']
+default['alfresco']['repository']['version']    = node['alfresco']['version']
 default['alfresco']['repository']['artifactId'] = "alfresco"
-default['alfresco']['repository']['version'] = node['alfresco']['version']
 
 default['alfresco']['img']['root'] = "/usr"
 default['alfresco']['swf']['exe']  = "/usr/bin/pdf2swf"
@@ -39,6 +39,8 @@ default['alfresco']['jodconverter']['office_home']   = "/usr/lib/libreoffice"
 default['alfresco']['jodconverter']['port_numbers']  = "8100"
 
 default['alfresco']['ftp']['enabled'] = false
+
+default['alfresco']['search'] = "lucene"
 
 ### Mail Defaults
 
@@ -60,8 +62,8 @@ default['alfresco']['imap']['server']['host']     = "0.0.0.0"
 
 ### Solr Defaults
 
-default['alfresco']['solr']['solr_host'] = node['alfresco']['url']['solr']['host']
-default['alfresco']['solr']['solr_port'] = node['alfresco']['url']['solr']['port']
+default['alfresco']['solr']['solr_host']    = node['alfresco']['url']['solr']['host']
+default['alfresco']['solr']['solr_port']    = node['alfresco']['url']['solr']['port']
 default['alfresco']['solr']['solr_portssl'] = node['alfresco']['default_portssl']
 
 ### CIFS Server Defaults
