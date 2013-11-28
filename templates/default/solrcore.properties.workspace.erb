@@ -17,8 +17,8 @@ alfresco.host=<%= node[:alfresco][:solr][:alfresco_host] %>
 alfresco.port=<%= node[:alfresco][:solr][:alfresco_port] %>
 alfresco.port.ssl=<%= node[:alfresco][:solr][:alfresco_portssl] %>
 alfresco.baseUrl=<%= node[:alfresco][:solr][:alfresco_context] %>
-alfresco.cron=0/30 * * * * ? *
-alfresco.stores=archive://SpacesStore
+alfresco.cron=0/15 * * * * ? *
+alfresco.stores=workspace://SpacesStore
 alfresco.lag=1000
 alfresco.hole.retention=3600000
 alfresco.batch.count=1000
