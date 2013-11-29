@@ -21,6 +21,7 @@ root_dir                = node['alfresco']['root_dir']
 alfresco_user           = node['tomcat']['user']
 alfresco_group          = node['tomcat']['group']
 
+solr_warpath            = node['alfresco']['solr']['war_path']
 solr_filename           = node['alfresco']['solr']['war_filename']
 
 solr_conf_groupId       = node['alfresco']['solrconf']['groupId']
@@ -31,7 +32,6 @@ webapp_dir              = node['tomcat']['webapp_dir']
 context_dir             = node['tomcat']['context_dir']
 cache_path              = Chef::Config['file_cache_path']
 
-chef_gem "nokogiri"
 require 'nokogiri'
 
 # Download Solr configuration artifact in Chef cache
@@ -44,7 +44,6 @@ maven "solr-conf" do
   owner         alfresco_user
   packaging     'zip'
   repositories  maven_repos
-  subscribes    :install, "package[tomcat7]"
 end
 
 # Unpacks Solr configuration (solr_home) in {root_dir} (i.e. /srv/alfresco/alf_data/solr_home)
@@ -76,47 +75,59 @@ template "solr-conf-archive" do
   subscribes  :create, "template[solr-conf-workspace]", :immediately
 end
 
-# Unpack Solr configuration artifact in Chef cache
-ark "solr" do
-  url               "file://#{root_dir}/solr_home/#{solr_filename}"
-  path              cache_path
-  owner             alfresco_user
-  action            :put
-  strip_leading_dir false
-  append_env_path   false
-  subscribes        :put, "template[solr-conf-archive]", :immediately
-end
-
-template "solr-log4j" do
-  path        "#{cache_path}/solr/WEB-INF/classes/log4j.properties"
-  source      "solr-log4j.properties.erb"
-  owner       alfresco_user
-  mode        "0640"
-  subscribes  :create, "ark[solr]", :immediately
-end
-
-ruby_block "patch-solr-webxml" do
-  block do
-    file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "r")
-    content = file.read
-    file.close
-    node = Nokogiri::HTML::DocumentFragment.parse(content)
-    node.search(".//security-constraint").remove
-    content = node.to_html(:encoding => 'UTF-8', :indent => 2)    
-    file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "w")
-    file.write(content)
-    file.close unless file == nil    
+if !solr_warpath.nil?
+  # Deploy the war file as it is
+  ruby_block "deploy-solr-warpath" do
+    block do
+      require 'fileutils'
+      FileUtils.cp "#{solr_warpath}","#{webapp_dir}/"
+    end
+    subscribes :create, "ruby-block[patch-solr-webxml]", :immediately
+  end  
+else
+  # Unpack Solr configuration artifact in Chef cache, patch web.xml and log4j.properties
+  ark "solr" do
+    url               "file://#{root_dir}/solr_home/#{solr_filename}"
+    path              cache_path
+    owner             alfresco_user
+    action            :put
+    strip_leading_dir false
+    append_env_path   false
+    subscribes        :put, "template[solr-conf-archive]", :immediately
   end
-  subscribes :create, "template[solr-log4j]", :immediately
-end
 
-ruby_block "deploy-solr" do
-  block do
-    require 'fileutils'
-    FileUtils.rm_rf "#{cache_path}/solr/solr"
-    FileUtils.cp_r "#{cache_path}/solr","#{webapp_dir}/solr"
+  template "solr-log4j" do
+    path        "#{cache_path}/solr/WEB-INF/classes/log4j.properties"
+    source      "solr-log4j.properties.erb"
+    owner       alfresco_user
+    mode        "0640"
+    subscribes  :create, "ark[solr]", :immediately
   end
-  subscribes :create, "ruby-block[patch-solr-webxml]", :immediately
+
+  ruby_block "patch-solr-webxml" do
+    block do
+      file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "r")
+      content = file.read
+      file.close
+      node = Nokogiri::HTML::DocumentFragment.parse(content)
+      node.search(".//security-constraint").remove
+      content = node.to_html(:encoding => 'UTF-8', :indent => 2)    
+      file = File.open("#{cache_path}/solr/WEB-INF/web.xml", "w")
+      file.write(content)
+      file.close unless file == nil    
+    end
+    subscribes :create, "template[solr-log4j]", :immediately
+  end
+
+  ruby_block "deploy-solr" do
+    block do
+      require 'fileutils'
+      FileUtils.rm_rf "#{cache_path}/solr/solr"
+      FileUtils.rm_rf "#{root_dir}/solr_home/solr_home"
+      FileUtils.cp_r "#{cache_path}/solr","#{webapp_dir}/solr"
+    end
+    subscribes :create, "ruby-block[patch-solr-webxml]", :immediately
+  end
 end
 
 template "#{context_dir}/solr.xml" do
@@ -124,5 +135,6 @@ template "#{context_dir}/solr.xml" do
   owner       alfresco_user
   mode        "0640"
   subscribes  :create, "ruby-block[deploy-solr]", :immediately
+  subscribes  :create, "ruby-block[deploy-solr-warpath]", :immediately
   notifies    :restart, "service[tomcat]"
 end
