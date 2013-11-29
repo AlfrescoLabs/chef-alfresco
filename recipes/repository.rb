@@ -21,6 +21,7 @@ root_dir                  = node['alfresco']['root_dir']
 mysql_connector_version   = node['alfresco']['mysqlconnector']['version']
 
 repo_warpath              = node['alfresco']['repository']['war_path']
+repo_properties_path      = node['alfresco']['repository']['properties_path']
 repo_groupId              = node['alfresco']['repository']['groupId']
 repo_artifactId           = node['alfresco']['repository']['artifactId']
 repo_version              = node['alfresco']['repository']['version']
@@ -43,13 +44,24 @@ directory "root-dir" do
   recursive   true
 end
 
-template "alfresco-global" do
-  path        "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
-  source      "alfresco-global.properties.erb"
-  owner       alfresco_user
-  group       alfresco_group
-  mode        "0660"
-  subscribes  :create, "directory[root-dir]", :immediately
+if !repo_properties_path.nil?
+  # Deploy the war file as it is
+  ruby_block "deploy-alfresco-global" do
+    block do
+      require 'fileutils'
+      FileUtils.cp "#{repo_properties_path}","#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
+    end
+    subscribes  :create, "directory[root-dir]", :immediately
+  end  
+else
+  template "alfresco-global" do
+    path        "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
+    source      "alfresco-global.properties.erb"
+    owner       alfresco_user
+    group       alfresco_group
+    mode        "0660"
+    subscribes  :create, "directory[root-dir]", :immediately
+  end
 end
 
 directory "classes-alfresco" do
@@ -57,6 +69,7 @@ directory "classes-alfresco" do
   owner       alfresco_user
   group       alfresco_group
   mode        "0775"
+  subscribes  :create, "template[deploy-alfresco-global]", :immediately
   subscribes  :create, "template[alfresco-global]", :immediately
 end
 
