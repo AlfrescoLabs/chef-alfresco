@@ -8,22 +8,29 @@ repo_groupId              = node['alfresco']['repository']['groupId']
 repo_artifactId           = node['alfresco']['repository']['artifactId']
 repo_version              = node['alfresco']['repository']['version']
 
-webapp_dir                = node['tomcat']['webapp_dir']
-tomcat_dir                = node['tomcat']['home']
-tomcat_base_dir           = node['tomcat']['base']
+tomcat_home               = node['tomcat']['home']
+tomcat_base               = node['tomcat']['base']
+tomcat_webapp_dir         = node['tomcat']['webapp_dir']
+tomcat_user               = node['tomcat']['user']
+tomcat_group              = tomcat_group
 
-alfresco_user             = node['tomcat']['user']
-alfresco_group            = node['tomcat']['group']
 cache_path                = Chef::Config['file_cache_path']
 
 require 'nokogiri'
 
 directory "root-dir" do
   path        root_dir
-  owner       alfresco_user
-  group       alfresco_group
+  owner       tomcat_user
+  group       tomcat_group
   mode        "0775"
   recursive   true
+end
+
+maven 'mysql-connector-java' do
+  group_id    'mysql'
+  version     mysql_connector_version
+  dest        "#{tomcat_home}/lib/"
+  subscribes  :install, "directory[root-dir]", :immediately
 end
 
 if !repo_properties_path.nil?
@@ -31,43 +38,36 @@ if !repo_properties_path.nil?
   ruby_block "deploy-alfresco-global" do
     block do
       require 'fileutils'
-      FileUtils.cp "#{repo_properties_path}","#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
+      FileUtils.cp "#{repo_properties_path}","#{tomcat_base}/shared/classes/alfresco-global.properties"
     end
     subscribes  :create, "directory[root-dir]", :immediately
   end  
 else
   template "alfresco-global" do
-    path        "#{tomcat_base_dir}/shared/classes/alfresco-global.properties"
+    path        "#{tomcat_base}/shared/classes/alfresco-global.properties"
     source      "alfresco-global.properties.erb"
-    owner       alfresco_user
-    group       alfresco_group
+    owner       tomcat_user
+    group       tomcat_group
     mode        "0660"
     subscribes  :create, "directory[root-dir]", :immediately
   end
 end
 
 directory "classes-alfresco" do
-  path        "#{tomcat_base_dir}/shared/classes/alfresco"
-  owner       alfresco_user
-  group       alfresco_group
+  path        "#{tomcat_base}/shared/classes/alfresco"
+  owner       tomcat_user
+  group       tomcat_group
   mode        "0775"
   subscribes  :create, "template[deploy-alfresco-global]", :immediately
   subscribes  :create, "template[alfresco-global]", :immediately
 end
 
 directory "alfresco-extension" do
-  path        "#{tomcat_base_dir}/shared/classes/alfresco/extension"
-  owner       alfresco_user
-  group       alfresco_group
+  path        "#{tomcat_base}/shared/classes/alfresco/extension"
+  owner       tomcat_user
+  group       tomcat_group
   mode        "0775"
   subscribes  :create, "directory[classes-alfresco]", :immediately
-end
-
-maven 'mysql-connector-java' do
-  group_id    'mysql'
-  version     mysql_connector_version
-  dest        "#{tomcat_dir}/lib/"
-  subscribes  :install, "directory[alfresco-extension]", :immediately
 end
  
 if !repo_warpath.nil?
@@ -75,16 +75,15 @@ if !repo_warpath.nil?
   ruby_block "deploy-repo-warpath" do
     block do
       require 'fileutils'
-      FileUtils.cp "#{repo_warpath}","#{webapp_dir}/"
+      FileUtils.cp "#{repo_warpath}","#{tomcat_webapp_dir}/"
     end
-    notifies :restart, "service[tomcat]"
   end  
 else
   template "repo-log4j.properties" do
-    path        "#{tomcat_base_dir}/shared/classes/alfresco/extension/repo-log4j.properties"
+    path        "#{tomcat_base}/shared/classes/alfresco/extension/repo-log4j.properties"
     source      "repo-log4j.properties.erb"
-    owner       alfresco_user
-    group       alfresco_group
+    owner       tomcat_user
+    group       tomcat_group
     mode        "0664"
     subscribes  :create, "directory[alfresco-extension]", :immediately
   end
@@ -95,7 +94,7 @@ else
     version       repo_version
     action        :put
     dest          cache_path
-    owner         alfresco_user
+    owner         tomcat_user
     packaging     'war'
     repositories  maven_repos
     subscribes    :put, "template[repo-log4j.properties]", :immediately
@@ -104,7 +103,7 @@ else
   ark "alfresco" do
     url "file://#{cache_path}/alfresco.war"
     path              cache_path
-    owner             alfresco_user
+    owner             tomcat_user
     action            :put
     strip_leading_dir false
     append_env_path   false
@@ -131,9 +130,14 @@ else
     block do
       require 'fileutils'
       FileUtils.rm_rf "#{cache_path}/alfresco/alfresco"
-      FileUtils.cp_r "#{cache_path}/alfresco","#{webapp_dir}/alfresco"
+      FileUtils.cp_r "#{cache_path}/alfresco","#{tomcat_webapp_dir}/alfresco"
     end
     subscribes  :create, "ruby-block[patch-repo-webxml]", :immediately
-    notifies    :restart, "service[tomcat]"
   end
+end
+
+service "tomcat7"  do
+  action      :restart
+  subscribes  :restart, "ruby-block[deploy-repo-warpath]",:immediately
+  subscribes  :restart, "ruby-block[deploy-alfresco]",:immediately
 end

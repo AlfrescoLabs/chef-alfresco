@@ -20,6 +20,8 @@ default['alfresco']['ftp']['enabled'] = false
 
 default['alfresco']['search'] = "lucene"
 
+default['alfresco']['cluster']['name'] = "alfrescovagrant"
+
 ### Mail Defaults
 
 default['alfresco']['mail']['protocol']         = "smtp"

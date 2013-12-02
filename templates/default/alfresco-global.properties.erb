@@ -22,6 +22,11 @@ index.subsystem.name=<%= node[:alfresco][:search] %>
 solr.secureComms=none
 
 #
+# Clustering configuration
+#-------------
+alfresco.cluster.name=<%= node[:alfresco][:cluster][:name] %>
+
+#
 # External locations
 #-------------
 ooo.exe=<%= node[:alfresco][:ooo][:exe] %>

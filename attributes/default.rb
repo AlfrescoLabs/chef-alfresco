@@ -19,11 +19,18 @@ default['alfresco']['default_protocol'] = "http"
 default['alfresco']['root_dir'] = "/srv/alfresco/alf_data"
 default['alfresco']['log_dir']  = node['tomcat']['log_dir']
 
-### Database Settings - used bt mysql_server and repository recipes
+### Database Settings - used bt mysql_server, mysql_grant and repository recipes
 default['alfresco']['db']['user']      = "alfresco"
 default['alfresco']['db']['password']  = "alfresco"
 default['alfresco']['db']['database']  = "alfresco"
 default['alfresco']['db']['host']      = node['alfresco']['default_hostname']
+default['alfresco']['db']['repo_hosts']      = [node['alfresco']['default_hostname']]
+default['alfresco']['db']['port']           = 3306
+
+default['mysql']['bind_address']            = "0.0.0.0"
+default['mysql']['server_debian_password']  = "root"
+default['mysql']['server_root_password']    = "root"
+default['mysql']['server_repl_password']    = "root"
 
 # @TODO - use contexts for deployment purposes
 

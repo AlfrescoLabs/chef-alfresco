@@ -1,7 +1,5 @@
 maven_repos             = node['alfresco']['maven']['repos']
 root_dir                = node['alfresco']['root_dir']
-alfresco_user           = node['tomcat']['user']
-alfresco_group          = node['tomcat']['group']
 
 solr_warpath            = node['alfresco']['solr']['war_path']
 solr_filename           = node['alfresco']['solr']['war_filename']
@@ -12,6 +10,10 @@ solr_conf_version       = node['alfresco']['solrconf']['version']
 
 webapp_dir              = node['tomcat']['webapp_dir']
 context_dir             = node['tomcat']['context_dir']
+tomcat_base_dir         = node['tomcat']['base']
+tomcat_user             = node['tomcat']['user']
+tomcat_group            = node['tomcat']['group']
+
 cache_path              = Chef::Config['file_cache_path']
 
 require 'nokogiri'
@@ -23,7 +25,7 @@ maven "solr-conf" do
   version       solr_conf_version
   action        :install
   dest          cache_path
-  owner         alfresco_user
+  owner         tomcat_user
   packaging     'zip'
   repositories  maven_repos
 end
@@ -32,7 +34,7 @@ end
 ark "solr_home" do
   url               "file://#{cache_path}/#{solr_conf_artifactId}-#{solr_conf_version}.zip"
   path              root_dir
-  owner             alfresco_user
+  owner             tomcat_user
   action            :put
   strip_leading_dir false
   append_env_path   false
@@ -43,7 +45,7 @@ end
 template "solr-conf-workspace" do
   path        "#{root_dir}/solr_home/workspace-SpacesStore/conf/solrcore.properties"
   source      "solrcore.properties.workspace.erb"
-  owner       alfresco_user
+  owner       tomcat_user
   mode        "0640"
   subscribes  :create, "ark[solr_home]", :immediately
 end
@@ -52,7 +54,7 @@ end
 template "solr-conf-archive" do
   path        "#{root_dir}/solr_home/archive-SpacesStore/conf/solrcore.properties"
   source      "solrcore.properties.archive.erb"
-  owner       alfresco_user
+  owner       tomcat_user
   mode        "0640"
   subscribes  :create, "template[solr-conf-workspace]", :immediately
 end
@@ -71,7 +73,7 @@ else
   ark "solr" do
     url               "file://#{root_dir}/solr_home/#{solr_filename}"
     path              cache_path
-    owner             alfresco_user
+    owner             tomcat_user
     action            :put
     strip_leading_dir false
     append_env_path   false
@@ -81,7 +83,7 @@ else
   template "solr-log4j" do
     path        "#{cache_path}/solr/WEB-INF/classes/log4j.properties"
     source      "solr-log4j.properties.erb"
-    owner       alfresco_user
+    owner       tomcat_user
     mode        "0640"
     subscribes  :create, "ark[solr]", :immediately
   end
@@ -112,11 +114,16 @@ else
   end
 end
 
-template "#{context_dir}/solr.xml" do
+template "solr.xml" do
+  path        "#{context_dir}/solr.xml"
   source      "solr.xml.erb"
-  owner       alfresco_user
+  owner       tomcat_user
   mode        "0640"
   subscribes  :create, "ruby-block[deploy-solr]", :immediately
   subscribes  :create, "ruby-block[deploy-solr-warpath]", :immediately
-  notifies    :restart, "service[tomcat]"
+end
+
+service "tomcat7"  do
+  action      :restart
+  subscribes  :restart, "template[solr.xml]",:immediately
 end

@@ -5,7 +5,7 @@ There is no default recipe in chef-alfresco; here follows the complete list:
 * build_tools - Contains tools (apt, nokogiri and chef-rewind) that are needed during the installation process of some Chef resources
 * 3rdparty - Contains the tools that provide transformation features to Alfresco Repository (TODO, should be called 'transformation')
 * java_tools - Contains JDK and Maven 3; it also handles the settings.xml setup, in case of an Enterprise installation
-* mysql_server - Install MySQL5 and grants access to ```node['alfresco']['db']['repo_host']```
+* mysql_server - Install MySQL5 and grants access to ```node['alfresco']['db']['repo_hosts']```
 * repository - Fetches and/or installs Alfresco Repository WAR; it also handles log4j.properties and alfresco-global.properties patching
 * share - Fetches and/or installs Alfresco Share WAR; it also handles log4j.properties patching
 * solr - Fetches and/or installs Alfresco Solr Banduru; it also handles log4j.properties and solr configuration patching
