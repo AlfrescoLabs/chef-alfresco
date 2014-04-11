@@ -1,5 +1,3 @@
-include_recipe "artifact-deployer::default"
-
 # maven_repos               = node['alfresco']['maven']['repos']
 # 
 # share_warpath             = node['alfresco']['share']['war_path']
@@ -22,22 +20,22 @@ include_recipe "artifact-deployer::default"
 #   mode      "0775"
 # end
 # 
-# directory "web-extension" do
-#   path        "#{tomcat_base_dir}/shared/classes/alfresco/web-extension"
-#   owner       tomcat_user
-#   group       tomcat_group
-#   mode        "0775"
-#   subscribes  :create, "directory[share-classes-alfresco]", :immediately
-# end
-#  
-# template "share-config-custom.xml" do
-#   path        "#{tomcat_base_dir}/shared/classes/alfresco/web-extension/share-config-custom.xml"
-#   source      "share-config-custom.xml.erb"
-#   owner       tomcat_user
-#   group       tomcat_group
-#   mode        "0664"
-#   subscribes  :create, "directory[web-extension]", :immediately
-# end
+directory "web-extension" do
+  path        "#{node['tomcat']['shared']}/classes/alfresco/web-extension"
+  owner       node['tomcat']['user']
+  group       node['tomcat']['group']
+  mode        "0775"
+  recursive   true
+end
+ 
+template "share-config-custom.xml" do
+  path        "#{node['tomcat']['shared']}/classes/alfresco/web-extension/share-config-custom.xml"
+  source      "share-config-custom.xml.erb"
+  owner       node['tomcat']['user']
+  group       node['tomcat']['group']
+  mode        "0664"
+  subscribes  :create, "directory[web-extension]", :immediately
+end
 
 # maven "share" do
 #   artifact_id   share_artifactId

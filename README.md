@@ -25,7 +25,7 @@ Every recipe contains a set of default attribute values that can be easily overr
 * default['alfresco']['version'] - Default is "4.2.e"
 * default['alfresco']['default_port'] - The http port configured to run Tomcat; default is "8080"
 * default['alfresco']['default_protocol'] - The protocol used to deploy Repository/Share apps
-* default['alfresco']['root_dir'] - The 'alf_data' folder path; default is "/srv/alfresco/alf_data"
+* default['alfresco']['root_dir'] - The 'alf_data' folder path; default is "/var/lib/tomcat7/alf_data"
 
 Other attributes can be found in [attributes/default.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb)
 

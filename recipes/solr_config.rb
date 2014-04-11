@@ -32,7 +32,7 @@ include_recipe "artifact-deployer::default"
 #   repositories  maven_repos
 # end
 # 
-# # Unpacks Solr configuration (solr_home) in {root_dir} (i.e. /srv/alfresco/alf_data/solr_home)
+# # Unpacks Solr configuration (solr_home) in {root_dir}
 # ark "solr_home" do
 #   url               "file://#{cache_path}/#{solr_conf_artifactId}-#{solr_conf_version}.zip"
 #   path              root_dir

@@ -2,7 +2,7 @@ default['artifacts']['solrhome']['groupId'] = "org.alfresco"
 default['artifacts']['solrhome']['artifactId'] = "alfresco-solr"
 default['artifacts']['solrhome']['type'] = "zip"
 default['artifacts']['solrhome']['version'] = node['alfresco']['version']
-default['artifacts']['solrhome']['destination'] = "#{node['alfresco']['root_dir']}/solr_home"
+default['artifacts']['solrhome']['destination'] = "#{node['alfresco']['root_dir']}"
 default['artifacts']['solrhome']['owner'] = node['tomcat']['user']
 default['artifacts']['solrhome']['unzip'] = true
 
