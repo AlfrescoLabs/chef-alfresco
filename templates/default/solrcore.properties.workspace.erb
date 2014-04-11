@@ -26,7 +26,7 @@ alfresco.batch.count=1000
 # encryption
 
 # none, https
-alfresco.secureComms=none
+alfresco.secureComms=<%= node[:alfresco][:solr][:alfresco_secureComms] %>
 
 # ssl
 alfresco.encryption.ssl.keystore.type=JCEKS

@@ -15,7 +15,7 @@ default['maven']['repos']["#{node['alfresco']['maven']['repo_type']}"]['url'] = 
 default['alfresco']['artifactId'] = "alfresco"
 default['share']['artifactId'] = "share"
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "4.2.e"
+default['alfresco']['version'] = "4.2.f"
 
 # Tomcat Installation Defaults
 default['tomcat']['webapps'] = "/var/lib/tomcat7/webapps"
