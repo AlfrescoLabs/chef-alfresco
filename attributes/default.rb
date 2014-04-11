@@ -1,7 +1,13 @@
+# System configurations needed below
+default['alfresco']['default_hostname'] = "localhost"
+# # @TEST default['alfresco']['default_hostname'] = node['fqdn']
+
 #Maven Repository Configuration Defaults
 default['alfresco']['maven']['repo_type'] = "public"
-default['maven']['repos'][alfresco_type]['username'] = "alfresco"
-default['maven']['repos'][alfresco_type]['password'] = "alfresco"
+default['alfresco']['maven']['username'] = "alfresco"
+default['alfresco']['maven']['password'] = "password"
+default['maven']['repos'][alfresco_type]['username'] = node['alfresco']['maven']['username']
+default['maven']['repos'][alfresco_type]['password'] = node['alfresco']['maven']['password']
 default['maven']['repos']["#{node['alfresco']['maven']['repo_type']}"]['url'] = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
 
 # Alfresco Maven Dependencies Defaults
