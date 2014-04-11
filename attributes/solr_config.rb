@@ -20,8 +20,6 @@ default['alfresco']['solr']['alfresco_host']    = node['alfresco']['url']['repo'
 default['alfresco']['solr']['alfresco_context'] = "/#{node['alfresco']['url']['repo']['context']}"
 default['alfresco']['solr']['alfresco_port']    = node['alfresco']['url']['repo']['port']
 default['alfresco']['solr']['alfresco_portssl'] = node['alfresco']['default_portssl']
-default['alfresco']['solr']['solr_home']        = "#{node['alfresco']['root_dir']}/solr_home"
-default['alfresco']['solr']['war_filename']     = "apache-solr-1.4.1.war"
 
 default['alfresco']['solr']['solr_home']                = "#{node['artifacts']['solrhome']['destination']}/solrhome"
 default['alfresco']['solr']['solr_secureComms']         = "https"
