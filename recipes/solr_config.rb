@@ -1,4 +1,4 @@
-solr_home = "#{node['alfresco']['solr']['solrhome']}"
+solr_home = "#{node['alfresco']['solr']['solr_home']}"
 
 #@TODO - Update solrcore templates with latest versions
 
