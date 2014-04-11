@@ -3,6 +3,7 @@ default['alfresco']['default_hostname'] = "localhost"
 # # @TEST default['alfresco']['default_hostname'] = node['fqdn']
 
 #Maven Repository Configuration Defaults
+alfresco_type = node['alfresco']['maven']['repo_type']
 default['alfresco']['maven']['repo_type'] = "public"
 default['alfresco']['maven']['username'] = "alfresco"
 default['alfresco']['maven']['password'] = "password"
