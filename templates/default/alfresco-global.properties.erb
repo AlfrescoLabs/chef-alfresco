@@ -65,6 +65,15 @@ mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
 <% end -%>
 
 #
+# Search Configuration
+#----------------
+index.subsystem.name=<%= node[:alfresco][:index_subsystem] %>
+solr.host=<%= node[:alfresco][:solr][:solr_host] %>
+solr.port=<%= node[:alfresco][:solr][:solr_port] %>
+solr.port.ssl=<%= node[:alfresco][:solr][:solr_portssl] %>
+solr.secureComms=<%= node[:alfresco][:solr][:solr_secureComms] %>
+
+#
 # URL Generation Parameters (The ${localname} token is replaced by the local server name)
 #-------------
 alfresco.context=<%= node[:alfresco][:url][:repo][:context] %>
@@ -80,11 +89,6 @@ share.protocol=<%= node[:alfresco][:url][:share][:protocol] %>
 imap.server.enabled=<%= node[:alfresco][:imap][:server][:enabled] %>
 imap.server.port=<%= node[:alfresco][:imap][:server][:port] %>
 imap.server.host=<%= node[:alfresco][:imap][:server][:host] %>
-
-solr.host=<%= node[:alfresco][:solr][:solr_host] %>
-solr.port=<%= node[:alfresco][:solr][:solr_port] %>
-solr.port.ssl=<%= node[:alfresco][:solr][:solr_portssl] %>
-solr.secureComms=<%= node[:alfresco][:solr][:solr_secureComms] %>
 
 #
 # CIFS Support

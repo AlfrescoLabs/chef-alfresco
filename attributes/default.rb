@@ -36,6 +36,8 @@ default['mysql']['server_debian_password']  = "root"
 default['mysql']['server_root_password']    = "root"
 default['mysql']['server_repl_password']    = "root"
 
+default['alfresco']['index_subsystem'] = "solr"
+
 # # Used by repository and share recipes
 # default['alfresco']['default_hostname'] = "localhost"
 # # @TEST default['alfresco']['default_hostname'] = node['fqdn']
