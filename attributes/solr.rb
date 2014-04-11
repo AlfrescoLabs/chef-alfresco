@@ -7,7 +7,7 @@ default['artifacts']['solrhome']['owner'] = node['tomcat']['user']
 default['artifacts']['solrhome']['unzip'] = true
 
 default['artifacts']['solr']['groupId'] = "org.apache.solr"
-default['artifacts']['solr']['artifactId'] = "apache.solr"
+default['artifacts']['solr']['artifactId'] = "apache-solr"
 default['artifacts']['solr']['version'] = "1.4.1-alfresco-patched"
 default['artifacts']['solr']['type'] = "war"
 default['artifacts']['solr']['destination'] = node['tomcat']['webapps']
