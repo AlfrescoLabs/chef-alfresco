@@ -75,6 +75,9 @@ An example of ```run_list``` is
         "alfresco::solr_config"]
 ```
 
+You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check the default configuration values and how to override them.
+The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates) folder containes the Alfresco configuration files that will be patched with Chef attribute values.
+
 Projects Using chef-alfresco
 ---
 * [vagrant-alfresco](https://github.com/maoo/vagrant-alfresco) is a Vagrant descriptor that uses chef-alfresco to run local dev boxes
