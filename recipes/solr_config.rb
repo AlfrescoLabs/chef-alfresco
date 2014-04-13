@@ -38,7 +38,3 @@ end
 #   subscribes  :create, "ruby-block[deploy-solr-warpath]", :immediately
 # end
 # 
-# service "tomcat7"  do
-#   action      :restart
-#   subscribes  :restart, "template[solr.xml]",:immediately
-# end

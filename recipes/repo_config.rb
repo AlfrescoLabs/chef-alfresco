@@ -42,10 +42,3 @@ template "repo-log4j.properties" do
   mode        "0664"
   subscribes  :create, "directory[alfresco-extension]", :immediately
 end
-
-# service "tomcat7"  do
-#   action      :restart
-#   subscribes  :restart, "ruby-block[deploy-repo-warpath]",:immediately
-#   subscribes  :restart, "ruby-block[deploy-alfresco]",:immediately
-# end
-

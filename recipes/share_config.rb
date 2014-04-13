@@ -32,9 +32,3 @@ end
 #     mode        "0664"
 #     subscribes  :create, "ark[share]", :immediately
 #   end
-# 
-# service "tomcat7"  do
-#   action      :restart
-#   subscribes  :restart, "ruby-block[deploy-share-warpath]",:immediately
-#   subscribes  :restart, "ruby-block[deploy-share]",:immediately
-# end
