@@ -4,7 +4,7 @@ default['alfresco']['default_hostname'] = "localhost"
 
 # Tomcat Installation Defaults
 default['tomcat']['webapps'] = "/var/lib/tomcat7/webapps"
-default['tomcat']['shared'] = "/var/lib/tomcat7/shared"
+default['tomcat']['shared'] = "/usr/share/tomcat7/shared"
 default['tomcat']['user'] = "tomcat7"
 default['tomcat']['group'] = "tomcat7"
 
