@@ -1,9 +1,18 @@
+directory "alfresco-classes-share" do
+  path        "#{node['tomcat']['shared']}/classes"
+  owner       node['tomcat']['user']
+  group       node['tomcat']['group']
+  mode        "0775"
+  recursive   true
+end
+
 directory "web-extension" do
   path        "#{node['tomcat']['shared']}/classes/alfresco/web-extension"
   owner       node['tomcat']['user']
   group       node['tomcat']['group']
   mode        "0775"
   recursive   true
+  subscribes  :create, "directory[alfresco-classes-share]", :immediately
 end
  
 template "share-config-custom.xml" do
