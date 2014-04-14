@@ -49,6 +49,7 @@ default['artifacts']['mysqlconnector']['version'] = "5.1.30"
 default['artifacts']['mysqlconnector']['destination'] = "#{node['tomcat']['shared']}"
 default['artifacts']['mysqlconnector']['owner'] = node['tomcat']['user']
 default['artifacts']['mysqlconnector']['unzip'] = false
+default['artifacts']['mysqlconnector']['enabled'] = false
 
 default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
 default['artifacts']['alfresco']['artifactId'] = node['alfresco']['artifactId']
@@ -57,3 +58,4 @@ default['artifacts']['alfresco']['type'] = "war"
 default['artifacts']['alfresco']['destination'] = node['tomcat']['webapps']
 default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco']['unzip'] = false
+default['artifacts']['alfresco']['enabled'] = false

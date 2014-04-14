@@ -6,6 +6,7 @@ default['artifacts']['solrhome']['version'] = node['alfresco']['version']
 default['artifacts']['solrhome']['destination'] = "#{node['alfresco']['root_dir']}"
 default['artifacts']['solrhome']['owner'] = node['tomcat']['user']
 default['artifacts']['solrhome']['unzip'] = true
+default['artifacts']['solrhome']['enabled'] = false
 
 default['artifacts']['solr']['groupId'] = "org.apache.solr"
 default['artifacts']['solr']['artifactId'] = "apache-solr"
@@ -14,6 +15,7 @@ default['artifacts']['solr']['type'] = "war"
 default['artifacts']['solr']['destination'] = node['tomcat']['webapps']
 default['artifacts']['solr']['owner'] = node['tomcat']['user']
 default['artifacts']['solr']['unzip'] = false
+default['artifacts']['solr']['enabled'] = false
 
 default['alfresco']['solr']['solr_home']                = "#{node['artifacts']['solrhome']['destination']}/solrhome"
 default['alfresco']['solr']['solr_secureComms']         = "https"

@@ -11,3 +11,4 @@ default['artifacts']['share']['type'] = "war"
 default['artifacts']['share']['destination'] = node['tomcat']['webapps']
 default['artifacts']['share']['owner'] = node['tomcat']['user']
 default['artifacts']['share']['unzip'] = false
+default['artifacts']['share']['enabled'] = false

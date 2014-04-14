@@ -52,10 +52,6 @@ default['alfresco']['url']['share']['host']      = node['alfresco']['default_hos
 default['alfresco']['url']['share']['port']      = node['alfresco']['default_port']
 default['alfresco']['url']['share']['protocol']  = node['alfresco']['default_protocol']
 
-default['alfresco']['url']['repo']['host']       = node['alfresco']['default_hostname']
-default['alfresco']['url']['share']['host']      = node['alfresco']['default_hostname']
-default['alfresco']['url']['solr']['host']       = node['alfresco']['default_hostname']
-
 # Artifact Deployer attributes - Maven Repository defaults
 alfresco_type = node['alfresco']['maven']['repo_type']
 default['alfresco']['maven']['repo_type'] = "public"
