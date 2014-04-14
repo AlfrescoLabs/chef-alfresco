@@ -7,6 +7,7 @@ db_user       = node['alfresco']['db']['user']
 db_pass       = node['alfresco']['db']['password']
 db_repo_hosts = node['alfresco']['db']['repo_hosts']
 
+service_name        = node['alfresco']['mysql']['service_name']
 mysql_bind_address  = node['alfresco']['mysql']['bind_address']
 mysql_root_password = node['alfresco']['mysql']['server_root_password']
 
@@ -32,6 +33,6 @@ mysql_database db_database do
   connection  db_info
 end
 
-service "mysql"  do
+service service_name  do
   action  :restart
 end

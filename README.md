@@ -80,8 +80,7 @@ The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates) fol
 
 Projects Using chef-alfresco
 ---
-* [vagrant-alfresco](https://github.com/maoo/vagrant-alfresco) is a Vagrant descriptor that uses chef-alfresco to run local dev boxes
-* [vagrant-alfresco-boxes](https://github.com/maoo/vagrant-alfresco-boxes) is a Packer implementation that creates Virtualbox and AWS AMIs with the all-in-one Alfresco stack
+* [alfresco-boxes](https://github.com/maoo/alfresco-boxes) is a Packer implementation that creates Virtualbox and AWS AMIs with the all-in-one Alfresco stack
 
 Dependencies
 ---
