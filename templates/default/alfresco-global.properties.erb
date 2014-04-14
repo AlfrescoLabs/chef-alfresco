@@ -16,12 +16,6 @@ db.username=<%= node[:alfresco][:db][:user] %>
 db.password=<%= node[:alfresco][:db][:password] %>
 
 #
-# Solr configuration
-#-------------
-index.subsystem.name=<%= node[:alfresco][:search] %>
-solr.secureComms=none
-
-#
 # Clustering configuration
 #-------------
 alfresco.cluster.name=<%= node[:alfresco][:cluster][:name] %>
@@ -67,7 +61,7 @@ mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
 #
 # Search Configuration
 #----------------
-index.subsystem.name=<%= node[:alfresco][:index_subsystem] %>
+index.subsystem.name=<%= node[:alfresco][:search] %>
 solr.host=<%= node[:alfresco][:solr][:solr_host] %>
 solr.port=<%= node[:alfresco][:solr][:solr_port] %>
 solr.port.ssl=<%= node[:alfresco][:solr][:solr_portssl] %>

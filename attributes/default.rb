@@ -53,13 +53,14 @@ default['alfresco']['url']['share']['port']      = node['alfresco']['default_por
 default['alfresco']['url']['share']['protocol']  = node['alfresco']['default_protocol']
 
 # Artifact Deployer attributes - Maven Repository defaults
-alfresco_type = node['alfresco']['maven']['repo_type']
+
 default['alfresco']['maven']['repo_type'] = "public"
 default['alfresco']['maven']['username'] = "alfresco"
 default['alfresco']['maven']['password'] = "password"
+alfresco_type = node['alfresco']['maven']['repo_type']
 default['maven']['repos'][alfresco_type]['username'] = node['alfresco']['maven']['username']
 default['maven']['repos'][alfresco_type]['password'] = node['alfresco']['maven']['password']
-default['maven']['repos']["#{node['alfresco']['maven']['repo_type']}"]['url'] = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
+default['maven']['repos'][alfresco_type]['url'] = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
 
 # Artifact Deployer attributes - Artifact coordinates defaults
 default['alfresco']['artifactId'] = "alfresco"
