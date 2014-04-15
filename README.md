@@ -40,11 +40,13 @@ Usage
 },
 "artifacts" : {
     "alfresco" : {
+        "enabled" : true,
         "groupId" : "it.session.alfresco",
         "artifactId" : "alfresco-nossl",
         "version" : "4.2.f"
     },
     "solr" : {
+        "enabled" : true,
         "groupId" : "it.session.alfresco",
         "artifactId" : "apache-solr-nossl",
         "version" : "1.4.1-alfresco-patched"
@@ -88,7 +90,7 @@ Alfresco Global and Share Config
 
 Projects Using chef-alfresco
 ---
-* [alfresco-boxes](https://github.com/maoo/alfresco-boxes) is a Packer implementation that creates Virtualbox and AWS AMIs with the all-in-one Alfresco stack
+* [alfresco-boxes](https://github.com/maoo/alfresco-boxes) is a collection of Vagrant/Packer definitions that runs/creates Virtualbox and AWS AMIs with different Alfresco stack architectures/platforms.
 
 Dependencies
 ---
