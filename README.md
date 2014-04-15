@@ -81,6 +81,7 @@ The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates) fol
 Alfresco Global and Share Config
 ---
 ```alfresco-global.properties``` and ```share-config-custom.xml``` are *the* most frequent files in Alfresco to customise; chef-alfresco provides 3 ways to configure them
+
 1. Define properties in the ```"alfresco"``` JSON element; these will be used to compile the file templates (check [templates/default](https://github.com/maoo/chef-alfresco/tree/master/templates/default))
 2. Specify an ```"artifacts"/"classes"``` dependency pointing to a ZIP file that contains all ```shared/classes``` contents
 3. Like #2, but with the possibility to ship - within the ZIP file - ```alfresco-global.properties.erb``` and ```share-config-custom.xml.erb```; if present, these files will be compiled as file templates (as in #1)
