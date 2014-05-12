@@ -1,0 +1,41 @@
+#!/bin/bash
+# -------
+# Script for apply AMPs to installed WAR
+# -------
+export CATALINA_HOME=<%= node[:tomcat][:base] %>
+export CATALINA_BASE=<%= node[:tomcat][:base] %>
+
+TOMCAT_BIN=<%= node[:tomcat][:bin] %>
+TOMCAT_WEBAPPS=<%= node[:tomcat][:webapps] %>
+AMPS_FOLDER=<%= node[:alfresco][:amps_folder] %>
+AMPSSHARE_FOLDER=<%= node[:alfresco][:amps_share_folder] %>
+
+if [ -f $TOMCAT_BIN/setenv.sh ]; then
+  . $TOMCAT_BIN/setenv.sh
+fi
+
+#echo "Shutting down tomcat . . ."
+#sudo service tomcat7 stop
+#sleep 2
+#if [ "x$CATALINA_PID" != "x" ]; then
+#   kill -0 $CATALINA_PID 2>/dev/null 
+#fi
+
+echo "This script will apply all the AMPs in amps and amps_share to the alfresco.war and share.war files in $TOMCAT_WEBAPPS"
+
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPS_FOLDER $TOMCAT_WEBAPPS/alfresco.war -nobackup -directory
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPSSHARE_FOLDER $TOMCAT_WEBAPPS/share.war -nobackup -directory
+
+echo "About to clean out $TOMCAT_WEBAPPS and share directories and temporary files..."
+
+rm -rf $TOMCAT_WEBAPPS/alfresco
+rm -rf $TOMCAT_WEBAPPS/share
+
+echo "Cleaning Tomcat . . ."
+# . $ALF_HOME/bin/clean_tomcat.sh
+rm -rf $CATALINA_BASE/logs/*
+rm -rf $CATALINA_BASE/temp/*
+rm -rf $CATALINA_BASE/work/*
+
+#echo "Starting Tomcat again . . ."
+#sudo service tomcat7 start

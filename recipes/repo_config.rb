@@ -6,6 +6,10 @@ directory "alfresco-rootdir" do
   recursive   true
 end
 
+if node['alfresco']['iptables'] == true
+  iptables_rule "alfresco-ports"
+end
+
 unless node.attribute?("artifacts") and node['artifacts'].attribute?("classes")
   directory "alfresco-classes" do
     path        "#{node['tomcat']['shared']}/classes"

@@ -42,6 +42,9 @@ default['alfresco']['cifs']['netbios_smb']['name_port']     = "1137"
 default['alfresco']['cifs']['netbios_smb']['datagram_port'] = "1138"
 default['alfresco']['cifs']['netbios_smb']['session_port']  = "1139"
 
+# iptables defaults
+default['alfresco']['iptables'] = true
+
 # Artifact Deployer attributes
 default['artifacts']['mysqlconnector']['groupId'] = "mysql"
 default['artifacts']['mysqlconnector']['artifactId'] = "mysql-connector-java"
@@ -59,3 +62,22 @@ default['artifacts']['alfresco']['destination'] = node['tomcat']['webapps']
 default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco']['unzip'] = false
 default['artifacts']['alfresco']['enabled'] = false
+
+default['artifacts']['alfresco-mmt']['groupId'] = "it.session.alfresco"
+default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
+default['artifacts']['alfresco-mmt']['version'] = "4.2.1.4"
+default['artifacts']['alfresco-mmt']['type'] = "jar"
+default['artifacts']['alfresco-mmt']['classifier'] = "fatjar"
+default['artifacts']['alfresco-mmt']['destination'] = "#{node['tomcat']['bin']}"
+default['artifacts']['alfresco-mmt']['owner'] = node['tomcat']['user']
+default['artifacts']['alfresco-mmt']['unzip'] = false
+default['artifacts']['alfresco-mmt']['enabled'] = false
+
+default['artifacts']['alfresco-spp']['groupId'] = node['alfresco']['groupId']
+default['artifacts']['alfresco-spp']['artifactId'] = "alfresco-spp"
+default['artifacts']['alfresco-spp']['version'] = node['alfresco']['version']
+default['artifacts']['alfresco-spp']['type'] = "amp"
+default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amps_folder']
+default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
+default['artifacts']['alfresco-spp']['unzip'] = false
+default['artifacts']['alfresco-spp']['enabled'] = false

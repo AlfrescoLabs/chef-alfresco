@@ -3,10 +3,15 @@ default['alfresco']['default_hostname'] = "localhost"
 # # @TEST default['alfresco']['default_hostname'] = node['fqdn']
 
 # Tomcat Installation Defaults
-default['tomcat']['webapps'] = "/var/lib/tomcat7/webapps"
-default['tomcat']['shared'] = "/usr/share/tomcat7/shared"
+default['tomcat']['bin'] = "/usr/share/tomcat7/bin"
+default['tomcat']['base'] = "/var/lib/tomcat7"
+default['tomcat']['webapps'] = "#{node['tomcat']['base']}/webapps"
+default['tomcat']['shared'] = "#{node['tomcat']['base']}/shared"
 default['tomcat']['user'] = "tomcat7"
 default['tomcat']['group'] = "tomcat7"
+
+default['alfresco']['amps_folder'] = "/var/lib/tomcat7/amps"
+default['alfresco']['amps_share_folder'] = "/var/lib/tomcat7/amps_share"
 
 ### Database Settings - used bt mysql_server, mysql_grant and repository recipes
 default['alfresco']['db']['user']      = "alfresco"
