@@ -3,15 +3,14 @@ default['alfresco']['default_hostname'] = "localhost"
 # # @TEST default['alfresco']['default_hostname'] = node['fqdn']
 
 # Tomcat Installation Defaults
-default['tomcat']['bin'] = "/usr/share/tomcat7/bin"
-default['tomcat']['base'] = "/var/lib/tomcat7"
-default['tomcat']['webapps'] = "#{node['tomcat']['base']}/webapps"
-default['tomcat']['shared'] = "#{node['tomcat']['base']}/shared"
+default['tomcat']['bin'] = "#{default['tomcat']['home']}/bin"
+default['tomcat']['shared'] = "#{default['tomcat']['base']}/shared"
+default['tomcat']['webapps'] = "#{default['tomcat']['base']}/webapps"
 default['tomcat']['user'] = "tomcat7"
 default['tomcat']['group'] = "tomcat7"
 
-default['alfresco']['amps_folder'] = "/var/lib/tomcat7/amps"
-default['alfresco']['amps_share_folder'] = "/var/lib/tomcat7/amps_share"
+default['alfresco']['amps_folder'] = "#{default['tomcat']['base']}/amps"
+default['alfresco']['amps_share_folder'] = "#{default['tomcat']['base']}/amps_share"
 
 ### Database Settings - used bt mysql_server, mysql_grant and repository recipes
 default['alfresco']['db']['user']      = "alfresco"
@@ -38,8 +37,8 @@ default['alfresco']['default_portssl']  = "8443"
 default['alfresco']['default_protocol'] = "http"
 
 # Used by repository, share and solr recipes
-default['alfresco']['root_dir'] = "/var/lib/tomcat7/alf_data"
-default['alfresco']['log_dir']  = node['tomcat']['log_dir']
+default['alfresco']['root_dir'] = "#{default['tomcat']['base']}/alf_data"
+default['alfresco']['log_dir']  = default['tomcat']['log_dir']
 
 # # Used by repository, share and solr recipes (see related .rb attributes files)
 default['alfresco']['url']['repo']['context']    = "alfresco"

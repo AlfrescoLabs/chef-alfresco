@@ -6,6 +6,22 @@ directory "alfresco-rootdir" do
   recursive   true
 end
 
+directory "tomcat-logs-permissions" do
+  path        node['tomcat']['log_dir']
+  owner       node['tomcat']['user']
+  group       node['tomcat']['group']
+  mode        "0775"
+  recursive   true
+end
+
+directory "tomcat-base-permissions" do
+  path        node['tomcat']['base']
+  owner       node['tomcat']['user']
+  group       node['tomcat']['group']
+  mode        "0775"
+  recursive   true
+end
+
 if node['alfresco']['iptables'] == true
   iptables_rule "alfresco-ports"
 end
