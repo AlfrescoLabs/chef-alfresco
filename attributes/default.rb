@@ -25,10 +25,8 @@ default['mysql']['server_debian_password']  = "root"
 default['mysql']['server_root_password']    = "root"
 default['mysql']['server_repl_password']    = "root"
 
-# default['alfresco']['mysql']['service_name']          = node['mysql']['service_name']
-default['alfresco']['mysql']['service_name']          = "mysql"
-default['alfresco']['mysql']['server_root_password']  = node['mysql']['server_root_password']
-default['alfresco']['mysql']['bind_address']          = node['mysql']['bind_address']
+default['alfresco']['mysql']['server_root_password']  = default['mysql']['server_root_password']
+default['alfresco']['mysql']['bind_address']          = default['mysql']['bind_address']
 
 default['alfresco']['index_subsystem'] = "solr"
 
