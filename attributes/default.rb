@@ -1,61 +1,75 @@
-# System configurations needed below
 default['alfresco']['default_hostname'] = "localhost"
-# # @TEST default['alfresco']['default_hostname'] = node['fqdn']
-
-# Tomcat Installation Defaults
-default['tomcat']['bin'] = "#{default['tomcat']['home']}/bin"
-default['tomcat']['shared'] = "#{default['tomcat']['base']}/shared"
-default['tomcat']['webapps'] = "#{default['tomcat']['base']}/webapps"
-default['tomcat']['user'] = "tomcat7"
-default['tomcat']['group'] = "tomcat7"
-
-default['alfresco']['amps_folder'] = "#{default['tomcat']['base']}/amps"
-default['alfresco']['amps_share_folder'] = "#{default['tomcat']['base']}/amps_share"
-
-### Database Settings - used bt mysql_server, mysql_grant and repository recipes
-default['alfresco']['db']['user']      = "alfresco"
-default['alfresco']['db']['password']  = "alfresco"
-default['alfresco']['db']['database']  = "alfresco"
-default['alfresco']['db']['host']      = node['alfresco']['default_hostname']
-default['alfresco']['db']['repo_hosts']      = [node['alfresco']['default_hostname']]
-default['alfresco']['db']['port']           = 3306
-
-default['mysql']['bind_address']            = "0.0.0.0"
-default['mysql']['server_debian_password']  = "root"
-default['mysql']['server_root_password']    = "root"
-default['mysql']['server_repl_password']    = "root"
-
-default['alfresco']['mysql']['server_root_password']  = default['mysql']['server_root_password']
-default['alfresco']['mysql']['bind_address']          = default['mysql']['bind_address']
-
-default['alfresco']['index_subsystem'] = "solr"
-
+#default['alfresco']['default_hostname'] = node['fqdn']
 default['alfresco']['default_port']     = "8080"
 default['alfresco']['default_portssl']  = "8443"
 default['alfresco']['default_protocol'] = "http"
 
-# Used by repository, share and solr recipes
-default['alfresco']['root_dir'] = "#{default['tomcat']['base']}/alf_data"
-default['alfresco']['log_dir']  = default['tomcat']['log_dir']
+######################################################
+### alfresco-global.properties used across all recipes
+######################################################
 
-# # Used by repository, share and solr recipes (see related .rb attributes files)
-default['alfresco']['url']['repo']['context']    = "alfresco"
-default['alfresco']['url']['repo']['host']       = node['alfresco']['default_hostname']
-default['alfresco']['url']['repo']['port']       = node['alfresco']['default_port']
-default['alfresco']['url']['repo']['protocol']   = node['alfresco']['default_protocol']
+#Contentstore
+default['alfresco']['properties']['dir.root'] = "#{default['tomcat']['base']}/alf_data"
 
-default['alfresco']['url']['solr']['context']    = "solr" #@TODO - not used right now
-default['alfresco']['url']['solr']['host']       = node['alfresco']['default_hostname']
-default['alfresco']['url']['solr']['port']       = node['alfresco']['default_port']
-default['alfresco']['url']['solr']['protocol']   = node['alfresco']['default_protocol']
+#Database
+default['alfresco']['properties']['db.driver'] = 'org.gjt.mm.mysql.Driver'
+default['alfresco']['properties']['db.username'] = 'alfresco'
+default['alfresco']['properties']['db.password'] = 'alfresco'
 
-default['alfresco']['url']['share']['context']   = "share"
-default['alfresco']['url']['share']['host']      = node['alfresco']['default_hostname']
-default['alfresco']['url']['share']['port']      = node['alfresco']['default_port']
-default['alfresco']['url']['share']['protocol']  = node['alfresco']['default_protocol']
+#Additional DB params
+default['alfresco']['properties']['db.prefix'] = 'mysql'
+default['alfresco']['properties']['db.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['db.port'] = 3306
+default['alfresco']['properties']['db.dbname'] = 'alfresco'
+default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
 
-# Artifact Deployer attributes - Maven Repository defaults
+#Derived DB param
+default['alfresco']['properties']['db.url'] = "jdbc:#{node['alfresco']['properties']['db.prefix']}://#{node['alfresco']['properties']['db.host']}/#{node['alfresco']['properties']['db.dbname']}?#{node['alfresco']['properties']['db.params']}"
 
+#Alfresco URL
+default['alfresco']['properties']['alfresco.context'] = '/alfresco'
+default['alfresco']['properties']['alfresco.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['alfresco.port'] = default['alfresco']['default_port']
+default['alfresco']['properties']['alfresco.port.ssl'] = default['alfresco']['default_portssl']
+default['alfresco']['properties']['alfresco.protocol'] = default['alfresco']['default_protocol']
+
+#Share URL
+default['alfresco']['properties']['share.context'] = '/share'
+default['alfresco']['properties']['share.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['share.port'] = default['alfresco']['default_port']
+default['alfresco']['properties']['share.protocol'] = default['alfresco']['default_protocol']
+
+#Solr URL
+default['alfresco']['properties']['solr.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['solr.port'] = default['alfresco']['default_port']
+default['alfresco']['properties']['solr.port.ssl'] = default['alfresco']['default_portssl']
+default['alfresco']['properties']['solr.secureComms'] = 'none'
+
+#################################
+### Default recipe configurations
+#################################
+
+# Additional Tomcat paths
+default['alfresco']['bin'] = "#{default['tomcat']['home']}/bin"
+default['alfresco']['shared'] = "#{default['tomcat']['base']}/shared"
+default['alfresco']['amps_folder'] = "#{default['tomcat']['base']}/amps"
+default['alfresco']['amps_share_folder'] = "#{default['tomcat']['base']}/amps_share"
+
+# DB params shared between client and server
+default['alfresco']['db']['server_root_password']   = default['mysql']['server_root_password']
+default['alfresco']['db']['bind_address']           = default['mysql']['bind_address']
+default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default_hostname']]
+
+# TODO - are these needed?
+# default['mysql']['bind_address']            = "0.0.0.0"
+# default['mysql']['server_debian_password']  = "root"
+# default['mysql']['server_root_password']    = "root"
+# default['mysql']['server_repl_password']    = "root"
+
+# Enable iptables alfresco-ports
+default['alfresco']['iptables'] = true
+
+# Artifact Deployer attributes - Maven repo configurations
 default['alfresco']['maven']['repo_type'] = "public"
 default['alfresco']['maven']['username'] = "alfresco"
 default['alfresco']['maven']['password'] = "password"
@@ -64,8 +78,6 @@ default['maven']['repos'][alfresco_type]['username'] = node['alfresco']['maven']
 default['maven']['repos'][alfresco_type]['password'] = node['alfresco']['maven']['password']
 default['maven']['repos'][alfresco_type]['url'] = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
 
-# Artifact Deployer attributes - Artifact coordinates defaults
-default['alfresco']['artifactId'] = "alfresco"
-default['share']['artifactId'] = "share"
+# Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "4.2.f"

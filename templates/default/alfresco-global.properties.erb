@@ -3,95 +3,102 @@
 ###############################
 
 #
-# Sample custom content and index data location
-#
-dir.root=<%= node[:alfresco][:root_dir] %>
+# Contentstore
+#-------------
+dir.root=<%= node['alfresco']['properties']['dir.root'] %>
 
 #
-# MySQL connection
+# Database
 #-------------
-db.driver=org.gjt.mm.mysql.Driver
-db.url=<%= node[:alfresco][:db][:jdbc_url] %>
-db.username=<%= node[:alfresco][:db][:user] %>
-db.password=<%= node[:alfresco][:db][:password] %>
+db.driver=<%= node['alfresco']['properties']['db.driver'] %>
+db.url=<%= node['alfresco']['properties']['db.url'] %>
+db.username=<%= node['alfresco']['properties']['db.username'] %>
+db.password=<%= node['alfresco']['properties']['db.password'] %>
 
 #
-# Clustering configuration
+# Clustering
 #-------------
-alfresco.cluster.name=<%= node[:alfresco][:cluster][:name] %>
+alfresco.cluster.name=<%= node['alfresco.cluster.name'] %>
 
 #
-# External locations
+# Transformations
 #-------------
-ooo.exe=<%= node[:alfresco][:ooo][:exe] %>
-ooo.enabled=<%= node[:alfresco][:ooo][:enabled] %>
-jodconverter.officeHome=<%= node[:alfresco][:jodconverter][:office_home] %>
-jodconverter.portNumbers=<%= node[:alfresco][:jodconverter][:port_numbers] %>
-jodconverter.enabled=<%= node[:alfresco][:jodconverter][:enabled] %>
-img.root=<%= node[:alfresco][:img][:root] %>
-swf.exe=<%= node[:alfresco][:swf][:exe] %>
-ftp.enabled=<%= node[:alfresco][:ftp][:enabled] %>
+ooo.exe=<%= node['alfresco']['properties']['ooo.exe'] %>
+ooo.enabled=<%= node['alfresco']['properties']['ooo.enabled'] %>
+jodconverter.officeHome=<%= node['alfresco']['properties']['jodconverter.officeHome'] %>
+jodconverter.portNumbers=<%= node['alfresco']['properties']['jodconverter.portNumbers'] %>
+jodconverter.enabled=<%= node['alfresco']['properties']['jodconverter.enabled'] %>
+img.root=<%= node['alfresco']['properties']['img.root'] %>
+swf.exe=<%= node['alfresco']['properties']['swf.exe'] %>
+
+#
+# FTP
+#-------------
+ftp.enabled=<%= node['alfresco']['properties']['ftp.enabled'] %>
+
 #
 # Outbound Email Configuration
 #-------------
-mail.protocol=<%= node[:alfresco][:mail][:protocol] %>
-<% if node[:alfresco][:mail][:host] -%>
-mail.host=<%= node[:alfresco][:mail][:host] %>
+mail.protocol=<%= node['alfresco']['properties']['mail.protocol'] %>
+<% if node['alfresco']['properties']['mail.host'] -%>
+mail.host=<%= node['alfresco']['properties']['mail.host'] %>
 <% end -%>
-mail.port=<%= node[:alfresco][:mail][:port] %>
-mail.username=<%= node[:alfresco][:mail][:username] %>
-<% if node[:alfresco][:mail][:password] -%>
-mail.password=<%= node[:alfresco][:mail][:password] %>
+mail.port=<%= node['alfresco']['properties']['mail.port'] %>
+mail.username=<%= node['alfresco']['properties']['mail.username'] %>
+<% if node['alfresco']['properties']['mail.password'] -%>
+mail.password=<%= node['alfresco']['properties']['mail.password'] %>
 <% end -%>
-mail.encoding=<%= node[:alfresco][:mail][:encoding] %>
-mail.from.default=<%= node[:alfresco][:mail][:from][:default] %>
-mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
+mail.encoding=<%= node['alfresco']['properties']['mail.encoding'] %>
+mail.from.default=<%= node['alfresco']['properties']['mail.from.default'] %>
+mail.smtp.auth=<%= node['alfresco']['properties']['mail.smtp.auth'] %>
 
-<% if node[:alfresco][:mail][:smtps][:starttls][:enable] -%>
-mail.smtps.starttls.enable=<%= node[:alfresco][:mail][:smtps][:starttls][:enable] %>
+<% if node['alfresco']['properties']['mail.smtps.starttls.enable'] -%>
+mail.smtps.starttls.enable=<%= node['alfresco']['properties']['mail.smtps.starttls.enable'] %>
 <% end -%>
-<% if node[:alfresco][:mail][:smtps][:auth] -%>
-mail.smtps.auth=<%= node[:alfresco][:mail][:smtps][:auth] %>
+<% if node['alfresco']['properties']['mail.smtps.auth'] -%>
+mail.smtps.auth=<%= node['alfresco']['properties']['mail.smtps.auth'] %>
 <% end -%>
 
-<% if node[:alfresco][:mail][:smtp][:auth] -%>
-mail.smtp.auth=<%= node[:alfresco][:mail][:smtp][:auth] %>
+<% if node['alfresco']['properties']['mail.smtp.auth'] %>
+mail.smtp.auth=<%= node['alfresco']['properties']['mail.smtp.auth'] %>
 <% end -%>
 
 #
 # Search Configuration
 #----------------
-index.subsystem.name=<%= node[:alfresco][:search] %>
-solr.host=<%= node[:alfresco][:solr][:solr_host] %>
-solr.port=<%= node[:alfresco][:solr][:solr_port] %>
-solr.port.ssl=<%= node[:alfresco][:solr][:solr_portssl] %>
-solr.secureComms=<%= node[:alfresco][:solr][:solr_secureComms] %>
+index.subsystem.name=<%= node['alfresco']['properties']['index.subsystem.name'] %>
+solr.host=<%= node['alfresco']['solrproperties']['solr.host'] %>
+solr.port=<%= node['alfresco']['solrproperties']['solr.port'] %>
+solr.port.ssl=<%= node['alfresco']['solrproperties']['solr.port.ssl'] %>
+solr.secureComms=<%= node['alfresco']['solrproperties']['solr.secureComms'] %>
 
 #
 # URL Generation Parameters (The ${localname} token is replaced by the local server name)
 #-------------
-alfresco.context=<%= node[:alfresco][:url][:repo][:context] %>
-alfresco.host=<%= node[:alfresco][:url][:repo][:host] %>
-alfresco.port=<%= node[:alfresco][:url][:repo][:port] %>
-alfresco.protocol=<%= node[:alfresco][:url][:repo][:protocol] %>
+alfresco.context=<%= node['alfresco']['properties']['alfresco.context'] %>
+alfresco.host=<%= node['alfresco']['properties']['alfresco.host'] %>
+alfresco.port=<%= node['alfresco']['properties']['alfresco.port'] %>
+alfresco.protocol=<%= node['alfresco']['properties']['alfresco.protocol'] %>
 
-share.context=<%= node[:alfresco][:url][:share][:context] %>
-share.host=<%= node[:alfresco][:url][:share][:host] %>
-share.port=<%= node[:alfresco][:url][:share][:port] %>
-share.protocol=<%= node[:alfresco][:url][:share][:protocol] %>
-
-imap.server.enabled=<%= node[:alfresco][:imap][:server][:enabled] %>
-imap.server.port=<%= node[:alfresco][:imap][:server][:port] %>
-imap.server.host=<%= node[:alfresco][:imap][:server][:host] %>
+share.context=<%= node['alfresco']['properties']['share.context'] %>
+share.host=<%= node['alfresco']['properties']['share.host'] %>
+share.port=<%= node['alfresco']['properties']['share.port'] %>
+share.protocol=<%= node['alfresco']['properties']['share.protocol'] %>
 
 #
-# CIFS Support
+# IMAP
 #------------------------
-cifs.enabled=<%= node[:alfresco][:cifs][:enabled] %>
-cifs.serverName=<%= node[:alfresco][:cifs][:server_name] %>
-cifs.ipv6.enabled=<%= node[:alfresco][:cifs][:ipv6][:enabled] %>
-cifs.tcpipSMB.port=<%= node[:alfresco][:cifs][:tcpip_smb][:port] %>
-cifs.netBIOSSMB.namePort=<%= node[:alfresco][:cifs][:netbios_smb][:name_port] %>
-cifs.netBIOSSMB.datagramPort=<%= node[:alfresco][:cifs][:netbios_smb][:datagram_port] %>
-cifs.netBIOSSMB.sessionPort=<%= node[:alfresco][:cifs][:netbios_smb][:session_port] %>
+imap.server.enabled=<%= node['alfresco']['properties']['imap.server.enabled'] %>
+imap.server.port=<%= node['alfresco']['properties']['imap.server.port'] %>
+imap.server.host=<%= node['alfresco']['properties']['imap.server.host'] %>
 
+#
+# CIFS
+#------------------------
+cifs.enabled=<%= node['alfresco']['properties']['cifs.enabled'] %>
+cifs.serverName=<%= node['alfresco']['properties']['cifs.serverName'] %>
+cifs.ipv6.enabled=<%= node['alfresco']['properties']['cifs.ipv6.enabled'] %>
+cifs.tcpipSMB.port=<%= node['alfresco']['properties']['cifs.tcpipSMB.port'] %>
+cifs.netBIOSSMB.namePort=<%= node['alfresco']['properties']['cifs.netBIOSSMB.namePort'] %>
+cifs.netBIOSSMB.datagramPort=<%= node['alfresco']['properties']['cifs.netBIOSSMB.datagramPort'] %>
+cifs.netBIOSSMB.sessionPort=<%= node['alfresco']['properties']['cifs.netBIOSSMB.sessionPort'] %>

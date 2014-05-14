@@ -4,7 +4,6 @@ directory "amps-repo" do
   group       node['tomcat']['group']
   mode        "0775"
   recursive   true
-  # subscribes  :create, "template[apply_amps.sh]", :immediately
 end
 
 directory "amps-share" do
@@ -13,31 +12,29 @@ directory "amps-share" do
   group       node['tomcat']['group']
   mode        "0775"
   recursive   true
-  # subscribes  :create, "directory[amps-repo]", :immediately
-  # notifies    :run, "script[apply_amps.sh]", :immediately
 end
 
 template "apply_amps.sh" do
-  path        "#{node['tomcat']['bin']}/apply_amps.sh"
+  path        "#{node['alfresco']['bin']}/apply_amps.sh"
   source      "apply_amps.sh.erb"
   owner       node['tomcat']['user']
   group       node['tomcat']['group']
   mode        "0775"
-  # notifies    :run, "execute[run-apply-amps]", :immediately
-  # subscribes  :create, "service[tomcat7]", :immediately
 end
 
+#TODO - this should be parametric
 service "tomcat7" do
   action :stop
 end
 
 execute "run-apply-amps" do
   command "./apply_amps.sh"
-  cwd     "#{node['tomcat']['bin']}"
+  cwd     "#{node['alfresco']['bin']}"
   user    node['tomcat']['user']
-  group       node['tomcat']['group']
+  group   node['tomcat']['group']
 end
 
+#TODO - this should be parametric
 service "tomcat7" do
   action :start
 end

@@ -3,7 +3,7 @@
 #
 # data is in ${data.dir.root}/${data.dir.store} 
 
-data.dir.root=<%= node[:alfresco][:solr][:solr_home] %>
+data.dir.root=<%= node['alfresco']['solrproperties']['data.dir.root'] %>
 data.dir.store=archive/SpacesStore
 enable.alfresco.tracking=true
 cache.alfresco.size=100
@@ -13,10 +13,11 @@ max.field.length=2147483647
 #
 # Properties loaded during alfresco tracking
 #
-alfresco.host=<%= node[:alfresco][:solr][:alfresco_host] %>
-alfresco.port=<%= node[:alfresco][:solr][:alfresco_port] %>
-alfresco.port.ssl=<%= node[:alfresco][:solr][:alfresco_portssl] %>
-alfresco.baseUrl=<%= node[:alfresco][:solr][:alfresco_context] %>
+
+alfresco.host=<%= node['alfresco']['solrproperties']['alfresco.host'] %>
+alfresco.port=<%= node['alfresco']['solrproperties']['alfresco.port'] %>
+alfresco.port.ssl=<%= node['alfresco']['solrproperties']['alfresco.port.ssl'] %>
+alfresco.baseUrl=<%= node['alfresco']['solrproperties']['alfresco.baseUrl'] %>
 alfresco.cron=0/30 * * * * ? *
 alfresco.stores=archive://SpacesStore
 alfresco.lag=1000
@@ -26,7 +27,7 @@ alfresco.batch.count=1000
 # encryption
 
 # none, https
-alfresco.secureComms=<%= node[:alfresco][:solr][:alfresco_secureComms] %>
+alfresco.secureComms=<%= node['alfresco']['solrproperties']['alfresco.secureComms'] %>
 
 # ssl
 alfresco.encryption.ssl.keystore.type=JCEKS
