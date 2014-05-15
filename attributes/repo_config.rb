@@ -46,6 +46,16 @@ default['alfresco']['properties']['mail.smtps.auth'] = false
 #Search
 default['alfresco']['properties']['index.subsystem.name'] = 'lucene'
 
+####################################################
+### Logging Attributes
+# added below in the artifact-deployer configuration
+####################################################
+
+default['alfresco']['repo-log4j'] = node['logging']
+default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
+default['alfresco']['share-log4j'] = node['logging']
+default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/share.log"
+
 ################################
 ### Artifact Deployer attributes
 ################################
@@ -87,10 +97,12 @@ default['artifacts']['alfresco-spp']['unzip'] = false
 default['artifacts']['alfresco-spp']['enabled'] = false
 
 # Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
-default['artifacts']['classes']['enabled'] = false
+default['artifacts']['classes']['enabled'] = true
 default['artifacts']['classes']['unzip'] = true
+default['artifacts']['classes']['filtering_mode'] = "append"
 default['artifacts']['classes']['destination'] = node['alfresco']['shared']
 default['artifacts']['classes']['owner'] = node['tomcat']['user']
 default['artifacts']['classes']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
-default['artifacts']['classes']['properties']['alfresco/extension/repo-log4j.properties'] = node['alfresco']['properties']
-default['artifacts']['classes']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['properties']
+default['artifacts']['classes']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
+default['artifacts']['classes']['properties']['alfresco/extension/repo-log4j.properties'] = node['alfresco']['repo-log4j']
+default['artifacts']['classes']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['share-log4j']

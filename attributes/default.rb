@@ -4,12 +4,26 @@ default['alfresco']['default_port']     = "8080"
 default['alfresco']['default_portssl']  = "8443"
 default['alfresco']['default_protocol'] = "http"
 
+# Logging defaults used by artifact-deployer configurations, see repo_config and solr_config defaults
+default['logging']['log4j.rootLogger'] = "WARN, Console, File"
+default['logging']['log4j.appender.Console'] = "org.apache.log4j.ConsoleAppender"
+default['logging']['log4j.appender.Console.layout'] = "org.apache.log4j.PatternLayout"
+default['logging']['log4j.appender.Console.layout.ConversionPattern'] = "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n"
+default['logging']['log4j.appender.File'] = "org.apache.log4j.DailyRollingFileAppender"
+default['logging']['log4j.appender.File.Append'] = "true"
+default['logging']['log4j.appender.File.DatePattern'] = "'.'yyyy-MM-dd'"
+default['logging']['log4j.appender.File.layout'] = "org.apache.log4j.PatternLayout"
+default['logging']['log4j.appender.File.layout.ConversionPattern'] = "%d{ABSOLUTE} %-5p [%c] %m%n"
+
 ######################################################
 ### alfresco-global.properties used across all recipes
 ######################################################
 
 #Contentstore
 default['alfresco']['properties']['dir.root'] = "#{default['tomcat']['base']}/alf_data"
+
+#JMX
+default['alfresco']['properties']['monitor.rmi.services.port']=50508
 
 #Database
 default['alfresco']['properties']['db.driver'] = 'org.gjt.mm.mysql.Driver'

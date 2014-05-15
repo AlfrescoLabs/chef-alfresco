@@ -7,6 +7,8 @@ default['alfresco']['solrproperties']['alfresco.baseUrl']         = node['alfres
 default['alfresco']['solrproperties']['data.dir.root']            = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 default['alfresco']['solrproperties']['alfresco.secureComms']     = "https"
 
+default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
+
 # Artifact Deployer attributes
 default['artifacts']['solrhome']['groupId'] = "org.alfresco"
 default['artifacts']['solrhome']['artifactId'] = "alfresco-solr"
@@ -20,6 +22,7 @@ default['artifacts']['solrhome']['enabled'] = false
 # Filtering properties with attributes defined above
 default['artifacts']['solrhome']['properties']['archive-SpacesStore/conf/solrcore.properties'] = node['alfresco']['solrproperties']
 default['artifacts']['solrhome']['properties']['workspace-SpacesStore/conf/solrcore.properties'] = node['alfresco']['solrproperties']
+default['artifacts']['solrhome']['properties']['log4j-solr.properties'] = node['alfresco']['solr-log4j']
 
 default['artifacts']['solr']['groupId'] = "org.apache.solr"
 default['artifacts']['solr']['artifactId'] = "apache-solr"

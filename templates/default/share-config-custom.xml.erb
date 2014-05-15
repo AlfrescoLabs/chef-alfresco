@@ -9,7 +9,7 @@
             <name>Alfresco - unauthenticated access</name>
             <description>Access to Alfresco Repository WebScripts that do not require authentication</description>
             <connector-id>alfresco</connector-id>
-            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://><%= node['alfresco']['properties']['alfresco.host'] %>:><%= node['alfresco']['properties']['alfresco.port'] %>/><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
+            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://<%= node['alfresco']['properties']['alfresco.host'] %>:<%= node['alfresco']['properties']['alfresco.port'] %><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
             <identity>none</identity>
          </endpoint>
 
@@ -18,7 +18,7 @@
             <name>Alfresco - user access</name>
             <description>Access to Alfresco Repository WebScripts that require user authentication</description>
             <connector-id>alfresco</connector-id>
-            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://><%= node['alfresco']['properties']['alfresco.host'] %>:><%= node['alfresco']['properties']['alfresco.port'] %>/><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
+            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://<%= node['alfresco']['properties']['alfresco.host'] %>:<%= node['alfresco']['properties']['alfresco.port'] %><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
             <identity>user</identity>
          </endpoint>
 
@@ -26,8 +26,8 @@
             <id>alfresco-feed</id>
             <name>Alfresco Feed</name>
             <description>Alfresco Feed - supports basic HTTP authentication via the EndPointProxyServlet</description>
-            <connector-id><%= node[:alfresco][:share][:alfresco_protocol] %></connector-id>
-            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://><%= node['alfresco']['properties']['alfresco.host'] %>:><%= node['alfresco']['properties']['alfresco.port'] %>/><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
+            <connector-id><%= node['alfresco']['properties']['alfresco.protocol'] %></connector-id>
+            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://<%= node['alfresco']['properties']['alfresco.host'] %>:<%= node['alfresco']['properties']['alfresco.port'] %><%= node['alfresco']['properties']['alfresco.context'] %>/s</endpoint-url>
             <basic-auth>true</basic-auth>
             <identity>user</identity>
          </endpoint>
@@ -37,7 +37,7 @@
             <name>Activiti Admin UI - user access</name>
             <description>Access to Activiti Admin UI, that requires user authentication</description>
             <connector-id>activiti-admin-connector</connector-id>
-            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://><%= node['alfresco']['properties']['alfresco.host'] %>:><%= node['alfresco']['properties']['alfresco.port'] %>/><%= node['alfresco']['properties']['alfresco.context'] %>/activiti-admin</endpoint-url>
+            <endpoint-url><%= node['alfresco']['properties']['alfresco.protocol'] %>://<%= node['alfresco']['properties']['alfresco.host'] %>:<%= node['alfresco']['properties']['alfresco.port'] %><%= node['alfresco']['properties']['alfresco.context'] %>/activiti-admin</endpoint-url>
             <identity>user</identity>
          </endpoint>
       </remote>
