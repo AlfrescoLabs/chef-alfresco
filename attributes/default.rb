@@ -74,12 +74,6 @@ default['alfresco']['db']['server_root_password']   = default['mysql']['server_r
 default['alfresco']['db']['bind_address']           = default['mysql']['bind_address']
 default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default_hostname']]
 
-# TODO - are these needed?
-# default['mysql']['bind_address']            = "0.0.0.0"
-# default['mysql']['server_debian_password']  = "root"
-# default['mysql']['server_root_password']    = "root"
-# default['mysql']['server_repl_password']    = "root"
-
 # Enable iptables alfresco-ports
 default['alfresco']['iptables'] = true
 

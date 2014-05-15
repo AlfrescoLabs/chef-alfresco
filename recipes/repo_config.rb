@@ -25,6 +25,7 @@ end
 file_replace "#{node['tomcat']['base']}/conf/catalina.properties" do
   replace "shared.loader="
   with    "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/*.jar"
+  only_if { File.exist?("#{node['tomcat']['base']}/conf/catalina.properties") }
 end
 
 directory "tomcat-logs-permissions" do

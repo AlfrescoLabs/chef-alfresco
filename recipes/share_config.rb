@@ -14,5 +14,4 @@ template "share-config-custom.xml" do
   group       node['tomcat']['group']
   mode        "0664"
   subscribes  :create, "directory[web-extension]", :immediately
-  # if_not { File.exist?("#{node['alfresco']['shared']}/classes/alfresco/web-extension/share-config-custom.xml") }
 end
