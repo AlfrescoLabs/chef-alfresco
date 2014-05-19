@@ -3,9 +3,7 @@ default['alfresco']['solrproperties']['alfresco.host']            = node['alfres
 default['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
 default['alfresco']['solrproperties']['alfresco.port.ssl']        = node['alfresco']['properties']['alfresco.port.ssl']
 default['alfresco']['solrproperties']['alfresco.baseUrl']         = node['alfresco']['properties']['alfresco.context']
-
-default['alfresco']['solrproperties']['data.dir.root']            = "#{node['alfresco']['properties']['dir.root']}/solrhome"
-default['alfresco']['solrproperties']['alfresco.secureComms']     = "https"
+default['alfresco']['solrproperties']['alfresco.secureComms']     = node['alfresco']['properties']['solr.secureComms']
 
 default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
 

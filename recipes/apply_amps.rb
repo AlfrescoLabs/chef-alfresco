@@ -1,3 +1,6 @@
+services        = node['alfresco']['system_services']
+service_action  = node['alfresco']['system_service_action']
+
 directory "amps-repo" do
   path        node['alfresco']['amps_folder']
   owner       node['tomcat']['user']
@@ -22,19 +25,15 @@ template "apply_amps.sh" do
   mode        "0775"
 end
 
-#TODO - this should be parametric
-service "tomcat7" do
-  action :stop
-end
-
 execute "run-apply-amps" do
   command "./apply_amps.sh"
-  cwd     "#{node['alfresco']['bin']}"
-  user    node['tomcat']['user']
-  group   node['tomcat']['group']
+  cwd        "#{node['alfresco']['bin']}"
+  user        node['tomcat']['user']
+  group       node['tomcat']['group']
 end
 
-#TODO - this should be parametric
-service "tomcat7" do
-  action :start
+services.each do |serviceName|
+  service serviceName  do
+    action    service_action
+  end
 end
