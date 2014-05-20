@@ -1,0 +1,1 @@
+# Keep it empty and invoke it anyway, since attributes/solr_config.rb must be loaded

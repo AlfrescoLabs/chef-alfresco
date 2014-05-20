@@ -1,49 +1,60 @@
+root_folder       = node['alfresco']['properties']['dir.root']
+shared_folder     = node['alfresco']['shared']
+config_folder     = node['tomcat']['config_dir']
+base_folder       = node['tomcat']['base']
+log_folder        = node['tomcat']['log_dir']
+
+user              = node['tomcat']['user']
+group             = node['tomcat']['group']
+
+iptables_enabled  = node['alfresco']['iptables']
+
 directory "alfresco-rootdir" do
-  path        node['alfresco']['properties']['dir.root']
-  owner       node['tomcat']['user']
-  group       node['tomcat']['group']
+  path        root_folder
+  owner       user
+  group       group
   mode        "0775"
   recursive   true
 end
 
 directory "alfresco-extension" do
-  path        "#{node['alfresco']['shared']}/classes/alfresco/extension"
-  owner       node['tomcat']['user']
-  group       node['tomcat']['group']
+  path        "#{shared_folder}/classes/alfresco/extension"
+  owner       user
+  group       group
   mode        "0775"
   recursive   true
 end
 
 file "alfresco-global-empty" do
-  path        "#{node['alfresco']['shared']}/classes/alfresco-global.properties"
+  path        "#{shared_folder}/classes/alfresco-global.properties"
   content     ""
-  owner       node['tomcat']['user']
-  group       node['tomcat']['group']
+  owner       user
+  group       group
   mode        "0775"
 end
 
-file_replace "#{node['tomcat']['config_dir']}/catalina.properties" do
+file_replace "#{config_folder}/catalina.properties" do
   replace     "shared.loader="
   with        "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/*.jar"
-  only_if     { File.exist?("#{node['tomcat']['config_dir']}/catalina.properties") }
+  only_if     { File.exist?("#{config_folder}/catalina.properties") }
 end
 
 directory "tomcat-logs-permissions" do
-  path        node['tomcat']['log_dir']
-  owner       node['tomcat']['user']
-  group       node['tomcat']['group']
+  path        log_folder
+  owner       user
+  group       group
   mode        "0775"
   recursive   true
 end
 
 directory "tomcat-base-permissions" do
-  path        node['tomcat']['base']
-  owner       node['tomcat']['user']
-  group       node['tomcat']['group']
+  path        base_folder
+  owner       user
+  group       group
   mode        "0775"
   recursive   true
 end
 
-if node['alfresco']['iptables'] == true
+if iptables_enabled == true
   iptables_rule "alfresco-ports"
 end

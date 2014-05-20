@@ -17,13 +17,13 @@ default['alfresco']['default_portssl']  = "8443"
 default['alfresco']['default_protocol'] = "http"
 
 # Logging defaults used by artifact-deployer configurations, see repo_config and solr_config defaults
-default['logging']['log4j.rootLogger']                                = "WARN, Console, File"
+default['logging']['log4j.rootLogger']                                = "error, Console, File"
 default['logging']['log4j.appender.Console']                          = "org.apache.log4j.ConsoleAppender"
 default['logging']['log4j.appender.Console.layout']                   = "org.apache.log4j.PatternLayout"
 default['logging']['log4j.appender.Console.layout.ConversionPattern'] = "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n"
 default['logging']['log4j.appender.File']                             = "org.apache.log4j.DailyRollingFileAppender"
 default['logging']['log4j.appender.File.Append']                      = "true"
-default['logging']['log4j.appender.File.DatePattern']                 = "'.'yyyy-MM-dd'"
+default['logging']['log4j.appender.File.DatePattern']                 = "'.'yyyy-MM-dd"
 default['logging']['log4j.appender.File.layout']                      = "org.apache.log4j.PatternLayout"
 default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSOLUTE} %-5p [%c] %m%n"
 
@@ -75,7 +75,20 @@ default['alfresco']['properties']['solr.secureComms']   = 'https'
 default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 
 # SSL
-default['alfresco']['properties']['dir.keystore']       = "#{node['alfresco']['solrproperties']['data.dir.root']}/alf_data/keystore"
+default['artifacts']['keystore']['groupId']           = "org.alfresco"
+default['artifacts']['keystore']['artifactId']        = "alfresco-repository"
+default['artifacts']['keystore']['version']           = node['alfresco']['version']
+default['artifacts']['keystore']['destination']       = node['alfresco']['properties']['dir.root']
+default['artifacts']['keystore']['subfolder']         = "alfresco/keystore/\*"
+default['artifacts']['keystore']['owner']             = node['tomcat']['user']
+default['artifacts']['keystore']['unzip']             = true
+default['artifacts']['keystore']['enabled']           = false
+
+if node['alfresco']['version'].start_with?("4.3")
+  default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+else
+  default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['solrproperties']['data.dir.root']}/alf_data/keystore"
+end
 
 ##############################################
 ### Tomcat Configuration for Alfresco keystore

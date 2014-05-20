@@ -1,5 +1,7 @@
+shared_folder     = node['alfresco']['shared']
+
 directory "web-extension" do
-  path        "#{node['alfresco']['shared']}/classes/alfresco/web-extension"
+  path        "#{shared_folder}/classes/alfresco/web-extension"
   owner       node['tomcat']['user']
   group       node['tomcat']['group']
   mode        "0775"
@@ -8,7 +10,7 @@ directory "web-extension" do
 end
 
 template "share-config-custom.xml" do
-  path        "#{node['alfresco']['shared']}/classes/alfresco/web-extension/share-config-custom.xml"
+  path        "#{shared_folder}/classes/alfresco/web-extension/share-config-custom.xml"
   source      "share-config-custom.xml.erb"
   owner       node['tomcat']['user']
   group       node['tomcat']['group']
