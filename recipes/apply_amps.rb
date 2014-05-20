@@ -38,6 +38,11 @@ execute "run-apply-amps" do
   group       group
 end
 
+execute 'wait for restart' do
+  command 'sleep 10'
+  action :nothing
+end
+
 services.each do |service_name|
   service service_name  do
     action    service_action

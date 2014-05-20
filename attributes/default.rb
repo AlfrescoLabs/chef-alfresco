@@ -119,14 +119,14 @@ default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default
 default['alfresco']['iptables'] = true
 
 # Artifact Deployer attributes - Maven repo configurations
-default['alfresco']['maven']['repo_type']             = "public"
-default['alfresco']['maven']['username']              = "alfresco"
-default['alfresco']['maven']['password']              = "password"
+# default['alfresco']['maven']['repo_type']             = "public"
+# default['alfresco']['maven']['username']              = "alfresco"
+# default['alfresco']['maven']['password']              = "password"
 
-alfresco_type = node['alfresco']['maven']['repo_type']
-default['maven']['repos'][alfresco_type]['username']  = node['alfresco']['maven']['username']
-default['maven']['repos'][alfresco_type]['password']  = node['alfresco']['maven']['password']
-default['maven']['repos'][alfresco_type]['url']       = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
+# alfresco_type = node['alfresco']['maven']['repo_type']
+# default['maven']['repos'][alfresco_type]['username']  = node['alfresco']['maven']['username']
+# default['maven']['repos'][alfresco_type]['password']  = node['alfresco']['maven']['password']
+# default['maven']['repos'][alfresco_type]['url']       = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
 
 # Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
 default['alfresco']['groupId'] = "org.alfresco"
