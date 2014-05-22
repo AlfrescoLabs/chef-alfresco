@@ -33,7 +33,7 @@ file "alfresco-global-empty" do
   mode        "0775"
 end
 
-file_replace "#{config_folder}/catalina.properties" do
+file_replace_line "#{config_folder}/catalina.properties" do
   replace     "shared.loader="
   with        "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/*.jar"
   only_if     { File.exist?("#{config_folder}/catalina.properties") }
