@@ -1,3 +1,7 @@
+# Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
+default['alfresco']['groupId'] = "org.alfresco"
+default['alfresco']['version'] = "4.2.f"
+
 version = node["tomcat"]["base_version"]
 if platform?("centos") and version == 7
   default['alfresco']['system_services']        = ["tomcat"]
@@ -127,7 +131,3 @@ default['alfresco']['iptables'] = true
 # default['maven']['repos'][alfresco_type]['username']  = node['alfresco']['maven']['username']
 # default['maven']['repos'][alfresco_type]['password']  = node['alfresco']['maven']['password']
 # default['maven']['repos'][alfresco_type]['url']       = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"
-
-# Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
-default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "4.2.f"
