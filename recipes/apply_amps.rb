@@ -1,5 +1,5 @@
-services          = node['alfresco']['system_services']
-service_action    = node['alfresco']['system_service_action']
+restart_services  = node['alfresco']['restart_services']
+restart_action    = node['alfresco']['restart_action']
 
 amps_folder       = node['alfresco']['amps_folder']
 amps_share_folder = node['alfresco']['amps_share_folder']
@@ -43,8 +43,8 @@ execute 'wait for restart' do
   action :nothing
 end
 
-services.each do |service_name|
+restart_services.each do |service_name|
   service service_name  do
-    action    service_action
+    action    restart_action
   end
 end

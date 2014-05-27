@@ -1,14 +1,19 @@
 # Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "4.2.f"
+default["alfresco"]["start_service"] = node["tomcat"]["start_service"]
 
 version = node["tomcat"]["base_version"]
-if platform?("centos") and version == 7
-  default['alfresco']['system_services']        = ["tomcat"]
-  default['alfresco']['system_service_action']  = "start"
+start_service = node["alfresco"]["start_service"]
+if start_service == false
+  default['alfresco']['restart_services'] = []
+  default['alfresco']['restart_action']   = "nothing"
+elsif platform?("centos") and version == 7
+  default['alfresco']['restart_services'] = ["tomcat"]
+  default['alfresco']['restart_action']   = "start"
 else
-  default['alfresco']['system_services']        = ["tomcat7"]
-  default['alfresco']['system_service_action']  = "restart"
+  default['alfresco']['restart_services'] = ["tomcat7"]
+  default['alfresco']['restart_action']   = "restart"
 end
 
 ##########################
@@ -116,6 +121,7 @@ default['alfresco']['amps_share_folder']  = "#{default['tomcat']['base']}/amps_s
 
 # DB params shared between client and server
 default['alfresco']['db']['server_root_password']   = default['mysql']['server_root_password']
+default['alfresco']['db']['root_user']              = "root"
 default['alfresco']['db']['bind_address']           = default['mysql']['bind_address']
 default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default_hostname']]
 
