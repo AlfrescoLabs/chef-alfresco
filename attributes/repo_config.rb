@@ -44,7 +44,7 @@ default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
 #Search
-default['alfresco']['properties']['index.subsystem.name'] = 'lucene'
+default['alfresco']['properties']['index.subsystem.name'] = 'solr'
 
 ####################################################
 ### Logging Attributes

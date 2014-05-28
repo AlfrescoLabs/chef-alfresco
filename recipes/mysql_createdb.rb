@@ -34,7 +34,3 @@ mysql_database 'create-detabase-if-not-exists' do
   sql { "CREATE DATABASE IF NOT EXISTS '#{db_database}' CHARACTER SET utf8 COLLATE utf8_general_ci;" }
   action :query
 end
-
-# mysql_database db_database do
-#   connection  db_info
-# end
