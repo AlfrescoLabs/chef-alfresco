@@ -15,50 +15,36 @@ There is no default recipe in chef-alfresco, because the Alfresco installation o
 
 Usage
 ---
+This is the minimum configuration that is needed in order to run Alfresco 4.2.f Community Edition
 ```
 "tomcat" : {
     "base_version" : 7,
-    "user" : "tomcat7",
-    "group" : "tomcat7",
-    "java_options" : "-Xmx1500M -XX:MaxPermSize=256M -Dsolr.solr.home=/var/lib/tomcat7/alf_data/solrhome"
 },
 "alfresco" : {
-    "maven" : {
-        "repo_type" : "public"
-    },
-    "solr" : {
-        "alfresco_secureComms" : "none",
-        "solr_secureComms" : "none"
-    }
+    "allinone": true
+}
+```
+
+This one is for Alfresco 4.2.2 Enterprise
+```
+"tomcat" : {
+    "base_version" : 7,
 },
-"maven" : {
-    "repos" : {
-        "maoo-public-cloudbees" : {
-            "url" : "https://repository-maoo.forge.cloudbees.com/release"
-        }
-    }
+"alfresco" : {
+    "version" : "4.2.2"
+}
+```
+
+The following one is an example of Alfresco 4.1.8 Enterprise using Apache as HTTP load balancer
+```
+"tomcat" : {
+    "base_version" : 6,
 },
-"artifacts" : {
-    "alfresco" : {
-        "enabled" : true,
-        "groupId" : "it.session.alfresco",
-        "artifactId" : "alfresco-nossl",
-        "version" : "4.2.f"
-    },
-    "solr" : {
-        "enabled" : true,
-        "groupId" : "it.session.alfresco",
-        "artifactId" : "apache-solr-nossl",
-        "version" : "1.4.1-alfresco-patched"
-    }
-},
+"alfresco" : {
+    "allinone": true
+}
 "java" : {
-    "default" : true,
-    "jdk_version" : "7",
-    "install_flavor" : "oracle",
-    "oracle" : {
-        "accept_oracle_download_terms" : true
-    }
+    "jdk_version" : "6",
 }
 "lb": {
     "balancers": {
@@ -86,14 +72,18 @@ An example of ```run_list``` is
 ```
     "run_list": [
         "apt::default",
+        "iptables::default",
         "alfresco::3rdparty",
         "alfresco::mysql_server",
         "alfresco::mysql_createdb",
-        "tomcat::default",
         "alfresco::repo_config",
         "alfresco::share_config",
-        "artifact-deployer::default",
-        "alfresco::solr_config"]
+        "alfresco::solr_config",
+        "tomcat::default",
+        "tomcat::users",
+        "artifact-deployer::default"
+        "alfresco::apply_amps"
+    ]
 ```
 
 You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check the default configuration values and how to override them.
