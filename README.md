@@ -11,7 +11,6 @@ There is no default recipe in chef-alfresco, because the Alfresco installation o
   * Alfresco Repository WAR
 * share_config - Creates shared/classes/alfresco/web-extension folder tree and patches share-config-custom.xml, setting the correct URLs for remote endpoints; it also configures the deployment of Alfresco Share WAR
 * solr_config - Patches solrcore.properties and solr.xml files, configures the deployment of Apache Solr (Alfresco Patched version)
-* tomcat - Installs (a 'rewinded') Apache Tomcat (that won't start after the installation; it will be restarted on each repo/share/solr redeployment)
 * apachelb - configures apache2 mod_balancer to dispach calls to given URLs
 
 Usage
