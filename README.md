@@ -1,6 +1,6 @@
 Introduction
 ---
-chef-alfresco is a collection of recipes that provide a modular way to install Alfresco using Chef; it uses [artifact-deployer](https://github.com/maoo/artifact-deployer) to fetch artifacts from remote Apache Maven repositories, given artifact coordinates in a JSON format, along with other third-party recipes that install the DB (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools)
+chef-alfresco is a collection of recipes that provide a modular way to install Alfresco using Chef; it uses [artifact-deployer](https://github.com/maoo/artifact-deployer) to fetch artifacts from remote Apache Maven repositories and defines default values for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process; it also depends on other third-party recipes that install the DB (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools)
 
 There is no default recipe in chef-alfresco, because the Alfresco installation order (in Chef terms, ```run_list```) may depend on architectural requirements; here follows the complete list:
 * 3rdparty - Contains the tools that provide transformation features to Alfresco Repository
