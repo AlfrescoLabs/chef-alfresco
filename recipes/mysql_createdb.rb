@@ -29,8 +29,7 @@ db_repo_hosts.each do |repo_host|
   end
 end
 
-mysql_database 'create-detabase-if-not-exists' do
+mysql_database 'alfresco' do
   connection db_info
-  sql { "CREATE DATABASE IF NOT EXISTS '#{db_database}' CHARACTER SET utf8 COLLATE utf8_general_ci;" }
-  action :query
+  action :create
 end
