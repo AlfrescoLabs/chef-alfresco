@@ -14,7 +14,6 @@ default['artifacts']['solrhome']['version']       = node['alfresco']['version']
 default['artifacts']['solrhome']['destination']   = "#{node['alfresco']['properties']['dir.root']}"
 default['artifacts']['solrhome']['owner']         = node['tomcat']['user']
 default['artifacts']['solrhome']['unzip']         = true
-default['artifacts']['solrhome']['enabled']       = false
 
 if node['alfresco']['version'].start_with?("4.3")
   default['artifacts']['solrhome']['classifier']  = "config"
@@ -35,9 +34,8 @@ default['artifacts']['solr']['type']              = "war"
 default['artifacts']['solr']['destination']       = node['tomcat']['webapp_dir']
 default['artifacts']['solr']['owner']             = node['tomcat']['user']
 default['artifacts']['solr']['unzip']             = false
-default['artifacts']['solr']['enabled']           = false
 
 # Filtering properties with attributes defined above
-default['artifacts']['solrhome']['properties']['archive-SpacesStore/conf/solrcore.properties'] = node['alfresco']['solrproperties']
-default['artifacts']['solrhome']['properties']['workspace-SpacesStore/conf/solrcore.properties'] = node['alfresco']['solrproperties']
-default['artifacts']['solrhome']['properties']['log4j-solr.properties'] = node['alfresco']['solr-log4j']
+default['artifacts']['solrhome']['properties']['archive-SpacesStore/conf/solrcore.properties']    = node['alfresco']['solrproperties']
+default['artifacts']['solrhome']['properties']['workspace-SpacesStore/conf/solrcore.properties']  = node['alfresco']['solrproperties']
+default['artifacts']['solrhome']['properties']['log4j-solr.properties']                           = node['alfresco']['solr-log4j']

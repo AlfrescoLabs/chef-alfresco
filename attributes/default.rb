@@ -1,8 +1,60 @@
+##########################
+### Default's defaults :-)
+##########################
+
+default['alfresco']['default_hostname'] = node['fqdn']
+#default['alfresco']['default_hostname'] = "localhost"
+default['alfresco']['default_port']     = "8080"
+default['alfresco']['default_portssl']  = "8443"
+default['alfresco']['default_protocol'] = "http"
+
 # Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "4.2.f"
-default["alfresco"]["start_service"] = node["tomcat"]["start_service"]
+default["alfresco"]["start_service"] = true
 
+default['alfresco']['allinone'] = false
+allinone = node['alfresco']['allinone']
+if allinone == true
+  default['artifacts']['alfresco']['enabled']       = true
+  default['artifacts']['keystore']['enabled']       = true
+  default['artifacts']['alfresco-mmt']['enabled']   = true
+  default['artifacts']['alfresco-spp']['enabled']   = true
+  default['artifacts']['mysqlconnector']['enabled'] = true
+  default['artifacts']['classes']['enabled']        = true
+  default['artifacts']['share']['enabled']          = true
+  default['artifacts']['solr']['enabled']           = true
+  default['artifacts']['solrhome']['enabled']       = true
+else
+  default['artifacts']['alfresco']['enabled']       = false
+  default['artifacts']['keystore']['enabled']       = false
+  default['artifacts']['alfresco-mmt']['enabled']   = false
+  default['artifacts']['alfresco-spp']['enabled']   = false
+  default['artifacts']['mysqlconnector']['enabled'] = false
+  default['artifacts']['classes']['enabled']        = false
+  default['artifacts']['share']['enabled']          = false
+  default['artifacts']['solr']['enabled']           = false
+  default['artifacts']['solrhome']['enabled']       = false
+end
+
+# Important Alfresco and Solr global properties
+default['alfresco']['properties']['dir.root']           = "#{default['tomcat']['base']}/alf_data"
+default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
+
+# Tomcat defaults
+node.default["tomcat"]["start_service"]       = node["alfresco"]["start_service"]
+node.default["tomcat"]["files_cookbook"]      = "alfresco"
+node.default["tomcat"]["deploy_manager_apps"] = false
+node.default["tomcat"]["java_options"]        = "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
+
+# Java defaults
+node.default["java"]["default"]                                 = true
+node.default["java"]["accept_license_agreement"]                = true
+node.default["java"]["install_flavor"]                          = "oracle"
+node.default["java"]["jdk_version"]                             = "7"
+node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
+
+# Choose whether to restart services or not (i.e. Docker would fail if any service attempts to start during provisioning)
 version = node["tomcat"]["base_version"]
 start_service = node["alfresco"]["start_service"]
 if start_service == false
@@ -15,15 +67,6 @@ else
   default['alfresco']['restart_services'] = ["tomcat7"]
   default['alfresco']['restart_action']   = "restart"
 end
-
-##########################
-### Default's defaults :-)
-##########################
-default['alfresco']['default_hostname'] = "localhost"
-#default['alfresco']['default_hostname'] = node['fqdn']
-default['alfresco']['default_port']     = "8080"
-default['alfresco']['default_portssl']  = "8443"
-default['alfresco']['default_protocol'] = "http"
 
 # Logging defaults used by artifact-deployer configurations, see repo_config and solr_config defaults
 default['logging']['log4j.rootLogger']                                = "error, Console, File"
@@ -39,9 +82,6 @@ default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSO
 ######################################################
 ### alfresco-global.properties used across all recipes
 ######################################################
-
-#Contentstore
-default['alfresco']['properties']['dir.root']           = "#{default['tomcat']['base']}/alf_data"
 
 #JMX
 default['alfresco']['properties']['monitor.rmi.services.port']  = 50508
@@ -81,7 +121,6 @@ default['alfresco']['properties']['solr.host']          = node['alfresco']['defa
 default['alfresco']['properties']['solr.port']          = default['alfresco']['default_port']
 default['alfresco']['properties']['solr.port.ssl']      = default['alfresco']['default_portssl']
 default['alfresco']['properties']['solr.secureComms']   = 'https'
-default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 
 # SSL
 default['artifacts']['keystore']['groupId']           = "org.alfresco"
@@ -127,13 +166,3 @@ default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default
 
 # Enable iptables alfresco-ports
 default['alfresco']['iptables'] = true
-
-# Artifact Deployer attributes - Maven repo configurations
-# default['alfresco']['maven']['repo_type']             = "public"
-# default['alfresco']['maven']['username']              = "alfresco"
-# default['alfresco']['maven']['password']              = "password"
-
-# alfresco_type = node['alfresco']['maven']['repo_type']
-# default['maven']['repos'][alfresco_type]['username']  = node['alfresco']['maven']['username']
-# default['maven']['repos'][alfresco_type]['password']  = node['alfresco']['maven']['password']
-# default['maven']['repos'][alfresco_type]['url']       = "https://artifacts.alfresco.com/nexus/content/groups/#{node['alfresco']['maven']['repo_type']}"

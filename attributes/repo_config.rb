@@ -66,7 +66,6 @@ default['artifacts']['mysqlconnector']['version'] = "5.1.30"
 default['artifacts']['mysqlconnector']['destination'] = "#{node['alfresco']['shared']}"
 default['artifacts']['mysqlconnector']['owner'] = node['tomcat']['user']
 default['artifacts']['mysqlconnector']['unzip'] = false
-default['artifacts']['mysqlconnector']['enabled'] = false
 
 default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
 default['artifacts']['alfresco']['artifactId'] = "alfresco"
@@ -75,7 +74,6 @@ default['artifacts']['alfresco']['type'] = "war"
 default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco']['unzip'] = false
-default['artifacts']['alfresco']['enabled'] = false
 
 default['artifacts']['alfresco-mmt']['groupId'] = "it.session.alfresco"
 default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
@@ -85,7 +83,6 @@ default['artifacts']['alfresco-mmt']['classifier'] = "fatjar"
 default['artifacts']['alfresco-mmt']['destination'] = "#{node['alfresco']['bin']}"
 default['artifacts']['alfresco-mmt']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-mmt']['unzip'] = false
-default['artifacts']['alfresco-mmt']['enabled'] = false
 
 default['artifacts']['alfresco-spp']['groupId'] = node['alfresco']['groupId']
 default['artifacts']['alfresco-spp']['artifactId'] = "alfresco-spp"
@@ -94,10 +91,8 @@ default['artifacts']['alfresco-spp']['type'] = "amp"
 default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amps_folder']
 default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-spp']['unzip'] = false
-default['artifacts']['alfresco-spp']['enabled'] = false
 
 # Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
-default['artifacts']['classes']['enabled'] = true
 default['artifacts']['classes']['unzip'] = true
 default['artifacts']['classes']['filtering_mode'] = "append"
 default['artifacts']['classes']['destination'] = node['alfresco']['shared']
