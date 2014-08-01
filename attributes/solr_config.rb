@@ -14,17 +14,15 @@ default['artifacts']['solrhome']['version']       = node['alfresco']['version']
 default['artifacts']['solrhome']['destination']   = "#{node['alfresco']['properties']['dir.root']}"
 default['artifacts']['solrhome']['owner']         = node['tomcat']['user']
 default['artifacts']['solrhome']['unzip']         = true
+default['artifacts']['solrhome']['type']        = "zip"
 
-if node['alfresco']['version'].start_with?("4.3")
+if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
   default['artifacts']['solrhome']['classifier']  = "config"
-  default['artifacts']['solrhome']['type']        = "jar"
 
   default['artifacts']['solr']['groupId']         = node['alfresco']['groupId']
   default['artifacts']['solr']['artifactId']      = "alfresco-solr"
   default['artifacts']['solr']['version']         = node['alfresco']['version']
 else
-  default['artifacts']['solrhome']['type']        = "zip"
-
   default['artifacts']['solr']['groupId']         = "org.apache.solr"
   default['artifacts']['solr']['artifactId']      = "apache-solr"
   default['artifacts']['solr']['version']         = "1.4.1-alfresco-patched"

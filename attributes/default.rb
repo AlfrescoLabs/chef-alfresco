@@ -17,7 +17,6 @@ default['alfresco']['allinone'] = false
 allinone = node['alfresco']['allinone']
 if allinone == true
   default['artifacts']['alfresco']['enabled']       = true
-  default['artifacts']['keystore']['enabled']       = true
   default['artifacts']['alfresco-mmt']['enabled']   = true
   default['artifacts']['alfresco-spp']['enabled']   = true
   default['artifacts']['mysqlconnector']['enabled'] = true
@@ -27,7 +26,6 @@ if allinone == true
   default['artifacts']['solrhome']['enabled']       = true
 else
   default['artifacts']['alfresco']['enabled']       = false
-  default['artifacts']['keystore']['enabled']       = false
   default['artifacts']['alfresco-mmt']['enabled']   = false
   default['artifacts']['alfresco-spp']['enabled']   = false
   default['artifacts']['mysqlconnector']['enabled'] = false
@@ -130,12 +128,13 @@ default['artifacts']['keystore']['destination']       = node['alfresco']['proper
 default['artifacts']['keystore']['subfolder']         = "alfresco/keystore/\*"
 default['artifacts']['keystore']['owner']             = node['tomcat']['user']
 default['artifacts']['keystore']['unzip']             = true
-default['artifacts']['keystore']['enabled']           = false
 
-if node['alfresco']['version'].start_with?("4.3")
+if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
   default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+  default['artifacts']['keystore']['enabled']           = true
 else
   default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['solrproperties']['data.dir.root']}/alf_data/keystore"
+  default['artifacts']['keystore']['enabled']           = false
 end
 
 ##############################################
@@ -161,8 +160,7 @@ default['alfresco']['amps_share_folder']  = "#{default['tomcat']['base']}/amps_s
 # DB params shared between client and server
 default['alfresco']['db']['server_root_password']   = default['mysql']['server_root_password']
 default['alfresco']['db']['root_user']              = "root"
-default['alfresco']['db']['bind_address']           = default['mysql']['bind_address']
-default['alfresco']['db']['repo_hosts']             = [node['alfresco']['default_hostname']]
+default['alfresco']['db']['repo_hosts']             = ["%"]
 
 # Enable iptables alfresco-ports
 default['alfresco']['iptables'] = true
