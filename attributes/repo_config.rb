@@ -2,6 +2,9 @@
 ### alfresco-global.properties used only in Alfresco Repository application
 ######################################################
 
+#JMX host
+default['alfresco']['properties']['hostname.private'] = node['alfresco']['default_hostname']
+
 #Cluster
 default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescoboxes'
 
