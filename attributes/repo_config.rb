@@ -96,6 +96,7 @@ default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-spp']['unzip'] = false
 
 # Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
+default['artifacts']['classes']['unzip'] = false
 default['artifacts']['classes']['filtering_mode'] = "append"
 default['artifacts']['classes']['destination'] = node['alfresco']['shared']
 default['artifacts']['classes']['owner'] = node['tomcat']['user']
