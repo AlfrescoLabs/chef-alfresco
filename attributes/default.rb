@@ -43,7 +43,8 @@ default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['p
 node.default["tomcat"]["start_service"]       = node["alfresco"]["start_service"]
 node.default["tomcat"]["files_cookbook"]      = "alfresco"
 node.default["tomcat"]["deploy_manager_apps"] = false
-node.default["tomcat"]["java_options"]        = "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
+node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
+node.default["tomcat"]["java_options"]        = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 
 # Java defaults
 node.default["java"]["default"]                                 = true
