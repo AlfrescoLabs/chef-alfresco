@@ -1,6 +1,14 @@
 <!-- This is a sample configuration file from Alfresco Community 4.2.b - Please adapt to your version -->
 <alfresco-config>
 
+   <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
+      <properties>
+         <token>Alfresco-CSRFToken</token>
+         <referer><%= node['alfresco']['properties']['share.protocol'] %>?:\/\/<%= node['alfresco']['properties']['solr.host'] %>\/.*</referer>
+         <origin><%= node['alfresco']['properties']['share.protocol'] %>?:\/\/<%= node['alfresco']['properties']['solr.host'] %>.*</origin>
+      </properties>
+   </config>
+
 	<!-- example port config used to access remote Alfresco server (default is 8080) -->
    <config evaluator="string-compare" condition="Remote">
       <remote>
@@ -31,7 +39,7 @@
             <basic-auth>true</basic-auth>
             <identity>user</identity>
          </endpoint>
-         
+
          <endpoint>
             <id>activiti-admin</id>
             <name>Activiti Admin UI - user access</name>
