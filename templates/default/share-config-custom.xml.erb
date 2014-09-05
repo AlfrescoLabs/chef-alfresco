@@ -1,13 +1,34 @@
-<!-- This is a sample configuration file from Alfresco Community 4.2.b - Please adapt to your version -->
+<!-- This is a sample configuration file from Alfresco Community 4.2.b -->
 <alfresco-config>
 
-   <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
+   <!-- @TODO - still not working properly, needs more investigaction -->
+   <!-- <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
       <properties>
          <token>Alfresco-CSRFToken</token>
          <referer><%= node['alfresco']['properties']['share.protocol'] %>://<%= node['alfresco']['properties']['share.host'] %>:<%= node['alfresco']['properties']['share.port'] %>/.*</referer>
          <origin><%= node['alfresco']['properties']['share.protocol'] %>?://<%= node['alfresco']['properties']['share.host'] %>:<%= node['alfresco']['properties']['share.port'] %></origin>
       </properties>
-   </config>
+   </config> -->
+
+  <!-- Disables CSRF policy filter -->
+  <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
+     <filter>
+        <rule>
+           <request>
+              <method>POST|PUT|DELETE</method>
+              <session>
+                 <attribute name="_alf_USER_ID">.*</attribute>
+              </session>
+           </request>
+           <action name="assertReferer">
+              <param name="always">false</param>
+           </action>
+           <action name="assertOrigin">
+              <param name="always">false</param>
+           </action>
+        </rule>
+     </filter>
+  </config>
 
 	<!-- example port config used to access remote Alfresco server (default is 8080) -->
    <config evaluator="string-compare" condition="Remote">
