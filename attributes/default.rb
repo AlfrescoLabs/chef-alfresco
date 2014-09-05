@@ -105,20 +105,20 @@ default['alfresco']['properties']['hostname.public']    = node['alfresco']['defa
 
 default['alfresco']['properties']['alfresco.context']   = '/alfresco'
 default['alfresco']['properties']['alfresco.host']      = node['alfresco']['default_hostname']
-default['alfresco']['properties']['alfresco.port']      = default['alfresco']['default_port']
-default['alfresco']['properties']['alfresco.port.ssl']  = default['alfresco']['default_portssl']
-default['alfresco']['properties']['alfresco.protocol']  = default['alfresco']['default_protocol']
+default['alfresco']['properties']['alfresco.port']      = node['alfresco']['default_port']
+default['alfresco']['properties']['alfresco.port.ssl']  = node['alfresco']['default_portssl']
+default['alfresco']['properties']['alfresco.protocol']  = node['alfresco']['default_protocol']
 
 #Share URL
 default['alfresco']['properties']['share.context']      = '/share'
 default['alfresco']['properties']['share.host']         = node['alfresco']['default_hostname']
-default['alfresco']['properties']['share.port']         = default['alfresco']['default_port']
-default['alfresco']['properties']['share.protocol']     = default['alfresco']['default_protocol']
+default['alfresco']['properties']['share.port']         = node['alfresco']['default_port']
+default['alfresco']['properties']['share.protocol']     = node['alfresco']['default_protocol']
 
 #Solr URL
 default['alfresco']['properties']['solr.host']          = node['alfresco']['default_hostname']
-default['alfresco']['properties']['solr.port']          = default['alfresco']['default_port']
-default['alfresco']['properties']['solr.port.ssl']      = default['alfresco']['default_portssl']
+default['alfresco']['properties']['solr.port']          = node['alfresco']['default_port']
+default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['default_portssl']
 default['alfresco']['properties']['solr.secureComms']   = 'https'
 
 # SSL
