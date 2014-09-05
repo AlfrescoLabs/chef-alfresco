@@ -4,8 +4,8 @@
    <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
       <properties>
          <token>Alfresco-CSRFToken</token>
-         <referer><%= node['alfresco']['properties']['share.protocol'] %>?:\/\/<%= node['alfresco']['properties']['solr.host'] %>\/.*</referer>
-         <origin><%= node['alfresco']['properties']['share.protocol'] %>?:\/\/<%= node['alfresco']['properties']['solr.host'] %>.*</origin>
+         <referer><%= node['alfresco']['properties']['share.protocol'] %>://<%= node['alfresco']['properties']['share.host'] %>:<%= node['alfresco']['properties']['share.port'] %>/.*</referer>
+         <origin><%= node['alfresco']['properties']['share.protocol'] %>?://<%= node['alfresco']['properties']['share.host'] %>:<%= node['alfresco']['properties']['share.port'] %></origin>
       </properties>
    </config>
 
