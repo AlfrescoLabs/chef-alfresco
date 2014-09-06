@@ -162,6 +162,3 @@ default['alfresco']['amps_share_folder']  = "#{default['tomcat']['base']}/amps_s
 default['alfresco']['db']['server_root_password']   = default['mysql']['server_root_password']
 default['alfresco']['db']['root_user']              = "root"
 default['alfresco']['db']['repo_hosts']             = ["%"]
-
-# Enable iptables alfresco-ports
-default['alfresco']['iptables'] = true
