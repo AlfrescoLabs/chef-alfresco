@@ -12,3 +12,5 @@ default['alfresco']['shareproperties']['alfresco.host']            = node['alfre
 default['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
 default['alfresco']['shareproperties']['alfresco.context']         = node['alfresco']['properties']['alfresco.context']
 default['alfresco']['shareproperties']['alfresco.protocol']        = node['alfresco']['properties']['alfresco.protocol']
+default['alfresco']['shareproperties']['referer']                  = ".*"
+default['alfresco']['shareproperties']['origin']                   = ".*"
