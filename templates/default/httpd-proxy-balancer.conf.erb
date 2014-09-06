@@ -4,10 +4,6 @@ LoadModule proxy_balancer_module <%= node['lb']['modules_folder']%>/mod_proxy_ba
 LoadModule proxy_connect_module <%= node['lb']['modules_folder']%>/mod_proxy_connect.so
 LoadModule proxy_http_module <%= node['lb']['modules_folder']%>/mod_proxy_http.so
 
-<% node['lb']['listen'].each do |listen| %>
-  Listen <%= listen %>
-<% end %>
-
 <% node['lb']['balancers'].each do |balancerName,balancer| %>
   ProxyRequests Off
   ProxyPass /<%= balancerName %> balancer://<%= balancerName %>cluster stickysession=JSESSIONID
