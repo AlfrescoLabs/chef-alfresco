@@ -1,3 +1,9 @@
+node.default['artifacts']['alfresco']['enabled']        = true
+node.default['artifacts']['alfresco-mmt']['enabled']    = true
+node.default['artifacts']['alfresco-spp']['enabled']    = true
+node.default['artifacts']['sharedclasses']['enabled']   = true
+node.default['artifacts']['keystore']['enabled']        = true
+
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
 config_folder     = node['tomcat']['config_dir']
@@ -6,8 +12,6 @@ log_folder        = node['tomcat']['log_dir']
 
 user              = node['tomcat']['user']
 group             = node['tomcat']['group']
-
-iptables_enabled  = node['iptables']['enabled']
 
 directory "alfresco-rootdir" do
   path        root_folder

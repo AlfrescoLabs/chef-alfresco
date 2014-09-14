@@ -53,7 +53,6 @@ default['alfresco']['properties']['index.subsystem.name'] = 'solr'
 ### Logging Attributes
 # added below in the artifact-deployer configuration
 ####################################################
-
 default['alfresco']['repo-log4j'] = node['logging']
 default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
 default['alfresco']['share-log4j'] = node['logging']
@@ -63,12 +62,29 @@ default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat
 ### Artifact Deployer attributes
 ################################
 
+default['artifacts']['mysqlconnector']['enabled'] = false
 default['artifacts']['mysqlconnector']['groupId'] = "mysql"
 default['artifacts']['mysqlconnector']['artifactId'] = "mysql-connector-java"
 default['artifacts']['mysqlconnector']['version'] = "5.1.30"
 default['artifacts']['mysqlconnector']['destination'] = "#{node['alfresco']['shared']}"
 default['artifacts']['mysqlconnector']['owner'] = node['tomcat']['user']
 default['artifacts']['mysqlconnector']['unzip'] = false
+
+default['artifacts']['postgresconnector']['enabled'] = false
+default['artifacts']['postgresconnector']['groupId'] = "org.postgresql"
+default['artifacts']['postgresconnector']['artifactId'] = "postgresql"
+default['artifacts']['postgresconnector']['version'] = "9.2-1002-jdbc4"
+default['artifacts']['postgresconnector']['destination'] = "#{node['alfresco']['shared']}"
+default['artifacts']['postgresconnector']['owner'] = node['tomcat']['user']
+default['artifacts']['postgresconnector']['unzip'] = false
+
+default['artifacts']['keystore']['groupId']           = "org.alfresco"
+default['artifacts']['keystore']['artifactId']        = "alfresco-repository"
+default['artifacts']['keystore']['version']           = "5.0.a"
+default['artifacts']['keystore']['destination']       = node['alfresco']['properties']['dir.root']
+default['artifacts']['keystore']['subfolder']         = "alfresco/keystore/\*"
+default['artifacts']['keystore']['owner']             = node['tomcat']['user']
+default['artifacts']['keystore']['unzip']             = true
 
 default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
 default['artifacts']['alfresco']['artifactId'] = "alfresco"
@@ -94,13 +110,3 @@ default['artifacts']['alfresco-spp']['type'] = "amp"
 default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amps_folder']
 default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-spp']['unzip'] = false
-
-# Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
-default['artifacts']['classes']['unzip'] = false
-default['artifacts']['classes']['filtering_mode'] = "append"
-default['artifacts']['classes']['destination'] = node['alfresco']['shared']
-default['artifacts']['classes']['owner'] = node['tomcat']['user']
-default['artifacts']['classes']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
-default['artifacts']['classes']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
-default['artifacts']['classes']['properties']['alfresco/extension/repo-log4j.properties'] = node['alfresco']['repo-log4j']
-default['artifacts']['classes']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['share-log4j']

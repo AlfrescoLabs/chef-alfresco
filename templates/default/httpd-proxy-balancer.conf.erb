@@ -11,7 +11,7 @@ LoadModule proxy_http_module <%= node['lb']['modules_folder']%>/mod_proxy_http.s
 
   <Proxy balancer://<%= balancerName %>cluster>
     <% balancer.each do |n| %>
-      BalancerMember <%= n['protocol'] %>://<%= n['ipaddress'] %>:8080/<%= balancerName %> route=<%=n['route'] %>
+      BalancerMember <%= n['protocol'] %>://<%= n['ipaddress'] %>:<%= n['port'] %>/<%= balancerName %> route=<%=n['route'] %>
     <% end %>
   </Proxy>
 <% end %>

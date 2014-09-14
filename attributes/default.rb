@@ -1,46 +1,41 @@
+#######################################
+# Chef Alfresco Components and Features
+#######################################
+default['alfresco']['components'] = ['lb','tomcat','transform','repo','share','solr','mysql']
+
+#Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
+default['alfresco']['generate.global.properties'] = true
+
+#Generates share-config-custom.xml using a pre-defined template (check templates/default) and configuring http endpoint and disabling CSRF
+default['alfresco']['generate.share.config.custom'] = true
+
+#Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
+default['alfresco']['patch.share.config.custom'] = false
+
+#Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
+default['alfresco']['generate.repo.log4j.properties'] = true
+
+#Generates share-log4j.properties using all node['alfresco']['share-log4j'] key/value attributes
+default['alfresco']['generate.share.log4j.properties'] = true
+
 ##########################
 ### Default's defaults :-)
 ##########################
-
-default['alfresco']['default_hostname'] = node['fqdn']
-#default['alfresco']['default_hostname'] = "localhost"
+#default['alfresco']['default_hostname'] = node['fqdn']
+default['alfresco']['default_hostname'] = "localhost"
 default['alfresco']['default_port']     = "8080"
 default['alfresco']['default_portssl']  = "8443"
 default['alfresco']['default_protocol'] = "http"
 
 # Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "4.2.f"
-default["alfresco"]["start_service"] = true
-
-default['alfresco']['allinone'] = false
-allinone = node['alfresco']['allinone']
-if allinone == true
-  default['artifacts']['alfresco']['enabled']       = true
-  default['artifacts']['alfresco-mmt']['enabled']   = true
-  default['artifacts']['alfresco-spp']['enabled']   = true
-  default['artifacts']['mysqlconnector']['enabled'] = true
-  default['artifacts']['classes']['enabled']        = true
-  default['artifacts']['share']['enabled']          = true
-  default['artifacts']['solr']['enabled']           = true
-  default['artifacts']['solrhome']['enabled']       = true
-else
-  default['artifacts']['alfresco']['enabled']       = false
-  default['artifacts']['alfresco-mmt']['enabled']   = false
-  default['artifacts']['alfresco-spp']['enabled']   = false
-  default['artifacts']['mysqlconnector']['enabled'] = false
-  default['artifacts']['classes']['enabled']        = false
-  default['artifacts']['share']['enabled']          = false
-  default['artifacts']['solr']['enabled']           = false
-  default['artifacts']['solrhome']['enabled']       = false
-end
+default['alfresco']['version'] = "5.0.a"
 
 # Important Alfresco and Solr global properties
-default['alfresco']['properties']['dir.root']           = "#{default['tomcat']['base']}/alf_data"
+default['alfresco']['properties']['dir.root']           = "#{node['tomcat']['base']}/alf_data"
 default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 
 # Tomcat defaults
-node.default["tomcat"]["start_service"]       = node["alfresco"]["start_service"]
 node.default["tomcat"]["files_cookbook"]      = "alfresco"
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
@@ -54,6 +49,7 @@ node.default["java"]["jdk_version"]                             = "7"
 node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
 # Choose whether to restart services or not (i.e. Docker would fail if any service attempts to start during provisioning)
+default["alfresco"]["start_service"] = false
 version = node["tomcat"]["base_version"]
 start_service = node["alfresco"]["start_service"]
 if start_service == false
@@ -121,22 +117,8 @@ default['alfresco']['properties']['solr.port']          = node['alfresco']['defa
 default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['default_portssl']
 default['alfresco']['properties']['solr.secureComms']   = 'https'
 
-# SSL
-default['artifacts']['keystore']['groupId']           = "org.alfresco"
-default['artifacts']['keystore']['artifactId']        = "alfresco-repository"
-default['artifacts']['keystore']['version']           = node['alfresco']['version']
-default['artifacts']['keystore']['destination']       = node['alfresco']['properties']['dir.root']
-default['artifacts']['keystore']['subfolder']         = "alfresco/keystore/\*"
-default['artifacts']['keystore']['owner']             = node['tomcat']['user']
-default['artifacts']['keystore']['unzip']             = true
-
-if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
-  default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
-  default['artifacts']['keystore']['enabled']           = true
-else
-  default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['solrproperties']['data.dir.root']}/alf_data/keystore"
-  default['artifacts']['keystore']['enabled']           = false
-end
+#SSL Keystore
+default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 
 ##############################################
 ### Tomcat Configuration for Alfresco keystore
@@ -162,3 +144,15 @@ default['alfresco']['amps_share_folder']  = "#{default['tomcat']['base']}/amps_s
 default['alfresco']['db']['server_root_password']   = default['mysql']['server_root_password']
 default['alfresco']['db']['root_user']              = "root"
 default['alfresco']['db']['repo_hosts']             = ["%"]
+
+
+##################
+# Shared Artifacts
+##################
+
+# Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
+default['artifacts']['sharedclasses']['unzip'] = false
+default['artifacts']['sharedclasses']['filtering_mode'] = "append"
+default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
+default['artifacts']['sharedclasses']['destinationName'] = "classes"
+default['artifacts']['sharedclasses']['owner'] = node['tomcat']['user']
