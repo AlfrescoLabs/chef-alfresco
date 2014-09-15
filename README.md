@@ -112,7 +112,10 @@ Installs MySQL 5 Server, creates a database and a granted user; hereby the defau
 #### repo
 
 Installs Alfresco Repository within a given Servlet container; the following features are provided
-- Locate Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer))
+
+##### WAR installation
+
+- Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer))
 
 ```
 "artifacts": {
@@ -123,6 +126,8 @@ Installs Alfresco Repository within a given Servlet container; the following fea
   }
 }
 ```
+
+##### AMP installation
 
 - Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer); SPP extension is added by default
 ```
@@ -136,7 +141,9 @@ Installs Alfresco Repository within a given Servlet container; the following fea
 }
 ```
 
-- Generates alfresco-global.properties depending on properties defined in `node['alfresco']['properties']`
+##### alfresco-global.properties generation
+
+Generates alfresco-global.properties depending on properties defined in `node['alfresco']['properties']`
 ```
 "alfresco": {
   "properties": {
@@ -153,7 +160,9 @@ If you ship `alfresco-global.properties` within your war (or via other artifacts
 }
 ```
 
-- Generates repo-log4j.properties depending on properties defined in `node['alfresco']['repo-log4j']`
+##### repo-log4j.properties generation
+
+Generates repo-log4j.properties depending on properties defined in `node['alfresco']['repo-log4j']`
 ```
 "alfresco": {
   "repo-log4j": {
@@ -176,44 +185,25 @@ If you ship `log4j.properties` within your war (or via other artifacts), you can
 }
 ```
 
-- Download JDBC driver into Tomcat shared classloader, depending on Alfresco property `db.driver`:
+##### JDBC Drivers
+
+Downloads JDBC driver into Tomcat shared classloader, depending on Alfresco property `db.driver`:
   - if db.driver == 'org.gjt.mm.mysql.Driver', mysqlconnector is used
   - if db.driver == 'org.postgresql.Driver', postgresql is used
   - otherwise JDBC driver must be fetched configuring artifact-deployer
 
 - `$TOMCAT_HOME/shared/classes` and `$TOMCAT_HOME/shared/*.jar` are configured as shared classloader
 
-Alfresco Repository default configuration is defined into [default.rb]() and [repo_config.rb]() attribute files:
-- `default['alfresco']['properties']` maps to `alfresco-global.properties` definition
-- `default['alfresco']['repo-log4j']` maps to `repo-log4j.properties` definition
-
-```
-"alfresco": {
-  "properties": {
-    "db.host"               : "db.mysql.demo.acme.com",
-    "dir.license.external"  : "/alflicense",
-    "index.subsystem.name"  : "noindex"
-  }
-}
-
-```
-
 You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check the default configuration values and how to override them.
-The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates) folder containes the Alfresco configuration files that will be patched with Chef attribute values.
-
-Alfresco Global and Share Config
----
-```alfresco-global.properties``` and ```share-config-custom.xml``` are *the* most frequent files in Alfresco to customise; chef-alfresco provides 3 ways to configure them
-
-1. Define properties in the ```"alfresco"``` JSON element; these will be used to compile the file templates (check [templates/default](https://github.com/maoo/chef-alfresco/tree/master/templates/default))
-2. Specify an ```"artifacts"/"classes"``` dependency pointing to a ZIP file that contains all ```shared/classes``` contents
-3. Like #2, but with the possibility to ship - within the ZIP file - ```alfresco-global.properties.erb``` and ```share-config-custom.xml.erb```; if present, these files will be compiled as file templates (as in #1)
+The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates/default) folder contains the Alfresco configuration files that will be patched with Chef attribute values.
 
 #### share
 
 Installs Alfresco Share application within a given Servlet container; the following features are provided:
 
-- Generate `shared/classes/alfresco/web-extension/share-config-custom.xml` from a standard template, configuring CSRF origin/referer and endpoints pointing to Alfresco Repository:
+##### share-config-custom.xml filtering
+
+Generates (by default) `shared/classes/alfresco/web-extension/share-config-custom.xml` from a standard template, configuring CSRF origin/referer and endpoints pointing to Alfresco Repository:
 ```
 "alfresco": {
   "shareproperties": {
@@ -225,8 +215,7 @@ Installs Alfresco Share application within a given Servlet container; the follow
   }
 }
 ```
-
-- Patch an existing share-config-custom.xml replacing all `@@key@@` occurrencies with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
+You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` occurrencies with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
 ```
 "alfresco": {
   "patch.share.config.custom" : true,
@@ -235,7 +224,9 @@ Installs Alfresco Share application within a given Servlet container; the follow
 }
 ```
 
-- Generates share-log4j.properties depending on properties defined in `node['alfresco']['share-log4j']`
+##### share-log4j.properties generation
+
+Generates share-log4j.properties depending on properties defined in `node['alfresco']['share-log4j']`
 ```
 "alfresco": {
   "generate.share.log4j.properties": false
@@ -246,7 +237,9 @@ Installs Alfresco Share application within a given Servlet container; the follow
 
 Installs Alfresco Solr application within a given Servlet container; the following features are provided:
 
-- Generate `alf_data/solr/workspace-SpacesStore/conf/solrcore.properties` and `alf_data/solr/archive-SpacesStore/conf/solrcore.properties` depending on properties defined in node['alfresco']['solrproperties']:
+##### solrcore.properties generation
+
+Generate `alf_data/solr/workspace-SpacesStore/conf/solrcore.properties` and `alf_data/solr/archive-SpacesStore/conf/solrcore.properties` depending on properties defined in node['alfresco']['solrproperties']:
 
 ```
 "alfresco": {
@@ -258,7 +251,9 @@ Installs Alfresco Solr application within a given Servlet container; the followi
 }
 ```
 
-- Generates log4j-solr.properties depending on properties defined in `node['alfresco']['solr-log4j']`
+##### log4j-solr.properties generation
+
+Generates log4j-solr.properties depending on properties defined in `node['alfresco']['solr-log4j']`
 
 Dependencies
 ---
