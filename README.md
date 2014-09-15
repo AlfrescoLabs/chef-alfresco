@@ -21,7 +21,7 @@ Installs `iptables` and loads a given configuration, opening all ports needed by
 - 7070 for VTI server
 - 5701 for Clustering (Hazelcast)
 
-To know more, check [alfresco-ports.erb]() template; there are no JSON configurations that affect this component.
+To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
 
 #### lb
 
@@ -54,7 +54,7 @@ The lb component - or load-balancing - installs Apache2 on port 80 and redirects
   }
 }
 ```
-To know more, check [httpd-proxy-balancer.conf.erb]() template and [attributes/apachelb.rb]()
+To know more, check [httpd-proxy-balancer.conf.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/httpd-proxy-balancer.conf.erb) template and [attributes/apachelb.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/apachelb.rb)
 
 #### tomcat
 
