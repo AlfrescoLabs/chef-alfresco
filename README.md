@@ -17,6 +17,21 @@ The following configurations apply across all components and are the most common
 # iptables and lb are disabled by default
 default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
 
+#Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
+default['alfresco']['generate.global.properties'] = true
+
+#Generates share-config-custom.xml using a pre-defined template (check templates/default) and configuring http endpoint and disabling CSRF
+default['alfresco']['generate.share.config.custom'] = true
+
+#Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
+default['alfresco']['patch.share.config.custom'] = false
+
+#Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
+default['alfresco']['generate.repo.log4j.properties'] = true
+
+#Generates share-log4j.properties using all node['alfresco']['share-log4j'] key/value attributes
+default['alfresco']['generate.share.log4j.properties'] = true
+
 # URL defaults to create share-repo-solr pointers across applications
 default['alfresco']['default_hostname'] = "localhost"
 default['alfresco']['default_port']     = "8080"
@@ -71,20 +86,6 @@ Check the [list of configuration attributes](https://github.com/maoo/chef-alfres
 
 Installs Alfresco Repository within a given Servlet container; the following features are provided
 
-##### WAR installation
-
-Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~), but you can override Maven coordinates to fetch your custom artifact (or define a url/path , check  [artifact-deployer docs](https://github.com/maoo/artifact-deployer)).
-
-```
-"artifacts": {
-  "alfresco": {
-    "groupId": "com.acme.alfresco",
-    "artifactId": "alfresco-enterprise-foundation",
-    "version": "1.0.2"
-  }
-}
-```
-
 ##### AMP installation
 
 Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer); SPP extension is added by default
@@ -107,7 +108,7 @@ Generates alfresco-global.properties depending on properties defined in `node['a
   "properties": {
     "db.host"               : "db.mysql.demo.acme.com",
     "dir.license.external"  : "/alflicense",
-    "index.subsystem.name"  : "noindex"
+    "index.subsystem.name"  : "lucene"
   }
 }
 ```
@@ -141,6 +142,21 @@ You can disable this feature (i.e. if you ship a `log4j.properties` within your 
 ```
 "alfresco": {
   "generate.repo.log4j.properties": false
+}
+```
+##### WAR installation
+
+Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~), but you can override Maven coordinates to fetch your custom artifact (or define a url/path , check  [artifact-deployer docs](https://github.com/maoo/artifact-deployer)); since the WAR already includes log4j.properties and alfresco-global.properties, we need to disable the file generation features
+
+```
+"artifacts": {
+  "alfresco": {
+    "generate.global.properties" : false,
+    "generate.repo.log4j.properties" : false,
+    "groupId": "com.acme.alfresco",
+    "artifactId": "alfresco-enterprise-foundation",
+    "version": "1.0.2"
+  }
 }
 ```
 
