@@ -1,12 +1,14 @@
 Introduction
 ---
-chef-alfresco is a collection of recipes that provide a modular way to install Alfresco using Chef; it uses [artifact-deployer](https://github.com/maoo/artifact-deployer) to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process; it also depends on other third-party recipes that install - when needed - the DB (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools)
+chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture.
 
-Usage
----
-Just include alfresco::default recipe in your `run_list` and then configure JSON attributes depending on what you want to achieve.
+[artifact-deployer](https://github.com/maoo/artifact-deployer) is used to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process.
 
-If no parameters are specified, all components will be installed (see below) with default attribute values.
+It also depends on other third-party recipes that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
+
+chef-alfresco is divided in components (`tomcat,transform,repo,share,solr,mysql,lb,iptables`) that are independent and self-contained, but use [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
+
+Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
 
 Default Configurations
 ---
@@ -110,7 +112,7 @@ Generates alfresco-global.properties depending on properties defined in `node['a
 }
 ```
 
-You can disable this feature (i.e. if you ship `alfresco-global.properties` within your war) by defining the following attribute:
+You can disable this feature (i.e. if you ship `alfresco-global.properties` within your WAR) by defining the following attribute:
 ```
 "alfresco": {
   "generate.global.properties": false
@@ -135,7 +137,7 @@ Generates repo-log4j.properties depending on properties defined in `node['alfres
   }
 }
 ```
-You can disable this feature (i.e. if you ship a `log4j.properties` within your war) by defining the following attribute:
+You can disable this feature (i.e. if you ship a `log4j.properties` within your WAR) by defining the following attribute:
 ```
 "alfresco": {
   "generate.repo.log4j.properties": false
@@ -166,7 +168,6 @@ Generates (by default) `shared/classes/alfresco/web-extension/share-config-custo
   "shareproperties": {
     "alfresco.host"         : "my.repo.host.com",
     "alfresco.port"         : "80"
-    ...
   }
 }
 ```
@@ -196,14 +197,13 @@ Installs Alfresco Solr application within a given Servlet container; the followi
 
 ##### solrcore.properties generation
 
-Generate `alf_data/solr/workspace-SpacesStore/conf/solrcore.properties` and `alf_data/solr/archive-SpacesStore/conf/solrcore.properties` depending on properties defined in node['alfresco']['solrproperties']:
+Generate `solr/workspace-SpacesStore/conf/solrcore.properties` and `solr/archive-SpacesStore/conf/solrcore.properties` depending on properties defined in node['alfresco']['solrproperties']:
 
 ```
 "alfresco": {
   "solrproperties": {
     "alfresco.host"         : "my.repo.host.com",
     "alfresco.port"         : "80"
-    ...
   }
 }
 ```
@@ -245,11 +245,14 @@ Installs MySQL 5 Server, creates a database and a granted user; hereby the defau
 #### iptables
 
 Installs `iptables` and loads a given configuration, opening all ports needed by Alfresco to work properly:
+
+```
 - 50500 and 50508 for JMX
 - 8009, 8080 and 8443 for Apache Tomcat
 - 2121 for FTP server
 - 7070 for VTI server
 - 5701 for Clustering (Hazelcast)
+```
 
 To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
 
@@ -288,7 +291,7 @@ To know more, check [httpd-proxy-balancer.conf.erb](https://github.com/maoo/chef
 
 Dependencies
 ---
-Hereby the list of Chef cookbooks that are used together with chef-alfresco:
+Chef-Alfresco delegates the installation of 3rd party software to external cookbooks; hereby the complete list, also mentioned in [metadata.rb](https://github.com/maoo/chef-alfresco/blob/master/metadata.rb)
 * [swftools](https://github.com/dhartford/chef-swftools)
 * [openoffice](https://github.com/dhartford/chef-openoffice)
 * [imagemagick](https://github.com/someara/imagemagick)
@@ -303,7 +306,7 @@ Credits
 ---
 This project is a fork of the original [chef-alfresco](https://github.com/fnichol/chef-alfresco) developed by [Fletcher Nichol](https://github.com/fnichol); the code have been almost entirely rewritten, however the original implementation still works with Community 4.0.x versions and provides a different approach to Alfresco installation (using Alfresco Linux installer).
 
-A big thanks to Nichol to starting this effort!
+A big thanks to Nichol for starting this effort!
 
 License and Author
 ---
