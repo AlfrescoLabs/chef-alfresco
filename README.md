@@ -13,7 +13,8 @@ Default Configurations
 
 The following configurations apply across all components and are the most common to be overridden:
 ```
-# Which chef-alfresco components to apply (see description below); iptables and lb are disabled by default
+# Which chef-alfresco components to apply (see description below)
+# iptables and lb are disabled by default
 default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
 
 # URL defaults to create share-repo-solr pointers across applications
@@ -26,7 +27,8 @@ default['alfresco']['properties']['repo.host'] = node['alfresco']['default_hostn
 default['alfresco']['properties']['share.host'] = node['alfresco']['default_hostname']
 default['alfresco']['properties']['solr.host'] = node['alfresco']['default_hostname']
 
-# Maven artifact coordinates; change these to affect repo,share and solr artifact's configurations (see below)
+# Maven artifact coordinates
+# Change these to affect repo,share and solr artifact's configurations
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.a"
 
@@ -34,9 +36,9 @@ default['alfresco']['version'] = "5.0.a"
 # default['alfresco']['properties'] maps to alfresco-global.properties, you can add any other property
 default['alfresco']['properties']['dir.root'] = "#{node['tomcat']['base']}/alf_data"
 
-# Choose whether to start services or not after provisioning (Docker would fail if any service attempts to start)
+# Choose whether to start services or not after provisioning
+# Docker would fail if any service attempts to start
 default["alfresco"]["start_service"] = false
-
 ```
 You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check all configurations and their default values.
 
