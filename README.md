@@ -1,12 +1,10 @@
 Introduction
 ---
-chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture.
+chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture; it is divided in components (`tomcat,transform,repo,share,solr,mysql,lb,iptables`) that are independent and self-contained, but use [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
+
+It depends on third-party Chef cookbooks that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
 
 [artifact-deployer](https://github.com/maoo/artifact-deployer) is used to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process.
-
-It also depends on other third-party recipes that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
-
-chef-alfresco is divided in components (`tomcat,transform,repo,share,solr,mysql,lb,iptables`) that are independent and self-contained, but use [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
 
 Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
 
