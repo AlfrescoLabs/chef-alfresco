@@ -49,8 +49,8 @@ For each component, chef-alfresco may include external Chef cookbooks and/or cha
 Installs and configures Apache Tomcat; more in details, this is the list of Apache Tomcat configuration items
 - Standard Apache Tomcat installation using apt-get or yum repositories
 - 6 (default) and 7 main versions supported
-- Configurable SSL keystore/truststore in server.xml
-- $TOMCAT_HOME/conf/tomcat-users.xml is configured properly to enable SSL communication between repo and solr
+- Configurable SSL keystore/truststore in `server.xml`
+- `$TOMCAT_HOME/conf/tomcat-users.xml` is configured properly to enable SSL communication between repo and solr
 
 Hereby the default configuration that you can override in your configuration.
 ```
@@ -61,7 +61,8 @@ Hereby the default configuration that you can override in your configuration.
   "java_options" : "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 }
 ```
-The `files_cookbook` configuration allows to load file configuration's templates (such as server.xml.erb) from the alfresco Chef Cookbook instead of the original Tomcat one.
+The `files_cookbook` configuration allows to load file configuration's templates (such as [server.xml.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/server.xml.erb)) from the alfresco Chef Cookbook instead of the original Tomcat one.
+
 Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb) and its defaults.
 
 #### repo
@@ -70,7 +71,7 @@ Installs Alfresco Repository within a given Servlet container; the following fea
 
 ##### WAR installation
 
-Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~)
+Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~), but you can override Maven coordinates to fetch your custom artifact (or define a url/path , check  [artifact-deployer docs](https://github.com/maoo/artifact-deployer)).
 
 ```
 "artifacts": {
@@ -108,7 +109,8 @@ Generates alfresco-global.properties depending on properties defined in `node['a
   }
 }
 ```
-If you ship `alfresco-global.properties` within your war (or via other artifacts), you can disable this feature
+
+You can disable this feature (i.e. if you ship `alfresco-global.properties` within your war) by defining the following attribute:
 ```
 "alfresco": {
   "generate.global.properties": false
@@ -133,7 +135,7 @@ Generates repo-log4j.properties depending on properties defined in `node['alfres
   }
 }
 ```
-If you ship `log4j.properties` within your war (or via other artifacts), you can disable this feature
+You can disable this feature (i.e. if you ship a `log4j.properties` within your war) by defining the following attribute:
 ```
 "alfresco": {
   "generate.repo.log4j.properties": false
