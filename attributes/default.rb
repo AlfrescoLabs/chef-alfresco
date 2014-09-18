@@ -1,7 +1,7 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-default['alfresco']['components'] = ['lb','tomcat','transform','repo','share','solr','mysql']
+default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -48,7 +48,7 @@ node.default["java"]["install_flavor"]                          = "oracle"
 node.default["java"]["jdk_version"]                             = "7"
 node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
-# Choose whether to restart services or not (i.e. Docker would fail if any service attempts to start during provisioning)
+# Choose whether to start services or not after provisioning (Docker would fail if any service attempts to start)
 default["alfresco"]["start_service"] = false
 version = node["tomcat"]["base_version"]
 start_service = node["alfresco"]["start_service"]

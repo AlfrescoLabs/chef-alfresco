@@ -8,53 +8,41 @@ Just include alfresco::default recipe in your `run_list` and then configure JSON
 
 If no parameters are specified, all components will be installed (see below) with default attribute values.
 
+Default Configurations
+---
+
+The following configurations apply across all components and are the most common to be overridden:
+```
+# Which chef-alfresco components to apply (see description below); iptables and lb are disabled by default
+default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
+
+# URL defaults to create share-repo-solr pointers across applications
+default['alfresco']['default_hostname'] = "localhost"
+default['alfresco']['default_port']     = "8080"
+default['alfresco']['default_protocol'] = "http"
+
+# Component-specific URL defaults
+default['alfresco']['properties']['repo.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['share.host'] = node['alfresco']['default_hostname']
+default['alfresco']['properties']['solr.host'] = node['alfresco']['default_hostname']
+
+# Maven artifact coordinates; change these to affect repo,share and solr artifact's configurations (see below)
+default['alfresco']['groupId'] = "org.alfresco"
+default['alfresco']['version'] = "5.0.a"
+
+# The alfresco-global.properties dir.root, defaults to $TOMCAT_BASE/alf_data
+# default['alfresco']['properties'] maps to alfresco-global.properties, you can add any other property
+default['alfresco']['properties']['dir.root'] = "#{node['tomcat']['base']}/alf_data"
+
+# Choose whether to start services or not after provisioning (Docker would fail if any service attempts to start)
+default["alfresco"]["start_service"] = false
+
+```
+You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check all configurations and their default values.
+
 Components
 ---
-For each component, chef-alfresco may include external Chef cookbooks and/or change some attribute's defaults
-
-#### iptables
-
-Installs `iptables` and loads a given configuration, opening all ports needed by Alfresco to work properly:
-- 50500 and 50508 for JMX
-- 8009, 8080 and 8443 for Apache Tomcat
-- 2121 for FTP server
-- 7070 for VTI server
-- 5701 for Clustering (Hazelcast)
-
-To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
-
-#### lb
-
-The lb component - or load-balancing - installs Apache2 on port 80 and redirects connections to Tomcat (on port 8080); it only works on port 80, SSL have not been tested; hereby the default configuration:
-
-```
-"lb" : {
-  "balancers" : {
-    "alfresco" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ],
-    "share" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ],
-    "solr" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ]
-  }
-}
-```
-To know more, check [httpd-proxy-balancer.conf.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/httpd-proxy-balancer.conf.erb) template and [attributes/apachelb.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/apachelb.rb)
+For each component, chef-alfresco may include external Chef cookbooks and/or change some attribute's defaults; the logic is implemented in the Chef-Alfresco [default recipe](https://github.com/maoo/chef-alfresco/blob/master/recipes/default.rb)
 
 #### tomcat
 
@@ -64,10 +52,7 @@ Installs and configures Apache Tomcat; more in details, this is the list of Apac
 - Configurable SSL keystore/truststore in server.xml
 - $TOMCAT_HOME/conf/tomcat-users.xml is configured properly to enable SSL communication between repo and solr
 
-To know more about default folder locations, please check tomcat's cookbook [default attributes](https://github.com/maoo/tomcat/blob/master/attributes/default.rb)
-
-Hereby the default configuration.
-
+Hereby the default configuration that you can override in your configuration.
 ```
 "tomcat" : {
   "files_cookbook" : "alfresco",
@@ -76,38 +61,8 @@ Hereby the default configuration.
   "java_options" : "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 }
 ```
-
 The `files_cookbook` configuration allows to load file configuration's templates (such as server.xml.erb) from the alfresco Chef Cookbook instead of the original Tomcat one.
-
-#### transform
-
-Uses `alfresco::3rdparty` Chef recipe to install the following packages:
-- openoffice
-- imagemagick
-- swftools
-
-There are no JSON configurations that affect this component.
-
-#### mysql
-
-Installs MySQL 5 Server, creates a database and a granted user; hereby the default configuration:
-
-```
-"alfresco" : {
-  "db" : {
-    "repo_hosts" : "%",
-    "root_user": "root",
-    "server_root_password" : "ilikerandompasswords"
-  }
-  "properties" : {
-    "db.dbname" : "alfresco",
-    "db.host": "localhost",
-    "db.port" : "3306"
-    "db.username" : "alfresco"
-    "db.password" : "alfresco"
-  }
-}
-```
+Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb) and its defaults.
 
 #### repo
 
@@ -115,7 +70,7 @@ Installs Alfresco Repository within a given Servlet container; the following fea
 
 ##### WAR installation
 
-- Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer))
+Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~)
 
 ```
 "artifacts": {
@@ -129,7 +84,7 @@ Installs Alfresco Repository within a given Servlet container; the following fea
 
 ##### AMP installation
 
-- Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer); SPP extension is added by default
+Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer); SPP extension is added by default
 ```
 "artifacts": {
   "my-amp": {
@@ -194,8 +149,8 @@ Downloads JDBC driver into Tomcat shared classloader, depending on Alfresco prop
 
 - `$TOMCAT_HOME/shared/classes` and `$TOMCAT_HOME/shared/*.jar` are configured as shared classloader
 
-You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check the default configuration values and how to override them.
 The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates/default) folder contains the Alfresco configuration files that will be patched with Chef attribute values.
+Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/repo_config.rb) and its defaults.
 
 #### share
 
@@ -207,15 +162,13 @@ Generates (by default) `shared/classes/alfresco/web-extension/share-config-custo
 ```
 "alfresco": {
   "shareproperties": {
-    "referer"               : ".*",
-    "origin"                : ".*",
     "alfresco.host"         : "my.repo.host.com",
     "alfresco.port"         : "80"
     ...
   }
 }
 ```
-You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` occurrencies with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
+You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` (term delimiters are [configurable](https://github.com/maoo/artifact-deployer/blob/master/attributes/default.rb)) occurrences with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
 ```
 "alfresco": {
   "patch.share.config.custom" : true,
@@ -232,6 +185,8 @@ Generates share-log4j.properties depending on properties defined in `node['alfre
   "generate.share.log4j.properties": false
 }
 ```
+
+Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/share_config.rb) and its defaults.
 
 #### solr
 
@@ -254,6 +209,80 @@ Generate `alf_data/solr/workspace-SpacesStore/conf/solrcore.properties` and `alf
 ##### log4j-solr.properties generation
 
 Generates log4j-solr.properties depending on properties defined in `node['alfresco']['solr-log4j']`
+
+#### transform
+
+Uses `alfresco::3rdparty` Chef recipe to install the following packages:
+- openoffice
+- imagemagick
+- swftools
+
+There are no JSON configurations that affect this component.
+
+#### mysql
+
+Installs MySQL 5 Server, creates a database and a granted user; hereby the default configuration:
+
+```
+"alfresco" : {
+  "db" : {
+    "repo_hosts" : "%",
+    "root_user": "root",
+    "server_root_password" : "ilikerandompasswords"
+  }
+  "properties" : {
+    "db.dbname" : "alfresco",
+    "db.host": "localhost",
+    "db.port" : "3306"
+    "db.username" : "alfresco"
+    "db.password" : "alfresco"
+  }
+}
+```
+
+#### iptables
+
+Installs `iptables` and loads a given configuration, opening all ports needed by Alfresco to work properly:
+- 50500 and 50508 for JMX
+- 8009, 8080 and 8443 for Apache Tomcat
+- 2121 for FTP server
+- 7070 for VTI server
+- 5701 for Clustering (Hazelcast)
+
+To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
+
+#### lb (experimental)
+
+The lb component - or load-balancing - installs Apache2 on port 80 and redirects connections to Tomcat (on port 8080); it only works on port 80, SSL have not been tested; hereby the default configuration:
+
+```
+"lb" : {
+  "balancers" : {
+    "alfresco" : [
+      {
+        "ipaddress" : "localhost",
+        "port": "8080",
+        "protocol" : "http"
+      }
+    ],
+    "share" : [
+      {
+        "ipaddress" : "localhost",
+        "port": "8080",
+        "protocol" : "http"
+      }
+    ],
+    "solr" : [
+      {
+        "ipaddress" : "localhost",
+        "port": "8080",
+        "protocol" : "http"
+      }
+    ]
+  }
+}
+```
+To know more, check [httpd-proxy-balancer.conf.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/httpd-proxy-balancer.conf.erb) template and [attributes/apachelb.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/apachelb.rb)
 
 Dependencies
 ---
