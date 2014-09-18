@@ -17,19 +17,23 @@ The following configurations apply across all components and are the most common
 # iptables and lb are disabled by default
 default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
 
-#Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
+# Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
 
-#Generates share-config-custom.xml using a pre-defined template (check templates/default) and configuring http endpoint and disabling CSRF
+# Generates share-config-custom.xml using a pre-defined template (check templates/default)
+# configuring http endpoint and disabling CSRF
 default['alfresco']['generate.share.config.custom'] = true
 
-#Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
+# Patches an existing share-config-custom.xml using node['alfresco']['properties'] 
+# key/value attributes and replacing all @@key@@ occurrencies
 default['alfresco']['patch.share.config.custom'] = false
 
-#Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
+# Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] 
+# key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
-#Generates share-log4j.properties using all node['alfresco']['share-log4j'] key/value attributes
+# Generates share-log4j.properties using all node['alfresco']['share-log4j']
+# key/value attributes
 default['alfresco']['generate.share.log4j.properties'] = true
 
 # URL defaults to create share-repo-solr pointers across applications
