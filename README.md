@@ -1,4 +1,4 @@
-Introduction
+chef-alfresco
 ---
 chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture; it defines independent and self-contained containers, though they depend on [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
 
