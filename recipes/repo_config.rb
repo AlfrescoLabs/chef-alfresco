@@ -1,6 +1,5 @@
 node.default['artifacts']['alfresco']['enabled']        = true
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
-node.default['artifacts']['alfresco-spp']['enabled']    = true
 node.default['artifacts']['sharedclasses']['enabled']   = true
 node.default['artifacts']['keystore']['enabled']        = true
 

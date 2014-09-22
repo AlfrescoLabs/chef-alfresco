@@ -22,6 +22,10 @@ if node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql_server"
 end
 
+if node['alfresco']['components'].include? 'spp'
+  node.default['artifacts']['alfresco-spp']['enabled'] = true
+end
+
 # JDBC Driver defaults
 if node['alfresco']['properties']['db.driver'] == 'org.gjt.mm.mysql.Driver'
   node.default['artifacts']['mysqlconnector']['enabled'] = true
@@ -38,13 +42,6 @@ if node['alfresco']['components'].include? 'repo'
   if node['alfresco']['generate.repo.log4j.properties'] == true
     node.default['artifacts']['sharedclasses']['properties']['alfresco/extension/repo-log4j.properties'] = node['alfresco']['repo-log4j']
   end
-
-  # TODO - deprecated in favour of keystore jar unpacking
-  # if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
-  # else
-  #   node.default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['solrproperties']['data.dir.root']}/alf_data/keystore"
-  #   node.default['artifacts']['keystore']['enabled']           = false
-  # end
 
   include_recipe "alfresco::repo_config"
 end

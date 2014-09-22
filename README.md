@@ -15,7 +15,7 @@ The following configurations apply across all components and are the most common
 ```
 # Which chef-alfresco components to apply (see description below)
 # iptables and lb are disabled by default
-default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql']
+default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql','spp']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -274,6 +274,24 @@ Installs `iptables` and loads a given configuration, opening all ports needed by
 ```
 
 To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
+
+#### spp
+
+Installs Alfresco SharePoint Protocol extension (AMP); this is the default chef-alfresco configuration that can be found in [repo_config.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/repo_config.rb)
+
+```
+"artifacts": {
+  "my-amp": {
+      "enabled": true,
+      "groupId": "org.alfresco",
+      "artifactId": "alfresco-spp",
+      "version": "5.0.a",
+      "type": "amp"
+      "destination": "/var/lib/tomcat7/webapps",
+      "owner": "tomcat7"
+  }
+}
+```
 
 #### lb (experimental)
 
