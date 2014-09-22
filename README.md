@@ -69,7 +69,7 @@ Check the [list of configuration attributes](https://github.com/maoo/chef-alfres
 
 #### repo
 
-Installs Alfresco Repository within a given Servlet container; the following features are provided
+Installs Alfresco Repository within a given Servlet container; the following features are provided.
 
 ##### WAR installation
 
