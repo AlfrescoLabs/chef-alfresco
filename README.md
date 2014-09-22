@@ -193,7 +193,7 @@ Generates (by default) `shared/classes/alfresco/web-extension/share-config-custo
 You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` (term delimiters are [configurable](https://github.com/maoo/artifact-deployer/blob/master/attributes/default.rb)) occurrences with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
 ```
 "alfresco": {
-  "patch.share.config.custom" : true,
+  "patch.share.config.custom" : false,
   "generate.share.config.custom" : true
   }
 }
@@ -201,10 +201,10 @@ You can optionally patch an existing share-config-custom.xml replacing all `@@ke
 
 ##### share-log4j.properties generation
 
-Generates share-log4j.properties depending on properties defined in `node['alfresco']['share-log4j']`
+Generates share-log4j.properties depending on properties defined in `node['alfresco']['share-log4j']; it's enabled by default
 ```
 "alfresco": {
-  "generate.share.log4j.properties": false
+  "generate.share.log4j.properties": true
 }
 ```
 
