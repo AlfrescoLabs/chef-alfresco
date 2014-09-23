@@ -12,6 +12,8 @@ log_folder        = node['tomcat']['log_dir']
 user              = node['tomcat']['user']
 group             = node['tomcat']['group']
 
+generate_alfresco_global = node['alfresco']['generate.global.properties']
+
 directory "alfresco-rootdir" do
   path        root_folder
   owner       user
@@ -28,12 +30,14 @@ directory "alfresco-extension" do
   recursive   true
 end
 
-file "alfresco-global-empty" do
-  path        "#{shared_folder}/classes/alfresco-global.properties"
-  content     ""
-  owner       user
-  group       group
-  mode        "0775"
+if generate_alfresco_global
+  file "alfresco-global-empty" do
+    path        "#{shared_folder}/classes/alfresco-global.properties"
+    content     ""
+    owner       user
+    group       group
+    mode        "0775"
+  end
 end
 
 file_replace_line "#{config_folder}/catalina.properties" do
