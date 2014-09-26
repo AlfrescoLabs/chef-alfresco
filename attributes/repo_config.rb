@@ -66,7 +66,7 @@ default['artifacts']['mysqlconnector']['enabled'] = false
 default['artifacts']['mysqlconnector']['groupId'] = "mysql"
 default['artifacts']['mysqlconnector']['artifactId'] = "mysql-connector-java"
 default['artifacts']['mysqlconnector']['version'] = "5.1.30"
-default['artifacts']['mysqlconnector']['destination'] = "#{node['alfresco']['shared']}"
+default['artifacts']['mysqlconnector']['destination'] = node['alfresco']['shared']
 default['artifacts']['mysqlconnector']['owner'] = node['tomcat']['user']
 default['artifacts']['mysqlconnector']['unzip'] = false
 
@@ -74,7 +74,7 @@ default['artifacts']['postgresconnector']['enabled'] = false
 default['artifacts']['postgresconnector']['groupId'] = "org.postgresql"
 default['artifacts']['postgresconnector']['artifactId'] = "postgresql"
 default['artifacts']['postgresconnector']['version'] = "9.2-1002-jdbc4"
-default['artifacts']['postgresconnector']['destination'] = "#{node['alfresco']['shared']}"
+default['artifacts']['postgresconnector']['destination'] = node['alfresco']['shared']
 default['artifacts']['postgresconnector']['owner'] = node['tomcat']['user']
 default['artifacts']['postgresconnector']['unzip'] = false
 
@@ -99,7 +99,7 @@ default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
 default['artifacts']['alfresco-mmt']['version'] = "4.2.1.4"
 default['artifacts']['alfresco-mmt']['type'] = "jar"
 default['artifacts']['alfresco-mmt']['classifier'] = "fatjar"
-default['artifacts']['alfresco-mmt']['destination'] = "#{node['alfresco']['bin']}"
+default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
 default['artifacts']['alfresco-mmt']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-mmt']['unzip'] = false
 
