@@ -30,14 +30,13 @@ directory "alfresco-extension" do
   recursive   true
 end
 
-if generate_alfresco_global == true
-  file "alfresco-global-empty" do
-    path        "#{shared_folder}/classes/alfresco-global.properties"
-    content     ""
-    owner       user
-    group       group
-    mode        "0775"
-  end
+file "alfresco-global-empty" do
+  path        "#{shared_folder}/classes/alfresco-global.properties"
+  content     ""
+  owner       user
+  group       group
+  mode        "0775"
+  only_if     { generate_alfresco_global == true }
 end
 
 file_replace_line "#{config_folder}/catalina.properties" do
