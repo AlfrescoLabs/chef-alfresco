@@ -2,13 +2,13 @@
 # -------
 # Script for apply AMPs to installed WAR
 # -------
-CATALINA_HOME=<%= node[:tomcat][:base] %>
-CATALINA_BASE=<%= node[:tomcat][:base] %>
+CATALINA_HOME=<%= node['tomcat']['base'] %>
+CATALINA_BASE=<%= node['tomcat']['base'] %>
 
-TOMCAT_BIN=<%= node[:alfresco][:bin] %>
-TOMCAT_WEBAPPS=<%= node[:tomcat][:webapp_dir] %>
-AMPS_FOLDER=<%= node[:alfresco][:amps_folder] %>
-AMPSSHARE_FOLDER=<%= node[:alfresco][:amps_share_folder] %>
+TOMCAT_BIN=<%= node['alfresco']['bin'] %>
+TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
+AMPS_FOLDER=<%= node['alfresco']['amps_folder'] %>
+AMPSSHARE_FOLDER=<%= node['alfresco']['amps_share_folder'] %>
 
 if [ -f $TOMCAT_BIN/setenv.sh ]; then
   . $TOMCAT_BIN/setenv.sh
