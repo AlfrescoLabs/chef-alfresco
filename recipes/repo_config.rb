@@ -30,7 +30,7 @@ directory "alfresco-extension" do
   recursive   true
 end
 
-if generate_alfresco_global
+if generate_alfresco_global == true
   file "alfresco-global-empty" do
     path        "#{shared_folder}/classes/alfresco-global.properties"
     content     ""
