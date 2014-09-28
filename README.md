@@ -1,5 +1,8 @@
 chef-alfresco
 ---
+
+[![Build Status](https://travis-ci.org/maoo/chef-alfresco.svg)](https://travis-ci.org/maoo/chef-alfresco)
+
 chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture; it defines independent and self-contained containers, though they depend on [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
 
 chef-alfresco relies on third-party Chef cookbooks that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
