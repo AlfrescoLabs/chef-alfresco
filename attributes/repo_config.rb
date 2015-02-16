@@ -94,11 +94,10 @@ default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco']['unzip'] = false
 
-default['artifacts']['alfresco-mmt']['groupId'] = "it.session.alfresco"
+default['artifacts']['alfresco-mmt']['groupId'] = "org.alfresco"
 default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
-default['artifacts']['alfresco-mmt']['version'] = "4.2.1.4"
+default['artifacts']['alfresco-mmt']['version'] = "5.0.c"
 default['artifacts']['alfresco-mmt']['type'] = "jar"
-default['artifacts']['alfresco-mmt']['classifier'] = "fatjar"
 default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
 default['artifacts']['alfresco-mmt']['owner'] = node['tomcat']['user']
 default['artifacts']['alfresco-mmt']['unzip'] = false
