@@ -1,0 +1,42 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
+
+---
+
+driver_plugin: vagrant
+use_vagrant_berkshelf_plugin: true
+driver:
+  vagrantfile_erb: Vagrantfile.erb
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: centos-7.0
+    driver:
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.0_chef-provisionerless.box
+
+suites:
+  - name: default
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-test",
+      "ip": "192.168.24.43",
+      "tomcat" : {
+        "run_base_instance" : false
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500
+        }
+      },
+      "alfresco": {
+        "components" : ["mysql","tomcat","transform","repo","share","solr"],
+        "start_service": true,
+        "properties": {
+          "hostname.private":"192.168.24.43"
+        }
+      }
+    }

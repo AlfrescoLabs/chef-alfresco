@@ -1,8 +1,3 @@
-node.default['artifacts']['alfresco']['enabled']        = true
-node.default['artifacts']['alfresco-mmt']['enabled']    = true
-node.default['artifacts']['sharedclasses']['enabled']   = true
-node.default['artifacts']['keystore']['enabled']        = true
-
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
 config_folder     = node['tomcat']['config_dir']
@@ -41,7 +36,7 @@ end
 
 file_replace_line "#{config_folder}/catalina.properties" do
   replace     "shared.loader="
-  with        "shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/*.jar"
+  with        "shared.loader=#{shared_folder}/classes,#{shared_folder}/*.jar"
   only_if     { File.exist?("#{config_folder}/catalina.properties") }
 end
 

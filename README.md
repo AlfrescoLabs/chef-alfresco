@@ -3,13 +3,17 @@ chef-alfresco
 
 [![Build Status](https://travis-ci.org/maoo/chef-alfresco.svg)](https://travis-ci.org/maoo/chef-alfresco)
 
-chef-alfresco is a build automation tool that provides a modular,configurable and extensible way to install an Alfresco architecture; it defines independent and self-contained containers, though they depend on [common configuration attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes/default.rb)
+chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
 chef-alfresco relies on third-party Chef cookbooks that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
 
 [artifact-deployer](https://github.com/maoo/artifact-deployer) is used to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process.
 
+Usage
+---
 Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
+
+Alternatively, you can combine `alfresco::*` recipes in your run_list, although some ordering (documented below) must be respected.
 
 Default Configurations
 ---
@@ -52,7 +56,7 @@ default['alfresco']['properties']['solr.host'] = node['alfresco']['default_hostn
 # Maven artifact coordinates
 # Change these to affect repo,share and solr artifact's configurations
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.0.a"
+default['alfresco']['version'] = "5.0.d"
 
 # The alfresco-global.properties dir.root, defaults to $TOMCAT_BASE/alf_data
 # default['alfresco']['properties'] maps to alfresco-global.properties, you can add any other property
@@ -62,7 +66,6 @@ default['alfresco']['properties']['dir.root'] = "#{node['tomcat']['base']}/alf_d
 # Docker would fail if any service attempts to start
 default["alfresco"]["start_service"] = false
 ```
-You can browse through the [attributes](https://github.com/maoo/chef-alfresco/tree/master/attributes) folder to check all configurations and their default values.
 
 Components
 ---
@@ -264,7 +267,7 @@ Installs MySQL 5 Server, creates a database and a granted user; hereby the defau
 }
 ```
 
-#### iptables
+#### iptables (deprecated)
 
 Installs `iptables` and loads a given configuration, opening all ports needed by Alfresco to work properly:
 
@@ -296,7 +299,7 @@ Installs Alfresco SharePoint Protocol extension (AMP); this is the default chef-
 }
 ```
 
-#### lb (experimental)
+#### lb (deprecated)
 
 The lb component - or load-balancing - installs Apache2 on port 80 and redirects connections to Tomcat (on port 8080); it only works on port 80, SSL have not been tested; hereby the default configuration:
 

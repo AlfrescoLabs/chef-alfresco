@@ -1,0 +1,1 @@
+0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30  -exec rm {} \; //see DEVOPS-3202

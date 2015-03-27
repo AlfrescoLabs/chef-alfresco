@@ -1,0 +1,16 @@
+# Put files/directories that should be ignored in this file.
+# Lines that start with '# ' are comments.
+
+test/
+.kitchen/
+.vagrant/
+Vagrant*
+Berks*
+.travis.yml
+.git
+.gitignore
+
+## OS
+.DS_Store
+Icon?
+nohup.out

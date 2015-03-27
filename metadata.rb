@@ -6,11 +6,12 @@ description      "Installs Alfresco Community and Enterprise Edition."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          "0.4.2"
 
-depends "artifact-deployer"
+depends "artifact-deployer", "=0.8.6"
 depends "imagemagick"
 depends "file"
 depends "java"
 depends "mysql"
+depends 'mysql2_chef_gem'
 depends "database"
 depends "openoffice"
 depends "swftools"
@@ -18,3 +19,4 @@ depends "tomcat"
 depends "build-essential"
 depends "apache2"
 depends "iptables"
+depends "yum-epel"

@@ -1,3 +1,4 @@
+#TODO - Not used ATM; move to Haproxy
 apache_conf_folder  = node['lb']['apache_conf_folder']
 service_name        = node['lb']['service_name']
 

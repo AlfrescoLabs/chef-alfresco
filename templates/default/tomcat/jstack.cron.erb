@@ -1,0 +1,1 @@
+0 * * * * root su tomcat -s /bin/sh -c "/usr/bin/jstack `ps -f -u tomcat | grep alf |awk '{print $2}'` >> <%= @tomcat_log_path %>/jstack.log"
