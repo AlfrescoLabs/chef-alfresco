@@ -25,6 +25,11 @@ directory "alfresco-extension" do
   recursive   true
 end
 
+file "#{shared_folder}/classes/alfresco/extension/repo-log4j.properties" do
+  action :create
+  content ""
+end
+
 file "alfresco-global-empty" do
   path        "#{shared_folder}/classes/alfresco-global.properties"
   content     ""

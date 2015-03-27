@@ -19,10 +19,13 @@ unless node['tomcat']['run_base_instance']
     node.override['artifacts']['alfresco']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
     node.override['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     node.override['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
+    node.override['alfresco']['repo-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-alfresco/alfresco.log"
   end
   if alfresco_components.include? 'share'
     node.override['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
     node.override['artifacts']['share']['destination']  = "#{node['tomcat']['base']}-share/webapps"
+    node.override['alfresco']['share-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-share/share.log"
+
   end
   if alfresco_components.include? 'solr'
     node.override['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']

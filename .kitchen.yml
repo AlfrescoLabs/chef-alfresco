@@ -23,7 +23,7 @@ suites:
     attributes: {
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
-      "ip": "192.168.24.43",
+      # "ip": "192.168.24.43",
       "tomcat" : {
         "run_base_instance" : false
       },
@@ -33,10 +33,11 @@ suites:
         }
       },
       "alfresco": {
-        "components" : ["mysql","tomcat","transform","repo","share","solr"],
+        # TODO - this should be default; test without and check if spp is there
+        "components" : ['tomcat','transform','repo','share','solr','mysql','spp'],
         "start_service": true,
-        "properties": {
-          "hostname.private":"192.168.24.43"
-        }
+        # "properties": {
+        #   "hostname.private":"192.168.24.43"
+        # }
       }
     }

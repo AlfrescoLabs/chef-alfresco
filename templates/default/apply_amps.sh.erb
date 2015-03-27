@@ -2,11 +2,20 @@
 # -------
 # Script for apply AMPs to installed WAR
 # -------
-CATALINA_HOME=<%= node['tomcat']['base'] %>
 CATALINA_BASE=<%= node['tomcat']['base'] %>
 
 TOMCAT_BIN=<%= node['alfresco']['bin'] %>
-TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
+
+ALF_TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
+<% if node['tomcat']['instances']['alfresco'] %>
+  ALF_TOMCAT_WEBAPPS="<%= node['tomcat']['base'] %>-alfresco/webapps"
+<% end -%>
+
+SHARE_TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
+<% if node['tomcat']['instances']['share'] %>
+  SHARE_TOMCAT_WEBAPPS="<%= node['tomcat']['base'] %>-share/webapps"
+<% end -%>
+
 AMPS_FOLDER=<%= node['alfresco']['amps_folder'] %>
 AMPSSHARE_FOLDER=<%= node['alfresco']['amps_share_folder'] %>
 
@@ -18,13 +27,13 @@ fi
 #sudo service tomcat7 stop
 #sleep 2
 #if [ "x$CATALINA_PID" != "x" ]; then
-#   kill -0 $CATALINA_PID 2>/dev/null 
+#   kill -0 $CATALINA_PID 2>/dev/null
 #fi
 
 echo "This script will apply all the AMPs in amps and amps_share to the alfresco.war and share.war files in $TOMCAT_WEBAPPS"
 
-java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPS_FOLDER $TOMCAT_WEBAPPS/alfresco.war -nobackup -directory
-java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPSSHARE_FOLDER $TOMCAT_WEBAPPS/share.war -nobackup -directory
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPS_FOLDER $ALF_TOMCAT_WEBAPPS/alfresco.war -nobackup -directory
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPSSHARE_FOLDER $SHARE_TOMCAT_WEBAPPS/share.war -nobackup -directory
 
 echo "About to clean out $TOMCAT_WEBAPPS and share directories and temporary files..."
 

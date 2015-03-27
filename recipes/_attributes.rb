@@ -1,29 +1,11 @@
 # NOTE! this file depends on tomcat::_attributes to define all node['tomcat'] attributes
 
-#######################################
-# Chef Alfresco Components and Features
-#######################################
-node.default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql','spp']
-
-#Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
-node.default['alfresco']['generate.global.properties'] = true
-
-#Generates share-config-custom.xml using a pre-defined template (check templates/default) and configuring http endpoint and disabling CSRF
-node.default['alfresco']['generate.share.config.custom'] = true
-
-#Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
-node.default['alfresco']['patch.share.config.custom'] = false
-
-#Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
-node.default['alfresco']['generate.repo.log4j.properties'] = true
-
-#Generates share-log4j.properties using all node['alfresco']['share-log4j'] key/value attributes
-node.default['alfresco']['generate.share.log4j.properties'] = true
-
-# Java default settings
-node.default['java']['install_flavor'] = 'oracle'
-node.default['java']['jdk_version'] = '7'
-node.default['java']['oracle']['accept_oracle_download_terms'] = true
+# Java defaults
+node.default["java"]["default"]                                 = true
+node.default["java"]["accept_license_agreement"]                = true
+node.default["java"]["install_flavor"]                          = "oracle"
+node.default["java"]["jdk_version"]                             = "7"
+node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
 ##########################
 ### Default's defaults :-)
@@ -43,17 +25,11 @@ node.default['alfresco']['properties']['dir.root']           = "#{node['tomcat']
 node.default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 
 # Tomcat defaults
+# TODO - add it in the multi-homed tomcat installation
 node.default["tomcat"]["files_cookbook"]      = "alfresco"
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
 node.default["tomcat"]["java_options"]        = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
-
-# Java defaults
-node.default["java"]["default"]                                 = true
-node.default["java"]["accept_license_agreement"]                = true
-node.default["java"]["install_flavor"]                          = "oracle"
-node.default["java"]["jdk_version"]                             = "7"
-node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
 # Choose whether to start services or not after provisioning (Docker would fail if any service attempts to start)
 if node["alfresco"]["version"] < "5.0"
@@ -75,7 +51,11 @@ if node["alfresco"]["start_service"] == false
   node.default['alfresco']['restart_action']   = "nothing"
 end
 
-# Logging defaults used by artifact-deployer configurations, see repo_config and solr_config defaults
+####################################################
+### Logging Attributes
+# added below in the artifact-deployer configuration
+####################################################
+
 node.default['logging']['log4j.rootLogger']                                = "error, Console, File"
 node.default['logging']['log4j.appender.Console']                          = "org.apache.log4j.ConsoleAppender"
 node.default['logging']['log4j.appender.Console.layout']                   = "org.apache.log4j.PatternLayout"
@@ -85,6 +65,11 @@ node.default['logging']['log4j.appender.File.Append']                      = "tr
 node.default['logging']['log4j.appender.File.DatePattern']                 = "'.'yyyy-MM-dd"
 node.default['logging']['log4j.appender.File.layout']                      = "org.apache.log4j.PatternLayout"
 node.default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSOLUTE} %-5p [%c] %m%n"
+
+node.default['alfresco']['repo-log4j'] = node['logging']
+node.default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
+node.default['alfresco']['share-log4j'] = node['logging']
+node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/share.log"
 
 ######################################################
 ### alfresco-global.properties used across all recipes
@@ -147,6 +132,14 @@ node.default['alfresco']['db']['root_user']              = "root"
 ##################
 # Shared Artifacts
 ##################
+
+node.default['artifacts']['alfresco-spp']['groupId'] = node['alfresco']['groupId']
+node.default['artifacts']['alfresco-spp']['artifactId'] = "alfresco-spp"
+node.default['artifacts']['alfresco-spp']['version'] = node['alfresco']['version']
+node.default['artifacts']['alfresco-spp']['type'] = "amp"
+node.default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amps_folder']
+node.default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
+node.default['artifacts']['alfresco-spp']['unzip'] = false
 
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']

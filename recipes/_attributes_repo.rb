@@ -49,15 +49,6 @@ node.default['alfresco']['properties']['mail.smtps.auth'] = false
 #Search
 node.default['alfresco']['properties']['index.subsystem.name'] = 'solr'
 
-####################################################
-### Logging Attributes
-# added below in the artifact-deployer configuration
-####################################################
-node.default['alfresco']['repo-log4j'] = node['logging']
-node.default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
-node.default['alfresco']['share-log4j'] = node['logging']
-node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/share.log"
-
 ################################
 ### Artifact Deployer attributes
 ################################
@@ -94,13 +85,3 @@ node.default['artifacts']['alfresco']['type'] = "war"
 node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 node.default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
-
-# Enabled by recipe/default.rb, if component spp is present
-node.default['artifacts']['alfresco-spp']['enabled']        = false
-node.default['artifacts']['alfresco-spp']['groupId'] = node['alfresco']['groupId']
-node.default['artifacts']['alfresco-spp']['artifactId'] = "alfresco-spp"
-node.default['artifacts']['alfresco-spp']['version'] = node['alfresco']['version']
-node.default['artifacts']['alfresco-spp']['type'] = "amp"
-node.default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
-node.default['artifacts']['alfresco-spp']['unzip'] = false
