@@ -30,6 +30,7 @@ unless node['tomcat']['run_base_instance']
   if alfresco_components.include? 'solr'
     node.override['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
     node.override['artifacts']['solr']['destination']       = "#{node['tomcat']['base']}-solr/webapps"
+    node.override['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']}"
   end
 end
 

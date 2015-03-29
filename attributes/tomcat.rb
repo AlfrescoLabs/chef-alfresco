@@ -27,7 +27,7 @@ default['alfresco']['share_tomcat_instance']['java_options'] = "-Xmx#{share_memo
 default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
 solr_memory = "#{(node.memory.total.to_i * 0.25 ).floor / 1024}m"
-default['alfresco']['solr_tomcat_instance']['java_options'] = "-Xmx#{solr_memory} -XX:MaxPermSize=256m"
+default['alfresco']['solr_tomcat_instance']['java_options'] = "-Xmx#{solr_memory} -XX:MaxPermSize=200m"
 
 default['tomcat']['global_templates'] = [{
   "dest" => "/usr/share/tomcat-alfresco/conf",

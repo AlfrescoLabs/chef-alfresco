@@ -82,7 +82,6 @@ end
 if node['alfresco']['components'].include? 'solr'
   deploy = true
   include_recipe "alfresco::_attributes_solr"
-  include_recipe "alfresco::solr_config"
 end
 
 if deploy == true
