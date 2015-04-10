@@ -87,4 +87,14 @@ end
 if deploy == true
   include_recipe "artifact-deployer::default"
   include_recipe "alfresco::apply_amps"
+
+  # TODO - Re-enable after checking attribute defaults and integrate
+  # with multi-homed tomcat installation
+  # restart_services  = node['alfresco']['restart_services']
+  # restart_action    = node['alfresco']['restart_action']
+  # restart_services.each do |service_name|
+  #   service service_name  do
+  #     action    restart_action
+  #   end
+  # end
 end

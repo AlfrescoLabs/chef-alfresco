@@ -23,6 +23,7 @@ node.default['alfresco']['version'] = "5.0.d"
 # Important Alfresco and Solr global properties
 node.default['alfresco']['properties']['dir.root']           = "#{node['tomcat']['base']}/alf_data"
 node.default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
+node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']}"
 
 # Tomcat defaults
 # TODO - add it in the multi-homed tomcat installation
@@ -132,6 +133,20 @@ node.default['alfresco']['db']['root_user']              = "root"
 ##################
 # Shared Artifacts
 ##################
+
+# solrcore.properties placeholders
+# Since they depend on alfresco properties, they cannot be defined in _attributes_solr.rb (can be improved)
+
+node.default['alfresco']['properties']['solr.host']          = node['alfresco']['default_hostname']
+node.default['alfresco']['properties']['solr.port']          = node['alfresco']['default_port']
+node.default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['default_portssl']
+node.default['alfresco']['properties']['solr.secureComms']   = 'https'
+
+node.default['alfresco']['solrproperties']['alfresco.host']            = node['alfresco']['properties']['alfresco.host']
+node.default['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
+node.default['alfresco']['solrproperties']['alfresco.port.ssl']        = node['alfresco']['properties']['alfresco.port.ssl']
+node.default['alfresco']['solrproperties']['alfresco.baseUrl']         = node['alfresco']['properties']['alfresco.context']
+node.default['alfresco']['solrproperties']['alfresco.secureComms']     = node['alfresco']['properties']['solr.secureComms']
 
 node.default['artifacts']['alfresco-spp']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-spp']['artifactId'] = "alfresco-spp"

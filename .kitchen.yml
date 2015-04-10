@@ -13,7 +13,7 @@ provisioner:
 platforms:
   - name: centos-7.0
     driver:
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/vmware/opscode_centos-7.0_chef-provisionerless.box
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
 
 suites:
   - name: default
@@ -34,10 +34,22 @@ suites:
       },
       "alfresco": {
         # TODO - this should be default; test without and check if spp is there
-        "components" : ['tomcat','transform','repo','share','solr','mysql','spp'],
-        "start_service": true,
+        # "components" : ['tomcat','transform','repo','share','solr','mysql','spp'],
+        # "start_service": true,
         # "properties": {
         #   "hostname.private":"192.168.24.43"
         # }
-      }
+      },
+      # TODO - remove this, used for testing
+      # "artifacts" : {
+      #   "alfresco" : {
+      #     "enabled" : true
+      #   },
+      #   "share" : {
+      #     "enabled" : true
+      #   },
+      #   "solr" : {
+      #     "enabled" : true
+      #   }
+      # }
     }
