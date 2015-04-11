@@ -13,6 +13,11 @@ Testing
 ---
 You can use `kitchen converge` to test Alfresco locally (Kitchen is now shipped with the [ChefDK](https://downloads.chef.io/chef-dk/)); when the command completes, you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
 
+Alternatively, you can access:
+- http://localhost:8070/alfresco
+- http://localhost:8080/share
+- http://localhost:8090/solr
+
 Usage
 ---
 Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
