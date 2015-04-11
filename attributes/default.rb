@@ -1,7 +1,7 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-default['alfresco']['components'] = ['haproxy','tomcat','transform','repo','share','solr','mysql','spp']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp']
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true

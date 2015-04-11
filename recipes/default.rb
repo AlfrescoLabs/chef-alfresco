@@ -35,6 +35,10 @@ if node['alfresco']['components'].include? 'haproxy'
   include_recipe "alfresco::haproxy"
 end
 
+if node['alfresco']['components'].include? 'nginx'
+  include_recipe "alfresco::nginx"
+end
+
 if node['alfresco']['components'].include? 'transform'
   include_recipe "alfresco::3rdparty"
 end
