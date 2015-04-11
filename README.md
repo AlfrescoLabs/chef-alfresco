@@ -65,10 +65,6 @@ default['alfresco']['version'] = "5.0.d"
 # The alfresco-global.properties dir.root, defaults to $TOMCAT_BASE/alf_data
 # default['alfresco']['properties'] maps to alfresco-global.properties, you can add any other property
 default['alfresco']['properties']['dir.root'] = "#{node['tomcat']['base']}/alf_data"
-
-# Choose whether to start services or not after provisioning
-# Docker would fail if any service attempts to start
-default["alfresco"]["start_service"] = false
 ```
 
 Components

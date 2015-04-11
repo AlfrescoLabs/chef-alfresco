@@ -39,18 +39,18 @@ if node["alfresco"]["version"] < "5.0"
 end
 
 # Tomcat default settings
-node.default['tomcat']['service_actions'] = [:disable,:stop]
+node.default['tomcat']['service_actions'] = [:enable,:start]
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["use_security_manager"] = false
 
-# TODO - check where used, integrate with service_actions from tomcat
-node.default["alfresco"]["start_service"] = false
-node.default['alfresco']['restart_services'] = "tomcat"
-node.default['alfresco']['restart_action']   = "start"
-if node["alfresco"]["start_service"] == false
-  node.default['alfresco']['restart_services'] = []
-  node.default['alfresco']['restart_action']   = "nothing"
-end
+# TODO - Re-enable after checking attribute defaults and integrate
+# node.default["alfresco"]["start_service"] = false
+# node.default['alfresco']['restart_services'] = "tomcat"
+# node.default['alfresco']['restart_action']   = "start"
+# if node["alfresco"]["start_service"] == false
+#   node.default['alfresco']['restart_services'] = []
+#   node.default['alfresco']['restart_action']   = "nothing"
+# end
 
 ####################################################
 ### Logging Attributes
