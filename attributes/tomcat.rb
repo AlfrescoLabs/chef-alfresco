@@ -16,16 +16,19 @@ default["tomcat"]["node_name"] = "allinone-node"
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
+default['alfresco']['repo_tomcat_instance']['ssl_port'] = 8433
 alfresco_memory = "#{(node.memory.total.to_i * 0.5 ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options'] = "-Xmx#{alfresco_memory} -XX:MaxPermSize=256m"
 
 default['alfresco']['share_tomcat_instance']['port'] = 8080
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
+default['alfresco']['share_tomcat_instance']['ssl_port'] = 8443
 share_memory = "#{(node.memory.total.to_i * 0.25 ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options'] = "-Xmx#{share_memory} -XX:MaxPermSize=256m"
 
 default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
+default['alfresco']['solr_tomcat_instance']['ssl_port'] = 8453
 solr_memory = "#{(node.memory.total.to_i * 0.25 ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options'] = "-Xmx#{solr_memory} -XX:MaxPermSize=200m"
 

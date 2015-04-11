@@ -6,6 +6,8 @@ driver_plugin: vagrant
 use_vagrant_berkshelf_plugin: true
 driver:
   vagrantfile_erb: Vagrantfile.erb
+  network:
+    - ["forwarded_port", {guest: 80, host: 8800}]
 
 provisioner:
   name: chef_zero
@@ -23,7 +25,6 @@ suites:
     attributes: {
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
-      # "ip": "192.168.24.43",
       "tomcat" : {
         "run_base_instance" : false
       },
@@ -31,25 +32,5 @@ suites:
         "maven" : {
           "timeout" : 1500
         }
-      },
-      "alfresco": {
-        # TODO - this should be default; test without and check if spp is there
-        # "components" : ['tomcat','transform','repo','share','solr','mysql','spp'],
-        # "start_service": true,
-        # "properties": {
-        #   "hostname.private":"192.168.24.43"
-        # }
-      },
-      # TODO - remove this, used for testing
-      # "artifacts" : {
-      #   "alfresco" : {
-      #     "enabled" : true
-      #   },
-      #   "share" : {
-      #     "enabled" : true
-      #   },
-      #   "solr" : {
-      #     "enabled" : true
-      #   }
-      # }
+      }
     }

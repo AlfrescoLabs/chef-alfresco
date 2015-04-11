@@ -31,6 +31,10 @@ if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end
 
+if node['alfresco']['components'].include? 'haproxy'
+  include_recipe "alfresco::haproxy"
+end
+
 if node['alfresco']['components'].include? 'transform'
   include_recipe "alfresco::3rdparty"
 end
