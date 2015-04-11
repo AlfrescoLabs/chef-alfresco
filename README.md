@@ -26,7 +26,7 @@ The following configurations apply across all components and are the most common
 ```
 # Which chef-alfresco components to apply (see description below)
 # iptables and lb are disabled by default
-default['alfresco']['components'] = ['tomcat','transform','repo','share','solr','mysql','spp']
+default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql','spp']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -305,7 +305,7 @@ Installs Alfresco SharePoint Protocol extension (AMP); this is the default chef-
 
 #### haproxy
 
-The haproxy component listens on port 80 and serves share UI on http://localhost/share
+HAproxy listens on port 80 and serves share UI on http://localhost/share
 
 You can add/modify haproxy configurations by checking attributes/haproxy.rb and override its values according to [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)
 
@@ -327,6 +327,11 @@ You can add/modify haproxy configurations by checking attributes/haproxy.rb and 
   }
 ]
 ```
+
+#### nginx
+
+Nginx listens on port 81, though it is not configured to proxy any http endpoint;
+to modify/extend configuration, check [nginx community cookbook](https://github.com/miketheman/nginx)
 
 Dependencies
 ---
