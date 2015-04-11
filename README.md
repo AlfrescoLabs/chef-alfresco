@@ -9,6 +9,10 @@ chef-alfresco relies on third-party Chef cookbooks that install - when needed - 
 
 [artifact-deployer](https://github.com/maoo/artifact-deployer) is used to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process.
 
+Testing
+---
+You can use `kitchen converge` to test Alfresco locally (Kitchen is now shipped with the [ChefDK](https://downloads.chef.io/chef-dk/)); when the command completes, you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
+
 Usage
 ---
 Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
@@ -299,38 +303,30 @@ Installs Alfresco SharePoint Protocol extension (AMP); this is the default chef-
 }
 ```
 
-#### lb (deprecated)
+#### haproxy
 
-The lb component - or load-balancing - installs Apache2 on port 80 and redirects connections to Tomcat (on port 8080); it only works on port 80, SSL have not been tested; hereby the default configuration:
+The haproxy component listens on port 80 and serves share UI on http://localhost/share
+
+You can add/modify haproxy configurations by checking attributes/haproxy.rb and override its values according to [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)
 
 ```
-"lb" : {
-  "balancers" : {
-    "alfresco" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ],
-    "share" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ],
-    "solr" : [
-      {
-        "ipaddress" : "localhost",
-        "port": "8080",
-        "protocol" : "http"
-      }
-    ]
+"haproxy" : {
+  "listeners" : {
+    "frontend" : {
+      "https" : [
+        "maxconn 2000",
+        "bind 0.0.0.0:443",
+        "default_backend share-ssl"
+      ]
+    },
+    "backend" : {
+      "share-ssl" : [
+        "server localhost 127.0.0.1:8443 weight 1 maxconn 100 check"
+      ]
+    }
   }
-}
+]
 ```
-To know more, check [httpd-proxy-balancer.conf.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/httpd-proxy-balancer.conf.erb) template and [attributes/apachelb.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/apachelb.rb)
 
 Dependencies
 ---
