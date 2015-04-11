@@ -1,13 +1,10 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
-
 ---
 
 driver_plugin: vagrant
 use_vagrant_berkshelf_plugin: true
 driver:
   vagrantfile_erb: Vagrantfile.erb
-  network:
-    - ["forwarded_port", {guest: 80, host: 8800}]
 
 provisioner:
   name: chef_zero
@@ -16,11 +13,6 @@ platforms:
   - name: centos-7.0
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
-      network:
-        - ["forwarded_port", {guest: 80, host: 8800}]
-        - ["forwarded_port", {guest: 8070, host: 8070}]
-        - ["forwarded_port", {guest: 8080, host: 8080}]
-        - ["forwarded_port", {guest: 8090, host: 8090}]
 
 suites:
   - name: default

@@ -1,4 +1,5 @@
 include_recipe 'nginx::repo'
+include_recipe 'nginx::commons'
 include_recipe 'nginx::default'
 
 # Fixing nginx cookbook by overriding service actions and disabling/stopping it
