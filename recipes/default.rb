@@ -17,16 +17,6 @@ include_recipe "alfresco::_attributes"
 # Any Alfresco node needs java; attributes are set in alfresco::_attributes
 include_recipe 'java::default'
 
-# TODO - Add support for firewalld too or keep it uncommented
-# if node['alfresco']['components'].include? 'iptables'
-#   include_recipe "alfresco::iptables"
-# end
-
-# if node['alfresco']['components'].include? 'lb'
-#   include_recipe "apache2::default"
-#   include_recipe "alfresco::apachelb"
-# end
-
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end

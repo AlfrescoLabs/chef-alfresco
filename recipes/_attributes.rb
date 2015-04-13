@@ -80,6 +80,7 @@ node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['t
 node.default['alfresco']['properties']['monitor.rmi.services.port']  = 50508
 
 #Database
+node.default['alfresco']['mysql_version'] = '5.6'
 node.default['alfresco']['properties']['db.driver']          = 'org.gjt.mm.mysql.Driver'
 node.default['alfresco']['properties']['db.username']        = 'alfresco'
 node.default['alfresco']['properties']['db.password']        = 'alfresco'
