@@ -7,6 +7,9 @@ node.default["java"]["install_flavor"]                          = "oracle"
 node.default["java"]["jdk_version"]                             = "7"
 node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
+# Fixes keytool file missing, though shouldnt be needed due to java alternatives
+node.override['tomcat']['keytool'] = '/usr/lib/jvm/java/bin/keytool'
+
 ##########################
 ### Default's defaults :-)
 ##########################
