@@ -3,7 +3,11 @@
 # http://tomcat.apache.org/tomcat-7.0-doc/apr.html
 default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr abrt}
 
+# Use multi-homed tomcat installation
 default['tomcat']['run_base_instance'] = false
+
+# Fixes keytool file missing, though shouldnt be needed due to java alternatives
+default['tomcat']['keytool'] = '/usr/lib/jvm/java/bin/keytool'
 
 default['tomcat']['server_template_cookbook'] = 'alfresco'
 default['tomcat']['server_template_source'] = 'tomcat/server.xml.erb'
