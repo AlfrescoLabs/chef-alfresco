@@ -27,7 +27,9 @@ unless node['tomcat']['run_base_instance']
     node.override['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
   end
   if alfresco_components.include? 'share'
-    node.override['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['share-log4j-path']}"
+    # This makes share fail with "SEVERE: Error listenerStart"
+    # TODO - fix it, ATM wrongly logging to /usr/share/tomcat/share.log
+    # node.override['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['share-log4j-path']}"
     node.override['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
     node.override['artifacts']['share']['destination']  = "#{node['tomcat']['base']}-share/webapps"
     node.override['alfresco']['share-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-share/share.log"
