@@ -62,7 +62,8 @@ node.default['artifacts']['mysql']['groupId'] = "mysql"
 node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
 node.default['artifacts']['mysql']['version'] = "5.1.30"
 node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared']
-node.default['artifacts']['mysql']['destinationName'] = "mysql-connector-java-#{node['artifacts']['mysql']['version']}"
+# TODO - still needs to be fixed
+# node.default['artifacts']['mysql']['destinationName'] = "mysql-connector-java-#{node['artifacts']['mysql']['version']}"
 node.default['artifacts']['mysql']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['psql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'psql'
