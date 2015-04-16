@@ -2,7 +2,9 @@ node.default['artifacts']['share']['enabled']           = true
 node.default['artifacts']['sharedclasses']['enabled']   = true
 
 shared_folder     = node['alfresco']['shared']
+share_log4j_path   = node['alfresco']['share-log4j-path']
 
+#TODO - make it generic using File.dirName(share_log4j_path)
 directory "web-extension" do
   path        "#{shared_folder}/classes/alfresco/web-extension"
   owner       node['tomcat']['user']
@@ -11,7 +13,7 @@ directory "web-extension" do
   recursive   true
 end
 
-file "#{shared_folder}/classes/alfresco/extension/share-log4j.properties" do
+file share_log4j_path do
   action :create
   content ""
 end

@@ -1,5 +1,6 @@
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
+repo_log4j_path   = node['alfresco']['repo-log4j-path']
 config_folder     = node['tomcat']['config_dir']
 base_folder       = node['tomcat']['base']
 log_folder        = node['tomcat']['log_dir']
@@ -17,6 +18,7 @@ directory "alfresco-rootdir" do
   recursive   true
 end
 
+#TODO - make it generic using File.dirName(repo_log4j_path)
 directory "alfresco-extension" do
   path        "#{shared_folder}/classes/alfresco/extension"
   owner       user
@@ -25,7 +27,7 @@ directory "alfresco-extension" do
   recursive   true
 end
 
-file "#{shared_folder}/classes/alfresco/extension/repo-log4j.properties" do
+file repo_log4j_path do
   action :create
   content ""
 end

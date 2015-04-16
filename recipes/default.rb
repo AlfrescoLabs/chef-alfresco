@@ -1,11 +1,19 @@
 # If there are no components that need artifact deployment,
-# don't invoke artifact-deployer::default and (most importantly)
-# it skips alfresco::apply_amps
+# don't invoke artifact-deployer::default and skip alfresco::apply_amps
 deploy = false
 
-# This is needed *here* due to the derived attributes
-# created in tomcat::_attributes recipe
-node.override["tomcat"]["base_version"] = 7
+# Main Alfresco attributes; based on these many others are calculated/extracted
+# For example tomcat version
+node.default['alfresco']['groupId'] = "org.alfresco"
+node.default['alfresco']['version'] = "5.0.d"
+
+# Setting Java and Tomcat versions
+node.override["tomcat"]["base_version"] = 6
+node.override['java']['jdk_version'] = '6'
+if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
+  node.override["tomcat"]["base_version"] = 7
+  node.override['java']['jdk_version'] = '7'
+end
 
 if node['platform_family'] == "rhel"
   include_recipe "yum-epel::default"
@@ -13,6 +21,10 @@ end
 
 include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_attributes"
+
+if node['alfresco']['components'].include? 'mysql'
+  include_recipe "alfresco::mysql_local_server"
+end
 
 # Any Alfresco node needs java; attributes are set in alfresco::_attributes
 include_recipe 'java::default'
@@ -33,19 +45,11 @@ if node['alfresco']['components'].include? 'transform'
   include_recipe "alfresco::3rdparty"
 end
 
-if node['alfresco']['components'].include? 'mysql'
-  include_recipe "alfresco::mysql_local_server"
-end
-
 if node['alfresco']['components'].include? 'spp'
   node.override['artifacts']['alfresco-spp']['enabled'] = true
 else
   node.override['artifacts']['alfresco-spp']['enabled'] = false
 end
-
-# Enable download of JDBC Driver depending on jdbc url prefix
-db_prefix =  node['alfresco']['properties']['prefix']
-node.override['artifacts'][db_prefix]['enabled'] = true
 
 if node['alfresco']['components'].include? 'repo'
   deploy = true

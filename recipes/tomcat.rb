@@ -12,24 +12,30 @@ additional_tomcat_packages.each do |pkg|
 end
 
 unless node['tomcat']['run_base_instance']
-  # TODO - apply_amps.sh.erb must be parametric with location of WARs to use
   alfresco_components = node['alfresco']['components']
   if alfresco_components.include? "repo"
+    node.override['alfresco']['repo_tomcat_instance']['java_options'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['repo-log4j-path']}"
     node.override['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
     node.override['artifacts']['alfresco']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
-    node.override['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
-    node.override['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     node.override['alfresco']['repo-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-alfresco/alfresco.log"
+    # Point Solr to the right Alfresco instance
+    node.override['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
+    # Point Alfresco to the right Solr instance
+    node.override['alfresco']['properties']['solr.port']          = node['alfresco']['solr_tomcat_instance']['port']
+    node.override['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['solr_tomcat_instance']['ssl_port']
+    # Point Share to the right Alfresco instance
+    node.override['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
   end
   if alfresco_components.include? 'share'
+    node.override['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['share-log4j-path']}"
     node.override['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
     node.override['artifacts']['share']['destination']  = "#{node['tomcat']['base']}-share/webapps"
     node.override['alfresco']['share-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-share/share.log"
-
   end
   if alfresco_components.include? 'solr'
     node.override['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
     node.override['artifacts']['solr']['destination']       = "#{node['tomcat']['base']}-solr/webapps"
+    node.override['alfresco']['solr-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-solr/solr.log"
   end
 end
 

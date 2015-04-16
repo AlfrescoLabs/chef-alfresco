@@ -22,8 +22,11 @@ suites:
     attributes: {
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
+      "nginx" : {
+        "service_actions" : ['enable', 'start']
+      },
       "tomcat" : {
-        "run_base_instance" : false
+        "service_actions" : ['enable', 'start']
       },
       "artifact-deployer" : {
         "maven" : {

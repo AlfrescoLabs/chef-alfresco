@@ -1,5 +1,5 @@
 # Nginx settings
-default['nginx']['service_actions'] = [:enable, :start]
+default['nginx']['service_actions'] = [:enable, :stop]
 default['nginx']['repo_source'] = 'nginx'
 default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/centos/#{node['platform_version'].to_i}/$basearch/"
 default['nginx']['client_max_body_size'] = 0

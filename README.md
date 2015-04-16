@@ -5,9 +5,14 @@ chef-alfresco
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
-chef-alfresco relies on third-party Chef cookbooks that install - when needed - database (MySQL), Servlet Container (Tomcat7) and transformation tools (ImageMagick, LibreOffice, swftools).
+It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14.
 
-[artifact-deployer](https://github.com/maoo/artifact-deployer) is used to fetch artifacts from remote Apache Maven repositories and defines default values (i.e. Maven artifact coordinates) for all artifacts (WARs, ZIPs, JARs) involved in the Alfresco deployment process.
+Usage
+---
+
+Add `alfresco::default` in your `run_list`.
+
+You can optionally shop through the [recipe list](https://github.com/maoo/chef-alfresco/blob/master/recipes) and customise your run, though it is advised (some ordering must be respected and may not be trivial) to use `alfresco::default` and define `node['alfresco']['components']` as explained below.
 
 Testing
 ---
@@ -17,12 +22,6 @@ Alternatively, you can access:
 - http://localhost:8070/alfresco
 - http://localhost:8080/share
 - http://localhost:8090/solr
-
-Usage
----
-Just include `alfresco::default` recipe in your `run_list` and then specify (if needed) your custom configuration attributes.
-
-Alternatively, you can combine `alfresco::*` recipes in your run_list, although some ordering (documented below) must be respected.
 
 Default Configurations
 ---
@@ -253,7 +252,7 @@ There are no JSON configurations that affect this component.
 
 #### mysql
 
-Installs MySQL 5 Server, creates a database and a granted user; hereby the default configuration:
+Installs MySQL 5.7 Server, creates a database and a granted user; hereby the default configuration:
 
 ```
 "alfresco" : {

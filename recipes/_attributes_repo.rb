@@ -9,13 +9,17 @@ node.default['alfresco']['properties']['hostname.private'] = node['alfresco']['d
 node.default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescoboxes'
 
 #Transformations
+
+# SWF is not needed as of alfresco 5 onwards
+# node.default['alfresco']['properties']['swf.exe'] = '/usr/bin/pdf2swf'
+
+# OooDirect disabled
 node.default['alfresco']['properties']['ooo.exe'] = '/usr/bin/soffice'
-node.default['alfresco']['properties']['ooo.enabled'] = true
+node.default['alfresco']['properties']['ooo.enabled'] = false
 node.default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib/libreoffice'
 node.default['alfresco']['properties']['jodconverter.portNumbers'] = '8100'
 node.default['alfresco']['properties']['jodconverter.enabled'] = true
 node.default['alfresco']['properties']['img.root'] = '/usr'
-node.default['alfresco']['properties']['swf.exe'] = '/usr/bin/pdf2swf'
 
 #FTP
 node.default['alfresco']['properties']['ftp.enabled'] = false
@@ -58,6 +62,7 @@ node.default['artifacts']['mysql']['groupId'] = "mysql"
 node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
 node.default['artifacts']['mysql']['version'] = "5.1.30"
 node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared']
+# TODO - fix artifact-deployer; using destinationName file copy fails
 # node.default['artifacts']['mysql']['destinationName'] = "mysql-connector-java-#{node['artifacts']['mysql']['version']}"
 node.default['artifacts']['mysql']['owner'] = node['tomcat']['user']
 

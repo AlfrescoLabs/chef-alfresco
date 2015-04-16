@@ -20,6 +20,13 @@ mysql_service 'default' do
   action [:create, :start]
 end
 
+# mysql_config 'default' do
+#   source 'my.cnf.erb'
+#   cookbook 'mysql'
+#   notifies :restart, 'mysql_service[default]'
+#   action :create
+# end
+
 mysql_connection_info = {
     :host     => db_host,
     :username => db_root_user,

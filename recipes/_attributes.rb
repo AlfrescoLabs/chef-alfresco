@@ -10,36 +10,32 @@ node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 ##########################
 ### Default's defaults :-)
 ##########################
+
+# Additional Alfresco paths
+node.default['alfresco']['bin']                = "#{node['tomcat']['home']}/bin"
+node.default['alfresco']['shared']             = "#{node['tomcat']['base']}/shared"
+node.default['alfresco']['amps_folder']        = "#{node['tomcat']['base']}/amps"
+node.default['alfresco']['amps_share_folder']  = "#{node['tomcat']['base']}/amps_share"
+
 #node.default['alfresco']['default_hostname'] = node['fqdn']
 node.default['alfresco']['default_hostname'] = "localhost"
 node.default['alfresco']['default_port']     = "8080"
 node.default['alfresco']['default_portssl']  = "8443"
 node.default['alfresco']['default_protocol'] = "http"
 
-# Artifact Deployer attributes - Artifact coordinates defaults used in sub-recipes
-node.default['alfresco']['groupId'] = "org.alfresco"
-node.default['alfresco']['version'] = "5.0.d"
-
 # Important Alfresco and Solr global properties
 node.default['alfresco']['properties']['dir.root']           = "#{node['tomcat']['base']}/alf_data"
 node.default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']}"
 
-# Tomcat defaults
-# TODO - add it in the multi-homed tomcat installation
+# Tomcat defaults of single instance configuration
 node.default["tomcat"]["files_cookbook"]      = "alfresco"
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
 node.default["tomcat"]["java_options"]        = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 
-# Choose whether to start services or not after provisioning (Docker would fail if any service attempts to start)
-if node["alfresco"]["version"] < "5.0"
-  node.override["tomcat"]["base_version"] = 6
-  node.override['java']['jdk_version'] = '6'
-end
-
 # Tomcat default settings
-node.default['tomcat']['service_actions'] = [:enable,:start]
+node.default['tomcat']['service_actions'] = [:enable,:stop]
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["use_security_manager"] = false
 
@@ -67,8 +63,10 @@ node.default['logging']['log4j.appender.File.DatePattern']                 = "'.
 node.default['logging']['log4j.appender.File.layout']                      = "org.apache.log4j.PatternLayout"
 node.default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSOLUTE} %-5p [%c] %m%n"
 
+node.default['alfresco']['repo-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/extension/repo-log4j.properties"
 node.default['alfresco']['repo-log4j'] = node['logging']
 node.default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
+node.default['alfresco']['share-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/web-extension/share-log4j.properties"
 node.default['alfresco']['share-log4j'] = node['logging']
 node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/share.log"
 
@@ -80,7 +78,7 @@ node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['t
 node.default['alfresco']['properties']['monitor.rmi.services.port']  = 50508
 
 #Database
-node.default['alfresco']['mysql_version'] = '5.6'
+node.default['alfresco']['mysql_version'] = '5.7'
 node.default['alfresco']['properties']['db.driver']          = 'org.gjt.mm.mysql.Driver'
 node.default['alfresco']['properties']['db.username']        = 'alfresco'
 node.default['alfresco']['properties']['db.password']        = 'alfresco'
@@ -104,7 +102,7 @@ node.default['alfresco']['properties']['alfresco.port']      = node['alfresco'][
 node.default['alfresco']['properties']['alfresco.port.ssl']  = node['alfresco']['default_portssl']
 node.default['alfresco']['properties']['alfresco.protocol']  = node['alfresco']['default_protocol']
 
-#SSL Keystore
+#SSL Keystore - disabled by default
 node.default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 
 ##############################################
@@ -121,12 +119,6 @@ node.default["alfresco"]["truststore_type"]      = "JCEKS"
 ### Default recipe configurations
 #################################
 
-# Additional Tomcat paths
-node.default['alfresco']['bin']                = "#{node['tomcat']['home']}/bin"
-node.default['alfresco']['shared']             = "#{node['tomcat']['base']}/shared"
-node.default['alfresco']['amps_folder']        = "#{node['tomcat']['base']}/amps"
-node.default['alfresco']['amps_share_folder']  = "#{node['tomcat']['base']}/amps_share"
-
 # DB params shared between client and server
 node.default['alfresco']['db']['server_root_password']   = 'alfresco'
 node.default['alfresco']['db']['root_user']              = "root"
@@ -141,7 +133,7 @@ node.default['alfresco']['db']['root_user']              = "root"
 node.default['alfresco']['properties']['solr.host']          = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['solr.port']          = node['alfresco']['default_port']
 node.default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['default_portssl']
-node.default['alfresco']['properties']['solr.secureComms']   = 'https'
+node.default['alfresco']['properties']['solr.secureComms']   = 'none'
 
 node.default['alfresco']['solrproperties']['alfresco.host']            = node['alfresco']['properties']['alfresco.host']
 node.default['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
