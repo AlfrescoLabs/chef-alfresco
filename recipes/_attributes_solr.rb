@@ -34,3 +34,11 @@ node.default['artifacts']['solr']['unzip']             = false
 node.default['artifacts']['solrhome']['properties']['archive-SpacesStore/conf/solrcore.properties']    = node['alfresco']['solrproperties']
 node.default['artifacts']['solrhome']['properties']['workspace-SpacesStore/conf/solrcore.properties']  = node['alfresco']['solrproperties']
 node.default['artifacts']['solrhome']['properties']['log4j-solr.properties']                           = node['alfresco']['solr-log4j']
+
+# Rsyslog defaults are only used if component includes "rsyslog"
+node.default['rsyslog']['file_inputs']['solr1']['file'] = '/var/log/tomcat-solr/alfresco.log'
+node.default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['solr1']['priority'] = 54
+node.default['rsyslog']['file_inputs']['solr2']['file'] = '/var/log/tomcat-solr/catalina.out.*'
+node.default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['solr2']['priority'] = 55

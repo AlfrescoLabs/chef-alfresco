@@ -9,17 +9,17 @@ node.default['alfresco']['properties']['hostname.private'] = node['alfresco']['d
 node.default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescoboxes'
 
 #Transformations
-
-# SWF is not needed as of alfresco 5 onwards
-# node.default['alfresco']['properties']['swf.exe'] = '/usr/bin/pdf2swf'
-
-# OooDirect disabled
-node.default['alfresco']['properties']['ooo.exe'] = '/usr/bin/soffice'
+node.default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
 node.default['alfresco']['properties']['ooo.enabled'] = false
-node.default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib/libreoffice'
-node.default['alfresco']['properties']['jodconverter.portNumbers'] = '8100'
+node.default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib64/libreoffice'
+node.default['alfresco']['properties']['jodconverter.portNumbers'] = '8101,8102'
 node.default['alfresco']['properties']['jodconverter.enabled'] = true
 node.default['alfresco']['properties']['img.root'] = '/usr'
+node.default['alfresco']['properties']['img.exe'] = '/usr/bin/convert'
+node.default['alfresco']['properties']['img.dyn'] = '${img.root}/lib64'
+node.default['alfresco']['properties']['img.gslib'] = '${img.dyn}'
+node.default['alfresco']['properties']['img.coders'] = '${img.dyn}/ImageMagick-6.7.8/modules-Q16/coders'
+node.default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/config'
 
 #FTP
 node.default['alfresco']['properties']['ftp.enabled'] = false
@@ -51,7 +51,7 @@ node.default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 node.default['alfresco']['properties']['mail.smtps.auth'] = false
 
 #Search
-node.default['alfresco']['properties']['index.subsystem.name'] = 'solr'
+node.default['alfresco']['properties']['index.subsystem.name'] = 'solr4'
 
 ################################
 ### Artifact Deployer attributes
@@ -88,3 +88,10 @@ node.default['artifacts']['alfresco']['type'] = "war"
 node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 node.default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
+
+node.default['rsyslog']['file_inputs']['repo1']['file'] = '/var/log/tomcat-alfresco/alfresco.log'
+node.default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['repo1']['priority'] = 50
+node.default['rsyslog']['file_inputs']['repo2']['file'] = '/var/log/tomcat-alfresco/catalina.out.*'
+node.default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['repo2']['priority'] = 51

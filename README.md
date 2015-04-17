@@ -321,15 +321,6 @@ to modify/extend configuration, check [nginx community cookbook](https://github.
 Dependencies
 ---
 Chef-Alfresco delegates the installation of 3rd party software to external cookbooks; hereby the complete list, also mentioned in [metadata.rb](https://github.com/maoo/chef-alfresco/blob/master/metadata.rb)
-* [swftools](https://github.com/dhartford/chef-swftools)
-* [openoffice](https://github.com/dhartford/chef-openoffice)
-* [imagemagick](https://github.com/someara/imagemagick)
-* [database](https://github.com/opscode-cookbooks/database)
-* [java](https://github.com/opscode-cookbooks/java)
-* [mysql](https://github.com/opscode-cookbooks/mysql)
-* [tomcat](https://github.com/maoo/tomcat)
-* [build-essential](https://github.com/opscode-cookbooks/build-essential)
-* [artifact-deployer](https://github.com/maoo/artifact-deployer)
 
 Credits
 ---

@@ -1,3 +1,12 @@
+# Rsyslog defaults are only used if component includes "rsyslog"
+node.default['rsyslog']['file_inputs']['mysql-error']['file'] = '/var/log/mysql-default/error.log'
+node.default['rsyslog']['file_inputs']['mysql-error']['severity'] = 'error'
+node.default['rsyslog']['file_inputs']['mysql-error']['priority'] = 57
+
+node.default['rsyslog']['file_inputs']['mysqld']['file'] = '/var/log/mysqld.log'
+node.default['rsyslog']['file_inputs']['mysqld']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['mysqld']['priority'] = 58
+
 db_database   = node['alfresco']['properties']['db.dbname']
 db_host       = node['alfresco']['properties']['db.host']
 db_port       = node['alfresco']['properties']['db.port']

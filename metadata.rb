@@ -13,14 +13,15 @@ depends "maven"
 
 # Community cookbooks
 depends "artifact-deployer", "~> 0.8.7"
+depends 'build-essential', '~> 2.2.3'
+depends "database", "~> 4.0.5"
+depends "ffmpeg", "~> 0.4.4"
+depends "haproxy", "~> 1.6.6"
 depends "imagemagick", "~> 0.2.3"
 depends "java", "~> 1.31.0"
+depends "libreoffice", "~> 0.0.2"
 depends "mysql", "~> 6.0.21"
 depends 'mysql2_chef_gem', "~> 1.0.1"
-depends "database", "~> 4.0.5"
-depends "openoffice", "~> 0.2.2"
-depends "swftools", "~> 0.2.4"
-depends "haproxy", "~> 1.6.6"
 depends "nginx", "~> 2.7.6"
-depends 'build-essential', '~> 2.2.3'
+depends "swftools", "~> 0.2.4"
 depends 'yum-epel', '~> 0.6.0'

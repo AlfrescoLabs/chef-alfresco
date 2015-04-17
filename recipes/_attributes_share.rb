@@ -20,3 +20,11 @@ node.default['alfresco']['properties']['share.context']      = '/share'
 node.default['alfresco']['properties']['share.host']         = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['share.port']         = node['alfresco']['default_port']
 node.default['alfresco']['properties']['share.protocol']     = node['alfresco']['default_protocol']
+
+# Rsyslog defaults are only used if component includes "rsyslog"
+node.default['rsyslog']['file_inputs']['share1']['file'] = '/var/log/tomcat-share/share.log'
+node.default['rsyslog']['file_inputs']['share1']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['share1']['priority'] = 52
+node.default['rsyslog']['file_inputs']['share2']['file'] = '/var/log/tomcat-share/catalina.out.*'
+node.default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
+node.default['rsyslog']['file_inputs']['share2']['priority'] = 53

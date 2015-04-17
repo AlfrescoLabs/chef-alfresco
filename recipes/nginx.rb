@@ -1,3 +1,8 @@
+# Rsyslog defaults are only used if component includes "rsyslog"
+node.default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.log'
+node.default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
+node.default['rsyslog']['file_inputs']['nginx']['priority'] = 56
+
 include_recipe 'nginx::repo'
 include_recipe 'nginx::commons'
 include_recipe 'nginx::package'
