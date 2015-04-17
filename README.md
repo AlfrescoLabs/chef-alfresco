@@ -29,7 +29,6 @@ Default Configurations
 The following configurations apply across all components and are the most common to be overridden:
 ```
 # Which chef-alfresco components to apply (see description below)
-# iptables and lb are disabled by default
 default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql','spp']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
@@ -270,20 +269,6 @@ Installs MySQL 5.7 Server, creates a database and a granted user; hereby the def
   }
 }
 ```
-
-#### iptables (deprecated)
-
-Installs `iptables` and loads a given configuration, opening all ports needed by Alfresco to work properly:
-
-```
-- 50500 and 50508 for JMX
-- 8009, 8080 and 8443 for Apache Tomcat
-- 2121 for FTP server
-- 7070 for VTI server
-- 5701 for Clustering (Hazelcast)
-```
-
-To know more, check [alfresco-ports.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/alfresco-ports.erb) template; there are no JSON configurations that affect this component.
 
 #### spp
 

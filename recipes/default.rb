@@ -51,6 +51,14 @@ else
   node.override['artifacts']['alfresco-spp']['enabled'] = false
 end
 
+if node['alfresco']['components'].include? 'rm'
+  node.override['artifacts']['rm']['enabled'] = true
+  node.override['artifacts']['rm-share']['enabled'] = true
+else
+  node.override['artifacts']['rm']['enabled'] = false
+  node.override['artifacts']['rm-share']['enabled'] = false
+end
+
 if node['alfresco']['components'].include? 'repo'
   deploy = true
   include_recipe "alfresco::_attributes_repo"

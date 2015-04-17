@@ -149,6 +149,20 @@ node.default['artifacts']['alfresco-spp']['destination'] = node['alfresco']['amp
 node.default['artifacts']['alfresco-spp']['owner'] = node['tomcat']['user']
 node.default['artifacts']['alfresco-spp']['unzip'] = false
 
+node.default['artifacts']['rm']['groupId']       = 'org.alfresco'
+node.default['artifacts']['rm']['artifactId']    = 'alfresco-rm'
+node.default['artifacts']['rm']['version']       = '2.3.c'
+node.default['artifacts']['rm']['destination']   = node['alfresco']['amps_folder']
+node.default['artifacts']['rm']['owner']         = node['tomcat']['user']
+node.default['artifacts']['rm']['type']          = "amp"
+
+node.default['artifacts']['rm-share']['groupId']       = 'org.alfresco'
+node.default['artifacts']['rm-share']['artifactId']    = 'alfresco-rm-share'
+node.default['artifacts']['rm-share']['version']       = '2.3.c'
+node.default['artifacts']['rm-share']['destination']   = node['alfresco']['amps_share_folder']
+node.default['artifacts']['rm-share']['owner']         = node['tomcat']['user']
+node.default['artifacts']['rm-share']['type']          = "amp"
+
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
