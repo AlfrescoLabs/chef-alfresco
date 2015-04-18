@@ -6,7 +6,7 @@ node.override['tomcat']['deploy_manager_packages'] = []
 
 additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
 additional_tomcat_packages.each do |pkg|
-  package "#{pkg}" do
+  package pkg do
     action :install
   end
 end
