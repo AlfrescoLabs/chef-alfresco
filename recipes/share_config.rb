@@ -25,5 +25,5 @@ template "share-config-custom.xml" do
   group       node['tomcat']['group']
   mode        "0664"
   #TODO - test conditional
-  only_if     node['alfresco']['generate.share.config.custom']
+  only_if     "node['alfresco']['generate.share.config.custom']"
 end
