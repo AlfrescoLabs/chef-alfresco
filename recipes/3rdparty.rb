@@ -12,7 +12,7 @@ remote_file nux_desktop_rpm do
   source nux_desktop_rpm_source
 end
 
-package "epel-release"
+package "epel-release" do
   action :install
 end
 
