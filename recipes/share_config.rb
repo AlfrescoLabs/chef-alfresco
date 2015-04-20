@@ -25,5 +25,5 @@ template "share-config-custom.xml" do
   group       node['tomcat']['group']
   mode        "0664"
   #TODO - not working; for now, we run it all the time
-  only_if     { node['alfresco']['generate.share.config.custom'] == 'true' }
+  only_if     { node['alfresco']['generate.share.config.custom'] == true }
 end
