@@ -6,14 +6,17 @@ include_recipe "imagemagick::default"
 # include_recipe "ffmpeg::default"
 
 nux_desktop_rpm_source = "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
-nux_desktop_rpm = "#{Chef::Config[:file_cache_path]}/nux-dextop-release.rpm"
+nux_desktop_rpm = "#{Chef::Config[:file_cache_path]}/nux-dextop-release-0-5.el7.nux.noarch.rpm"
 
 remote_file nux_desktop_rpm do
   source nux_desktop_rpm_source
 end
 
-rpm_package "nux_desktop_rpm" do
-  source nux_desktop_rpm
+package "epel-release"
+  action :install
+end
+
+rpm_package nux_desktop_rpm do
   action :install
 end
 
