@@ -23,6 +23,6 @@ depends "libreoffice", "~> 0.0.2"
 depends "mysql", "~> 6.0.21"
 depends 'mysql2_chef_gem', "~> 1.0.1"
 depends "nginx", "~> 2.7.6"
-depends 'rsyslog'
+depends 'rsyslog', "~> 1.15.0"
 depends "swftools", "~> 0.2.4"
 depends 'yum-epel', '~> 0.6.0'
