@@ -8,11 +8,11 @@ version          "0.5.0"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
-depends "tomcat"
-depends "maven"
+depends "tomcat", '~> 0.17.3'
+depends "maven", '~> 1.2.0'
 
 # Community cookbooks
-depends "artifact-deployer", "~> 0.8.8"
+depends "artifact-deployer", "~> 0.8.9"
 depends 'build-essential', '~> 2.2.3'
 depends "database", "~> 4.0.5"
 depends "ffmpeg", "~> 0.4.4"
