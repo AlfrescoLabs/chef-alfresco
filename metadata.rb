@@ -12,7 +12,7 @@ depends "tomcat"
 depends "maven"
 
 # Community cookbooks
-depends "artifact-deployer", "~> 0.8.7"
+depends "artifact-deployer", "~> 0.8.8"
 depends 'build-essential', '~> 2.2.3'
 depends "database", "~> 4.0.5"
 depends "ffmpeg", "~> 0.4.4"
