@@ -1,5 +1,5 @@
-default['haproxy']['hostname'] = node['hostname']
-default['haproxy']['domain'] = node['domain']
+default['haproxy']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
+default['haproxy']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
 default['haproxy']['ssl_pem_crt_file'] = "/etc/haproxy/haproxy.pem"
 default['haproxy']['ssl_pem_crt_databag'] = "ssl"
