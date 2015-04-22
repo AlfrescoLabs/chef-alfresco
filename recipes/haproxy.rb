@@ -3,6 +3,15 @@ template '/etc/haproxy/haproxy.cfg' do
   notifies :restart, 'service[haproxy]'
 end
 
+error_file_cookbook = node['haproxy']['error_file_cookbook']
+error_file_source = node['haproxy']['error_file_source']
+error_folder = node['haproxy']['error_folder']
+
+remote_directory error_folder do
+  cookbook error_file_cookbook
+  source error_file_source
+end
+
 ssl_pem_crt_file = node['haproxy']['ssl_pem_crt_file']
 ssl_pem_crt_databag = node['haproxy']['ssl_pem_crt_databag']
 ssl_pem_crt_databag_item = node['haproxy']['ssl_pem_crt_databag_item']
