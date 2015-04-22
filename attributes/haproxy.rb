@@ -1,3 +1,6 @@
+default['haproxy']['cfg_source'] = 'haproxy/haproxy.cfg.erb'
+default['haproxy']['cfg_cookbook'] = 'alfresco'
+
 default['haproxy']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
 default['haproxy']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
