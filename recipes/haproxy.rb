@@ -1,17 +1,36 @@
-alfresco_components = node['alfresco']['components']
-
-repo_member = node['haproxy']['repo']
-share_member = node['haproxy']['share']
-solr_member = node['haproxy']['solr']
-
-if alfresco_components.include? "repo"
-  node.override['haproxy']['listeners']['backend']['repo'] = node['haproxy']['repo']
-end
-if alfresco_components.include? 'share'
-  node.override['haproxy']['listeners']['backend']['share'] = node['haproxy']['share']
-end
-if alfresco_components.include? 'solr'
-  node.override['haproxy']['listeners']['backend']['solr'] = node['haproxy']['solr']
+template '/etc/haproxy/haproxy.cfg' do
+  source 'haproxy/haproxy.cfg.erb'
+  notifies :restart, 'service[haproxy]'
 end
 
-include_recipe 'haproxy::default'
+ssl_pem_crt_file = node['haproxy']['ssl_pem_crt_file']
+ssl_pem_crt_databag = node['haproxy']['ssl_pem_crt_databag']
+ssl_pem_crt_databag_item = node['haproxy']['ssl_pem_crt_databag_item']
+
+directory File.dirname(ssl_pem_crt_file) do
+  action :create
+  recursive true
+end
+
+begin
+  ssl_pem_crt = data_bag_item(ssl_pem_crt_databag,ssl_pem_crt_databag_item)
+  file ssl_pem_crt_file do
+    action :create
+    content ssl_pem_crt['pem']
+    notifies :restart, 'service[haproxy]'
+  end
+rescue
+  execute "create-fake-haproxy.pem" do
+    command "openssl req \
+      -new -newkey rsa:4096 \
+      -days 365 -nodes \
+      -subj \"/C=US/ST=this-certificate/L=is/O=used/CN=by-haproxy\" \
+      -keyout #{ssl_pem_crt_file} \
+      -out /tmp/csr-haproxy.pem"
+    not_if "test -f #{ssl_pem_crt_file}"
+  end
+end
+
+service 'haproxy' do
+  action :nothing
+end

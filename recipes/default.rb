@@ -33,12 +33,17 @@ if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end
 
-if node['alfresco']['components'].include? 'haproxy'
-  include_recipe "alfresco::haproxy"
-end
-
 if node['alfresco']['components'].include? 'nginx'
   include_recipe "alfresco::nginx"
+  node.override['haproxy']['config'] = node['haproxy']['config'] + [
+    "# My front end for nginx",
+    "frontend nginx",
+    "bind 127.0.0.1:81",
+    "capture request header X-Forwarded-For len 64",
+    "capture request header User-agent len 256",
+    "capture request header Cookie len 64",
+    "capture request header Accept-Language len 64"
+  ]
 end
 
 if node['alfresco']['components'].include? 'transform'
@@ -63,6 +68,10 @@ if node['alfresco']['components'].include? 'repo'
   deploy = true
   include_recipe "alfresco::_attributes_repo"
 
+  node.override['haproxy']['config'] = node['haproxy']['config'] + [
+    "server localhost 127.0.0.1:8070 weight 1 maxconn 100 check"
+  ]
+
   if node['alfresco']['generate.global.properties'] == true
     node.override['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
   end
@@ -78,6 +87,10 @@ if node['alfresco']['components'].include? 'share'
   deploy = true
   include_recipe "alfresco::_attributes_share"
 
+  node.override['haproxy']['config'] = node['haproxy']['config'] + [
+    "server localhost 127.0.0.1:8080 weight 1 maxconn 100 check"
+  ]
+
   if node['alfresco']['patch.share.config.custom'] == true
     node.override['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
   end
@@ -92,6 +105,15 @@ end
 if node['alfresco']['components'].include? 'solr'
   deploy = true
   include_recipe "alfresco::_attributes_solr"
+  node.override['haproxy']['config'] = node['haproxy']['config'] + [
+    "server localhost 127.0.0.1:8090 weight 1 maxconn 100 check"
+  ]
+end
+
+if node['alfresco']['components'].include? 'haproxy'
+  include_recipe 'haproxy::install_package'
+  include_recipe "openssl::default"
+  include_recipe "alfresco::haproxy"
 end
 
 if deploy == true
