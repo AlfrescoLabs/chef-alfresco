@@ -101,8 +101,9 @@ node.default['alfresco']['properties']['alfresco.host']      = node['alfresco'][
 node.default['alfresco']['properties']['alfresco.port']      = node['alfresco']['default_port']
 node.default['alfresco']['properties']['alfresco.port.ssl']  = node['alfresco']['default_portssl']
 node.default['alfresco']['properties']['alfresco.protocol']  = node['alfresco']['default_protocol']
+node.default['alfresco']['properties']['opencmis.server.host'] = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['opencmis.server.protocol'] = node['alfresco']['default_protocol']
-node.default['alfresco']['properties']['opencmis.server.value'] = "{opencmis.server.protocol}://#{node['alfresco']['default_hostname']}#{node.default['alfresco']['properties']['alfresco.context']}/api"
+node.default['alfresco']['properties']['opencmis.server.value'] = "{opencmis.server.protocol}://{opencmis.server.protocol}/alfresco/api"
 
 #SSL Keystore - disabled by default
 node.default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
