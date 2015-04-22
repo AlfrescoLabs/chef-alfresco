@@ -1,8 +1,3 @@
-template '/etc/haproxy/haproxy.cfg' do
-  source 'haproxy/haproxy.cfg.erb'
-  notifies :restart, 'service[haproxy]'
-end
-
 error_file_cookbook = node['haproxy']['error_file_cookbook']
 error_file_source = node['haproxy']['error_file_source']
 error_folder = node['haproxy']['error_folder']
@@ -38,8 +33,4 @@ rescue
       -out /tmp/csr-haproxy.pem"
     not_if "test -f #{ssl_pem_crt_file}"
   end
-end
-
-service 'haproxy' do
-  action :nothing
 end
