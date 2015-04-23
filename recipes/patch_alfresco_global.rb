@@ -1,5 +1,4 @@
-replace_property_map = node['alfresco']['replace_properties']
-append_property_map = node['alfresco']['append_properties']
+replace_property_map = node['alfresco']['properties']
 
 # TODO - reuse existing attributes
 file_to_patch = '/usr/share/tomcat/shared/classes/alfresco-global.properties'
@@ -17,15 +16,16 @@ if replace_property_map
   end
 end
 
-if append_property_map
-  append_property_map.each do |propName, propValue|
-    file_append "#{propName}-on-#{file_to_patch}" do
-      path      file_to_patch
-      line      "#{propName}=#{propValue}"
-      notifies :create, 'file[create.alfresco-global-changed.run]', :delayed
-    end
-  end
-end
+# append_property_map = node['alfresco']['append_properties']
+# if append_property_map
+#   append_property_map.each do |propName, propValue|
+#     file_append "#{propName}-on-#{file_to_patch}" do
+#       path      file_to_patch
+#       line      "#{propName}=#{propValue}"
+#       notifies :create, 'file[create.alfresco-global-changed.run]', :delayed
+#     end
+#   end
+# end
 
 file 'create.alfresco-global-changed.run' do
   action :nothing
