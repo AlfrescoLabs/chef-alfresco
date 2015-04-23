@@ -2,6 +2,10 @@ include_recipe "build-essential::default"
 include_recipe "libreoffice::default"
 include_recipe "imagemagick::default"
 
+package "libreoffice-headless" do
+  action :install
+end
+
 # Community cookbook only supports Ubuntu
 # include_recipe "ffmpeg::default"
 
