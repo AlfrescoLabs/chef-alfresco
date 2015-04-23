@@ -35,7 +35,7 @@ node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
 node.default["tomcat"]["java_options"]        = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 
 # Tomcat default settings
-node.default['tomcat']['service_actions'] = [:enable,:stop]
+node.default['tomcat']['service_actions'] = [:enable,:start]
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["use_security_manager"] = false
 

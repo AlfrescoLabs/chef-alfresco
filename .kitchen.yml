@@ -22,12 +22,6 @@ suites:
     attributes: {
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
-      "nginx" : {
-        "service_actions" : ['enable', 'start']
-      },
-      "tomcat" : {
-        "service_actions" : ['enable', 'start']
-      },
       "artifact-deployer" : {
         "maven" : {
           "timeout" : 1500
