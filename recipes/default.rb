@@ -94,7 +94,6 @@ if node['alfresco']['components'].include? 'haproxy'
   include_recipe 'haproxy::install_package'
   include_recipe "openssl::default"
   include_recipe "alfresco::haproxy_install"
-  include_recipe "alfresco::haproxy_config"
 end
 
 if deploy == true
