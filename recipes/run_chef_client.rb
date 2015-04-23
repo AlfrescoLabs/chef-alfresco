@@ -56,6 +56,11 @@ template '/etc/nginx/nginx.conf' do
   notifies :restart, 'service[nginx]'
 end
 
+# TODO - Patch share-config-custom.xml ; for now CSRF is configured with .* (basically disabled)
+# /usr/share/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
+# <referer>https://myhost.mydomain.com/.*|https://myhost.mydomain.com:8843/.*|http://localhost:8080/.*</referer>
+# <origin>https://myhost.mydomain.com|https://myhost.mydomain.com:8843/.*|http://localhost:8080</origin>
+
 # Define services that need (conditional) restart
 service 'tomcat_service' do
   service_name tomcat_service_name
