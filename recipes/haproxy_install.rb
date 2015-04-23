@@ -21,7 +21,6 @@ begin
   file ssl_pem_crt_file do
     action :create
     content ssl_pem_crt['pem']
-    notifies :restart, 'service[haproxy]'
   end
 rescue
   execute "create-fake-haproxy.pem" do
