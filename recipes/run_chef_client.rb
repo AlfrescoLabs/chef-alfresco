@@ -11,6 +11,7 @@ end
 replace_property_map = node['alfresco']['properties']
 # TODO - reuse existing attributes
 file_to_patch = '/usr/share/tomcat/shared/classes/alfresco-global.properties'
+share_config = '/usr/share/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml'
 tomcat_service_name = 'tomcat-alfresco'
 
 if replace_property_map
@@ -56,10 +57,31 @@ template '/etc/nginx/nginx.conf' do
   notifies :restart, 'service[nginx]'
 end
 
-# TODO - Patch share-config-custom.xml ; for now CSRF is configured with .* (basically disabled)
-# /usr/share/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml
-# <referer>https://myhost.mydomain.com/.*|https://myhost.mydomain.com:8843/.*|http://localhost:8080/.*</referer>
-# <origin>https://myhost.mydomain.com|https://myhost.mydomain.com:8843/.*|http://localhost:8080</origin>
+# Update share-config-custom.xml
+tomcat_share_service_name = 'tomcat-share'
+if node['tomcat']['run_base_instance']
+  tomcat_share_service_name = tomcat_service_name
+end
+
+file_replace_line 'share-config-origin' do
+  path      share_config
+  replace   "<origin>"
+  with      "<origin>#{node['alfresco']['shareproperties']['origin']}</origin>"
+  not_if    "cat #{share_config} | grep '<origin>#{node['alfresco']['shareproperties']['origin']}</origin>'"
+  notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+end
+
+file_replace_line 'share-config-referer' do
+  path      share_config
+  replace   "<referer>"
+  with      "<referer>#{node['alfresco']['shareproperties']['referer']}</referer>"
+  not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
+  notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+end
+
+service 'tomcat-share' do
+  action :nothing
+end
 
 # Define services that need (conditional) restart
 service 'tomcat_service' do
