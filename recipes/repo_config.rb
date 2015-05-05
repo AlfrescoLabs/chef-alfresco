@@ -8,6 +8,9 @@ log_folder        = node['tomcat']['log_dir']
 user              = node['tomcat']['user']
 group             = node['tomcat']['group']
 
+alfresco_license_source = node['alfresco']['license_source']
+alfresco_license_cookbook = node['alfresco']['license_cookbook']
+
 generate_alfresco_global = node['alfresco']['generate.global.properties']
 
 directory "alfresco-rootdir" do
@@ -25,6 +28,16 @@ directory "alfresco-extension" do
   group       group
   mode        "0775"
   recursive   true
+end
+
+# Install license
+remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
+  source alfresco_license_source
+  cookbook alfresco_license_cookbook
+  owner user
+  group group
+  mode "0644"
+  ignore_failure true
 end
 
 file repo_log4j_path do

@@ -17,3 +17,7 @@ default['alfresco']['generate.share.log4j.properties'] = true
 
 #Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
 default['alfresco']['patch.share.config.custom'] = false
+
+#License defaults
+default['alfresco']['license_source'] = 'alfresco-license'
+default['alfresco']['license_cookbook'] = 'img-basic'
