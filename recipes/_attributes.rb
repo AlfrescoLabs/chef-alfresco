@@ -23,6 +23,8 @@ node.default['alfresco']['default_port']     = "8080"
 node.default['alfresco']['default_portssl']  = "8443"
 node.default['alfresco']['default_protocol'] = "http"
 
+node.default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['default_hostname']})"
+
 # Important Alfresco and Solr global properties
 node.default['alfresco']['properties']['dir.root']           = "#{node['tomcat']['base']}/alf_data"
 node.default['alfresco']['solrproperties']['data.dir.root']  = "#{node['alfresco']['properties']['dir.root']}/solrhome"

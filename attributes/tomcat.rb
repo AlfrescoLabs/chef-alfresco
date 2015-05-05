@@ -60,20 +60,27 @@ default['tomcat']['global_templates'] = [{
   "owner" => "tomcat"
 }]
 
-default['tomcat']['instance_templates'] = [{
-  "dest" => "/etc/cron.d",
-  "filename" => "jstack.cron",
-  "owner" => "root"
-},{
-  "dest" => "/etc/cron.d",
-  "filename" => "lsof_tomcat.cron",
-  "owner" => "root"
-},{
-  "dest" => "/etc/cron.d",
-  "filename" => "cleaner.cron",
-  "owner" => "root"
-},{
-  "dest" => "/etc/logrotate.d",
-  "filename" => "tomcat.logrotate",
-  "owner" => "root"
-}]
+# * Currently disable these files, as they should all be properly reviewed and
+# integrated with Chef attributes.
+# * Logrotate and cache cleaning should be merged into one process
+# * lsof and jstack should be disabled by default, optionally enabled
+# via attributes
+# * Tomcat logrotate should be deprecated and configured in log4j
+# 
+# default['tomcat']['instance_templates'] = [{
+#   "dest" => "/etc/cron.d",
+#   "filename" => "jstack.cron",
+#   "owner" => "root"
+# },{
+#   "dest" => "/etc/cron.d",
+#   "filename" => "lsof_tomcat.cron",
+#   "owner" => "root"
+# },{
+#   "dest" => "/etc/cron.d",
+#   "filename" => "cleaner.cron",
+#   "owner" => "root"
+# },{
+#   "dest" => "/etc/logrotate.d",
+#   "filename" => "tomcat.logrotate",
+#   "owner" => "root"
+# }]

@@ -1,1 +1,3 @@
-0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30  -exec rm {} \; //see DEVOPS-3202
+# TODO - Test manual run before re-enabling it
+# TODO - should be attached to logrotate logic
+# 0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30  -exec rm {} \; //see DEVOPS-3202
