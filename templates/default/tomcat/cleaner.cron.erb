@@ -1,3 +1,6 @@
-# TODO - Test manual run before re-enabling it
-# TODO - should be attached to logrotate logic
-# 0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30  -exec rm {} \; //see DEVOPS-3202
+# Clean cache files not used by 30 minutes
+0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30 -exec rm {} \; >> /var/log/messages
+
+# Clean rotated logs
+20 0 * * * root find <%= @tomcat_log_path %>/catalina.*.log -exec rm -v {} \; >> /var/log/messages
+20 0 * * * root find <%= @tomcat_log_path %>/localhost.*.log -exec rm -v {} \; >> /var/log/messages

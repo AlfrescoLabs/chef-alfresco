@@ -66,8 +66,12 @@ default['tomcat']['global_templates'] = [{
 # * lsof and jstack should be disabled by default, optionally enabled
 # via attributes
 # * Tomcat logrotate should be deprecated and configured in log4j
-# 
-# default['tomcat']['instance_templates'] = [{
+#
+default['tomcat']['instance_templates'] = [{
+  "dest" => "/etc/cron.d",
+  "filename" => "cleaner.cron",
+  "owner" => "root"
+# },{
 #   "dest" => "/etc/cron.d",
 #   "filename" => "jstack.cron",
 #   "owner" => "root"
@@ -76,11 +80,7 @@ default['tomcat']['global_templates'] = [{
 #   "filename" => "lsof_tomcat.cron",
 #   "owner" => "root"
 # },{
-#   "dest" => "/etc/cron.d",
-#   "filename" => "cleaner.cron",
-#   "owner" => "root"
-# },{
 #   "dest" => "/etc/logrotate.d",
 #   "filename" => "tomcat.logrotate",
 #   "owner" => "root"
-# }]
+}]
