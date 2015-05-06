@@ -12,6 +12,8 @@ default['haproxy']['error_folder'] = "/var/www/html/errors"
 default['haproxy']['error_file_cookbook'] = "alfresco"
 default['haproxy']['error_file_source'] = "haproxy/errors"
 
+default['haproxy']['port'] = "9000"
+
 default['haproxy']['config'] = [
   "global",
   "log 127.0.0.1 local2 info",
@@ -24,18 +26,8 @@ default['haproxy']['config'] = [
   "log global",
   "retries 3",
   "# Front end for http to https redirect",
-  "frontend http",
-  "bind *:80",
-  "default_backend share",
-  "redirect location https://#{node['haproxy']['hostname']}.#{node['haproxy']['domain']}/share/",
-  "frontend https",
-  "bind *:8443 ssl crt #{node['haproxy']['ssl_pem_crt_file']}",
-  "capture request header X-Forwarded-For len 64",
-  "capture request header User-agent len 256",
-  "capture request header Cookie len 64",
-  "capture request header Accept-Language len 64",
   "frontend nginx",
-  "bind 127.0.0.1:81",
+  "bind 127.0.0.1:#{node['haproxy']['port']}",
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 256",
   "capture request header Cookie len 64",

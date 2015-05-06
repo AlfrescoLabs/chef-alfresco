@@ -1,7 +1,9 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
+# Disable spp by default, since AOS is installed by default
+# default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -20,7 +22,7 @@ default['alfresco']['patch.share.config.custom'] = false
 
 #License defaults
 default['alfresco']['license_source'] = 'alfresco-license'
-default['alfresco']['license_cookbook'] = 'img-basic'
+default['alfresco']['license_cookbook'] = 'alfresco'
 
 #Mysql (custom) defaults
 default['mysql']['update_gcc'] = true
