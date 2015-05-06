@@ -56,7 +56,7 @@ node.default["tomcat"]["use_security_manager"] = false
 ####################################################
 
 node.default['logging']['log4j.rootLogger']                                = "error, Console, File"
-node.default['logging']['log4j.appender.Console']                          = "org.apache.log4j.ConsoleAppender"
+node.default['logging']['log4j.appender.Console']                          = "org.apache.log4j.DailyRollingFileAppender"
 node.default['logging']['log4j.appender.Console.layout']                   = "org.apache.log4j.PatternLayout"
 node.default['logging']['log4j.appender.Console.layout.ConversionPattern'] = "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n"
 node.default['logging']['log4j.appender.File']                             = "org.apache.log4j.DailyRollingFileAppender"
@@ -167,6 +167,20 @@ node.default['artifacts']['rm-share']['version']       = '2.3'
 node.default['artifacts']['rm-share']['destination']   = node['alfresco']['amps_share_folder']
 node.default['artifacts']['rm-share']['owner']         = node['tomcat']['user']
 node.default['artifacts']['rm-share']['type']          = "amp"
+
+node.default['artifacts']['googledocs-repo']['groupId']       = 'org.alfresco.integrations'
+node.default['artifacts']['googledocs-repo']['artifactId']    = 'alfresco-googledocs-repo'
+node.default['artifacts']['googledocs-repo']['version']       = '3.0.2'
+node.default['artifacts']['googledocs-repo']['destination']   = node['alfresco']['amps_folder']
+node.default['artifacts']['googledocs-repo']['owner']         = node['tomcat']['user']
+node.default['artifacts']['googledocs-repo']['type']          = "amp"
+
+node.default['artifacts']['googledocs-share']['groupId']       = 'org.alfresco.integrations'
+node.default['artifacts']['googledocs-share']['artifactId']    = 'alfresco-googledocs-share'
+node.default['artifacts']['googledocs-share']['version']       = '3.0.2'
+node.default['artifacts']['googledocs-share']['destination']   = node['alfresco']['amps_share_folder']
+node.default['artifacts']['googledocs-share']['owner']         = node['tomcat']['user']
+node.default['artifacts']['googledocs-share']['type']          = "amp"
 
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']

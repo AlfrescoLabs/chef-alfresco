@@ -1,7 +1,7 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -21,3 +21,6 @@ default['alfresco']['patch.share.config.custom'] = false
 #License defaults
 default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'img-basic'
+
+#Mysql (custom) defaults
+default['mysql']['update_gcc'] = true

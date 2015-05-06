@@ -47,12 +47,14 @@ else
   node.override['artifacts']['alfresco-spp']['enabled'] = false
 end
 
+if node['alfresco']['components'].include? 'googledocs'
+  node.override['artifacts']['googledocs-repo']['enabled'] = true
+  node.override['artifacts']['googledocs-share']['enabled'] = true
+end
+
 if node['alfresco']['components'].include? 'rm'
   node.override['artifacts']['rm']['enabled'] = true
   node.override['artifacts']['rm-share']['enabled'] = true
-else
-  node.override['artifacts']['rm']['enabled'] = false
-  node.override['artifacts']['rm-share']['enabled'] = false
 end
 
 if node['alfresco']['components'].include? 'repo'

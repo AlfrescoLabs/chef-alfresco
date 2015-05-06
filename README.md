@@ -29,7 +29,7 @@ Default Configurations
 The following configurations apply across all components and are the most common to be overridden:
 ```
 # Which chef-alfresco components to apply (see description below)
-default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql','spp']
+default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true

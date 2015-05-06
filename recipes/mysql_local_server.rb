@@ -16,6 +16,16 @@ db_pass       = node['alfresco']['properties']['db.password']
 db_root_user        = node['alfresco']['db']['root_user']
 mysql_root_password = node['alfresco']['db']['server_root_password']
 mysql_version = node['alfresco']['mysql_version']
+mysql_update_gcc = node['mysql']['update_gcc']
+
+if mysql_update_gcc
+  package 'gcc-c++' do
+    action :upgrade
+  end
+  package 'libstdc++-devel' do
+    action :upgrade
+  end
+end
 
 mysql2_chef_gem 'default' do
   client_version mysql_version
