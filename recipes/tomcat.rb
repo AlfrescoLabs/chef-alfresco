@@ -69,13 +69,13 @@ node.default['tomcat']['instances'].each do |tomcat_instance_name,tomcat_instanc
       recursive true
     end
 
-    template "#{instance_template['dest']}/#{tomcat_instance_name}-#{tomcat_template['filename']}" do
+    template "#{instance_template['dest']}/#{tomcat_instance_name}-#{tomcat_instance_name}-#{tomcat_template['filename']}" do
       source "tomcat/#{tomcat_template['filename']}.erb"
       owner tomcat_template['owner']
       group tomcat_template['owner']
       variables({
-        "tomcat_log_path" => "/var/log/tomcat-#{tomcat_instance_name}",
-        "tomcat_cache_path" => "/var/cache/tomcat-#{tomcat_instance_name}"
+        :tomcat_log_path => "/var/log/tomcat-#{tomcat_instance_name}",
+        :tomcat_cache_path => "/var/cache/tomcat-#{tomcat_instance_name}"
       })
     end
   end
