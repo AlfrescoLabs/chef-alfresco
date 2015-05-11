@@ -64,13 +64,10 @@ node.default['logging']['log4j.appender.File.Append']                      = "tr
 node.default['logging']['log4j.appender.File.DatePattern']                 = "'.'yyyy-MM-dd"
 node.default['logging']['log4j.appender.File.layout']                      = "org.apache.log4j.PatternLayout"
 node.default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSOLUTE} %-5p [%c] %m%n"
+node.default['logging']['log4j.appender.File.File'] = "${logfilename}"
 
-node.default['alfresco']['repo-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/extension/repo-log4j.properties"
+node.default['alfresco']['repo-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/log4j.properties"
 node.default['alfresco']['repo-log4j'] = node['logging']
-node.default['alfresco']['repo-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/alfresco.log"
-node.default['alfresco']['share-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/web-extension/share-log4j.properties"
-node.default['alfresco']['share-log4j'] = node['logging']
-node.default['alfresco']['share-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/share.log"
 
 ######################################################
 ### alfresco-global.properties used across all recipes
