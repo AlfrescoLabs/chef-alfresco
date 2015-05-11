@@ -4,6 +4,17 @@
 # TODO - Shouldnt be needed, due to deploy_manager_apps=false
 node.override['tomcat']['deploy_manager_packages'] = []
 
+context_template_cookbook = node['tomcat']['context_template_cookbook']
+context_template_source = node['tomcat']['context_template_source']
+
+template '/usr/share/tomcat/conf/context.xml' do
+  cookbook context_template_cookbook
+  source context_template_source
+  owner node['tomcat']['user']
+  group node['tomcat']['group']
+
+end
+
 additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
 additional_tomcat_packages.each do |pkg|
   package pkg do
@@ -14,10 +25,9 @@ end
 unless node['tomcat']['run_base_instance']
   alfresco_components = node['alfresco']['components']
   if alfresco_components.include? "repo"
-    node.override['alfresco']['repo_tomcat_instance']['java_options'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['repo-log4j-path']}"
+    node.override['alfresco']['repo_tomcat_instance']['java_options'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']} -Dlogfilename=/var/log/tomcat-alfresco/alfresco.log"
     node.override['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
     node.override['artifacts']['alfresco']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
-    node.override['alfresco']['repo-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-alfresco/alfresco.log"
     # Point Solr to the right Alfresco instance
     node.override['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     # Point Alfresco to the right Solr instance
@@ -27,12 +37,9 @@ unless node['tomcat']['run_base_instance']
     node.override['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
   end
   if alfresco_components.include? 'share'
-    # This makes share fail with "SEVERE: Error listenerStart"
-    # TODO - fix it, ATM wrongly logging to /usr/share/tomcat/share.log
-    # node.override['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Dlog4j.configuration=#{node['alfresco']['share-log4j-path']}"
+    node.override['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Dlogfilename=/var/log/tomcat-share/share.log"
     node.override['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
     node.override['artifacts']['share']['destination']  = "#{node['tomcat']['base']}-share/webapps"
-    node.override['alfresco']['share-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-share/share.log"
   end
   if alfresco_components.include? 'solr'
     node.override['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
