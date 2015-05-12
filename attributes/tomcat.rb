@@ -5,6 +5,7 @@ default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr abrt}
 
 default['tomcat']['jmxremote.access.file'] = '/etc/tomcat-alfresco/jmxremote.access'
 default['tomcat']['jmxremote.password.file'] = '/etc/tomcat-alfresco/jmxremote.password'
+default['tomcat']['jvm_route'] = "alfresco-#{node['hostname']}"
 
 # Use multi-homed tomcat installation
 default['tomcat']['run_base_instance'] = false
