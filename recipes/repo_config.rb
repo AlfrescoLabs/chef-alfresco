@@ -56,7 +56,7 @@ end
 
 file_replace_line "#{config_folder}/catalina.properties" do
   replace     "shared.loader="
-  with        "shared.loader=#{shared_folder}/classes,#{shared_folder}/*.jar"
+  with        "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
   only_if     { File.exist?("#{config_folder}/catalina.properties") }
 end
 

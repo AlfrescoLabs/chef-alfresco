@@ -2,7 +2,6 @@ node.default['artifacts']['share']['enabled']           = true
 node.default['artifacts']['sharedclasses']['enabled']   = true
 
 shared_folder     = node['alfresco']['shared']
-share_log4j_path   = node['alfresco']['share-log4j-path']
 
 #TODO - make it generic using File.dirName(share_log4j_path)
 directory "web-extension" do
@@ -13,10 +12,12 @@ directory "web-extension" do
   recursive   true
 end
 
-file share_log4j_path do
-  action :create
-  content ""
-end
+# Deprecated
+# share_log4j_path   = node['alfresco']['share-log4j-path']
+# file share_log4j_path do
+#   action :create
+#   content ""
+# end
 
 template "share-config-custom.xml" do
   path        "#{shared_folder}/classes/alfresco/web-extension/share-config-custom.xml"

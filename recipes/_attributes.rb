@@ -14,6 +14,7 @@ node.default["java"]["oracle"]['accept_oracle_download_terms']  = true
 # Additional Alfresco paths
 node.default['alfresco']['bin']                = "#{node['tomcat']['home']}/bin"
 node.default['alfresco']['shared']             = "#{node['tomcat']['base']}/shared"
+node.default['alfresco']['shared_lib']         = "#{node['alfresco']['shared']}/lib"
 node.default['alfresco']['amps_folder']        = "#{node['tomcat']['base']}/amps"
 node.default['alfresco']['amps_share_folder']  = "#{node['tomcat']['base']}/amps_share"
 

@@ -22,7 +22,12 @@ end
 include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_attributes"
 
-if node['alfresco']['components'].include? 'mysql'
+if node['alfresco']['components'].include? 'postgresql'
+  node.override['alfresco']['properties']['db.prefix'] = 'psql'
+  node.override['alfresco']['properties']['db.port'] = '5432'
+  node.override['alfresco']['properties']['db.params'] = ''
+  include_recipe "alfresco::postgresql_local_server"
+else
   include_recipe "alfresco::mysql_local_server"
 end
 
@@ -80,9 +85,11 @@ if node['alfresco']['components'].include? 'share'
     node.override['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
   end
 
-  if node['alfresco']['generate.share.log4j.properties'] == true
-    node.override['artifacts']['sharedclasses']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['share-log4j']
-  end
+  # TODO - update README, as share-log4j.properties is not needed anymore
+  # alfresco and share use the same shared/classes/alfresco/log4j.properties
+  # if node['alfresco']['generate.share.log4j.properties'] == true
+  #   node.override['artifacts']['sharedclasses']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['share-log4j']
+  # end
 
   include_recipe "alfresco::share_config"
 end

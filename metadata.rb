@@ -8,13 +8,13 @@ version          "0.5.0"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
-depends "tomcat", '~> 0.17.3'
-depends "maven", '~> 1.2.0'
+depends "tomcat"
+depends "maven"
 
 # Community cookbooks
 depends "artifact-deployer", "~> 0.8.10"
 depends 'build-essential', '~> 2.2.3'
-depends "database", "~> 4.0.5"
+depends "database", "~> 4.0.6"
 depends "ffmpeg", "~> 0.4.4"
 depends "haproxy", "~> 1.6.6"
 depends "imagemagick", "~> 0.2.3"
@@ -27,3 +27,5 @@ depends "openssl", "~> 4.0.0"
 depends 'rsyslog', "~> 1.15.0"
 depends "swftools", "~> 0.2.4"
 depends 'yum-epel', '~> 0.6.0'
+
+depends "postgresql", '~> 3.4.18'

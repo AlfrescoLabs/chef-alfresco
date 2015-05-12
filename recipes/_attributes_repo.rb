@@ -62,14 +62,14 @@ node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['
 node.default['artifacts']['mysql']['groupId'] = "mysql"
 node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
 node.default['artifacts']['mysql']['version'] = "5.1.30"
-node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared']
+node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['mysql']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['psql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'psql'
 node.default['artifacts']['psql']['groupId'] = "org.postgresql"
 node.default['artifacts']['psql']['artifactId'] = "postgresql"
 node.default['artifacts']['psql']['version'] = "9.2-1002-jdbc4"
-node.default['artifacts']['psql']['destination'] = node['alfresco']['shared']
+node.default['artifacts']['psql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['psql']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['keystore']['enabled']           = true

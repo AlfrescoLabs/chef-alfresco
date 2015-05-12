@@ -19,12 +19,7 @@ mysql_version = node['alfresco']['mysql_version']
 mysql_update_gcc = node['mysql']['update_gcc']
 
 if mysql_update_gcc
-  package 'gcc-c++' do
-    action :upgrade
-  end
-  package 'libstdc++-devel' do
-    action :upgrade
-  end
+  include_recipe 'build-essential::default'
 end
 
 mysql2_chef_gem 'default' do
@@ -38,13 +33,6 @@ mysql_service 'default' do
   initial_root_password mysql_root_password
   action [:create, :start]
 end
-
-# mysql_config 'default' do
-#   source 'my.cnf.erb'
-#   cookbook 'mysql'
-#   notifies :restart, 'mysql_service[default]'
-#   action :create
-# end
 
 mysql_connection_info = {
     :host     => db_host,

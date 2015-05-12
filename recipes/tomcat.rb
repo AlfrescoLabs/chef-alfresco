@@ -51,7 +51,7 @@ end
 include_recipe 'java::default'
 include_recipe 'tomcat::default'
 
-global_templates = node['tomcat']['instance_templates']
+global_templates = node['tomcat']['global_templates']
 if global_templates
   global_templates.each do |global_template|
     directory global_template['dest'] do
