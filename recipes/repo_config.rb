@@ -1,6 +1,5 @@
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
-repo_log4j_path   = node['alfresco']['repo-log4j-path']
 config_folder     = node['tomcat']['config_dir']
 base_folder       = node['tomcat']['base']
 log_folder        = node['tomcat']['log_dir']
@@ -40,7 +39,7 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   ignore_failure true
 end
 
-file repo_log4j_path do
+file "#{shared_folder}/classes/alfresco/log4j.properties" do
   action :create
   content ""
 end

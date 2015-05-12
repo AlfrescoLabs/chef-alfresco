@@ -67,8 +67,7 @@ node.default['logging']['log4j.appender.File.layout']                      = "or
 node.default['logging']['log4j.appender.File.layout.ConversionPattern']    = "%d{ABSOLUTE} %-5p [%c] %m%n"
 node.default['logging']['log4j.appender.File.File'] = "${logfilename}"
 
-node.default['alfresco']['repo-log4j-path'] = "#{node['alfresco']['shared']}/classes/alfresco/log4j.properties"
-node.default['alfresco']['repo-log4j'] = node['logging']
+node.default['alfresco']['log4j'] = node['logging']
 
 ######################################################
 ### alfresco-global.properties used across all recipes

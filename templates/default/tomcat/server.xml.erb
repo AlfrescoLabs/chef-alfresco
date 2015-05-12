@@ -25,9 +25,10 @@
  -->
 <Server port="<%= @shutdown_port %>" shutdown="SHUTDOWN">
 
-  <!-- @TODO - make it configurable -->
-  <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
-    rmiRegistryPortPlatform="40000" rmiServerPortPlatform="40000" />
+  <% if @jmx_port -%>
+    <Listener className="org.apache.catalina.mbeans.JmxRemoteLifecycleListener"
+      rmiRegistryPortPlatform="<%= @jmx_port %>" rmiServerPortPlatform="<%= @jmx_port %>" />
+  <% end -%>
 
   <!--APR library loader. Documentation at /docs/apr.html -->
   <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />

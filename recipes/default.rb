@@ -71,7 +71,7 @@ if node['alfresco']['components'].include? 'repo'
   end
 
   if node['alfresco']['generate.repo.log4j.properties'] == true
-    node.override['artifacts']['sharedclasses']['properties']['alfresco/extension/repo-log4j.properties'] = node['alfresco']['repo-log4j']
+    node.override['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
   end
 
   include_recipe "alfresco::repo_config"
@@ -97,6 +97,10 @@ end
 if node['alfresco']['components'].include? 'solr'
   deploy = true
   include_recipe "alfresco::_attributes_solr"
+end
+
+if node['alfresco']['components'].include? 'tomcat'
+  include_recipe "alfresco::tomcat-instance-config"
 end
 
 if node['alfresco']['components'].include? 'haproxy'
