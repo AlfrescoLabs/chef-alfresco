@@ -1,6 +1,8 @@
 # haproxy.cfg updates
 haproxy_cfg_source = node['haproxy']['cfg_source']
 haproxy_cfg_cookbook = node['haproxy']['cfg_cookbook']
+host = "#{node['hosts']['hostname']}.#{node['hosts']['domain']}"
+
 template '/etc/haproxy/haproxy.cfg' do
   source haproxy_cfg_source
   cookbook haproxy_cfg_cookbook
@@ -77,6 +79,10 @@ file_replace_line 'share-config-referer' do
   with      "<referer>#{node['alfresco']['shareproperties']['referer']}</referer>"
   not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
   notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+end
+
+file_append '/etc/tomcat/tomcat.conf' do
+  line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{host}\""
 end
 
 service 'tomcat-share' do

@@ -2,5 +2,6 @@
 0/30 * * * * root find <%= @tomcat_cache_path %>/*.* -maxdepth 0 -mmin +30 -exec rm {} \; >> /var/log/messages
 
 # Clean rotated logs
+20 0 * * * root find <%= @tomcat_log_path %>/alfresco.*.log -exec rm -v {} \; >> /var/log/messages
 20 0 * * * root find <%= @tomcat_log_path %>/catalina.*.log -exec rm -v {} \; >> /var/log/messages
 20 0 * * * root find <%= @tomcat_log_path %>/localhost.*.log -exec rm -v {} \; >> /var/log/messages

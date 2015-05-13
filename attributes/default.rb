@@ -26,3 +26,7 @@ default['alfresco']['license_cookbook'] = 'alfresco'
 
 #Mysql (custom) defaults
 default['mysql']['update_gcc'] = true
+
+# Used in run-chef-client
+default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
+default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'

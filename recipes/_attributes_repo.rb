@@ -15,6 +15,7 @@ node.default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib64/
 node.default['alfresco']['properties']['jodconverter.portNumbers'] = '8101,8102'
 node.default['alfresco']['properties']['jodconverter.enabled'] = true
 node.default['alfresco']['properties']['img.root'] = '/usr'
+node.default['alfresco']['properties']['swf.exe'] = '/usr/local/bin/pdf2swf'
 node.default['alfresco']['properties']['img.exe'] = '/usr/bin/convert'
 node.default['alfresco']['properties']['img.dyn'] = '${img.root}/lib64'
 node.default['alfresco']['properties']['img.gslib'] = '${img.dyn}'

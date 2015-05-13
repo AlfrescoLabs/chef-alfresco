@@ -1,6 +1,3 @@
-default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
-default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
-
 # Nginx settings
 default['nginx']['cfg_source'] = 'nginx/nginx.conf.erb'
 default['nginx']['cfg_cookbook'] = 'alfresco'

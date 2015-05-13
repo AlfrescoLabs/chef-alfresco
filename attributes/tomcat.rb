@@ -35,7 +35,7 @@ default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['ajp_port'] = 8079
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
 default['alfresco']['repo_tomcat_instance']['ssl_port'] = 8433
-default['alfresco']['repo_tomcat_instance']['jmx_port'] = 40010
+default['alfresco']['repo_tomcat_instance']['jmx_port'] = 40000
 alfresco_memory = "#{(node['memory']['total'].to_i * 0.5 ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options'] = "-Xmx#{alfresco_memory} -XX:MaxPermSize=512m -XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=128m -Dalfresco.home=/usr/share/tomcat-alfresco -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Djava.library.path=/usr/lib64 -Dlogfilename=/var/log/tomcat-alfresco/alfresco.log -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/etc/tomcat-alfresco/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/etc/tomcat-alfresco/jmxremote.password -Djava.awt.headless=true -Dlog4j.configuration=alfresco/log4j.properties"
 
@@ -43,7 +43,7 @@ default['alfresco']['share_tomcat_instance']['port'] = 8080
 default['alfresco']['share_tomcat_instance']['ajp_port'] = 8089
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
 default['alfresco']['share_tomcat_instance']['ssl_port'] = 8443
-default['alfresco']['share_tomcat_instance']['jmx_port'] = 40020
+default['alfresco']['share_tomcat_instance']['jmx_port'] = 40010
 share_memory = "#{(node['memory']['total'].to_i * 0.3 ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options'] = "-Xmx#{share_memory} -XX:MaxPermSize=128m -XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=64m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dlogfilename=/var/log/tomcat-share/share.log -Dlog4j.configuration=alfresco/log4j.properties"
 
@@ -51,7 +51,7 @@ default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['ajp_port'] = 8099
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
 default['alfresco']['solr_tomcat_instance']['ssl_port'] = 8453
-default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40030
+default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40020
 solr_memory = "#{(node['memory']['total'].to_i * 0.2 ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options'] = "-Xmx#{solr_memory} -XX:MaxPermSize=128m -XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=32m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true"
 
