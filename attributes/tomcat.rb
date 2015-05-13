@@ -43,6 +43,7 @@ default['alfresco']['share_tomcat_instance']['port'] = 8080
 default['alfresco']['share_tomcat_instance']['ajp_port'] = 8089
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
 default['alfresco']['share_tomcat_instance']['ssl_port'] = 8443
+default['alfresco']['share_tomcat_instance']['jmx_port'] = 40020
 share_memory = "#{(node['memory']['total'].to_i * 0.3 ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options'] = "-Xmx#{share_memory} -XX:MaxPermSize=128m -XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=64m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dlogfilename=/var/log/tomcat-share/share.log -Dlog4j.configuration=alfresco/log4j.properties"
 
@@ -50,6 +51,7 @@ default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['ajp_port'] = 8099
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
 default['alfresco']['solr_tomcat_instance']['ssl_port'] = 8453
+default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40030
 solr_memory = "#{(node['memory']['total'].to_i * 0.2 ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options'] = "-Xmx#{solr_memory} -XX:MaxPermSize=128m -XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=32m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true"
 
