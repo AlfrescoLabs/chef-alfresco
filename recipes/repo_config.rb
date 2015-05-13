@@ -35,6 +35,8 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   cookbook alfresco_license_cookbook
   owner user
   group group
+  files_owner user
+  files_group group
   mode "0644"
   ignore_failure true
 end
