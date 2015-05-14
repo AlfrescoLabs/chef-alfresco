@@ -47,3 +47,10 @@ template '/usr/share/tomcat/conf/context.xml' do
   owner node['tomcat']['user']
   group node['tomcat']['group']
 end
+
+file_replace_line 'share-config-origin' do
+  path      '/etc/tomcat/tomcat.conf'
+  replace   "JAVA_HOME="
+  with      "JAVA_HOME=#{node['java']['java_home']}"
+  not_if    "cat /etc/tomcat/tomcat.conf | grep 'JAVA_HOME=#{node['java']['java_home']}'"
+end

@@ -37,7 +37,8 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   group group
   files_owner user
   files_group group
-  mode "0644"
+  files_mode "0777"
+  mode "0777"
   ignore_failure true
 end
 

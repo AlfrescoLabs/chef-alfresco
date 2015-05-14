@@ -30,3 +30,11 @@ default['mysql']['update_gcc'] = true
 # Used in run-chef-client
 default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
 default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
+
+# Java defaults
+default["java"]["default"]                                 = true
+default["java"]["accept_license_agreement"]                = true
+default["java"]["install_flavor"]                          = "oracle"
+default["java"]["jdk_version"]                             = "7"
+default["java"]["java_home"] = "/usr/lib/jvm/java"
+default["java"]["oracle"]['accept_oracle_download_terms']  = true
