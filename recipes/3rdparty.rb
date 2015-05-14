@@ -36,7 +36,7 @@ else
   user 'root'
   cwd '/tmp'
   code <<-EOH
-  yum install zlib zlib-devel freetype-devel jpeglib-devel giflib-devel libjpeg-turbo-devel
+  yum install -y zlib zlib-devel freetype-devel jpeglib-devel giflib-devel libjpeg-turbo-devel
   wget http://www.swftools.org/swftools-2013-04-09-1007.tar.gz -O swftools-2013-04-09-1007.tar.gz
   tar -zvxf swftools-2013-04-09-1007.tar.gz
   cd swftools-2013-04-09-1007
