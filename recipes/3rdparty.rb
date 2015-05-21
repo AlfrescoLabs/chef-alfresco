@@ -9,8 +9,21 @@ end
 # Community cookbook only supports Ubuntu
 # include_recipe "ffmpeg::default"
 
+# TODO - make it configurable
 nux_desktop_rpm_source = "http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm"
 nux_desktop_rpm = "#{Chef::Config[:file_cache_path]}/nux-dextop-release-0-5.el7.nux.noarch.rpm"
+
+install_fonts = node['alfresco']['install_fonts']
+exclude_font_packages = node['alfresco']['exclude_font_packages']
+
+exclude_font_packages = 
+if install_fonts
+  if node['platform_family'] == "rhel"
+    execute "install-all-fonts" do
+      command "yum install -y *fonts.noarch --exclude=#{exclude_font_packages}"
+    end
+  end
+end
 
 remote_file nux_desktop_rpm do
   source nux_desktop_rpm_source

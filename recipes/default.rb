@@ -2,11 +2,6 @@
 # don't invoke artifact-deployer::default and skip alfresco::apply_amps
 deploy = false
 
-# Main Alfresco attributes; based on these many others are calculated/extracted
-# For example tomcat version
-node.default['alfresco']['groupId'] = "org.alfresco"
-node.default['alfresco']['version'] = "5.0.d"
-
 # Setting Java and Tomcat versions
 node.override["tomcat"]["base_version"] = 6
 node.override['java']['jdk_version'] = '6'
@@ -50,6 +45,14 @@ if node['alfresco']['components'].include? 'spp'
   node.override['artifacts']['alfresco-spp']['enabled'] = true
 else
   node.override['artifacts']['alfresco-spp']['enabled'] = false
+end
+
+if node['alfresco']['components'].include? 'aos'
+  node.override['artifacts']['_vti_bin']['enabled'] = true
+  node.override['artifacts']['ROOT']['enabled'] = true
+else
+  node.override['artifacts']['_vti_bin']['enabled'] = false
+  node.override['artifacts']['ROOT']['enabled'] = false
 end
 
 if node['alfresco']['components'].include? 'googledocs'

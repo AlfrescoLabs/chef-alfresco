@@ -1,9 +1,14 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-# Disable spp by default, since AOS is installed by default
+# Disabled spp by default, added aos (enterprise-only)
 # default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
+
+# Main Alfresco attributes; based on these many others are calculated/extracted
+# For example tomcat version
+default['alfresco']['groupId'] = "org.alfresco"
+default['alfresco']['version'] = "5.0.d"
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -38,3 +43,7 @@ default["java"]["install_flavor"]                          = "oracle"
 default["java"]["jdk_version"]                             = "7"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
+
+#3rd-party defaults
+default['alfresco']['install_fonts'] = true
+default['alfresco']['exclude_font_packages'] = "pagul-fonts\*"

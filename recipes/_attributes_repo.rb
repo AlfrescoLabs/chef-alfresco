@@ -91,6 +91,20 @@ node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_di
 node.default['artifacts']['alfresco']['owner'] = node['tomcat']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
 
+node.default['artifacts']['_vti_bin']['groupId'] = node['alfresco']['groupId']
+node.default['artifacts']['_vti_bin']['artifactId'] = "alfresco-enterprise-vti-bin"
+node.default['artifacts']['_vti_bin']['version'] = node['alfresco']['version']
+node.default['artifacts']['_vti_bin']['type'] = 'war'
+node.default['artifacts']['_vti_bin']['destination'] = node['tomcat']['webapp_dir']
+node.default['artifacts']['_vti_bin']['owner'] = node['tomcat']['user']
+
+node.default['artifacts']['ROOT']['groupId'] = node['alfresco']['groupId']
+node.default['artifacts']['ROOT']['artifactId'] = "alfresco-enterprise-server-root"
+node.default['artifacts']['ROOT']['version'] = node['alfresco']['version']
+node.default['artifacts']['ROOT']['type'] = 'war'
+node.default['artifacts']['ROOT']['destination'] = node['tomcat']['webapp_dir']
+node.default['artifacts']['ROOT']['owner'] = node['tomcat']['user']
+
 node.default['rsyslog']['file_inputs']['repo1']['file'] = '/var/log/tomcat-alfresco/alfresco.log'
 node.default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
 node.default['rsyslog']['file_inputs']['repo1']['priority'] = 50

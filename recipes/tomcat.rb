@@ -19,6 +19,8 @@ unless node['tomcat']['run_base_instance']
   if alfresco_components.include? "repo"
     node.override['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
     node.override['artifacts']['alfresco']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
+    node.override['artifacts']['_vti_bin']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
+    node.override['artifacts']['ROOT']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
     # Point Solr to the right Alfresco instance
     node.override['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     # Point Alfresco to the right Solr instance
