@@ -1,7 +1,7 @@
 chef-alfresco
 ---
 
-[![Build Status](https://travis-ci.org/maoo/chef-alfresco.svg)](https://travis-ci.org/maoo/chef-alfresco)
+[![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg)](https://travis-ci.org/Alfresco/chef-alfresco)
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
@@ -268,10 +268,19 @@ Roadmap
 ---
 - media-management integration (MUST)
 - reporting&analytics integration (MUST)
-- BATS testing (MUST)
+- [BATS](https://github.com/sstephenson/bats) testing (MUST)
 - postgresql integration (SHOULD)
 - Ubuntu compatibility (COULD)
 - Windows compatibility (WOULD)
+
+Unit testing
+---
+Unit testing coverage is still low; we use `bundle exec` to run foodcritic.
+We plan to use [BATS](https://github.com/sstephenson/bats)
+
+Integration testing
+---
+chef-alfresco is on [Travic CI](https://travis-ci.org/maoo/chef-alfresco)
 
 Dependencies
 ---
