@@ -255,6 +255,14 @@ HAproxy is installed as OS package (using [haproxy community cookbook](https://g
 
 Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/nginx.rb)
 
+Roadmap
+---
+- media-management integration (MUST)
+- reporting&analytics integration (MUST)
+- postgresql integration (SHOULD)
+- Ubuntu compatibility (COULD)
+- Windows compatibility (WOULD)
+
 Dependencies
 ---
 Chef-Alfresco delegates the installation of 3rd party software to external cookbooks; you can find a complete list in [metadata.rb](https://github.com/maoo/chef-alfresco/blob/master/metadata.rb)
