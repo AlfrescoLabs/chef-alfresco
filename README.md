@@ -77,10 +77,6 @@ Hereby the most important (default) configuration that you can override; the com
 }
 ```
 
-The `files_cookbook` configuration allows to load file configuration's templates (such as [server.xml.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/server.xml.erb)) from the alfresco Chef Cookbook instead of the original Tomcat one.
-
-Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb) and its defaults.
-
 #### mysql
 
 Installs and configures a local instance MySQL 5.7 Community Server, creates a database and a granted user; hereby the default configuration:
