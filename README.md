@@ -286,7 +286,7 @@ Nginx is installed as OS package (using [nginx community cookbook](https://githu
 
 #### rsyslog
 
-Configures and runs an rsyslog standalone installation, which logs locally by default
+Configures and runs an rsyslog standalone installation, which logs locally by default; you can set `node['rsyslog']['server_ip']` to configure the remote server to send logs to; for more info check the [rsyslog community cookbook](https://github.com/opscode-cookbooks/rsyslog)
 
 Roadmap
 ---
