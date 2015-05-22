@@ -1,8 +1,14 @@
 #######################################
 # Chef Alfresco Components and Features
 #######################################
-# Disabled spp by default, added aos (enterprise-only)
-# default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
+
+# Alfresco components that are not enabled by default:
+# spp - Sharepoint protocol (AMP)
+# aos - Alfresco Office Services (WARs); enterprise-only
+# rsyslog - Remote logging
+#
+# Default Alfresco components
+# 
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'

@@ -112,7 +112,7 @@ if deploy == true
 end
 
 if node['alfresco']['components'].include? 'rsyslog'
-  include_recipe "rsyslog::client"
+  include_recipe "rsyslog::default"
 end
 
 # TODO - Re-enable after checking attribute defaults and integrate

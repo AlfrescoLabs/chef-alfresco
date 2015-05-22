@@ -29,9 +29,14 @@ Default Configurations
 The most important configurations of chef-alfresco can be found in [attributes/default.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb); hereby the most important ones, as they define the components to use and the deployment features to enable:
 
 ```
-# Which chef-alfresco components to apply (see description below)
-# Also 'aos' (enterprise-only) and 'spp' are available
-default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql',rm','googledocs']
+# Alfresco components that are not enabled by default:
+# spp - Sharepoint protocol (AMP)
+# aos - Alfresco Office Services (WARs); enterprise-only
+# rsyslog - Remote logging
+#
+# Default Alfresco components
+#
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -254,6 +259,10 @@ HAproxy is installed as OS package (using [haproxy community cookbook](https://g
 #### nginx
 
 Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/nginx.rb)
+
+#### rsyslog
+
+Configures and runs an rsyslog standalone installation, which logs locally by default
 
 Roadmap
 ---
