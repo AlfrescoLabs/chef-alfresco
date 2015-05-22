@@ -88,12 +88,6 @@ if node['alfresco']['components'].include? 'share'
     node.override['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
   end
 
-  # TODO - update README, as share-log4j.properties is not needed anymore
-  # alfresco and share use the same shared/classes/alfresco/log4j.properties
-  # if node['alfresco']['generate.share.log4j.properties'] == true
-  #   node.override['artifacts']['sharedclasses']['properties']['alfresco/web-extension/share-log4j.properties'] = node['alfresco']['share-log4j']
-  # end
-
   include_recipe "alfresco::share_config"
 end
 

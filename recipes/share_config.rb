@@ -12,13 +12,6 @@ directory "web-extension" do
   recursive   true
 end
 
-# Deprecated
-# share_log4j_path   = node['alfresco']['share-log4j-path']
-# file share_log4j_path do
-#   action :create
-#   content ""
-# end
-
 template "share-config-custom.xml" do
   path        "#{shared_folder}/classes/alfresco/web-extension/share-config-custom.xml"
   source      "share-config-custom.xml.erb"

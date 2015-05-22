@@ -26,48 +26,26 @@ Alternatively, you can access:
 Default Configurations
 ---
 
-The following configurations apply across all components and are the most common to be overridden:
+The most important configurations of chef-alfresco can be found in [attributes/default.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb); hereby the most important ones, as they define the components to use and the deployment features to enable:
+
 ```
 # Which chef-alfresco components to apply (see description below)
-default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
+# Also 'aos' (enterprise-only) and 'spp' are available
+default['alfresco']['components'] = ['haproxy', 'nginx','tomcat','transform','repo','share','solr','mysql',rm','googledocs']
 
 # Generates alfresco-global.properties using node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
 
 # Generates share-config-custom.xml using a pre-defined template (check templates/default)
-# configuring http endpoint and disabling CSRF
+# to configure http endpoints and CSRF origin/referer
 default['alfresco']['generate.share.config.custom'] = true
-
-# Patches an existing share-config-custom.xml using node['alfresco']['properties']
-# key/value attributes and replacing all @@key@@ occurrencies
-default['alfresco']['patch.share.config.custom'] = false
 
 # Generates repo-log4j.properties using all node['alfresco']['repo-log4j']
 # key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
-# Generates share-log4j.properties using all node['alfresco']['share-log4j']
-# key/value attributes
-default['alfresco']['generate.share.log4j.properties'] = true
-
-# URL defaults to create share-repo-solr pointers across applications
-default['alfresco']['default_hostname'] = "localhost"
-default['alfresco']['default_port']     = "8080"
-default['alfresco']['default_protocol'] = "http"
-
-# Component-specific URL defaults
-default['alfresco']['properties']['repo.host'] = node['alfresco']['default_hostname']
-default['alfresco']['properties']['share.host'] = node['alfresco']['default_hostname']
-default['alfresco']['properties']['solr.host'] = node['alfresco']['default_hostname']
-
-# Maven artifact coordinates
-# Change these to affect repo,share and solr artifact's configurations
-default['alfresco']['groupId'] = "org.alfresco"
+# Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['version'] = "5.0.d"
-
-# The alfresco-global.properties dir.root, defaults to $TOMCAT_BASE/alf_data
-# default['alfresco']['properties'] maps to alfresco-global.properties, you can add any other property
-default['alfresco']['properties']['dir.root'] = "#{node['tomcat']['base']}/alf_data"
 ```
 
 Components
@@ -76,24 +54,50 @@ For each component, chef-alfresco may include external Chef cookbooks and/or cha
 
 #### tomcat
 
-Installs and configures Apache Tomcat; more in details, this is the list of Apache Tomcat configuration items
+Installs and configures Apache Tomcat using a [fork of Tomcat community cookbook](https://github.com/maoo/tomcat):
+- Supports single multi-homed installations, allowing Alfresco Repository, Share and Solr to run on 3 (or 2) different Java virtual machines
+- Supports versions 6 and 7 (default), depending on Alfresco version
 - Standard Apache Tomcat installation using apt-get or yum repositories
-- 6 (default) and 7 main versions supported
 - Configurable SSL keystore/truststore in `server.xml`
-- `$TOMCAT_HOME/conf/tomcat-users.xml` is configured properly to enable SSL communication between repo and solr
 
-Hereby the default configuration that you can override in your configuration.
+Hereby the most important (default) configuration that you can override; the complete list can be found in [attributes/tomcat.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/tomcat.rb) and [recipes/_attributes.rb](https://github.com/maoo/chef-alfresco/blob/master/recipes/_attributes.rb)
+
 ```
 "tomcat" : {
+  "run_base_instance" : false,
+  "additional_tomcat_packages" : ["tomcat-native", "apr", "abrt"],
   "files_cookbook" : "alfresco",
   "deploy_manager_apps": false,
   "jvm_memory" : "-Xmx1500M -XX:MaxPermSize=256M",
   "java_options" : "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 }
 ```
+
 The `files_cookbook` configuration allows to load file configuration's templates (such as [server.xml.erb](https://github.com/maoo/chef-alfresco/blob/master/templates/default/server.xml.erb)) from the alfresco Chef Cookbook instead of the original Tomcat one.
 
 Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb) and its defaults.
+
+#### mysql
+
+Installs and configures a local instance MySQL 5.7 Community Server, creates a database and a granted user; hereby the default configuration:
+
+```
+"alfresco" : {
+  "db" : {
+    "repo_hosts" : "%",
+    "root_user": "root",
+    "server_root_password" : "ilikerandompasswords"
+  }
+  "properties" : {
+    "db.prefix": "mysql",
+    "db.dbname" : "alfresco",
+    "db.host": "localhost",
+    "db.port" : "3306"
+    "db.username" : "alfresco"
+    "db.password" : "alfresco"
+  }
+}
+```
 
 #### repo
 
@@ -101,7 +105,7 @@ Installs Alfresco Repository within a given Servlet container; the following fea
 
 ##### WAR installation
 
-Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.a WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.a~war~), but you can override Maven coordinates to fetch your custom artifact (or define a url/path , check  [artifact-deployer docs](https://github.com/maoo/artifact-deployer)); since the WAR already includes log4j.properties and alfresco-global.properties, we need to disable the file generation features
+Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (using [artifact-deployer](https://github.com/maoo/artifact-deployer)); by default, Chef Alfresco will fetch [Alfresco Repository 5.0.d WAR](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco~alfresco~5.0.d~war~), but you can override Maven coordinates to fetch your custom artifact (or define a url/path , check  [artifact-deployer docs](https://github.com/maoo/artifact-deployer)); since the WAR already includes log4j.properties and alfresco-global.properties, we need to disable the file generation features
 
 ```
 "artifacts": {
@@ -172,17 +176,12 @@ You can disable this feature (i.e. if you ship a `log4j.properties` within your 
 }
 ```
 
+The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates/default) folder contains the Alfresco configuration files that will be patched with Chef attribute values.
+Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/recipes/_attributes_repo.rb) and its defaults.
+
 ##### JDBC Drivers
 
-Downloads JDBC driver into Tomcat shared classloader, depending on Alfresco property `db.driver`:
-  - if db.driver == 'org.gjt.mm.mysql.Driver', mysqlconnector is used
-  - if db.driver == 'org.postgresql.Driver', postgresql is used
-  - otherwise JDBC driver must be fetched configuring artifact-deployer
-
-- `$TOMCAT_HOME/shared/classes` and `$TOMCAT_HOME/shared/*.jar` are configured as shared classloader
-
-The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates/default) folder contains the Alfresco configuration files that will be patched with Chef attribute values.
-Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/repo_config.rb) and its defaults.
+The JDBC driver JAR is downloaded and placed into the Tomcat lib folder, depending on `node['alfresco']['properties']['db.prefix']` attribute; currently `mysql` and `psql` are supported.
 
 #### share
 
@@ -207,17 +206,6 @@ You can optionally patch an existing share-config-custom.xml replacing all `@@ke
   }
 }
 ```
-
-##### share-log4j.properties generation
-
-Generates share-log4j.properties depending on properties defined in `node['alfresco']['share-log4j']; it's enabled by default
-```
-"alfresco": {
-  "generate.share.log4j.properties": true
-}
-```
-
-Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/attributes/share_config.rb) and its defaults.
 
 #### solr
 
@@ -247,80 +235,29 @@ Uses `alfresco::3rdparty` Chef recipe to install the following packages:
 - imagemagick
 - swftools
 
-There are no JSON configurations that affect this component.
-
-#### mysql
-
-Installs MySQL 5.7 Server, creates a database and a granted user; hereby the default configuration:
-
-```
-"alfresco" : {
-  "db" : {
-    "repo_hosts" : "%",
-    "root_user": "root",
-    "server_root_password" : "ilikerandompasswords"
-  }
-  "properties" : {
-    "db.dbname" : "alfresco",
-    "db.host": "localhost",
-    "db.port" : "3306"
-    "db.username" : "alfresco"
-    "db.password" : "alfresco"
-  }
-}
-```
-
 #### spp
 
-Installs Alfresco SharePoint Protocol extension (AMP); this is the default chef-alfresco configuration that can be found in [repo_config.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/repo_config.rb)
+Installs Alfresco SharePoint Protocol, using [Alfresco Sharepoint Protocol 5.0.d AMP](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~~alfresco-spp~5.0.d~~),
 
-```
-"artifacts": {
-  "my-amp": {
-      "enabled": true,
-      "groupId": "org.alfresco",
-      "artifactId": "alfresco-spp",
-      "version": "5.0.a",
-      "type": "amp"
-      "destination": "/var/lib/tomcat7/webapps",
-      "owner": "tomcat7"
-  }
-}
-```
+#### rm
+
+Installs Alfresco Records Management, using [Alfresco RM 2.3 AMP](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~~alfresco-rm~2.3~~),
+
+#### googledocs
+
+Installs Alfresco Googledocs, using [Alfresco Googledocs 3.0.2 repo and share AMPs](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~org.alfresco.integrations~alfresco-googledocs-*~3.0.2~~),
 
 #### haproxy
 
-HAproxy listens on port 80 and serves share UI on http://localhost/share
-
-You can add/modify haproxy configurations by checking attributes/haproxy.rb and override its values according to [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)
-
-```
-"haproxy" : {
-  "listeners" : {
-    "frontend" : {
-      "https" : [
-        "maxconn 2000",
-        "bind 0.0.0.0:443",
-        "default_backend share-ssl"
-      ]
-    },
-    "backend" : {
-      "share-ssl" : [
-        "server localhost 127.0.0.1:8443 weight 1 maxconn 100 check"
-      ]
-    }
-  }
-]
-```
+HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/haproxy.rb)
 
 #### nginx
 
-Nginx listens on port 81, though it is not configured to proxy any http endpoint;
-to modify/extend configuration, check [nginx community cookbook](https://github.com/miketheman/nginx)
+Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/nginx.rb)
 
 Dependencies
 ---
-Chef-Alfresco delegates the installation of 3rd party software to external cookbooks; hereby the complete list, also mentioned in [metadata.rb](https://github.com/maoo/chef-alfresco/blob/master/metadata.rb)
+Chef-Alfresco delegates the installation of 3rd party software to external cookbooks; you can find a complete list in [metadata.rb](https://github.com/maoo/chef-alfresco/blob/master/metadata.rb)
 
 Credits
 ---
@@ -330,7 +267,7 @@ A big thanks to Nichol for starting this effort!
 
 License and Author
 ---
-Copyright 2014, Maurizio Pillitu
+Copyright 2015, Alfresco
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

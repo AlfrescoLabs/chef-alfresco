@@ -5,8 +5,7 @@
 # default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','spp','rm','googledocs']
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
-# Main Alfresco attributes; based on these many others are calculated/extracted
-# For example tomcat version
+# Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.d"
 
@@ -19,10 +18,9 @@ default['alfresco']['generate.share.config.custom'] = true
 #Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
-#Generates share-log4j.properties using all node['alfresco']['share-log4j'] key/value attributes
-default['alfresco']['generate.share.log4j.properties'] = true
-
 #Patches an existing share-config-custom.xml using node['alfresco']['properties'] key/value attributes and replacing all @@key@@ occurrencies
+#Note! To enable this, you must provide your own share-config-custom.xml in
+# #{node['alfresco']['shared']}/classes/alfresco/web-extension/share-config-custom.xml
 default['alfresco']['patch.share.config.custom'] = false
 
 #License defaults
