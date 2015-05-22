@@ -3,3 +3,5 @@ tmp/
 .kitchen
 Berksfile.lock
 berks-cookbooks
+# Avoid Nexus credentials to be pushed on github
+**/private.json

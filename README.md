@@ -70,7 +70,16 @@ default['alfresco']['version'] = "5.0.d"
 
 Using Alfresco Enterprise
 ---
-As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to set your artifacts.alfresco.com credentials into [maven_repos/private](https://github.com/maoo/chef-alfresco/blob/master/test/integration/data_bags/maven_repos/private.json) databag item.
+As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to set your artifacts.alfresco.com credentials into the file `test/integration/data_bags/maven_repos/private.json`:
+
+```
+{
+  "id":"private",
+  "url": "https://artifacts.alfresco.com/nexus/content/groups/private",
+  "username":"<your_nexus_username>",
+  "password":"<your_nexus_password>"
+}
+```
 
 Components
 ---
