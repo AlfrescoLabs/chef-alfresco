@@ -259,6 +259,7 @@ Roadmap
 ---
 - media-management integration (MUST)
 - reporting&analytics integration (MUST)
+- BATS testing (MUST)
 - postgresql integration (SHOULD)
 - Ubuntu compatibility (COULD)
 - Windows compatibility (WOULD)
