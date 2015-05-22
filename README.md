@@ -5,14 +5,7 @@ chef-alfresco
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
-It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14.
-
-Usage
----
-
-Add `alfresco::default` in your `run_list`.
-
-You can optionally shop through the [recipe list](https://github.com/maoo/chef-alfresco/blob/master/recipes) and customise your run, though it is advised (some ordering must be respected and may not be trivial) to use `alfresco::default` and define `node['alfresco']['components']` as explained below.
+It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14 (feel free to open issues)
 
 Testing
 ---
@@ -22,6 +15,28 @@ Alternatively, you can access:
 - http://localhost:8070/alfresco
 - http://localhost:8080/share
 - http://localhost:8090/solr
+
+Chef Usage
+---
+
+Add `alfresco::default` in your `run_list`.
+
+You can optionally shop through the [recipe list](https://github.com/maoo/chef-alfresco/blob/master/recipes) and customise your run, though it is advised (some ordering must be respected and may not be trivial) to use `alfresco::default` and define `node['alfresco']['components']` as explained below.
+
+The following cookbooks are not part of Chef Supermarket; as such, you will need to explicitely define them as dependency of your Chef cookbook to make chef-alfresco working:
+
+```
+cookbook 'tomcat', git:'git@github.com:maoo/tomcat.git', tag: "v0.17.3-fork2"
+cookbook 'maven', git:'git@github.com:maoo/maven.git', tag: "v1.2.0-fork"
+cookbook 'file', git: 'git@github.com:jenssegers/chef-filehelper.git', tag: "v1.0.0"
+```
+
+Check [Berksfile](https://github.com/maoo/chef-alfresco/blob/master/Berksfile) for more info; you can also use Librarian to resolve transitive dependencies.
+
+Packer Usage
+---
+
+You can use chef-alfresco in combination with [Packer Common](https://github.com/Alfresco/packer-common) or [Alfresco Boxes](https://github.com/maoo/alfresco-boxes) projects, to build AMIs, OVFs, Vagrant boxes, [Docker images](registry.hub.docker.com/u/maoo) and more.
 
 Default Configurations
 ---
