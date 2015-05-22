@@ -48,6 +48,10 @@ default['alfresco']['generate.repo.log4j.properties'] = true
 default['alfresco']['version'] = "5.0.d"
 ```
 
+Using Alfresco Enterprise
+---
+As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to set your artifacts.alfresco.com credentials into [maven_repos/private](https://github.com/maoo/chef-alfresco/blob/master/test/integration/data_bags/maven_repos/private.json) databag item.
+
 Components
 ---
 For each component, chef-alfresco may include external Chef cookbooks and/or change some attribute's defaults; the logic is implemented in the Chef-Alfresco [default recipe](https://github.com/maoo/chef-alfresco/blob/master/recipes/default.rb)
