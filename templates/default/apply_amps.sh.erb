@@ -32,8 +32,8 @@ fi
 
 echo "This script will apply all the AMPs in amps and amps_share to the alfresco.war and share.war files in $TOMCAT_WEBAPPS"
 
-java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPS_FOLDER $ALF_TOMCAT_WEBAPPS/alfresco.war -nobackup -directory
-java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPSSHARE_FOLDER $SHARE_TOMCAT_WEBAPPS/share.war -nobackup -directory
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPS_FOLDER $ALF_TOMCAT_WEBAPPS/alfresco.war -nobackup -directory -force
+java -jar $TOMCAT_BIN/alfresco-mmt.jar install $AMPSSHARE_FOLDER $SHARE_TOMCAT_WEBAPPS/share.war -nobackup -directory -force
 
 echo "About to clean out $TOMCAT_WEBAPPS and share directories and temporary files..."
 

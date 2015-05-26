@@ -5,10 +5,11 @@
 # Alfresco components that are not enabled by default:
 # spp - Sharepoint protocol (AMP)
 # aos - Alfresco Office Services (WARs); enterprise-only
+# media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
 #
 # Default Alfresco components
-# 
+#
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
@@ -50,4 +51,5 @@ default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
 #3rd-party defaults
 default['alfresco']['install_fonts'] = true
-default['alfresco']['exclude_font_packages'] = "pagul-fonts\*"
+# Exclude chkfontpath due to unsatisfied dependency on xfs
+default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"

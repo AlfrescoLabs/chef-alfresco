@@ -175,6 +175,31 @@ node.default['artifacts']['googledocs-share']['destination']   = node['alfresco'
 node.default['artifacts']['googledocs-share']['owner']         = node['tomcat']['user']
 node.default['artifacts']['googledocs-share']['type']          = "amp"
 
+# TODO - there's no default location publicly available,
+# since artifacts.alfresco.com doesn't contain media-management yet
+node.default['artifacts']['media']['destination'] = '/tmp'
+node.default['artifacts']['media']['unzip'] = true
+node.default['artifacts']['media']['type'] = "zip"
+node.default['artifacts']['media']['owner'] = node['tomcat']['user']
+
+# TODO - missing root path slash due to artifact-deployer bug
+node.default['artifacts']['media-repo']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-1.0.0.amp"
+node.default['artifacts']['media-repo']['destination']   = node['alfresco']['amps_folder']
+node.default['artifacts']['media-repo']['owner']         = node['tomcat']['user']
+node.default['artifacts']['media-repo']['type']          = "amp"
+
+# TODO - missing root path slash due to artifact-deployer bug
+node.default['artifacts']['media-share']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-share/alfresco-mm-share-1.0.0.amp"
+node.default['artifacts']['media-share']['destination']   = node['alfresco']['amps_share_folder']
+node.default['artifacts']['media-share']['owner']         = node['tomcat']['user']
+node.default['artifacts']['media-share']['type']          = "amp"
+
+node.default['media']['install.content.services'] = true
+node.default['media']['content_services_folder'] = "#{node['artifacts']['media']['destination']}/media/remote-node"
+node.default['media']['content_services_jar_path'] = "#{node['media']['content_services_folder']}/content-services-node-1.0.0.jar"
+node.default['media']['content_services_config_path'] = "#{node['media']['content_services_folder']}/config.yml"
+node.default['media']['content_services_packages'] = %w( ImageMagick libogg libvorbis vorbis-tools libmp3lame0 libfaac0 faac faac-devel faad2 libfaad2 faad2-devel libtheora-devel libvorbis-devel libvpx-devel perl-Image-ExifTool xvidcore xvidcore-devel x264 x264-devel ffmpeg ffmpeg-devel)
+
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"

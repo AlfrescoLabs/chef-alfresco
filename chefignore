@@ -1,17 +1,29 @@
 # Put files/directories that should be ignored in this file.
 # Lines that start with '# ' are comments.
 
-test/
+# General ignores
+Gemfile.lock
+tmp/
+Berksfile.lock
+berks-cookbooks
+.DS_Store
+nohup.out
+
+# Avoid Nexus credentials to be pushed on github
+**/maven_repos/private.json
+**/maven_repos/internal.json
+
+# Vagrant/Kitchen/Travis ignores
+.vagrant
+.kitchen.local.yml
 .kitchen/
-.vagrant/
+
+# Alfresco license ignores
+**/*.lic
+
+# More Chef ignores
+test/
 Vagrant*
 Berks*
-.travis.yml
 .git
 .gitignore
-
-## OS
-.DS_Store
-Icon?
-nohup.out
-berks-cookbooks/

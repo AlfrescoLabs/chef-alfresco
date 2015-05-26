@@ -10,9 +10,7 @@ if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version']
   node.override['java']['jdk_version'] = '7'
 end
 
-if node['platform_family'] == "rhel"
-  include_recipe "yum-epel::default"
-end
+include_recipe "alfresco::package-repositories"
 
 include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_attributes"
@@ -38,7 +36,7 @@ if node['alfresco']['components'].include? 'nginx'
 end
 
 if node['alfresco']['components'].include? 'transform'
-  include_recipe "alfresco::3rdparty"
+  include_recipe "alfresco::transformations"
 end
 
 if node['alfresco']['components'].include? 'spp'
@@ -63,6 +61,16 @@ end
 if node['alfresco']['components'].include? 'rm'
   node.override['artifacts']['rm']['enabled'] = true
   node.override['artifacts']['rm-share']['enabled'] = true
+end
+
+if node['alfresco']['components'].include? 'media'
+  if node['media']['install.content.services']
+    include_recipe 'alfresco::media-content-services'
+  end
+  node.override['artifacts']['media']['enabled'] = true
+  node.override['artifacts']['media-repo']['enabled'] = true
+  node.override['artifacts']['media-repo-messaging']['enabled'] = true
+  node.override['artifacts']['media-share']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'repo'

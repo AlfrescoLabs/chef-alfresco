@@ -1,7 +1,19 @@
+# General ignores
 Gemfile.lock
 tmp/
-.kitchen
 Berksfile.lock
 berks-cookbooks
+.DS_Store
+nohup.out
+
 # Avoid Nexus credentials to be pushed on github
-**/private.json
+**/maven_repos/private.json
+**/maven_repos/internal.json
+
+# Vagrant/Kitchen/Travis ignores
+.vagrant
+.kitchen.local.yml
+.kitchen/
+
+# Alfresco license ignores
+**/*.lic

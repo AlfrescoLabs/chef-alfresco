@@ -148,7 +148,7 @@ Fetch Alfresco WAR from a public/private Maven repository, URL or file-system (u
 
 ##### AMP installation
 
-Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer); SPP extension is added by default
+Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer)
 ```
 "artifacts": {
   "my-amp": {
@@ -205,9 +205,6 @@ You can disable this feature (i.e. if you ship a `log4j.properties` within your 
 }
 ```
 
-The [templates](https://github.com/maoo/chef-alfresco/tree/master/templates/default) folder contains the Alfresco configuration files that will be patched with Chef attribute values.
-Check the [list of configuration attributes](https://github.com/maoo/chef-alfresco/blob/master/recipes/_attributes_repo.rb) and its defaults.
-
 ##### JDBC Drivers
 
 The JDBC driver JAR is downloaded and placed into the Tomcat lib folder, depending on `node['alfresco']['properties']['db.prefix']` attribute; currently `mysql` and `psql` are supported.
@@ -259,7 +256,7 @@ Generates log4j-solr.properties depending on properties defined in `node['alfres
 
 #### transform
 
-Uses `alfresco::3rdparty` Chef recipe to install the following packages:
+Uses `alfresco::transformations` Chef recipe to install the following packages:
 - openoffice
 - imagemagick
 - swftools
@@ -267,6 +264,23 @@ Uses `alfresco::3rdparty` Chef recipe to install the following packages:
 #### spp
 
 Installs Alfresco SharePoint Protocol, using [Alfresco Sharepoint Protocol 5.0.d AMP](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~~alfresco-spp~5.0.d~~),
+
+#### media
+
+Installs and configures Alfresco media-management; since the feature is currently only available via Alfresco Customer Success website, you must download it first to a known Maven Repo or HTTP location and override the following attributes:
+
+```
+"alfresco" : {
+  "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','media']
+}
+"media" : {
+  # "url" : "http://my-media.com/zip/location.zip",
+  "groupId" : "my_media_group_id",
+  "artifactId" : "my_media_distribution",
+  "version" : "0.0.1",
+  "type" : "zip"
+}
+```
 
 #### rm
 
