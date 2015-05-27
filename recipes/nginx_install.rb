@@ -13,10 +13,11 @@ file "/etc/nginx/conf.d/default.conf" do
   action :delete
 end
 
-template '/etc/nginx/nginx.conf' do
-  source node['nginx']['cfg_source']
-  cookbook node['nginx']['cfg_cookbook']
-end
+# TODO - remove it, done already by nginx cookbook
+# template '/etc/nginx/nginx.conf' do
+#   source node['nginx']['cfg_source']
+#   cookbook node['nginx']['cfg_cookbook']
+# end
 
 include_recipe 'nginx::default'
 

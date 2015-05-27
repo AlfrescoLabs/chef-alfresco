@@ -7,14 +7,15 @@ chef-alfresco is a Chef cookbook that provides a modular, configurable and exten
 
 It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14 (feel free to open issues)
 
-Testing
+Local test (run)
 ---
-You can use `kitchen converge` to test Alfresco locally (Kitchen is now shipped with the [ChefDK](https://downloads.chef.io/chef-dk/)); when the command completes, you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
+You can type `kitchen converge` - from the root path of this project - to test Alfresco locally (to get kitchen, install [ChefDK](https://downloads.chef.io/chef-dk/) on your machine); when the command completes (takes 40 minutes for full default configuration), you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
 
 Alternatively, you can access:
-- http://localhost:8070/alfresco
-- http://localhost:8080/share
-- http://localhost:8090/solr
+- http://localhost:9000 (haproxy)
+- http://localhost:8070/alfresco (tomcat-alfresco)
+- http://localhost:8080/share (tomcat-share)
+- http://localhost:8090/solr (tomcat-solr)
 
 Chef Usage
 ---
@@ -70,14 +71,27 @@ default['alfresco']['version'] = "5.0.d"
 
 Using Alfresco Enterprise
 ---
-As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to set your artifacts.alfresco.com credentials into the file `test/integration/data_bags/maven_repos/private.json`:
+As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to configure access to Alfresco private repository using your customer credentials (same login as https://artifacts.alfresco.com); create file `test/integration/data_bags/maven_repos/private.json`:
 
 ```
 {
   "id":"private",
   "url": "https://artifacts.alfresco.com/nexus/content/groups/private",
-  "username":"<your_nexus_username>",
-  "password":"<your_nexus_password>"
+  "username":"<customer_username>",
+  "password":"<customer_password>"
+}
+```
+
+Using custom Maven repository
+---
+You can configure your own Maven repository:
+- Create `test/integration/data_bags/maven_repos/mymvnrepo.json`:
+```
+{
+  "id":"mymvnrepo",
+  "url": "http://mymvnrepo.com/nexus/content/groups/public",
+  "username":"myuser",
+  "password":"mypwd"
 }
 ```
 
@@ -313,12 +327,22 @@ Roadmap
 
 Unit testing
 ---
-Unit testing coverage is still low; we use `bundle exec` to run foodcritic.
+Unit testing coverage is still low; we use foodcritic and knife tests.
+```
+bundle update
+bundle exec rake
+```
+
 We plan to use [BATS](https://github.com/sstephenson/bats)
 
 Integration testing
 ---
 chef-alfresco is on [Travic CI](https://travis-ci.org/maoo/chef-alfresco)
+
+Integration testing coverage is still low; we kitchen and serverspec.
+```
+kitchen test
+```
 
 Dependencies
 ---

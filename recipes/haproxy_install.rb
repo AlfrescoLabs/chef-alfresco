@@ -1,3 +1,5 @@
+haproxy_cfg_source = node['haproxy']['conf_template_source']
+haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
 error_file_cookbook = node['haproxy']['error_file_cookbook']
 error_file_source = node['haproxy']['error_file_source']
 error_folder = node['haproxy']['error_folder']
@@ -33,3 +35,11 @@ rescue
     not_if "test -f #{ssl_pem_crt_file}"
   end
 end
+
+include_recipe 'haproxy::default'
+
+# Set haproxy.cfg custom template
+# TODO - fix it upstream and send PR
+r = resources(template: "#{node['haproxy']['conf_dir']}/haproxy.cfg")
+r.source(haproxy_cfg_source)
+r.cookbook(haproxy_cfg_cookbook)

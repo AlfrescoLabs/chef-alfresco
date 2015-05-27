@@ -1,6 +1,6 @@
 # Nginx settings
-default['nginx']['cfg_source'] = 'nginx/nginx.conf.erb'
-default['nginx']['cfg_cookbook'] = 'alfresco'
+default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
+default['nginx']['conf_cookbook'] = 'alfresco'
 
 default['nginx']['service_actions'] = [:enable,:start]
 

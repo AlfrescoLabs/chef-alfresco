@@ -1,29 +1,33 @@
 #!/usr/bin/env rake
 
-@cookbook = "alfresco"
+require 'foodcritic'
+require 'rspec/core/rake_task'
 
-desc "Runs foodcritc linter"
+desc "Runs knife cookbook test"
+task :knife do
+  sh "bundle exec knife cookbook test cookbook -o ./ -a"
+end
+
+desc "Runs foodcritic test"
 task :foodcritic do
-  if Gem::Version.new("1.9.2") <= Gem::Version.new(RUBY_VERSION.dup)
-    sandbox = File.join(File.dirname(__FILE__), %w{tmp foodcritic}, @cookbook)
-    prepare_foodcritic_sandbox(sandbox)
+  FoodCritic::Rake::LintTask.new
+  sh "bundle exec foodcritic -f any ."
+end
 
-    sh "foodcritic --epic-fail any #{File.dirname(sandbox)}"
-  else
-    puts "WARN: foodcritic run is skipped as Ruby #{RUBY_VERSION} is < 1.9.2."
+desc "Runs rspec tests in test/unit folder"
+task :unit do
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.pattern = "test/unit/**/*_spec.rb"
   end
 end
 
-task :default => 'foodcritic'
-
-private
-
-def prepare_foodcritic_sandbox(sandbox)
-  files = %w{*.md *.rb attributes definitions files providers
-    recipes resources templates}
-
-  rm_rf sandbox
-  mkdir_p sandbox
-  cp_r Dir.glob("{#{files.join(',')}}"), sandbox
-  puts "\n\n"
+task :integration do
+  begin
+    require 'kitchen/rake_tasks'
+    Kitchen::RakeTasks.new
+  rescue LoadError
+    puts ">>>>> Kitchen gem not loaded, omitting kitchen tasks" unless ENV['CI']
+  end
 end
+
+task :default => [:foodcritic, :knife, :unit]

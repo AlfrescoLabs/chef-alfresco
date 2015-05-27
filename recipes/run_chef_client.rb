@@ -1,13 +1,16 @@
 # haproxy.cfg updates
-haproxy_cfg_source = node['haproxy']['cfg_source']
-haproxy_cfg_cookbook = node['haproxy']['cfg_cookbook']
 host = "#{node['hosts']['hostname']}.#{node['hosts']['domain']}"
 
-template '/etc/haproxy/haproxy.cfg' do
-  source haproxy_cfg_source
-  cookbook haproxy_cfg_cookbook
-  notifies :restart, 'service[haproxy]'
-end
+# DEPRECATED in favour of haproxy::default
+#
+# haproxy_cfg_source = node['haproxy']['cfg_source']
+# haproxy_cfg_cookbook = node['haproxy']['cfg_cookbook']
+# template '/etc/haproxy/haproxy.cfg' do
+#   source haproxy_cfg_source
+#   cookbook haproxy_cfg_cookbook
+#   notifies :restart, 'service[haproxy]'
+# end
+include_recipe 'haproxy::default'
 
 # alfresco-global.properties updates
 replace_property_map = node['alfresco']['properties']
@@ -50,14 +53,16 @@ file 'delete.alfresco-global-changed.run' do
   path '/var/run/alfresco-global-changed.run'
 end
 
-#nginx.conf updates
-nginx_cfg_source = node['nginx']['cfg_source']
-nginx_cfg_cookbook = node['nginx']['cfg_cookbook']
-template '/etc/nginx/nginx.conf' do
-  source nginx_cfg_source
-  cookbook nginx_cfg_cookbook
-  notifies :restart, 'service[nginx]'
-end
+# DEPRECATED in favour of nginx::commons_conf
+#
+# nginx_cfg_source = node['nginx']['cfg_source']
+# nginx_cfg_cookbook = node['nginx']['cfg_cookbook']
+# template '/etc/nginx/nginx.conf' do
+#   source nginx_cfg_source
+#   cookbook nginx_cfg_cookbook
+#   notifies :restart, 'service[nginx]'
+# end
+include_recipe 'nginx::commons_conf'
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
@@ -96,10 +101,11 @@ service 'tomcat_service' do
   notifies :delete, 'file[delete.alfresco-global-changed.run]', :immediately
 end
 
-service 'nginx' do
-  action :nothing
-end
-
-service 'haproxy' do
-  action :nothing
-end
+# DEPRECATED - not needed for now
+# service 'nginx' do
+#   action :nothing
+# end
+#
+# service 'haproxy' do
+#   action :nothing
+# end
