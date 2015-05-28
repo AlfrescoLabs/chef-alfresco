@@ -24,15 +24,15 @@ kitchen converge
 takes roughly 40 minutes for full default configuration.
 
 #### Access
-- [http://localhost:8800/share] (nginx)
-- http://localhost:9000 (haproxy)
-- http://localhost:8070/alfresco (tomcat-alfresco)
-- http://localhost:8081/share (tomcat-share)
-- http://localhost:8090/solr (tomcat-solr)
+- [http://localhost:8800/share](http://localhost:8800/share) (nginx)
+- [http://localhost:9000](http://localhost:9000) (haproxy)
+- [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
+- [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
+- [http://localhost:8090/solr](http://localhost:8090/solr) (tomcat-solr)
 
 If you use analytics and/or media-management you can also access:
-- http://localhost:8080/pentaho (ba-server tomcat)
-- http://localhost:61616 (activemq)
+- [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
+- [http://localhost:61616](http://localhost:61616) (activemq)
 
 Chef Usage
 ---
