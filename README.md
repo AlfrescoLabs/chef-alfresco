@@ -15,6 +15,7 @@ Prerequisites:
 - [Vagrant](https://www.vagrantup.com/downloads.html)
 - [Virtualbox](https://www.virtualbox.org/wiki/downloads)
 - Make sure that `PATH=$HOME/.chefdk/gem/ruby/2.1.0/bin:/opt/chefdk/bin:/opt/chefdk/embedded/bin:$PATH`
+- Make sure that you have [SSH Keys configured in GitHub](https://help.github.com/articles/generating-ssh-keys/)
 
 You can type `kitchen converge` - from the root path of this project - to test Alfresco locally (to get kitchen, install [ChefDK](https://downloads.chef.io/chef-dk/) on your machine); when the command completes (takes 40 minutes for full default configuration), you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
 
