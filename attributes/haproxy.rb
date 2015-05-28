@@ -46,7 +46,7 @@ default['haproxy']['config'] = [
   "#",
   "# Front end for http to https redirect",
   "frontend nginx",
-  "bind 127.0.0.1:#{node['haproxy']['port']}",
+  "bind 0.0.0.0:#{node['haproxy']['port']}",
   "# ACL for backend mapping based on url paths",
   "acl share_path path_beg /share/",
   "acl alfresco_path path_beg /alfresco",
