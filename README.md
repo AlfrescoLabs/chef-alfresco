@@ -10,20 +10,20 @@ It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14
 Local test (run)
 ---
 
-Prerequisites:
+#### Prerequisites
 - [ChefDK](https://downloads.chef.io/chef-dk/)
 - [Vagrant](https://www.vagrantup.com/downloads.html)
 - [Virtualbox](https://www.virtualbox.org/wiki/downloads)
 - Make sure that `PATH=$HOME/.chefdk/gem/ruby/2.1.0/bin:/opt/chefdk/bin:/opt/chefdk/embedded/bin:$PATH`
 - Make sure that you have [SSH Keys configured in GitHub](https://help.github.com/articles/generating-ssh-keys/)
 
-Command:
+#### Command
 ```
 kitchen converge
 ```
 takes roughly 40 minutes for full default configuration.
 
-Access:
+#### Access
 - http://localhost:8800/share (nginx)
 - http://localhost:9000 (haproxy)
 - http://localhost:8070/alfresco (tomcat-alfresco)
