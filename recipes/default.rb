@@ -73,6 +73,13 @@ if node['alfresco']['components'].include? 'media'
   node.override['artifacts']['media-share']['enabled'] = true
 end
 
+if node['alfresco']['components'].include? 'analytics'
+  node.override['artifacts']['analytics']['enabled'] = true
+  node.override['artifacts']['analytics-repo']['enabled'] = true
+  node.override['artifacts']['analytics-share']['enabled'] = true
+  node.override['artifacts']['alfresco-pentaho']['enabled'] = true
+end
+
 if node['alfresco']['components'].include? 'repo'
   deploy = true
   include_recipe "alfresco::_attributes_repo"

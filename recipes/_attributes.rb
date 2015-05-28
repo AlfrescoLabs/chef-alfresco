@@ -182,13 +182,11 @@ node.default['artifacts']['media']['unzip'] = true
 node.default['artifacts']['media']['type'] = "zip"
 node.default['artifacts']['media']['owner'] = node['tomcat']['user']
 
-# TODO - missing root path slash due to artifact-deployer bug
 node.default['artifacts']['media-repo']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
 node.default['artifacts']['media-repo']['destination']   = node['alfresco']['amps_folder']
 node.default['artifacts']['media-repo']['owner']         = node['tomcat']['user']
 node.default['artifacts']['media-repo']['type']          = "amp"
 
-# TODO - missing root path slash due to artifact-deployer bug
 node.default['artifacts']['media-share']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-share/alfresco-mm-share-#{node['artifacts']['media']['version']}.amp"
 node.default['artifacts']['media-share']['destination']   = node['alfresco']['amps_share_folder']
 node.default['artifacts']['media-share']['owner']         = node['tomcat']['user']
@@ -199,6 +197,28 @@ node.default['media']['content_services_folder'] = "#{node['artifacts']['media']
 node.default['media']['content_services_jar_path'] = "#{node['media']['content_services_folder']}/content-services-node-#{node['artifacts']['media']['version']}.jar"
 node.default['media']['content_services_config_path'] = "#{node['media']['content_services_folder']}/config.yml"
 node.default['media']['content_services_packages'] = %w( ImageMagick libogg libvorbis vorbis-tools libmp3lame0 libfaac0 faac faac-devel faad2 libfaad2 faad2-devel libtheora-devel libvorbis-devel libvpx-devel perl-Image-ExifTool xvidcore xvidcore-devel x264 x264-devel ffmpeg ffmpeg-devel)
+
+# TODO - there's no default location publicly available,
+# since artifacts.alfresco.com doesn't contain analytics yet
+node.default['artifacts']['analytics']['destination'] = '/tmp'
+node.default['artifacts']['analytics']['unzip'] = true
+node.default['artifacts']['analytics']['type'] = "zip"
+node.default['artifacts']['analytics']['owner'] = node['tomcat']['user']
+
+node.default['artifacts']['analytics-repo']['path']       = "#{node['artifacts']['analytics']['destination']}/amps/alfresco-analytics-repo-1.0.amp"
+node.default['artifacts']['analytics-repo']['destination']   = node['alfresco']['amps_folder']
+node.default['artifacts']['analytics-repo']['owner']         = node['tomcat']['user']
+node.default['artifacts']['analytics-repo']['type']          = "amp"
+
+node.default['artifacts']['analytics-share']['path']       = "#{node['artifacts']['analytics']['destination']}/amps/alfresco-analytics-share-1.0.amp"
+node.default['artifacts']['analytics-share']['destination']   = node['alfresco']['amps_share_folder']
+node.default['artifacts']['analytics-share']['owner']         = node['tomcat']['user']
+node.default['artifacts']['analytics-share']['type']          = "amp"
+
+node.default['artifacts']['alfresco-pentaho']['destination'] = '/opt/alfresco-pentaho'
+node.default['artifacts']['alfresco-pentaho']['unzip'] = true
+node.default['artifacts']['alfresco-pentaho']['type'] = "zip"
+node.default['artifacts']['alfresco-pentaho']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
