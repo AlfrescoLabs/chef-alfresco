@@ -66,6 +66,7 @@ end
 if node['alfresco']['components'].include? 'media'
   if node['media']['install.content.services']
     include_recipe 'alfresco::media-content-services'
+    node.default['alfresco']['install.activemq'] = true
   end
   node.override['artifacts']['media']['enabled'] = true
   node.override['artifacts']['media-repo']['enabled'] = true
@@ -74,10 +75,15 @@ if node['alfresco']['components'].include? 'media'
 end
 
 if node['alfresco']['components'].include? 'analytics'
+  node.default['alfresco']['install.activemq'] = true
   node.override['artifacts']['analytics']['enabled'] = true
   node.override['artifacts']['analytics-repo']['enabled'] = true
   node.override['artifacts']['analytics-share']['enabled'] = true
   node.override['artifacts']['alfresco-pentaho']['enabled'] = true
+end
+
+if node.default['alfresco']['install.activemq']
+  include_recipe 'activemq::default'
 end
 
 if node['alfresco']['components'].include? 'repo'

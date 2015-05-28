@@ -3,10 +3,11 @@
 #######################################
 
 # Alfresco components that are not enabled by default:
-# spp - Sharepoint protocol (AMP)
+# analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
 # media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
+# spp - Sharepoint protocol (AMP)
 #
 # Default Alfresco components
 #

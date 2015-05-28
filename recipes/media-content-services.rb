@@ -1,5 +1,3 @@
-include_recipe 'activemq::default'
-
 content_services_packages = node['media']['content_services_packages']
 content_services_pid_path = node['media']['content_services_pid_path']
 
