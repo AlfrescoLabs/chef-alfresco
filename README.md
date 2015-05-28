@@ -24,7 +24,7 @@ kitchen converge
 takes roughly 40 minutes for full default configuration.
 
 #### Access
-- http://localhost:8800/share (nginx)
+- [http://localhost:8800/share] (nginx)
 - http://localhost:9000 (haproxy)
 - http://localhost:8070/alfresco (tomcat-alfresco)
 - http://localhost:8081/share (tomcat-share)
@@ -335,8 +335,8 @@ Configures and runs an rsyslog standalone installation, which logs locally by de
 
 Roadmap
 ---
-- media-management integration (MUST)
-- reporting&analytics integration (MUST)
+- analytics integration (MUST)
+- media management & analytics integration with rsyslog (MUST)
 - [BATS](https://github.com/sstephenson/bats) testing (MUST)
 - postgresql integration (SHOULD)
 - Ubuntu compatibility (COULD)
