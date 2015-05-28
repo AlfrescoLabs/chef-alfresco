@@ -131,6 +131,10 @@ if deploy == true
   include_recipe "alfresco::apply_amps"
 end
 
+if node['alfresco']['components'].include? 'analytics'
+  include_recipe "alfresco::analytics"
+end
+
 if node['alfresco']['components'].include? 'rsyslog'
   include_recipe "rsyslog::default"
 end

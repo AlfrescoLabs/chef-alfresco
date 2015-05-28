@@ -70,7 +70,7 @@ default['haproxy']['config'] = [
   "backend share",
   "option httpchk GET /share",
   "cookie JSESSIONID prefix",
-  "server #{node['hosts']['hostname']} 127.0.0.1:8080 cookie share1 check inter 5000",
+  "server #{node['hosts']['hostname']} 127.0.0.1:8081 cookie share1 check inter 5000",
   "#",
   "# Alfresco backend",
   "backend alfresco",

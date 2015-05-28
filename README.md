@@ -9,13 +9,24 @@ It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14
 
 Local test (run)
 ---
+
+Prerequisites:
+- [ChefDK](https://downloads.chef.io/chef-dk/)
+- [Vagrant](https://www.vagrantup.com/downloads.html)
+- [Virtualbox](https://www.virtualbox.org/wiki/downloads)
+- Make sure that `PATH=$HOME/.chefdk/gem/ruby/2.1.0/bin:/opt/chefdk/bin:/opt/chefdk/embedded/bin:$PATH`
+
 You can type `kitchen converge` - from the root path of this project - to test Alfresco locally (to get kitchen, install [ChefDK](https://downloads.chef.io/chef-dk/) on your machine); when the command completes (takes 40 minutes for full default configuration), you can access Share UI on http://localhost:8800/share (mapped to guest VM port 80)
 
 Alternatively, you can access:
 - http://localhost:9000 (haproxy)
 - http://localhost:8070/alfresco (tomcat-alfresco)
-- http://localhost:8080/share (tomcat-share)
+- http://localhost:8081/share (tomcat-share)
 - http://localhost:8090/solr (tomcat-solr)
+
+If you use analytics and/or media-management you can also access:
+- http://localhost:8080/pentaho (ba-server tomcat)
+- http://localhost:61616 (activemq)
 
 Chef Usage
 ---

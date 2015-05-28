@@ -13,7 +13,7 @@ node.default['alfresco']['amps_share_folder']  = "#{node['tomcat']['base']}/amps
 
 #node.default['alfresco']['default_hostname'] = node['fqdn']
 node.default['alfresco']['default_hostname'] = "localhost"
-node.default['alfresco']['default_port']     = "8080"
+node.default['alfresco']['default_port']     = "8081"
 node.default['alfresco']['default_portssl']  = "8443"
 node.default['alfresco']['default_protocol'] = "http"
 
