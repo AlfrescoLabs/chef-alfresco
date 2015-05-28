@@ -46,7 +46,7 @@ The following cookbooks are not part of Chef Supermarket; as such, you will need
 ```
 cookbook 'tomcat', git:'git@github.com:maoo/tomcat.git', tag: "v0.17.3-fork2"
 cookbook 'maven', git:'git@github.com:maoo/maven.git', tag: "v1.2.0-fork"
-cookbook 'file', git: 'git@github.com:jenssegers/chef-filehelper.git', tag: "v1.0.0"
+cookbook 'file', git: 'git@github.com:jenssegers/chef-file.git', tag: "v1.0.0"
 ```
 
 Check [Berksfile](https://github.com/maoo/chef-alfresco/blob/master/Berksfile) for more info; you can also use Librarian to resolve transitive dependencies.
