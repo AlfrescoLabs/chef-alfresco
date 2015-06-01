@@ -125,8 +125,10 @@ if node['alfresco']['components'].include? 'haproxy'
   include_recipe "alfresco::haproxy_install"
 end
 
+# Always run artifact-deployer
+include_recipe "artifact-deployer::default"
+
 if deploy == true
-  include_recipe "artifact-deployer::default"
   include_recipe "alfresco::apply_amps"
 end
 
