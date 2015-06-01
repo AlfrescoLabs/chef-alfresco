@@ -1,6 +1,6 @@
 # Keep it empty and invoke it anyway, since attributes/solr_config.rb must be loaded
 node.default['artifacts']['solrhome']['enabled']       = true
-node.default['artifacts']['solr']['enabled']           = true
+node.default['artifacts']['solr4']['enabled']           = true
 
 node.default['alfresco']['solr-log4j']['log4j.appender.File.File']     = "#{node['tomcat']['log_dir']}/solr.log"
 
