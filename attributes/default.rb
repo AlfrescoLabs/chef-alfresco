@@ -17,6 +17,8 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.d"
 
+default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
+
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
 
