@@ -35,7 +35,7 @@ unless node['tomcat']['run_base_instance']
   end
   if alfresco_components.include? 'solr'
     node.override['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
-    node.override['artifacts']['solr']['destination']       = "#{node['tomcat']['base']}-solr/webapps"
+    node.override['artifacts']['solr4']['destination']       = "#{node['tomcat']['base']}-solr/webapps"
     node.override['alfresco']['solr-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-solr/solr.log"
   end
 end

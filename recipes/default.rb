@@ -152,3 +152,9 @@ end
 #     action    restart_action
 #   end
 # end
+
+# TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
+# needs restart, before patching
+# execute "patch-repo-web-xml" do
+#   command "sed -i 's/api\/solr/fakeurl/' /usr/share/tomcat-alfresco/webapps/alfresco/WEB-INF/web.xml"
+# end
