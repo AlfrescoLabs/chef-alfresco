@@ -102,10 +102,11 @@
          connector should be using the OpenSSL style configuration
          described in the APR documentation -->
     <% if @ssl_port -%>
-      <Connector port="<%= @ssl_port %>" protocol="HTTP/1.1" SSLEnabled="true"
+      <Connector port="<%= @ssl_port %>" SSLEnabled="true"
                <% if @ssl_proxy_port -%>
                  proxyPort="<%= @ssl_proxy_port %>"
                <% end -%>
+               protocol="org.apache.coyote.http11.Http11AprProtocol"
                keystoreFile="<%= node["alfresco"]["keystore_file"] %>"
                keystorePass="<%= node["alfresco"]["keystore_password"] %>"
                keystoreType="<%= node["alfresco"]["keystore_type"] %>"

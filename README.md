@@ -305,11 +305,30 @@ Installs and configures Alfresco media-management; since the feature is currentl
   "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','media']
 }
 "media" : {
-  # "url" : "http://my-media.com/zip/location.zip",
+  # "url" : "<url_to_media_zip_distro>",
   "groupId" : "my_media_group_id",
   "artifactId" : "my_media_distribution",
   "version" : "0.0.1",
   "type" : "zip"
+}
+```
+
+#### analytics
+
+Installs and configures Alfresco analytics; as per media, you must download the zip distribution package and serve it via HTTP or Maven repo; configuration is shown below.
+
+```
+attributes: {
+  "alfresco" : {
+    "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','analytics'],
+  "artifacts" : {
+    "analytics" : {
+      "url" : "<url_to_analytics_alfresco_zip_distro>"
+    },
+    "alfresco-pentaho" : {
+      "url" : "<url_to_alfresco_pentaho_zip_distro>"
+    }
+  }
 }
 ```
 
