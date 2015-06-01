@@ -19,16 +19,19 @@ if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version']
   node.default['artifacts']['solr4']['groupId']         = node['alfresco']['groupId']
   node.default['artifacts']['solr4']['artifactId']      = "alfresco-solr4"
   node.default['artifacts']['solr4']['version']         = node['alfresco']['version']
+  node.default['artifacts']['solr4']['type']              = "war"
+  node.default['artifacts']['solr4']['destination']       = node['tomcat']['webapp_dir']
+  node.default['artifacts']['solr4']['owner']             = node['tomcat']['user']
+  node.default['artifacts']['solr4']['unzip']             = false
 else
   node.default['artifacts']['solr']['groupId']         = "org.apache.solr"
   node.default['artifacts']['solr']['artifactId']      = "apache-solr"
   node.default['artifacts']['solr']['version']         = "1.4.1-alfresco-patched"
+  node.default['artifacts']['solr']['type']              = "war"
+  node.default['artifacts']['solr']['destination']       = node['tomcat']['webapp_dir']
+  node.default['artifacts']['solr']['owner']             = node['tomcat']['user']
+  node.default['artifacts']['solr']['unzip']             = false
 end
-
-node.default['artifacts']['solr']['type']              = "war"
-node.default['artifacts']['solr']['destination']       = node['tomcat']['webapp_dir']
-node.default['artifacts']['solr']['owner']             = node['tomcat']['user']
-node.default['artifacts']['solr']['unzip']             = false
 
 # Filtering properties with attributes defined above
 node.default['artifacts']['solrhome']['properties']['archive-SpacesStore/conf/solrcore.properties']    = node['alfresco']['solrproperties']
