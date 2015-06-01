@@ -16,9 +16,9 @@ node.default['artifacts']['solrhome']['type']        = "zip"
 if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
   node.default['artifacts']['solrhome']['classifier']  = "config"
 
-  node.default['artifacts']['solr']['groupId']         = node['alfresco']['groupId']
-  node.default['artifacts']['solr']['artifactId']      = "alfresco-solr"
-  node.default['artifacts']['solr']['version']         = node['alfresco']['version']
+  node.default['artifacts']['solr4']['groupId']         = node['alfresco']['groupId']
+  node.default['artifacts']['solr4']['artifactId']      = "alfresco-solr"
+  node.default['artifacts']['solr4']['version']         = node['alfresco']['version']
 else
   node.default['artifacts']['solr']['groupId']         = "org.apache.solr"
   node.default['artifacts']['solr']['artifactId']      = "apache-solr"
