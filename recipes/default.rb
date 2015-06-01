@@ -28,6 +28,9 @@ include_recipe 'java::default'
 
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
+  node.default['artifacts']['alfresco-mmt']['enabled']    = true
+  node.default['artifacts']['sharedclasses']['enabled']   = true
+  node.default['artifacts']['catalina-jmx']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'nginx'

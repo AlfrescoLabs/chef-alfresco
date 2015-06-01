@@ -220,7 +220,6 @@ node.default['artifacts']['alfresco-pentaho']['unzip'] = true
 node.default['artifacts']['alfresco-pentaho']['type'] = "zip"
 node.default['artifacts']['alfresco-pentaho']['owner'] = node['tomcat']['user']
 
-node.default['artifacts']['alfresco-mmt']['enabled']    = true
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
 node.default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
@@ -230,14 +229,12 @@ node.default['artifacts']['alfresco-mmt']['owner'] = node['tomcat']['user']
 node.default['artifacts']['alfresco-mmt']['unzip'] = false
 
 # Filtering properties with placeholders defined in the mentioned files (only if classes zip is part of the artifact list, see recipes)
-node.default['artifacts']['sharedclasses']['enabled']   = true
 node.default['artifacts']['sharedclasses']['unzip'] = false
 node.default['artifacts']['sharedclasses']['filtering_mode'] = "append"
 node.default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
 node.default['artifacts']['sharedclasses']['destinationName'] = "classes"
 node.default['artifacts']['sharedclasses']['owner'] = node['tomcat']['user']
 
-node.default['artifacts']['catalina-jmx']['enabled'] = true
 node.default['artifacts']['catalina-jmx']['groupId'] = "org.apache.tomcat"
 node.default['artifacts']['catalina-jmx']['artifactId'] = "tomcat-catalina-jmx-remote"
 node.default['artifacts']['catalina-jmx']['version'] = "7.0.54"
