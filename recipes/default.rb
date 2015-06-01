@@ -20,7 +20,7 @@ if node['alfresco']['components'].include? 'postgresql'
   node.override['alfresco']['properties']['db.port'] = '5432'
   node.override['alfresco']['properties']['db.params'] = ''
   include_recipe "alfresco::postgresql_local_server"
-else if node['alfresco']['components'].include? 'mysql'
+elsif node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql_local_server"
 end
 
