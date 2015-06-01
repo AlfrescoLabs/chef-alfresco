@@ -3,6 +3,8 @@ default['analytics']['properties']['# enable.reporting'] = "true"
 #TODO - this means that Share must be deployed on port 8081 ?
 default['analytics']['pentaho.ba-server.url'] = "http://localhost:8080/pentaho/"
 
+default['artifacts']['alfresco-pentaho']['destination'] = '/tmp'
+
 default['analytics']['analytics_path'] = "#{node['artifacts']['alfresco-pentaho']['destination']}/alfresco-analytics-1.0.2"
 default['analytics']['ba_server_path'] = "#{node['analytics']['analytics_path']}/ba-server"
 default['analytics']['license_installer_path'] = "#{node['analytics']['analytics_path']}/license-installer"
