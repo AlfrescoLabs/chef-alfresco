@@ -67,10 +67,10 @@ if node['alfresco']['components'].include? 'media'
     include_recipe 'alfresco::media-content-services'
     node.default['alfresco']['install.activemq'] = true
   end
-  node.override['artifacts']['media']['enabled'] = true
-  node.override['artifacts']['media-repo']['enabled'] = true
-  node.override['artifacts']['media-repo-messaging']['enabled'] = true
-  node.override['artifacts']['media-share']['enabled'] = true
+  node.default['artifacts']['media']['enabled'] = true
+  node.default['artifacts']['media-repo']['enabled'] = true
+  node.default['artifacts']['media-repo-messaging']['enabled'] = true
+  node.default['artifacts']['media-share']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'analytics'
