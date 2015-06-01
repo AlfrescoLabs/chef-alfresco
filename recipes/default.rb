@@ -20,11 +20,10 @@ if node['alfresco']['components'].include? 'postgresql'
   node.override['alfresco']['properties']['db.port'] = '5432'
   node.override['alfresco']['properties']['db.params'] = ''
   include_recipe "alfresco::postgresql_local_server"
-else
+else if node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql_local_server"
 end
 
-# Any Alfresco node needs java; attributes are set in alfresco::_attributes
 include_recipe 'java::default'
 
 if node['alfresco']['components'].include? 'tomcat'
