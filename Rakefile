@@ -36,4 +36,4 @@ task :integration do
   end
 end
 
-task :default => [:foodcritic, :knife, :unit]
+task :default => [:foodcritic, :knife, :unit, :dist]
