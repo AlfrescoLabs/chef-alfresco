@@ -48,7 +48,7 @@ default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 default["java"]["default"]                                 = true
 default["java"]["accept_license_agreement"]                = true
 default["java"]["install_flavor"]                          = "oracle"
-default["java"]["jdk_version"]                             = "7"
+default["java"]["jdk_version"]                             = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 

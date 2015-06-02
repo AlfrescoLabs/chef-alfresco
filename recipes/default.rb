@@ -145,24 +145,23 @@ end
 
 # TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
 # needs restart, before patching
-if node['alfresco']['components'].include? 'tomcat'
-  bash 'nossl-patch-repo-web-xml' do
-    user 'root'
-    cwd '/tmp'
-    code <<-EOH
-    mkdir alfresco-war-temp ; cd alfresco-war-temp
-    unzip /usr/share/tomcat-alfresco/webapps/alfresco.war
-    sed -i 's/api\/solr/fakeurl/' WEB-INF/web.xml
-    yum install -y zip
-    zip -r alfresco.war *
-    chown tomcat:tomcat alfresco.war
-    service tomcat-alfresco stop
-    rm -rf /usr/share/tomcat-alfresco/webapps/*
-    mv -f alfresco.war /usr/share/tomcat-alfresco/webapps/
-    cd .. ; rm -rf alfresco-war-temp
-    service tomcat-alfresco start
-    EOH
-  end
+bash 'nossl-patch-repo-web-xml' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+  mkdir alfresco-war-temp ; cd alfresco-war-temp
+  unzip /usr/share/tomcat-alfresco/webapps/alfresco.war
+  sed -i 's/api\/solr/fakeurl/' WEB-INF/web.xml
+  yum install -y zip
+  zip -r alfresco.war *
+  chown tomcat:tomcat alfresco.war
+  service tomcat-alfresco stop
+  rm -rf /usr/share/tomcat-alfresco/webapps/*
+  mv -f alfresco.war /usr/share/tomcat-alfresco/webapps/
+  cd .. ; rm -rf alfresco-war-temp
+  service tomcat-alfresco start
+  EOH
+  only_if { node['alfresco']['components'].include? 'tomcat' }
 end
 
 # TODO - Re-enable after checking attribute defaults and integrate
