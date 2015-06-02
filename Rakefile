@@ -21,6 +21,12 @@ task :unit do
   end
 end
 
+desc "Package Berkshelf distro"
+task :dist do
+  FoodCritic::Rake::LintTask.new
+  sh "bundle exec berks package chef-alfresco.tar.gz"
+end
+
 task :integration do
   begin
     require 'kitchen/rake_tasks'

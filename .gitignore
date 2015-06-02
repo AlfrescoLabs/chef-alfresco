@@ -5,6 +5,7 @@ Berksfile.lock
 berks-cookbooks
 .DS_Store
 nohup.out
+*.tar.gz
 
 # Avoid Nexus credentials to be pushed on github
 **/maven_repos/private.json
