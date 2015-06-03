@@ -24,7 +24,7 @@ end
 
 desc "Package Berkshelf distro"
 task :dist do
-  sh "bundle exec berks package chef-alfresco.tar.gz"
+  sh "rm -rf Berksfile.lock ; bundle exec berks package chef-alfresco.tar.gz"
 end
 
 desc "Updates cookbook version in metadata.rb"

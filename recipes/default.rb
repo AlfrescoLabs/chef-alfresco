@@ -146,35 +146,34 @@ end
 # TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
 # needs restart, before patching
 #
-# This is probably not needed with solr4
-# 
-# bash 'nossl-patch-repo-web-xml' do
-#   user 'root'
-#   cwd '/tmp'
-#   code <<-EOH
-#   mkdir alfresco-war-temp ; cd alfresco-war-temp
-#   unzip /usr/share/tomcat-alfresco/webapps/alfresco.war
-#   sed -i 's/api\/solr/fakeurl/' WEB-INF/web.xml
-#   yum install -y zip
-#   zip -r alfresco.war *
-#   chown tomcat:tomcat alfresco.war
-#   service tomcat-alfresco stop
-#   sleep 5
-#   rm -rf /usr/share/tomcat-alfresco/webapps/*
-#   mv -f alfresco.war /usr/share/tomcat-alfresco/webapps/
-#   # cd .. ; rm -rf alfresco-war-temp
-#   sleep 5
-#   service tomcat-alfresco start
-#   EOH
-#   only_if { node['alfresco']['components'].include? 'tomcat' }
-# end
+bash 'nossl-patch-repo-web-xml' do
+  user 'root'
+  cwd '/tmp'
+  code <<-EOH
+  mkdir alfresco-war-temp ; cd alfresco-war-temp
+  unzip /usr/share/tomcat-alfresco/webapps/alfresco.war
+  sed -i 's/api\/solr/fakeurl/' WEB-INF/web.xml
+  yum install -y zip
+  zip -r alfresco.war *
+  chown tomcat:tomcat alfresco.war
+  service tomcat-alfresco stop
+  sleep 5
+  rm -rf /usr/share/tomcat-alfresco/webapps/*
+  mv -f alfresco.war /usr/share/tomcat-alfresco/webapps/
+  # cd .. ; rm -rf alfresco-war-temp
+  sleep 5
+  service tomcat-alfresco start
+  EOH
+  only_if { node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xml_nossl_patch'] }
+end
 
-# TODO - Re-enable after checking attribute defaults and integrate
-# with multi-homed tomcat installation
-# restart_services  = node['alfresco']['restart_services']
-# restart_action    = node['alfresco']['restart_action']
-# restart_services.each do |service_name|
-#   service service_name  do
-#     action    restart_action
-#   end
-# end
+alfresco_start    = node["alfresco"]["start_service"]
+restart_services  = node['alfresco']['restart_services']
+restart_action    = node['alfresco']['restart_action']
+if alfresco_start and node['alfresco']['components'].include? 'tomcat'
+  restart_services.each do |service_name|
+    service service_name  do
+      action    restart_action
+    end
+  end
+end

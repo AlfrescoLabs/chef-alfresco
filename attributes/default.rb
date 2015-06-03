@@ -19,6 +19,9 @@ default['alfresco']['version'] = "5.0.d"
 
 default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 
+# Patch alfresco web.xml to disable SSL restrictions and use secureComms=none
+default['alfresco']['web_xml_nossl_patch'] = true
+
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
 

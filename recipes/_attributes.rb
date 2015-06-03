@@ -4,6 +4,11 @@
 ### Default's defaults :-)
 ##########################
 
+# Alfresco services configuration
+node.default["alfresco"]["start_service"] = true
+node.default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
+node.default['alfresco']['restart_action']   = :restart
+
 # Additional Alfresco paths
 node.default['alfresco']['bin']                = "#{node['tomcat']['home']}/bin"
 node.default['alfresco']['shared']             = "#{node['tomcat']['base']}/shared"
@@ -31,18 +36,9 @@ node.default["tomcat"]["jvm_memory"]          = "-Xmx1500M -XX:MaxPermSize=256M"
 node.default["tomcat"]["java_options"]        = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 
 # Tomcat default settings
-node.default['tomcat']['service_actions'] = [:enable,:start]
+node.default['tomcat']['service_actions'] = [:disable,:stop]
 node.default["tomcat"]["deploy_manager_apps"] = false
 node.default["tomcat"]["use_security_manager"] = false
-
-# TODO - Re-enable after checking attribute defaults and integrate
-# node.default["alfresco"]["start_service"] = false
-# node.default['alfresco']['restart_services'] = "tomcat"
-# node.default['alfresco']['restart_action']   = "start"
-# if node["alfresco"]["start_service"] == false
-#   node.default['alfresco']['restart_services'] = []
-#   node.default['alfresco']['restart_action']   = "nothing"
-# end
 
 ####################################################
 ### Logging Attributes

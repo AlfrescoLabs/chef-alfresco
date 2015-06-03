@@ -2,7 +2,11 @@
 # include_recipe "tomcat::users"
 
 # TODO - Shouldnt be needed, due to deploy_manager_apps=false
-node.override['tomcat']['deploy_manager_packages'] = []
+# node.override['tomcat']['deploy_manager_packages'] = []
+
+if node['tomcat']['run_base_instance']
+  node.default['alfresco']['restart_services'] = ['tomcat']
+end
 
 context_template_cookbook = node['tomcat']['context_template_cookbook']
 context_template_source = node['tomcat']['context_template_source']
