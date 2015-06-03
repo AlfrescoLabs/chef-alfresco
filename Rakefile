@@ -2,6 +2,7 @@
 
 require 'foodcritic'
 require 'rspec/core/rake_task'
+require 'rake'
 
 desc "Runs knife cookbook test"
 task :knife do
@@ -23,8 +24,13 @@ end
 
 desc "Package Berkshelf distro"
 task :dist do
-  FoodCritic::Rake::LintTask.new
   sh "bundle exec berks package chef-alfresco.tar.gz"
+end
+
+desc "Updates cookbook version in metadata.rb"
+task :update_version, [:releaseversion] do |t,args|
+  version = args[:releaseversion]
+  sh "sed 's/version \".*\"/version \"#{version}\"/' metadata.rb > metadata.rb.tmp ; rm -f metadata.rb ; mv metadata.rb.tmp metadata.rb"
 end
 
 task :integration do
