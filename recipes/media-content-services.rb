@@ -1,6 +1,10 @@
 content_services_packages = node['media']['content_services_packages']
 content_services_pid_path = node['media']['content_services_pid_path']
 
+user "alfresco-content-service" do
+  action :create
+end
+
 # Installing  codecs needed for FFMpeg
 content_services_packages.each do |pkg|
   package pkg do
