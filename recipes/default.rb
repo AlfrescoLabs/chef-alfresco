@@ -144,6 +144,7 @@ end
 # TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
 # needs restart, before patching
 #
+alfresco_edition = node['alfresco']['edition']
 bash 'nossl-patch-repo-web-xml' do
   user 'root'
   cwd '/tmp'
