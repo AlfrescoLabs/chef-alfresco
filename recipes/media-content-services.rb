@@ -1,8 +1,9 @@
 content_services_packages = node['media']['content_services_packages']
 content_services_pid_path = node['media']['content_services_pid_path']
 
-user "alfresco-content-service" do
+user "alfresco-content-services" do
   action :create
+  shell "/sbin/nologin"
 end
 
 # Installing  codecs needed for FFMpeg
