@@ -2,6 +2,12 @@
 # don't invoke artifact-deployer::default and skip alfresco::apply_amps
 deploy = false
 
+# Setting Tomcat version
+node.override["tomcat"]["base_version"] = 6
+if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
+  node.override["tomcat"]["base_version"] = 7
+end
+
 include_recipe "alfresco::package-repositories"
 
 include_recipe "tomcat::_attributes"
