@@ -8,6 +8,14 @@ if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version']
   node.override["tomcat"]["base_version"] = 7
 end
 
+# Change artifactIds for alfresco and share WARs, if
+# we're using an Enterprise version (ends with a digit)
+enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
+if enterprise
+  node.set['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
+  node.set['artifacts']['share']['artifactId']    = "share-enterprise"
+end
+
 include_recipe "alfresco::package-repositories"
 
 include_recipe "tomcat::_attributes"

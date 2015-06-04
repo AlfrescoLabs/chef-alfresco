@@ -18,7 +18,7 @@ PID_FILE="<%= node['media']['content_services_pid_path'] %>/alfresco-content-ser
 JAR_LOCATION=<%= node['media']['content_services_folder'] %>
 JAR_FILE=<%= node['media']['content_services_jar_path'] %>
 
-START_CMD="\"cd $JAR_LOCATION;java -jar $JAR_FILE server config.yml > /dev/null 2>&1 &\""
+START_CMD="\"cd $JAR_LOCATION;java -jar $JAR_FILE server <%= node['media']['content_services_config_path'] %> > /dev/null 2>&1 &\""
 NAME="alfresco-content-services"
 PGREP_STRING="$JAR_FILE"
 

@@ -173,9 +173,6 @@ node.default['artifacts']['googledocs-share']['type']          = "amp"
 
 # TODO - there's no default location publicly available,
 # since artifacts.alfresco.com doesn't contain media-management yet
-node.default['artifacts']['media']['destination'] = '/tmp'
-node.default['artifacts']['media']['unzip'] = true
-node.default['artifacts']['media']['type'] = "zip"
 node.default['artifacts']['media']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['media-repo']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"

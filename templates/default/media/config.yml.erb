@@ -1,0 +1,57 @@
+springContextFileLocation: spring.xml
+version: 1.0.0 (0)
+
+messaging:
+    broker:
+        url: <%= node['alfresco']['properties']['messaging.broker.url'] %>
+        # username: guest
+        # password: password
+    endpoint:
+        transform:
+            request:
+                image: amqp:queue:alfresco.transform.request.image
+                video: amqp:queue:alfresco.transform.request.video
+            reply:
+                image: amqp:queue:alfresco.transform.reply.image?jmsMessageType=Text
+                video: amqp:queue:alfresco.transform.reply.video?jmsMessageType=Text
+        heartbeat: amqp:topic:alfresco.health.contentservices
+
+# Shared content workspace for source and targets, type can be 'file' (likely a path to a mounted network volume), 'webdav', or 's3'
+# The client application (such as an Alfresco repository) should have similar entries that allow it to access the same files
+transform:
+    contentReferenceHandler:
+        source:
+            type: file
+            file:
+                path: <%= node['media']['content_services_content_path'] %>
+        target:
+            type: file
+            file:
+                path: <%= node['media']['content_services_content_path'] %>
+
+health:
+    serviceType: ContentServicesNode
+    serviceInstanceId: --GENERATE-UUID--
+
+server:
+    applicationConnectors:
+      - type: http
+        port: <%= node['media']['content_services_app_port'] %>
+    adminConnectors:
+      - type: http
+        port: <%= node['media']['content_services_admin_port'] %>
+
+logging:
+    level: WARN
+    loggers:
+        "org.alfresco.service.content.dropwizard.ContentServicesNode": INFO
+        "org.gytheio.content.transform": INFO
+        "org.apache.activemq.transport.failover": WARN
+    appenders:
+      - type: file
+        threshold: ALL
+        currentLogFilename: <%= node['media']['content_services_log_path'] %>/content-services-node.log
+        archive: true
+        archivedLogFilenamePattern: <%= node['media']['content_services_log_path'] %>/content-services-node-%d.log.gz
+        archivedFileCount: 5
+        timeZone: UTC
