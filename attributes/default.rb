@@ -16,7 +16,6 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.d"
-# Set it to enterprise, to patch version.properties file
 
 default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 

@@ -7,7 +7,7 @@
 # Alfresco services configuration
 node.default["alfresco"]["start_service"] = true
 node.default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
-node.default['alfresco']['restart_action']   = :restart
+node.default['alfresco']['restart_action']   = [:enable, :restart]
 
 # Additional Alfresco paths
 node.default['alfresco']['bin']                = "#{node['tomcat']['home']}/bin"
