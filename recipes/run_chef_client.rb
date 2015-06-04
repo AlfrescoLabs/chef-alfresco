@@ -64,6 +64,11 @@ end
 # end
 include_recipe 'nginx::commons_conf'
 
+# Needed by commons_conf
+service 'nginx' do
+  action :nothing
+end
+
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
 if node['tomcat']['run_base_instance']
