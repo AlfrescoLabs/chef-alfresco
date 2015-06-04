@@ -152,27 +152,16 @@ end
 # TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
 # needs restart, before patching
 #
-alfresco_edition = node['alfresco']['edition']
-bash 'nossl-patch-repo-web-xml' do
-  user 'root'
-  cwd '/tmp'
-  code <<-EOH
-  mkdir alfresco-war-temp ; cd alfresco-war-temp
-  unzip /usr/share/tomcat-alfresco/webapps/alfresco.war
-  sed -i 's/api\/solr/fakeurl/' WEB-INF/web.xml
-  yum install -y zip
-  zip -r alfresco.war *
-  chown tomcat:tomcat alfresco.war
-  service tomcat-alfresco stop
-  sleep 5
-  rm -rf /usr/share/tomcat-alfresco/webapps/*
-  mv -f alfresco.war /usr/share/tomcat-alfresco/webapps/
-  # cd .. ; rm -rf alfresco-war-temp
-  sleep 5
-  service tomcat-alfresco start
-  EOH
-  only_if { node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xml_nossl_patch'] }
+if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xml_nossl_patch']
+  cookbook_file "/usr/local/bin/nossl-patch.sh" do
+    source "nossl-patch.sh"
+    mode "0755"
+  end
+  execute "run-nossl-patch.sh" do
+    command "/usr/local/bin/nossl-patch.sh"
+  end
 end
+
 
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']

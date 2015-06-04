@@ -171,8 +171,6 @@ node.default['artifacts']['googledocs-share']['destination']   = node['alfresco'
 node.default['artifacts']['googledocs-share']['owner']         = node['tomcat']['user']
 node.default['artifacts']['googledocs-share']['type']          = "amp"
 
-# TODO - there's no default location publicly available,
-# since artifacts.alfresco.com doesn't contain media-management yet
 node.default['artifacts']['media']['owner'] = node['tomcat']['user']
 
 node.default['artifacts']['media-repo']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
@@ -184,12 +182,6 @@ node.default['artifacts']['media-share']['path']       = "#{node['artifacts']['m
 node.default['artifacts']['media-share']['destination']   = node['alfresco']['amps_share_folder']
 node.default['artifacts']['media-share']['owner']         = node['tomcat']['user']
 node.default['artifacts']['media-share']['type']          = "amp"
-
-node.default['media']['install.content.services'] = true
-node.default['media']['content_services_folder'] = "#{node['artifacts']['media']['destination']}/media/remote-node"
-node.default['media']['content_services_jar_path'] = "#{node['media']['content_services_folder']}/content-services-node-#{node['artifacts']['media']['version']}.jar"
-node.default['media']['content_services_config_path'] = "#{node['media']['content_services_folder']}/config.yml"
-node.default['media']['content_services_packages'] = %w( ImageMagick libogg libvorbis vorbis-tools libmp3lame0 libfaac0 faac faac-devel faad2 libfaad2 faad2-devel libtheora-devel libvorbis-devel libvpx-devel perl-Image-ExifTool xvidcore xvidcore-devel x264 x264-devel ffmpeg ffmpeg-devel)
 
 # TODO - there's no default location publicly available,
 # since artifacts.alfresco.com doesn't contain analytics yet
