@@ -12,6 +12,14 @@ host = "#{node['hosts']['hostname']}.#{node['hosts']['domain']}"
 # end
 include_recipe 'haproxy::default'
 
+# Set haproxy.cfg custom template
+# TODO - fix it upstream and send PR
+haproxy_cfg_source = node['haproxy']['conf_template_source']
+haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
+r = resources(template: "#{node['haproxy']['conf_dir']}/haproxy.cfg")
+r.source(haproxy_cfg_source)
+r.cookbook(haproxy_cfg_cookbook)
+
 # alfresco-global.properties updates
 replace_property_map = node['alfresco']['properties']
 # TODO - reuse existing attributes
