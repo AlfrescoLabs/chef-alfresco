@@ -75,6 +75,8 @@ if node['alfresco']['components'].include? 'media'
   if node['media']['install.content.services']
     include_recipe 'alfresco::media-content-services'
     node.default['alfresco']['install.activemq'] = true
+  else
+    node.default['alfresco']['install.activemq'] = false
   end
   node.default['artifacts']['media']['enabled'] = true
   node.default['artifacts']['media-repo']['enabled'] = true
