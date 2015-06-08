@@ -34,6 +34,8 @@ If you use analytics and/or media-management you can also access:
 - [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
 - [http://localhost:61616](http://localhost:61616) (activemq)
 
+Access to the admin console is via http://localhost:9000/alfresco/ and then Alfresco Administration Console.
+
 Chef Usage
 ---
 
