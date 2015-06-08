@@ -30,7 +30,7 @@ function deploy () {
     repo_name="internal-snapshots"
   fi
 
-  echo "Running: mvn deploy:deploy-file -Dfile=$(echo *.tar.gz) -DrepositoryId=alfresco-internal -Durl=https://artifacts.alfresco.com/nexus/content/repositories/$repo_name -DgroupId=org.alfresco.devops -DartifactId=img-basic -Dversion=$1 -Dpackaging=tar.gz"
+  echo "Running: mvn deploy:deploy-file -Dfile=$(echo *.tar.gz) -DrepositoryId=alfresco-internal -Durl=https://artifacts.alfresco.com/nexus/content/repositories/$repo_name -DgroupId=org.alfresco.devops -DartifactId=chef-alfresco -Dversion=$1 -Dpackaging=tar.gz"
 
   mvn deploy:deploy-file -Dfile=$(echo *.tar.gz) -DrepositoryId=alfresco-internal -Durl=https://artifacts.alfresco.com/nexus/content/repositories/$repo_name -DgroupId=org.alfresco.devops -DartifactId=img-basic -Dversion=$1 -Dpackaging=tar.gz
 }
