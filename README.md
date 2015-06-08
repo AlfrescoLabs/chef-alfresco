@@ -21,7 +21,7 @@ Local test (run)
 ```
 kitchen converge
 ```
-takes roughly 40 minutes for full default configuration.
+It takes roughly 40 minutes for a full default configuration.
 
 #### Access
 - [http://localhost:8800/share](http://localhost:8800/share) (nginx)
