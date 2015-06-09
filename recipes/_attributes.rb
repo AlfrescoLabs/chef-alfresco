@@ -92,9 +92,10 @@ node.default['alfresco']['properties']['alfresco.protocol']  = node['alfresco'][
 node.default['alfresco']['properties']['opencmis.server.host'] = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['opencmis.server.protocol'] = node['alfresco']['default_protocol']
 node.default['alfresco']['properties']['opencmis.server.value'] = "${opencmis.server.protocol}://${opencmis.server.host}/alfresco/api"
+node.default['alfresco']['properties']['aos.port'] = "80"
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['default_protocol']
 node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['default_hostname']
-node.default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}/alfresco/aos"
+node.default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
 
 #SSL Keystore - disabled by default
 node.default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"

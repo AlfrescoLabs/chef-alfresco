@@ -25,9 +25,12 @@ suites:
       "nginx" : {
         "proxy_set_header_port" : "8800"
       },
-      # "alfresco" : {
-      #   "version" : "5.0.1"
-      # },
+      "alfresco" : {
+        "properties" : {
+           "aos.port" : "8800"
+        },
+        "version" : "5.0.1.1"
+      },
       "artifact-deployer" : {
         "maven" : {
           "timeout" : 1500
