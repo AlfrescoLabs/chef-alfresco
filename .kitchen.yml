@@ -28,8 +28,9 @@ suites:
       "alfresco" : {
         "properties" : {
            "aos.port" : "8800"
-        },
-        "version" : "5.0.1.1"
+        }
+        # To enable Enterprise version; remember to add databag too!
+        # "version" : "5.0.1.1"
       },
       "artifact-deployer" : {
         "maven" : {
