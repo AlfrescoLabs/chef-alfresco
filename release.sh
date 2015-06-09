@@ -6,13 +6,13 @@ function buildArtifact () {
 }
 
 function getCurrentVersion () {
-  version=`cat metadata.rb| grep version|awk '{print $2}'`
-  echo ${version:1:5}
+  version=`cat metadata.rb| grep version|awk '{print $2}' | tr -d \"`
+  echo $version
 }
 
 function getIncrementedVersion () {
   version=$(getCurrentVersion)
-  echo $version | awk -F'[.]' '{print $1,".",$2,".",$3+1}' | tr -d '[[:space:]]'
+  echo $version | awk -F'[.]' '{print $1 "." $2 "." $3+1}'
 }
 
 function incrementVersion () {
