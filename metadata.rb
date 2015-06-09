@@ -13,7 +13,7 @@ depends "maven"
 
 # Community cookbooks
 depends "activemq", "~> 1.3.3"
-depends "artifact-deployer", "~> 0.8.10"
+depends "artifact-deployer", "~> 0.8.11"
 depends 'build-essential', '~> 2.2.3'
 depends "database", "~> 4.0.6"
 depends "ffmpeg", "~> 0.4.4"
