@@ -10,7 +10,6 @@ elsif node['platform_family'] == "rhel"
   exclude_font_packages = node['alfresco']['exclude_font_packages']
 
   # TODO - implement it also for Ubuntu using apt-get
-  # xfsprogs xfsdump xfsprogs-devel xfsprogs-qa-devel
   execute "install-all-fonts" do
     command "yum install -y *fonts.noarch --exclude='#{exclude_font_packages}'"
     only_if { install_fonts and node['platform_family'] == "rhel" }
@@ -33,5 +32,9 @@ elsif node['platform_family'] == "rhel"
 end
 
 package "libreoffice-headless" do
+  action :install
+end
+
+package "perl-Image-ExifTool" do
   action :install
 end
