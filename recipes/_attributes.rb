@@ -174,6 +174,19 @@ node.default['artifacts']['googledocs-share']['type']          = "amp"
 
 node.default['artifacts']['media']['owner'] = node['tomcat']['user']
 
+node.default['alfresco']['properties']['content.remote.default.contentRefHandler.source.type'] = node['media']['source_type']
+node.default['alfresco']['properties']['content.remote.default.contentRefHandler.target.type'] = node['media']['target_type']
+node['media']['source'].each do |type,options|
+  options.each do |option,value|
+    node.default['alfresco']['properties']["content.remote.default.contentRefHandler.source.#{type}.#{option}"] = value
+  end
+end
+node['media']['target'].each do |type,options|
+  options.each do |option,value|
+    node.default['alfresco']['properties']["content.remote.default.contentRefHandler.target.#{type}.#{option}"] = value
+  end
+end
+
 node.default['artifacts']['media-repo']['path']       = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
 node.default['artifacts']['media-repo']['destination']   = node['alfresco']['amps_folder']
 node.default['artifacts']['media-repo']['owner']         = node['tomcat']['user']

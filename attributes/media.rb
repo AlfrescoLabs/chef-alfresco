@@ -20,3 +20,8 @@ default['media']['content_services_user'] =  "alfresco-content-services"
 
 default['media']['content_services_app_port'] = 8888
 default['media']['content_services_admin_port'] = 8889
+
+default['media']['source_type'] = "file"
+default['media']['target_type'] = "file"
+default['media']['source']['file']['path'] = node['media']['content_services_content_path']
+default['media']['target']['file']['path'] = node['media']['content_services_content_path']
