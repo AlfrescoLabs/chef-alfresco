@@ -21,29 +21,17 @@ messaging:
 transform:
     contentReferenceHandler:
         source:
-          <% if node['media']['source_type'] == "file" -%>
-            type: file
-            file:
-                path: <%= node['media']['source']['file']['path'] %>
-          <% else -%>
-            type: <%= node['media']['source_type'] %>
-            <%= node['media']['source_type'] %>:
-              <% node['media']['source'][node['media']['source_type']].each do |option,value| -%>
-              <%= option %>: <%= value %>
-              <% end -%>
-          <% end -%>
+          type: <%= node['media']['source_type'] %>
+          <%= node['media']['source_type'] %>:
+            <% node['media']['source'][node['media']['source_type']].each do |option,value| -%>
+            <%= option %>: <%= value %>
+            <% end -%>
         target:
-          <% if node['media']['target_type'] == "file" -%>
-            type: file
-            file:
-                path: <%= node['media']['target']['file']['path'] %>
-          <% else -%>
-            type: <%= node['media']['target_type'] %>
-            <%= node['media']['target_type'] %>:
-              <% node['media']['target'][node['media']['target_type']].each do |option,value| -%>
-                <%= option %>: <%= value %>
-              <% end -%>
-          <% end -%>
+          type: <%= node['media']['target_type'] %>
+          <%= node['media']['target_type'] %>:
+            <% node['media']['target'][node['media']['target_type']].each do |option,value| -%>
+              <%= option %>: <%= value %>
+            <% end -%>
 
 health:
     serviceType: ContentServicesNode
