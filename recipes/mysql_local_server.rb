@@ -22,6 +22,13 @@ if mysql_update_gcc
   include_recipe 'build-essential::default'
 end
 
+# Enforce mode and ownership of /tmp folder
+directory "/tmp" do
+  owner "root"
+  group "root"
+  mode 0777
+end
+
 mysql2_chef_gem 'default' do
   client_version mysql_version
   action :install
