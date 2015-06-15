@@ -95,7 +95,10 @@
         maxKeepAliveRequests="1"
         connectionTimeout="60000"
         disableUploadTimeout="true"
-        secure="<% if @proxy_port == 443 or @ssl_port -%>true<% else -%>false<% end -%>"
+        <% if @proxy_port == 443 or @ssl_port -%>
+        secure="true"
+        scheme="https"
+        <% end -%>
       />
     <% end -%>
     <!-- Define a SSL HTTP/1.1 Connector on port <%= node["tomcat"]["ssl_port"] %>
