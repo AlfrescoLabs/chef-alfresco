@@ -31,7 +31,7 @@
   <% end -%>
 
   <!--APR library loader. Documentation at /docs/apr.html -->
-  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="<% if @ssl_port -%>on<% else -%>off<% end -%>" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="<% if node['tomcat']['https_offload_port'] or @ssl_port -%>on<% else -%>off<% end -%>" />
 
   <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
   <Listener className="org.apache.catalina.core.JasperListener" />
@@ -87,6 +87,9 @@
         <% if @ssl_port -%>
           redirectPort="<%= @ssl_port %>"
         <% end -%>
+        <% if node['tomcat']['https_offload_port'] -%>
+          redirectPort="<%= node['tomcat']['https_offload_port'] %>"
+        <% end -%>
         executor="tomcatThreadPool"
         protocol="org.apache.coyote.http11.Http11AprProtocol"
         URIEncoding="UTF-8"
@@ -95,6 +98,7 @@
         maxKeepAliveRequests="1"
         connectionTimeout="60000"
         disableUploadTimeout="true"
+        secure="<% if node['tomcat']['https_offload_port'] or @ssl_port -%>true<% else -%>false<% end -%>"
       />
     <% end -%>
     <!-- Define a SSL HTTP/1.1 Connector on port <%= node["tomcat"]["ssl_port"] %>
