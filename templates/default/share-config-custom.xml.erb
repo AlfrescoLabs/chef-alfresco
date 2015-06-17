@@ -5,8 +5,8 @@
    <config evaluator="string-compare" condition="CSRFPolicy" replace="true">
       <properties>
          <token>Alfresco-CSRFToken</token>
-         <referer><%= node['alfresco']['shareproperties']['referer'] %></referer>
-         <origin><%= node['alfresco']['shareproperties']['origin'] %></origin>
+         <referer><%= node['alfresco']['shareproperties']['referer'] %>|http://localhost:<%= node['alfresco']['share_tomcat_instance']['port'] %>/.*</referer>
+         <origin><%= node['alfresco']['shareproperties']['origin'] %>|http://localhost:<%= node['alfresco']['share_tomcat_instance']['port'] %></origin>
       </properties>
    </config>
 
