@@ -84,6 +84,8 @@ node.default['alfresco']['properties']['db.url']             = "jdbc:#{node['alf
 #Alfresco URL
 node.default['alfresco']['properties']['hostname.public']    = node['alfresco']['default_hostname']
 
+node.default['alfresco']['properties']['alfresco.rmi.services.host'] = '0.0.0.0'
+
 node.default['alfresco']['properties']['alfresco.context']   = '/alfresco'
 node.default['alfresco']['properties']['alfresco.host']      = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['alfresco.port']      = node['alfresco']['default_port']
@@ -96,6 +98,13 @@ node.default['alfresco']['properties']['aos.port'] = "80"
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['default_protocol']
 node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['default_hostname']
 node.default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
+
+node.default['alfresco']['properties']['opencmis.context.override'] = true
+node.default['alfresco']['properties']['opencmis.context.value'] = ''
+node.default['alfresco']['properties']['opencmis.servletpath.override'] = true
+node.default['alfresco']['properties']['opencmis.servletpath.value'] = ''
+node.default['alfresco']['properties']['opencmis.server.override'] = true
+node.default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = false
 
 #SSL Keystore - disabled by default
 node.default['alfresco']['properties']['dir.keystore']     = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
@@ -130,6 +139,21 @@ node.default['alfresco']['properties']['solr.port']          = node['alfresco'][
 node.default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['default_portssl']
 node.default['alfresco']['properties']['solr.secureComms']   = 'none'
 
+#Share URLs
+node.default['alfresco']['properties']['share.context']      = '/share'
+node.default['alfresco']['properties']['share.host']         = node['alfresco']['default_hostname']
+node.default['alfresco']['properties']['share.port']         = node['alfresco']['default_port']
+node.default['alfresco']['properties']['share.protocol']     = node['alfresco']['default_protocol']
+
+# Share CSRF settings
+node.default['alfresco']['shareproperties']['alfresco.host']            = node['alfresco']['properties']['alfresco.host']
+node.default['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
+node.default['alfresco']['shareproperties']['alfresco.context']         = node['alfresco']['properties']['alfresco.context']
+node.default['alfresco']['shareproperties']['alfresco.protocol']        = node['alfresco']['properties']['alfresco.protocol']
+node.default['alfresco']['shareproperties']['referer']                  = ".*"
+node.default['alfresco']['shareproperties']['origin']                   = ".*"
+
+# Solr URLs
 node.default['alfresco']['solrproperties']['alfresco.host']            = node['alfresco']['properties']['alfresco.host']
 node.default['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['properties']['alfresco.port']
 node.default['alfresco']['solrproperties']['alfresco.port.ssl']        = node['alfresco']['properties']['alfresco.port.ssl']

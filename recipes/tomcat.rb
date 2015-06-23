@@ -26,7 +26,9 @@ unless node['tomcat']['run_base_instance']
     node.default['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     # Point Alfresco to the right Solr instance
     node.default['alfresco']['properties']['solr.port']          = node['alfresco']['solr_tomcat_instance']['port']
-    node.default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['solr_tomcat_instance']['ssl_port']
+    if node['alfresco']['solr_tomcat_instance']['ssl_port']
+      node.default['alfresco']['properties']['solr.port.ssl']      = node['alfresco']['solr_tomcat_instance']['ssl_port']
+    end
     # Point Share to the right Alfresco instance
     node.default['alfresco']['shareproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
   end
