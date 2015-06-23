@@ -22,9 +22,10 @@ default['haproxy']['error_file_source'] = "haproxy/errors"
 default['haproxy']['port'] = "9000"
 default['haproxy']['bind_ip'] = "0.0.0.0"
 default['haproxy']['default_backend'] = "share"
-default['haproxy']['redirects'] = ["redirect location /share/ if !share_path !alfresco_path !is_aos"]
+default['haproxy']['redirects'] = ["redirect location /share/ if !is_share !is_alfresco"]
 
 default['haproxy']['backends']['alfresco']['path_beg'] = ["/alfresco"]
+default['haproxy']['backends']['alfresco']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
 default['haproxy']['backends']['alfresco']['httpchk'] = ["/share"]
 default['haproxy']['backends']['alfresco']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
 default['haproxy']['backends']['alfresco']['port'] = 8070
@@ -44,8 +45,6 @@ default['haproxy']['backends']['vti']['port'] = 8070
 
 default['haproxy']['backends']['aos_root']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
 default['haproxy']['backends']['aos_root']['port'] = 8070
-
-default['haproxy']['backends']['aos']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
 
 default['haproxy']['general_config'] = [
   "global",
