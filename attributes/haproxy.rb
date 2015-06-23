@@ -20,10 +20,34 @@ default['haproxy']['error_file_cookbook'] = "alfresco"
 default['haproxy']['error_file_source'] = "haproxy/errors"
 
 default['haproxy']['port'] = "9000"
+default['haproxy']['bind_ip'] = "0.0.0.0"
+default['haproxy']['default_backend'] = "share"
+default['haproxy']['redirects'] = ["redirect location /share/ if !share_path !alfresco_path !is_aos"]
 
-default['haproxy']['config'] = [
-  "#",
-  "# Global configurations",
+default['haproxy']['backends']['alfresco']['path_beg'] = ["/alfresco"]
+default['haproxy']['backends']['alfresco']['httpchk'] = ["/share"]
+default['haproxy']['backends']['alfresco']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
+default['haproxy']['backends']['alfresco']['port'] = 8070
+
+default['haproxy']['backends']['solr4']['path_beg'] = ["/solr4"]
+default['haproxy']['backends']['solr4']['httpchk'] = ["/solr4"]
+default['haproxy']['backends']['solr4']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
+default['haproxy']['backends']['solr4']['port'] = 8090
+
+default['haproxy']['backends']['share']['path_beg'] = ["/share"]
+default['haproxy']['backends']['share']['httpchk'] = ["/share"]
+default['haproxy']['backends']['share']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
+default['haproxy']['backends']['share']['port'] = 8081
+
+default['haproxy']['backends']['vti']['path_reg'] = ["^/_vti_inf.html$","^/_vti_bin/.*"]
+default['haproxy']['backends']['vti']['port'] = 8070
+
+default['haproxy']['backends']['aos_root']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
+default['haproxy']['backends']['aos_root']['port'] = 8070
+
+default['haproxy']['backends']['aos']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
+
+default['haproxy']['general_config'] = [
   "global",
   "log 127.0.0.1 local2 info",
   "pidfile /var/run/haproxy.pid",
@@ -42,52 +66,5 @@ default['haproxy']['config'] = [
   "timeout client 2m",
   "timeout server 2m",
   "timeout http-keep-alive 10s",
-  "timeout check 5s",
-  "#",
-  "# Front end for http to https redirect",
-  "frontend nginx",
-  "bind 0.0.0.0:#{node['haproxy']['port']}",
-  "# ACL for backend mapping based on url paths",
-  "acl share_path path_beg /share/",
-  "acl alfresco_path path_beg /alfresco",
-  "acl is_aos_vti path_reg ^/_vti_inf.html$",
-  "acl is_aos_vti path_reg ^/_vti_bin/.*",
-  "acl is_aos path_reg ^/alfresco/aos/.*",
-  "acl is_aos path_reg ^/alfresco/aos$",
-  "acl is_aos_root path_reg ^/$ method OPTIONS",
-  "acl is_aos_root path_reg ^/$ method PROPFIND",
-  "# Redirects",
-  "redirect location /share/ if !share_path !alfresco_path !is_aos",
-  "# List of backends",
-  "use_backend share if share_path",
-  "use_backend alfresco if alfresco_path",
-  "use_backend alfresco if is_aos",
-  "use_backend aos_vti if is_aos_vti",
-  "use_backend aos_root if is_aos_root",
-  "default_backend share",
-  "#",
-  "# Share backend",
-  "backend share",
-  "option httpchk GET /share",
-  "cookie JSESSIONID prefix",
-  "server #{node['hosts']['hostname']} 127.0.0.1:8081 cookie share1 check inter 5000",
-  "#",
-  "# Alfresco backend",
-  "backend alfresco",
-  "option httpchk GET /alfresco",
-  "cookie JSESSIONID prefix",
-  "server #{node['hosts']['hostname']} 127.0.0.1:8070 cookie alf1 check inter 5000",
-  "#",
-  "# VTI backend",
-  "backend aos_vti",
-  "option httpchk GET /_vti_inf.html",
-  "cookie JSESSIONID prefix",
-  "server #{node['hosts']['hostname']} 127.0.0.1:8070 cookie alf1 check inter 5000",
-  "#",
-  "# ROOT backend",
-  "backend aos_root",
-  "option httpchk GET /",
-  "cookie JSESSIONID prefix",
-  "server #{node['hosts']['hostname']} 127.0.0.1:8070 cookie alf1 check inter 5000",
-  "#"
-  ]
+  "timeout check 5s"
+]

@@ -36,25 +36,6 @@ rescue
   end
 end
 
-# Using AWS EC2 tags to discover services
-backend_config = []
-peer_nodes = node['haproxy']['peers']
-if peer_nodes
-  peer_nodes.each do |backend|
-    httpchk = backend['httpchk']
-    backend_config += "backend #{backend}"
-    if httpchk
-      backend_config += "option httpchk GET #{httpchk}"
-    end
-    backend['nodes'].each do |node|
-      backend_config += "server <%= node['id'] %> <%= node['ip'] %>:<%= backend['port'] %> check inter 5000"
-    end
-  end
-
-  haproxy_config = node['haproxy']['config']
-  node.default['haproxy']['config'] = haproxy_config + backend_config
-end
-
 include_recipe 'haproxy::default'
 
 # Set haproxy.cfg custom template
