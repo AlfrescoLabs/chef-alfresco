@@ -13,7 +13,7 @@ bind <%= node['haproxy']['bind_ip'] %>:<%= node['haproxy']['port'] %>
 <%= node['haproxy']['redirects'] %>
 
 # ACLs
-<% default['haproxy']['backends'].each do |backendName,backend| -%>
+<% node['haproxy']['backends'].each do |backendName,backend| -%>
   <% if backend['path_reg'] -%>
     acl is_<%= backendName %> path_reg <%= backend['path_reg'] %>
   <% end -%>
@@ -23,7 +23,7 @@ bind <%= node['haproxy']['bind_ip'] %>:<%= node['haproxy']['port'] %>
 <% end -%>
 
 # Use backends
-<% default['haproxy']['backends'].each do |backendName,backend| -%>
+<% node['haproxy']['backends'].each do |backendName,backend| -%>
   use_backend <%= backendName %> if is_<%= backendName %>
 <% end -%>
 
@@ -32,7 +32,7 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 # Backends list
 
-<% default['haproxy']['backends'].each do |backendName,backend| -%>
+<% node['haproxy']['backends'].each do |backendName,backend| -%>
   # <%= backendName %> backend
   <% if backend['httpchk'] -%>
     option httpchk GET <%= backend['httpchk'] %>
