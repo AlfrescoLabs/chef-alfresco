@@ -12,8 +12,8 @@ end
 # we're using an Enterprise version (ends with a digit)
 enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 if enterprise
-  node.set['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
-  node.set['artifacts']['share']['artifactId']    = "share-enterprise"
+  node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
+  node.default['artifacts']['share']['artifactId']    = "share-enterprise"
 end
 
 include_recipe "alfresco::package-repositories"
@@ -22,9 +22,9 @@ include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_attributes"
 
 if node['alfresco']['components'].include? 'postgresql'
-  node.override['alfresco']['properties']['db.prefix'] = 'psql'
-  node.override['alfresco']['properties']['db.port'] = '5432'
-  node.override['alfresco']['properties']['db.params'] = ''
+  node.default['alfresco']['properties']['db.prefix'] = 'psql'
+  node.default['alfresco']['properties']['db.port'] = '5432'
+  node.default['alfresco']['properties']['db.params'] = ''
   include_recipe "alfresco::postgresql_local_server"
 elsif node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql_local_server"
@@ -48,27 +48,27 @@ if node['alfresco']['components'].include? 'transform'
 end
 
 if node['alfresco']['components'].include? 'spp'
-  node.override['artifacts']['alfresco-spp']['enabled'] = true
+  node.default['artifacts']['alfresco-spp']['enabled'] = true
 else
-  node.override['artifacts']['alfresco-spp']['enabled'] = false
+  node.default['artifacts']['alfresco-spp']['enabled'] = false
 end
 
 if node['alfresco']['components'].include? 'aos'
-  node.override['artifacts']['_vti_bin']['enabled'] = true
-  node.override['artifacts']['ROOT']['enabled'] = true
+  node.default['artifacts']['_vti_bin']['enabled'] = true
+  node.default['artifacts']['ROOT']['enabled'] = true
 else
-  node.override['artifacts']['_vti_bin']['enabled'] = false
-  node.override['artifacts']['ROOT']['enabled'] = false
+  node.default['artifacts']['_vti_bin']['enabled'] = false
+  node.default['artifacts']['ROOT']['enabled'] = false
 end
 
 if node['alfresco']['components'].include? 'googledocs'
-  node.override['artifacts']['googledocs-repo']['enabled'] = true
-  node.override['artifacts']['googledocs-share']['enabled'] = true
+  node.default['artifacts']['googledocs-repo']['enabled'] = true
+  node.default['artifacts']['googledocs-share']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'rm'
-  node.override['artifacts']['rm']['enabled'] = true
-  node.override['artifacts']['rm-share']['enabled'] = true
+  node.default['artifacts']['rm']['enabled'] = true
+  node.default['artifacts']['rm-share']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'media'
@@ -86,14 +86,20 @@ end
 
 if node['alfresco']['components'].include? 'analytics'
   node.default['alfresco']['install.activemq'] = true
-  node.override['artifacts']['analytics']['enabled'] = true
-  node.override['artifacts']['analytics-repo']['enabled'] = true
-  node.override['artifacts']['analytics-share']['enabled'] = true
-  node.override['artifacts']['alfresco-pentaho']['enabled'] = true
+  node.default['artifacts']['analytics']['enabled'] = true
+  node.default['artifacts']['analytics-repo']['enabled'] = true
+  node.default['artifacts']['analytics-share']['enabled'] = true
+  node.default['artifacts']['alfresco-pentaho']['enabled'] = true
 end
 
 if node.default['alfresco']['install.activemq']
   include_recipe 'activemq::default'
+end
+
+if node['alfresco']['components'].include? 'haproxy'
+  node.default['alfresco']['properties']['solr.port'] = "9000"
+  node.default['alfresco']['solrproperties']['alfresco.port'] = "9000"
+  node.default['alfresco']['shareproperties']['alfresco.port'] = "9000"
 end
 
 if node['alfresco']['components'].include? 'repo'
@@ -101,11 +107,11 @@ if node['alfresco']['components'].include? 'repo'
   include_recipe "alfresco::_attributes_repo"
 
   if node['alfresco']['generate.global.properties'] == true
-    node.override['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
+    node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
   end
 
   if node['alfresco']['generate.repo.log4j.properties'] == true
-    node.override['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
+    node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
   end
 
   include_recipe "alfresco::repo_config"
@@ -116,7 +122,7 @@ if node['alfresco']['components'].include? 'share'
   include_recipe "alfresco::_attributes_share"
 
   if node['alfresco']['patch.share.config.custom'] == true
-    node.override['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
+    node.default['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
   end
 
   include_recipe "alfresco::share_config"
@@ -163,7 +169,6 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xm
     command "/usr/local/bin/nossl-patch.sh"
   end
 end
-
 
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']
