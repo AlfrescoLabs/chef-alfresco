@@ -27,28 +27,28 @@ default['haproxy']['redirects'] = ["redirect location /share/ if !is_share !is_a
 default['haproxy']['backends']['alfresco']['acls']['path_beg'] = ["/alfresco"]
 default['haproxy']['backends']['alfresco']['acls']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
 default['haproxy']['backends']['alfresco']['httpchk'] = "/alfresco"
-default['haproxy']['backends']['alfresco']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
+default['haproxy']['backends']['alfresco']['nodes']['localhost'] = "127.0.0.1"
 default['haproxy']['backends']['alfresco']['port'] = 8070
 
 default['haproxy']['backends']['solr4']['acls']['path_beg'] = ["/solr4"]
 default['haproxy']['backends']['solr4']['httpchk'] = "/solr4"
-default['haproxy']['backends']['solr4']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
+default['haproxy']['backends']['solr4']['nodes']['localhost'] = "127.0.0.1"
 default['haproxy']['backends']['solr4']['port'] = 8090
 
 default['haproxy']['backends']['share']['acls']['path_beg'] = ["/share"]
 default['haproxy']['backends']['share']['httpchk'] = "/share"
-default['haproxy']['backends']['share']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
+default['haproxy']['backends']['share']['nodes']['localhost'] = "127.0.0.1"
 default['haproxy']['backends']['share']['port'] = 8081
 
 default['haproxy']['backends']['aos_vti']['acls']['path_reg'] = ["^/_vti_inf.html$","^/_vti_bin/.*"]
 default['haproxy']['backends']['aos_vti']['httpchk'] = "/_vti_inf.html"
 default['haproxy']['backends']['aos_vti']['port'] = 8070
-default['haproxy']['backends']['aos_vti']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
+default['haproxy']['backends']['aos_vti']['nodes']['localhost'] = "127.0.0.1"
 
 default['haproxy']['backends']['aos_root']['acls']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
 default['haproxy']['backends']['aos_root']['httpchk'] = "/"
 default['haproxy']['backends']['aos_root']['port'] = 8070
-default['haproxy']['backends']['aos_root']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
+default['haproxy']['backends']['aos_root']['nodes']['localhost'] = "127.0.0.1"
 
 default['haproxy']['general_config'] = [
   "global",
