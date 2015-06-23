@@ -14,11 +14,10 @@ bind <%= node['haproxy']['bind_ip'] %>:<%= node['haproxy']['port'] %>
 
 # ACLs
 <% node['haproxy']['backends'].each do |backendName,backend| -%>
-  <% if backend['path_reg'] -%>
-    acl is_<%= backendName %> path_reg <%= backend['path_reg'] %>
-  <% end -%>
-  <% if backend['path_beg'] -%>
-    acl is_<%= backendName %> path_beg <%= backend['path_beg'] %>
+  <% backend['paths'].each do |pathType,paths| -%>
+    <% paths.each do |path| -%>
+      acl is_<%= backendName %> <%= pathType %> <%= path %>
+    <% end -%>
   <% end -%>
 <% end -%>
 

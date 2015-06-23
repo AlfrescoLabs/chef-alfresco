@@ -24,26 +24,26 @@ default['haproxy']['bind_ip'] = "0.0.0.0"
 default['haproxy']['default_backend'] = "share"
 default['haproxy']['redirects'] = ["redirect location /share/ if !is_share !is_alfresco"]
 
-default['haproxy']['backends']['alfresco']['path_beg'] = ["/alfresco"]
-default['haproxy']['backends']['alfresco']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
+default['haproxy']['backends']['alfresco']['paths']['path_beg'] = ["/alfresco"]
+default['haproxy']['backends']['alfresco']['paths']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
 default['haproxy']['backends']['alfresco']['httpchk'] = ["/share"]
 default['haproxy']['backends']['alfresco']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
 default['haproxy']['backends']['alfresco']['port'] = 8070
 
-default['haproxy']['backends']['solr4']['path_beg'] = ["/solr4"]
+default['haproxy']['backends']['solr4']['paths']['path_beg'] = ["/solr4"]
 default['haproxy']['backends']['solr4']['httpchk'] = ["/solr4"]
 default['haproxy']['backends']['solr4']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
 default['haproxy']['backends']['solr4']['port'] = 8090
 
-default['haproxy']['backends']['share']['path_beg'] = ["/share"]
+default['haproxy']['backends']['share']['paths']['path_beg'] = ["/share"]
 default['haproxy']['backends']['share']['httpchk'] = ["/share"]
 default['haproxy']['backends']['share']['nodes'] = [{"id" => node['hosts']['hostname'], "ip" => "127.0.0.1"}]
 default['haproxy']['backends']['share']['port'] = 8081
 
-default['haproxy']['backends']['vti']['path_reg'] = ["^/_vti_inf.html$","^/_vti_bin/.*"]
+default['haproxy']['backends']['vti']['paths']['path_reg'] = ["^/_vti_inf.html$","^/_vti_bin/.*"]
 default['haproxy']['backends']['vti']['port'] = 8070
 
-default['haproxy']['backends']['aos_root']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
+default['haproxy']['backends']['aos_root']['paths']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
 default['haproxy']['backends']['aos_root']['port'] = 8070
 
 default['haproxy']['general_config'] = [
