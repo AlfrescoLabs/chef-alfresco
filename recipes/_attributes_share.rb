@@ -1,6 +1,5 @@
 # Haproxy configuration
 node.default['haproxy']['backends']['share']['acls']['path_beg'] = ["/share"]
-node.default['haproxy']['backends']['share']['acls']['path_beg'] = ["/"]
 node.default['haproxy']['backends']['share']['httpchk'] = "/share"
 node.default['haproxy']['backends']['share']['nodes']['localhost'] = "127.0.0.1"
 node.default['haproxy']['backends']['share']['port'] = 8081
