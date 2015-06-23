@@ -19,8 +19,10 @@ acl is_<%= backendName %> <%= pathType %> <%= path %>
 <% end -%>
 
 # Redirects
-<% node['haproxy']['redirects'].each do |redirect| -%>
+<% if node['haproxy']['redirects'] -%>
+  <% node['haproxy']['redirects'].each do |redirect| -%>
 <%= redirect %>
+  <% end -%>
 <% end -%>
 
 # Use backends

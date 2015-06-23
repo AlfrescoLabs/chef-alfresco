@@ -4,6 +4,12 @@ node.default['artifacts']['solr4']['enabled']           = true
 
 node.default['alfresco']['solr-log4j']['log4j.appender.File.File']     = "#{node['tomcat']['log_dir']}/solr.log"
 
+# Haproxy configuration
+node.default['haproxy']['backends']['solr4']['acls']['path_beg'] = ["/solr4"]
+node.default['haproxy']['backends']['solr4']['httpchk'] = "/solr4"
+node.default['haproxy']['backends']['solr4']['nodes']['localhost'] = "127.0.0.1"
+node.default['haproxy']['backends']['solr4']['port'] = 8090
+
 # Artifact deployer attributes
 node.default['artifacts']['solrhome']['groupId']       = node['alfresco']['groupId']
 node.default['artifacts']['solrhome']['artifactId']    = "alfresco-solr4"

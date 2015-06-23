@@ -1,3 +1,10 @@
+# Haproxy configuration
+default['haproxy']['backends']['share']['acls']['path_beg'] = ["/share"]
+default['haproxy']['backends']['share']['httpchk'] = "/share"
+default['haproxy']['backends']['share']['nodes']['localhost'] = "127.0.0.1"
+default['haproxy']['backends']['share']['port'] = 8081
+default['haproxy']['redirects'] = ["redirect location /share/ if !is_share !is_alfresco"]
+
 # Artifact Deployer attributes
 node.default['artifacts']['share']['groupId']      = node['alfresco']['groupId']
 node.default['artifacts']['share']['artifactId']   = "share"
