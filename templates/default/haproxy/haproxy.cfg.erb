@@ -10,20 +10,22 @@ frontend default
 bind <%= node['haproxy']['bind_ip'] %>:<%= node['haproxy']['port'] %>
 
 # Redirects
-<%= node['haproxy']['redirects'] %>
+<% node['haproxy']['redirects'].each do |redirect| -%>
+<%= redirect %>
+<% end -%>
 
 # ACLs
 <% node['haproxy']['backends'].each do |backendName,backend| -%>
-  <% backend['paths'].each do |pathType,paths| -%>
+  <% backend['acls'].each do |pathType,paths| -%>
     <% paths.each do |path| -%>
-      acl is_<%= backendName %> <%= pathType %> <%= path %>
+acl is_<%= backendName %> <%= pathType %> <%= path %>
     <% end -%>
   <% end -%>
 <% end -%>
 
 # Use backends
 <% node['haproxy']['backends'].each do |backendName,backend| -%>
-  use_backend <%= backendName %> if is_<%= backendName %>
+use_backend <%= backendName %> if is_<%= backendName %>
 <% end -%>
 
 # Default Backend
@@ -32,12 +34,14 @@ default_backend <%= node['haproxy']['default_backend'] %>
 # Backends list
 
 <% node['haproxy']['backends'].each do |backendName,backend| -%>
-  # <%= backendName %> backend
+# <%= backendName %> backend
+backend <%= backendName %>
   <% if backend['httpchk'] -%>
-    option httpchk GET <%= backend['httpchk'] %>
+option httpchk GET <%= backend['httpchk'] %>
   <% end -%>
-  cookie JSESSIONID prefix
-  <% backend['nodes'].each do |node| -%>
-    server <%= node['id'] %> <%= node['ip'] %>:<%= backend['port'] %> check inter 5000
+cookie JSESSIONID prefix
+  <% backend['nodes'].each do |nodeHost,nodeIp| -%>
+server <%= nodeHost %> <%= nodeHost %>:<%= nodeIp %> check inter 5000
   <% end -%>
+
 <% end -%>
