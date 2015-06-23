@@ -41,7 +41,7 @@ option httpchk GET <%= backend['httpchk'] %>
   <% end -%>
 cookie JSESSIONID prefix
   <% backend['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeHost %>:<%= nodeIp %> check inter 5000
+server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
   <% end -%>
 
 <% end -%>

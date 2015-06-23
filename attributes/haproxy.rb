@@ -26,7 +26,7 @@ default['haproxy']['redirects'] = ["redirect location /share/ if !is_share !is_a
 
 default['haproxy']['backends']['alfresco']['acls']['path_beg'] = ["/alfresco"]
 default['haproxy']['backends']['alfresco']['acls']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
-default['haproxy']['backends']['alfresco']['httpchk'] = "/share"
+default['haproxy']['backends']['alfresco']['httpchk'] = "/alfresco"
 default['haproxy']['backends']['alfresco']['nodes'][node['hosts']['hostname']] = "127.0.0.1"
 default['haproxy']['backends']['alfresco']['port'] = 8070
 
