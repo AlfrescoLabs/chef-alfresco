@@ -29,18 +29,19 @@ if query_tags
     block do
       file = File.read(peers_file_path)
       peers_hash = JSON.parse(file)
+      if peers_hash['Reservations']['Instances']
+        peers_hash['Reservations']['Instances'].each do |node|
+          private_ip = node['PrivateIpAddress']
+          status = node['State']['Name']
+          id = node['InstanceId']
+          peer_item = {"id" => id, "ip" => private_ip}
 
-      peers_hash['Reservations']['Instances'].each do |node|
-        private_ip = node['PrivateIpAddress']
-        status = node['State']['Name']
-        id = node['InstanceId']
-        peer_item = {"id" => id, "ip" => private_ip}
-
-        if status != "running"
-          node['Tags'].each do |tag|
-            if tag['Key'] == role_tag_name
-              role = tag['Value']
-              node.set['haproxy']['backends'][role]['nodes'] << peer_item
+          if status != "running"
+            node['Tags'].each do |tag|
+              if tag['Key'] == role_tag_name
+                role = tag['Value']
+                node.set['haproxy']['backends'][role]['nodes'] << peer_item
+              end
             end
           end
         end
