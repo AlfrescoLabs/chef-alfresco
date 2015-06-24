@@ -53,7 +53,9 @@ acl <%= acl %>
 # Use backends
 <% if node['haproxy']['backends'] -%>
   <% node['haproxy']['backends'].each do |backendName,backend| -%>
+    <% if backend['acls'] -%>
 use_backend <%= backendName %> if is_<%= backendName %>
+    <% end -%>
   <% end -%>
 <% end -%>
 
@@ -64,14 +66,14 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 <% if node['haproxy']['backends'] -%>
   <% node['haproxy']['backends'].each do |backendName,backend| -%>
-    <% if backend['nodes'] -%>
 # <%= backendName %> backend
 backend <%= backendName %>
-      <% if backend['entries'] -%>
-        <% backend['entries'].each do |entry| -%>
+    <% if backend['entries'] -%>
+      <% backend['entries'].each do |entry| -%>
 <%= entry %>
-        <% end -%>
       <% end -%>
+    <% end -%>
+    <% if backend['nodes'] -%>
       <% backend['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
       <% end -%>
