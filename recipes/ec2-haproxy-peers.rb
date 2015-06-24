@@ -21,7 +21,8 @@ if query_tags
 
   execute "create-ec2-peers-json" do
     command "#{aws_bin} ec2 describe-instances #{query_tag_filter} > #{peers_file_path}"
-    creates peers_file_path
+    # re-create it every time
+    # creates peers_file_path
   end
 
   ruby_block "handling-#{peers_file_path}" do
