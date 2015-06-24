@@ -1,6 +1,6 @@
 # Haproxy configuration
 node.default['haproxy']['backends']['share']['acls']= ['path_beg /share', 'path_reg ^$|^/$']
-node.default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /share","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+node.default['haproxy']['backends']['share']['entries'] = ["option httpchk GET /share","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 node.default['haproxy']['backends']['share']['nodes']['localhost'] = "127.0.0.1"
 node.default['haproxy']['backends']['share']['port'] = 8081
 
