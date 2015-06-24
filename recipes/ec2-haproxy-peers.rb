@@ -18,33 +18,39 @@ if query_tags
   query_tags.each do |tagName,tagValue|
     query_tag_filter += "--filters Name=tag:#{tagName},Values=#{tagValue} "
   end
+
   execute "create-ec2-peers-json" do
     command "#{aws_bin} ec2 describe-instances #{query_tag_filter} > #{peers_file_path}"
     creates peers_file_path
   end
-  file = File.read(peers_file_path)
-  peers_hash = JSON.parse(file)
 
+  ruby_block "reading #{peers_file_path} and setting haproxy peers" do
+    block do
+      file = File.read(peers_file_path)
+      peers_hash = JSON.parse(file)
 
-  peers_hash['Reservations']['Instances'].each do |node|
-    private_ip = node['PrivateIpAddress']
-    status = node['State']['Name']
-    id = node['InstanceId']
-    peer_item = {"id" => id, "ip" => private_ip}
+      peers_hash['Reservations']['Instances'].each do |node|
+        private_ip = node['PrivateIpAddress']
+        status = node['State']['Name']
+        id = node['InstanceId']
+        peer_item = {"id" => id, "ip" => private_ip}
 
-    if status != "running"
-      node['Tags'].each do |tag|
-        if tag['Key'] == role_tag_name
-          role = tag['Value']
-          node.set['haproxy']['backends'][role]['nodes'] << peer_item
+        if status != "running"
+          node['Tags'].each do |tag|
+            if tag['Key'] == role_tag_name
+              role = tag['Value']
+              node.set['haproxy']['backends'][role]['nodes'] << peer_item
+            end
+          end
         end
       end
-    end
-  end
 
-  # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
-  node.set['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
-  node.set['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+      # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
+      node.set['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+      node.set['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+    end
+    action :run
+  end
 end
 
 # Set tags on the box
