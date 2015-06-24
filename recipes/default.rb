@@ -138,6 +138,9 @@ if node['alfresco']['components'].include? 'tomcat'
 end
 
 if node['alfresco']['components'].include? 'haproxy'
+  if node['haproxy']['enable.ec2.discovery']
+    include_recipe "alfresco::ec2-haproxy-peers"
+  end
   include_recipe "openssl::default"
   include_recipe "alfresco::haproxy_install"
 end
