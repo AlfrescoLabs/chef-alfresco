@@ -138,9 +138,6 @@ if node['alfresco']['components'].include? 'tomcat'
 end
 
 if node['alfresco']['components'].include? 'haproxy'
-  if node['haproxy']['enable.ec2.discovery']
-    include_recipe "alfresco::ec2-haproxy-peers"
-  end
   include_recipe "openssl::default"
   include_recipe "alfresco::haproxy_install"
 end
@@ -158,6 +155,10 @@ end
 
 if node['alfresco']['components'].include? 'rsyslog'
   include_recipe "rsyslog::default"
+end
+
+if node['haproxy']['enable.ec2.discovery']
+  include_recipe "alfresco::ec2-haproxy-peers"
 end
 
 # TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
