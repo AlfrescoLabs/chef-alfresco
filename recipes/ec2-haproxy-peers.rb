@@ -24,7 +24,7 @@ if query_tags
     creates peers_file_path
   end
 
-  ruby_block "reading #{peers_file_path} and setting haproxy peers" do
+  ruby_block "handling-#{peers_file_path}" do
     block do
       file = File.read(peers_file_path)
       peers_hash = JSON.parse(file)
