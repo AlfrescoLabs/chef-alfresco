@@ -7,13 +7,16 @@
 
 # Frontends
 
-<% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
+<% if node['haproxy']['frontends'] -%>
+  <% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
 # <%= frontendName %> frontend
 frontend <%= frontendName %>
-  <% if frontend['entries'] -%>
-    <% frontend['entries'].each do |entry| -%>
+    <% if frontend['entries'] -%>
+      <% frontend['entries'].each do |entry| -%>
 <%= entry %>
+      <% end -%>
     <% end -%>
+
   <% end -%>
 <% end -%>
 
@@ -73,5 +76,6 @@ backend <%= backendName %>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
       <% end -%>
     <% end -%>
+
   <% end -%>
 <% end -%>
