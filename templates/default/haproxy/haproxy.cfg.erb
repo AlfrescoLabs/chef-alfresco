@@ -5,16 +5,38 @@
 <%= line %>
 <% end -%>
 
-# Default frontend
-frontend default
-bind <%= node['haproxy']['bind_ip'] %>:<%= node['haproxy']['port'] %>
+# Frontends
 
-# ACLs
-<% node['haproxy']['backends'].each do |backendName,backend| -%>
-  <% backend['acls'].each do |pathType,paths| -%>
-    <% paths.each do |path| -%>
-acl is_<%= backendName %> <%= pathType %> <%= path %>
+<% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
+# <%= frontendName %> frontend
+frontend <%= frontendName %>
+  <% if frontend['entries'] -%>
+    <% frontend['entries'].each do |entry| -%>
+<%= entry %>
     <% end -%>
+  <% end -%>
+<% end -%>
+
+# Backend ACLs
+<% node['haproxy']['backends'].each do |backendName,backend| -%>
+  <% if backend['acls'] -%>
+    <% backend['acls'].each do |acl| -%>
+acl is_<%= backendName %> <%= acl %>
+    <% end -%>
+  <% end -%>
+<% end -%>
+
+# Other ACLs
+<% if node['haproxy']['acls'] -%>
+  <% node['haproxy']['acls'].each do |acl| -%>
+acl <%= acl %>
+  <% end -%>
+<% end -%>
+
+# Other Configurations
+<% if node['haproxy']['other_config'] -%>
+  <% node['haproxy']['other_config'].each do |other_config| -%>
+<%= other_config %>
   <% end -%>
 <% end -%>
 
@@ -26,8 +48,10 @@ acl is_<%= backendName %> <%= pathType %> <%= path %>
 <% end -%>
 
 # Use backends
-<% node['haproxy']['backends'].each do |backendName,backend| -%>
+<% if node['haproxy']['backends'] -%>
+  <% node['haproxy']['backends'].each do |backendName,backend| -%>
 use_backend <%= backendName %> if is_<%= backendName %>
+  <% end -%>
 <% end -%>
 
 # Default Backend
@@ -35,15 +59,17 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 # Backends list
 
-<% node['haproxy']['backends'].each do |backendName,backend| -%>
+<% if node['haproxy']['backends'] -%>
+  <% node['haproxy']['backends'].each do |backendName,backend| -%>
 # <%= backendName %> backend
 backend <%= backendName %>
-  <% if backend['httpchk'] -%>
-option httpchk GET <%= backend['httpchk'] %>
-  <% end -%>
-cookie JSESSIONID prefix
-  <% backend['nodes'].each do |nodeHost,nodeIp| -%>
+    <% if backend['entries'] -%>
+      <% backend['entries'].each do |entry| -%>
+<%= entry %>
+      <% end -%>
+    <% end -%>
+    <% backend['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
+    <% end -%>
   <% end -%>
-
 <% end -%>

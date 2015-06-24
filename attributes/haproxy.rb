@@ -19,8 +19,10 @@ default['haproxy']['error_folder'] = "/var/www/html/errors"
 default['haproxy']['error_file_cookbook'] = "alfresco"
 default['haproxy']['error_file_source'] = "haproxy/errors"
 
-default['haproxy']['port'] = "9000"
-default['haproxy']['bind_ip'] = "0.0.0.0"
+default['haproxy']['frontends']['http']['entries'] = [
+  "bind 0.0.0.0:9000"
+]
+
 default['haproxy']['default_backend'] = "share"
 
 default['haproxy']['general_config'] = [

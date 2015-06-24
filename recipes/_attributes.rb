@@ -66,7 +66,7 @@ node.default['alfresco']['log4j'] = node['logging']
 node.default['alfresco']['properties']['monitor.rmi.services.port']  = 50508
 
 #Database
-node.default['alfresco']['mysql_version'] = '5.7'
+node.default['alfresco']['mysql_version'] = '5.6'
 node.default['alfresco']['properties']['db.driver']          = 'org.gjt.mm.mysql.Driver'
 node.default['alfresco']['properties']['db.username']        = 'alfresco'
 node.default['alfresco']['properties']['db.password']        = 'alfresco'

@@ -14,12 +14,12 @@ aws_bin = node['ec2']['aws_bin']
 
 # Query AWS instances and set node attributes for haproxy service discovery configuration
 if query_tags
-  query-tag-filter = ""
+  query_tag_filter = ""
   query_tags.each do |tagName,tagValue|
-    query-tag-filter += "--filters Name=tag:#{tagName},Values=#{tagValue} "
+    query_tag_filter += "--filters Name=tag:#{tagName},Values=#{tagValue} "
   end
   execute "create-ec2-peers-json" do
-    command "#{aws_bin} ec2 describe-instances #{query-tag-filter} > #{peers_file_path}"
+    command "#{aws_bin} ec2 describe-instances #{query_tag_filter} > #{peers_file_path}"
     creates peers_file_path
   end
   file = File.read(peers_file_path)

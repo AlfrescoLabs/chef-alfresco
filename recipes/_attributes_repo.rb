@@ -1,17 +1,16 @@
 # HAproxy configuration
-node.default['haproxy']['backends']['alfresco']['acls']['path_beg'] = ["/alfresco"]
-node.default['haproxy']['backends']['alfresco']['acls']['path_reg'] = ["^/alfresco/aos/.*","^/alfresco/aos$"]
-node.default['haproxy']['backends']['alfresco']['httpchk'] = "/alfresco"
+node.default['haproxy']['backends']['alfresco']['acls'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
+node.default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 node.default['haproxy']['backends']['alfresco']['nodes']['localhost'] = "127.0.0.1"
 node.default['haproxy']['backends']['alfresco']['port'] = 8070
 
-node.default['haproxy']['backends']['aos_vti']['acls']['path_reg'] = ["^/_vti_inf.html$","^/_vti_bin/.*"]
-node.default['haproxy']['backends']['aos_vti']['httpchk'] = "/_vti_inf.html"
+node.default['haproxy']['backends']['aos_vti']['acls'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
+node.default['haproxy']['backends']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 node.default['haproxy']['backends']['aos_vti']['port'] = 8070
 node.default['haproxy']['backends']['aos_vti']['nodes']['localhost'] = "127.0.0.1"
 
-node.default['haproxy']['backends']['aos_root']['acls']['path_reg'] = ["^/$ method OPTIONS","^/$ method PROPFIND"]
-node.default['haproxy']['backends']['aos_root']['httpchk'] = "/"
+node.default['haproxy']['backends']['aos_root']['acls'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
+node.default['haproxy']['backends']['aos_root']['entries'] = ["option httpchk GET /","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 node.default['haproxy']['backends']['aos_root']['port'] = 8070
 node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = "127.0.0.1"
 
