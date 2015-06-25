@@ -1,14 +1,21 @@
+node.set['alfresco']['properties']['solr.port'] = node['haproxy']['port']
+node.set['alfresco']['solrproperties']['alfresco.port'] = node['haproxy']['port']
+node.set['alfresco']['shareproperties']['alfresco.port'] = node['haproxy']['port']
+
 haproxy_cfg_source = node['haproxy']['conf_template_source']
 haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
 error_file_cookbook = node['haproxy']['error_file_cookbook']
 error_file_source = node['haproxy']['error_file_source']
 error_folder = node['haproxy']['error_folder']
 
-remote_directory error_folder do
-  cookbook error_file_cookbook
-  source error_file_source
+%w( 400 403 404 408 500 502 503 504 ).each do |error_code|
+  template "#{error_folder}/#{error_code}.http" do
+    cookbook error_file_cookbook
+    source "#{error_file_source}/#{error_code}.http.erb"
+  end
 end
 
+# TODO - SSL Logic is not tested; we need to come up with a common strategy for SSL
 ssl_pem_crt_file = node['haproxy']['ssl_pem_crt_file']
 ssl_pem_crt_databag = node['haproxy']['ssl_pem_crt_databag']
 ssl_pem_crt_databag_item = node['haproxy']['ssl_pem_crt_databag_item']

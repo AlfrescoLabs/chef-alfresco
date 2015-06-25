@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# TODO - create a template and replace hardcoded paths with attributes
+# 
 cd /tmp
 mkdir alfresco-war-temp ; cd alfresco-war-temp
 unzip /usr/share/tomcat-alfresco/webapps/alfresco.war >> /var/log/messages

@@ -25,3 +25,15 @@ default['media']['source_type'] = "file"
 default['media']['target_type'] = "file"
 default['media']['source']['file']['path'] = node['media']['content_services_content_path']
 default['media']['target']['file']['path'] = node['media']['content_services_content_path']
+
+default['artifacts']['media']['owner'] = node['alfresco']['user']
+
+default['artifacts']['media-repo']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
+default['artifacts']['media-repo']['destination'] = node['alfresco']['amps_folder']
+default['artifacts']['media-repo']['owner'] = node['alfresco']['user']
+default['artifacts']['media-repo']['type'] = "amp"
+
+default['artifacts']['media-share']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-share/alfresco-mm-share-#{node['artifacts']['media']['version']}.amp"
+default['artifacts']['media-share']['destination'] = node['alfresco']['amps_share_folder']
+default['artifacts']['media-share']['owner'] = node['alfresco']['user']
+default['artifacts']['media-share']['type'] = "amp"

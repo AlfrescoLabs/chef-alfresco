@@ -23,8 +23,8 @@ r.cookbook(haproxy_cfg_cookbook)
 # alfresco-global.properties updates
 replace_property_map = node['alfresco']['properties']
 # TODO - reuse existing attributes
-file_to_patch = '/usr/share/tomcat/shared/classes/alfresco-global.properties'
-share_config = '/usr/share/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml'
+file_to_patch = "#{node['alfresco']['home']}/shared/classes/alfresco-global.properties"
+share_config = "#{node['alfresco']['home']}/shared/classes/alfresco/web-extension/share-config-custom.xml"
 tomcat_service_name = 'tomcat-alfresco'
 
 if replace_property_map

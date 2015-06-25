@@ -1,6 +1,10 @@
 # TODO - Tomcat users should be created by tomcat_instance resource, not via recipe
 # include_recipe "tomcat::users"
 
+node.default['artifacts']['alfresco-mmt']['enabled']    = true
+node.default['artifacts']['sharedclasses']['enabled']   = true
+node.default['artifacts']['catalina-jmx']['enabled'] = true
+
 if node['tomcat']['run_base_instance']
   node.default['alfresco']['restart_services'] = ['tomcat']
 end
@@ -19,9 +23,9 @@ unless node['tomcat']['run_base_instance']
   alfresco_components = node['alfresco']['components']
   if alfresco_components.include? "repo"
     node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
-    node.set['artifacts']['alfresco']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
-    node.set['artifacts']['_vti_bin']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
-    node.set['artifacts']['ROOT']['destination'] = "#{node['tomcat']['base']}-alfresco/webapps"
+    node.set['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
+    node.set['artifacts']['_vti_bin']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
+    node.set['artifacts']['ROOT']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
     # Point Solr to the right Alfresco instance
     node.set['alfresco']['solrproperties']['alfresco.port']            = node['alfresco']['repo_tomcat_instance']['port']
     # Point Alfresco to the right Solr instance
@@ -34,22 +38,21 @@ unless node['tomcat']['run_base_instance']
   end
   if alfresco_components.include? 'share'
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
-    node.set['artifacts']['share']['destination']  = "#{node['tomcat']['base']}-share/webapps"
+    node.set['artifacts']['share']['destination']  = "#{node['alfresco']['home']}-share/webapps"
   end
   if alfresco_components.include? 'solr'
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
-    node.set['artifacts']['solr4']['destination']       = "#{node['tomcat']['base']}-solr/webapps"
+    node.set['artifacts']['solr4']['destination']       = "#{node['alfresco']['home']}-solr/webapps"
     node.set['alfresco']['solr-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-solr/solr.log"
   end
 end
 
-include_recipe 'java::default'
 include_recipe 'tomcat::default'
 
-template '/usr/share/tomcat/conf/context.xml' do
+template "#{node['alfresco']['home']}/conf/context.xml" do
   cookbook context_template_cookbook
   source context_template_source
-  owner node['tomcat']['user']
+  owner node['alfresco']['user']
   group node['tomcat']['group']
 end
 

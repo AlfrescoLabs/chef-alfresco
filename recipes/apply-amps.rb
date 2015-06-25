@@ -1,7 +1,7 @@
 amps_folder       = node['alfresco']['amps_folder']
 amps_share_folder = node['alfresco']['amps_share_folder']
 bin_folder        = node['alfresco']['bin']
-user              = node['tomcat']['user']
+user              = node['alfresco']['user']
 group             = node['tomcat']['group']
 
 directory "amps-repo" do
