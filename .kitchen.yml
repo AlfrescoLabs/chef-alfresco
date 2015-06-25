@@ -13,6 +13,8 @@ platforms:
   - name: centos-7.0
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
+    driver_config:
+      require_chef_omnibus: 12.3.0
 
 suites:
   - name: default

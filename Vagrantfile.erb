@@ -21,10 +21,4 @@ Vagrant.configure("2") do |c|
   if Vagrant.has_plugin?("vagrant-cachier")
     c.cache.auto_detect = true
   end
-
-  if Vagrant.has_plugin?("vagrant-omnibus")
-    c.omnibus.install_url = 'https://gist.github.com/hectcastro/6443633/raw/install.sh'
-    c.omnibus.cache_packages = true
-    # c.omnibus.chef_version = "12.1.0"
-  end
 end
