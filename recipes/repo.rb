@@ -1,16 +1,24 @@
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
 config_folder     = node['tomcat']['config_dir']
-base_folder       = node['tomcat']['base']
+# base_folder       = node['alfresco']['home']
 log_folder        = node['tomcat']['log_dir']
 
-user              = node['tomcat']['user']
+user              = node['alfresco']['user']
 group             = node['tomcat']['group']
 
 alfresco_license_source = node['alfresco']['license_source']
 alfresco_license_cookbook = node['alfresco']['license_cookbook']
 
 generate_alfresco_global = node['alfresco']['generate.global.properties']
+
+if node['alfresco']['generate.global.properties'] == true
+  node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
+end
+
+if node['alfresco']['generate.repo.log4j.properties'] == true
+  node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
+end
 
 directory "alfresco-rootdir" do
   path        root_folder
@@ -70,10 +78,10 @@ directory "tomcat-logs-permissions" do
   recursive   true
 end
 
-directory "tomcat-base-permissions" do
-  path        base_folder
-  owner       user
-  group       group
-  mode        "0775"
-  recursive   true
-end
+# directory "tomcat-base-permissions" do
+#   path        base_folder
+#   owner       user
+#   group       group
+#   mode        "0775"
+#   recursive   true
+# end

@@ -121,27 +121,16 @@ For each component, chef-alfresco may include external Chef cookbooks and/or cha
 #### tomcat
 
 Installs and configures Apache Tomcat using a [fork of Tomcat community cookbook](https://github.com/maoo/tomcat):
-- Supports single multi-homed installations, allowing Alfresco Repository, Share and Solr to run on 3 (or 2) different Java virtual machines
+- Supports single multi-homed installations (default), allowing Alfresco Repository, Share and Solr to run on 3 (or 2) different Java virtual machines
 - Supports versions 6 and 7 (default), depending on Alfresco version
 - Standard Apache Tomcat installation using apt-get or yum repositories
 - Configurable SSL keystore/truststore in `server.xml`
 
-Hereby the most important (default) configuration that you can override; the complete list can be found in [attributes/tomcat.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/tomcat.rb) and [recipes/_attributes.rb](https://github.com/maoo/chef-alfresco/blob/master/recipes/_attributes.rb)
-
-```
-"tomcat" : {
-  "run_base_instance" : false,
-  "additional_tomcat_packages" : ["tomcat-native", "apr", "abrt"],
-  "files_cookbook" : "alfresco",
-  "deploy_manager_apps": false,
-  "jvm_memory" : "-Xmx1500M -XX:MaxPermSize=256M",
-  "java_options" : "-Xmx1500M -XX:MaxPermSize=256M -Djava.rmi.server.hostname=localhost -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
-}
-```
+The complete list of configurable attributes can be found in [attributes/tomcat.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/tomcat.rb); java configuration is included in the [default attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb)
 
 #### mysql
 
-Installs and configures a local instance MySQL 5.7 Community Server, creates a database and a granted user; hereby the default configuration:
+Installs and configures a local instance MySQL 5.6 Community Server, creates a database and a granted user; hereby the default configuration:
 
 ```
 "alfresco" : {
@@ -195,7 +184,7 @@ Resolve (and apply) Alfresco AMP files (as above, using artifact-deployer)
 
 ##### alfresco-global.properties generation
 
-Generates alfresco-global.properties depending on properties defined in `node['alfresco']['properties']`
+Generates alfresco-global.properties depending on attribute values:
 ```
 "alfresco": {
   "properties": {
@@ -215,7 +204,7 @@ You can disable this feature (i.e. if you ship `alfresco-global.properties` with
 
 ##### repo-log4j.properties generation
 
-Generates repo-log4j.properties depending on properties defined in `node['alfresco']['repo-log4j']`
+Generates repo-log4j.properties depending on attribute values:
 ```
 "alfresco": {
   "repo-log4j": {
@@ -257,7 +246,7 @@ Generates (by default) `shared/classes/alfresco/web-extension/share-config-custo
   }
 }
 ```
-You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` (term delimiters are [configurable](https://github.com/maoo/artifact-deployer/blob/master/attributes/default.rb)) occurrences with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following parameter:
+You can optionally patch an existing share-config-custom.xml replacing all `@@key@@` (term delimiters are [configurable](https://github.com/maoo/artifact-deployer/blob/master/attributes/default.rb)) occurrences with attribute values of `node['alfresco']['shareproperties']` values; to enable this feature you must define the following attributes:
 ```
 "alfresco": {
   "patch.share.config.custom" : false,
@@ -272,7 +261,7 @@ Installs Alfresco Solr application within a given Servlet container; the followi
 
 ##### solrcore.properties generation
 
-Generate `solr/workspace-SpacesStore/conf/solrcore.properties` and `solr/archive-SpacesStore/conf/solrcore.properties` depending on properties defined in node['alfresco']['solrproperties']:
+Generate `solr/workspace-SpacesStore/conf/solrcore.properties` and `solr/archive-SpacesStore/conf/solrcore.properties` depending on attribute values:
 
 ```
 "alfresco": {
@@ -285,7 +274,7 @@ Generate `solr/workspace-SpacesStore/conf/solrcore.properties` and `solr/archive
 
 ##### log4j-solr.properties generation
 
-Generates log4j-solr.properties depending on properties defined in `node['alfresco']['solr-log4j']`
+Generates log4j-solr.properties depending on attributes defined in `node['alfresco']['solr-log4j']`
 
 #### transform
 
@@ -317,7 +306,7 @@ Installs and configures Alfresco media-management; since the feature is currentl
 
 #### analytics
 
-Installs and configures Alfresco analytics; as per media, you must download the zip distribution package and serve it via HTTP or Maven repo; configuration is shown below.
+Installs and configures Alfresco analytics; as per media, you must download the zip distribution package and serve it via HTTP or Maven repo; attribute values are shown below:
 
 ```
 attributes: {

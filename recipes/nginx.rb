@@ -3,21 +3,11 @@ node.default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.
 node.default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
 node.default['rsyslog']['file_inputs']['nginx']['priority'] = 56
 
-include_recipe 'nginx::repo'
-include_recipe 'nginx::commons'
-include_recipe 'nginx::package'
-
 # Delete Centos default configuration
 # Replaced by /etc/nginx/sites-enabled/*
 file "/etc/nginx/conf.d/default.conf" do
   action :delete
 end
-
-# TODO - remove it, done already by nginx cookbook
-# template '/etc/nginx/nginx.conf' do
-#   source node['nginx']['cfg_source']
-#   cookbook node['nginx']['cfg_cookbook']
-# end
 
 include_recipe 'nginx::default'
 

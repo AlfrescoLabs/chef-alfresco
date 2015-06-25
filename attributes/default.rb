@@ -1,7 +1,3 @@
-#######################################
-# Chef Alfresco Components and Features
-#######################################
-
 # Alfresco components that are not enabled by default:
 # analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
@@ -17,10 +13,13 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.d"
 
+default['alfresco']['home'] = "/usr/share/tomcat"
+default['alfresco']['user'] = "tomcat"
+
 default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 
 # Patch alfresco web.xml to disable SSL restrictions and use secureComms=none
-default['alfresco']['web_xml_nossl_patch'] = true
+default['alfresco']['enable.web.xml.nossl.patch'] = true
 
 #Generates alfresco-global.properties using all node['alfresco']['properties'] key/value attributes
 default['alfresco']['generate.global.properties'] = true
@@ -40,7 +39,7 @@ default['alfresco']['patch.share.config.custom'] = false
 default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'alfresco'
 
-#Mysql (custom) defaults
+#Mysql defaults
 default['mysql']['update_gcc'] = true
 
 # Used in redeploy recipe
@@ -48,10 +47,10 @@ default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
 default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
 # Java defaults
-default["java"]["default"]                                 = true
-default["java"]["accept_license_agreement"]                = true
-default["java"]["install_flavor"]                          = "oracle"
-default["java"]["jdk_version"]                             = "8"
+default["java"]["default"] = true
+default["java"]["accept_license_agreement"] = true
+default["java"]["install_flavor"] = "oracle"
+default["java"]["jdk_version"] = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
@@ -62,3 +61,58 @@ default['java']['jdk']['8']['x86_64']['checksum'] = '58486d7b16d7b21fbea7374adc1
 default['alfresco']['install_fonts'] = true
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"
+
+# Alfresco services configuration
+default["alfresco"]["start_service"] = true
+default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
+default['alfresco']['restart_action']   = [:enable, :restart]
+
+# Additional Alfresco paths
+default['alfresco']['bin'] = "#{node['alfresco']['home']}/bin"
+default['alfresco']['shared'] = "#{node['alfresco']['home']}/shared"
+default['alfresco']['shared_lib'] = "#{node['alfresco']['shared']}/lib"
+default['alfresco']['amps_folder'] = "#{node['alfresco']['home']}/amps"
+default['alfresco']['amps_share_folder'] = "#{node['alfresco']['home']}/amps_share"
+
+#default['alfresco']['default_hostname'] = node['fqdn']
+default['alfresco']['default_hostname'] = "localhost"
+default['alfresco']['default_port'] = "8081"
+default['alfresco']['default_portssl'] = "8443"
+default['alfresco']['default_protocol'] = "http"
+
+default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['default_hostname']})"
+
+# Logging Attributes
+default['logging']['log4j.rootLogger'] = "error, Console, File"
+default['logging']['log4j.appender.Console'] = "org.apache.log4j.DailyRollingFileAppender"
+default['logging']['log4j.appender.Console.layout'] = "org.apache.log4j.PatternLayout"
+default['logging']['log4j.appender.Console.layout.ConversionPattern'] = "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n"
+default['logging']['log4j.appender.File'] = "org.apache.log4j.DailyRollingFileAppender"
+default['logging']['log4j.appender.File.Append'] = "true"
+default['logging']['log4j.appender.File.DatePattern'] = "'.'yyyy-MM-dd"
+default['logging']['log4j.appender.File.layout'] = "org.apache.log4j.PatternLayout"
+default['logging']['log4j.appender.File.layout.ConversionPattern'] = "%d{ABSOLUTE} %-5p [%c] %m%n"
+default['logging']['log4j.appender.File.File'] = "${logfilename}"
+
+default['alfresco']['log4j'] = node['logging']
+
+# DB params shared between client and server
+default['alfresco']['db']['server_root_password'] = 'alfresco'
+default['alfresco']['db']['root_user'] = "root"
+
+# Alfresco MMT artifact
+default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
+default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
+default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
+default['artifacts']['alfresco-mmt']['type'] = "jar"
+default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
+default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
+default['artifacts']['alfresco-mmt']['unzip'] = false
+
+# Filtering properties with placeholders defined in the mentioned files
+# (only if classes zip is part of the artifact list, see recipes)
+default['artifacts']['sharedclasses']['unzip'] = false
+default['artifacts']['sharedclasses']['filtering_mode'] = "append"
+default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
+default['artifacts']['sharedclasses']['destinationName'] = "classes"
+default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']

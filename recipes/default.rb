@@ -1,6 +1,9 @@
 # If there are no components that need artifact deployment,
-# don't invoke artifact-deployer::default and skip alfresco::apply_amps
-deploy = false
+# don't invoke apply_amps
+apply_amps = false
+
+# If there is no media nor analytics, don't install activemq
+install_activemq = false
 
 # Setting Tomcat version
 node.override["tomcat"]["base_version"] = 6
@@ -18,119 +21,67 @@ end
 
 include_recipe "alfresco::package-repositories"
 
+# Using berkshelf-driven recipe for Tomcat; this is part of maoo PR
+# TODO - try to make community tomcat working properly
 include_recipe "tomcat::_attributes"
-include_recipe "alfresco::_attributes"
 
 if node['alfresco']['components'].include? 'postgresql'
-  node.default['alfresco']['properties']['db.prefix'] = 'psql'
-  node.default['alfresco']['properties']['db.port'] = '5432'
-  node.default['alfresco']['properties']['db.params'] = ''
-  include_recipe "alfresco::postgresql_local_server"
+  include_recipe "alfresco::postgresql-local-server"
 elsif node['alfresco']['components'].include? 'mysql'
-  include_recipe "alfresco::mysql_local_server"
+  include_recipe "alfresco::mysql-local-server"
 end
 
 include_recipe 'java::default'
 
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
-  node.default['artifacts']['alfresco-mmt']['enabled']    = true
-  node.default['artifacts']['sharedclasses']['enabled']   = true
-  node.default['artifacts']['catalina-jmx']['enabled'] = true
 end
 
 if node['alfresco']['components'].include? 'nginx'
-  include_recipe "alfresco::nginx_install"
+  include_recipe "alfresco::nginx"
 end
 
 if node['alfresco']['components'].include? 'transform'
   include_recipe "alfresco::transformations"
 end
 
-if node['alfresco']['components'].include? 'spp'
-  node.default['artifacts']['alfresco-spp']['enabled'] = true
-else
-  node.default['artifacts']['alfresco-spp']['enabled'] = false
-end
-
 if node['alfresco']['components'].include? 'aos'
-  node.default['artifacts']['_vti_bin']['enabled'] = true
-  node.default['artifacts']['ROOT']['enabled'] = true
-else
-  node.default['artifacts']['_vti_bin']['enabled'] = false
-  node.default['artifacts']['ROOT']['enabled'] = false
+  include_recipe "alfresco::aos"
 end
 
 if node['alfresco']['components'].include? 'googledocs'
-  node.default['artifacts']['googledocs-repo']['enabled'] = true
-  node.default['artifacts']['googledocs-share']['enabled'] = true
+  include_recipe "alfresco::googledocs"
 end
 
 if node['alfresco']['components'].include? 'rm'
-  node.default['artifacts']['rm']['enabled'] = true
-  node.default['artifacts']['rm-share']['enabled'] = true
+  include_recipe "alfresco::rm"
+end
+
+if node['media']['install.content.services']
+  include_recipe 'alfresco::media-content-services'
+  install_activemq = true
 end
 
 if node['alfresco']['components'].include? 'media'
-  if node['media']['install.content.services']
-    include_recipe 'alfresco::media-content-services'
-    node.default['alfresco']['install.activemq'] = true
-  else
-    node.default['alfresco']['install.activemq'] = false
-  end
-  node.default['artifacts']['media']['enabled'] = true
-  node.default['artifacts']['media-repo']['enabled'] = true
-  node.default['artifacts']['media-repo-messaging']['enabled'] = true
-  node.default['artifacts']['media-share']['enabled'] = true
-end
-
-if node['alfresco']['components'].include? 'analytics'
-  node.default['alfresco']['install.activemq'] = true
-  node.default['artifacts']['analytics']['enabled'] = true
-  node.default['artifacts']['analytics-repo']['enabled'] = true
-  node.default['artifacts']['analytics-share']['enabled'] = true
-  node.default['artifacts']['alfresco-pentaho']['enabled'] = true
-end
-
-if node.default['alfresco']['install.activemq']
-  include_recipe 'activemq::default'
+  include_recipe 'alfresco::media-alfresco'
 end
 
 if node['alfresco']['components'].include? 'haproxy'
-  node.default['alfresco']['properties']['solr.port'] = "9000"
-  node.default['alfresco']['solrproperties']['alfresco.port'] = "9000"
-  node.default['alfresco']['shareproperties']['alfresco.port'] = "9000"
+  include_recipe 'alfresco::haproxy'
 end
 
 if node['alfresco']['components'].include? 'repo'
-  deploy = true
-  include_recipe "alfresco::_attributes_repo"
-
-  if node['alfresco']['generate.global.properties'] == true
-    node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
-  end
-
-  if node['alfresco']['generate.repo.log4j.properties'] == true
-    node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
-  end
-
-  include_recipe "alfresco::repo_config"
+  apply_amps = true
+  include_recipe "alfresco::repo"
 end
 
 if node['alfresco']['components'].include? 'share'
-  deploy = true
-  include_recipe "alfresco::_attributes_share"
-
-  if node['alfresco']['patch.share.config.custom'] == true
-    node.default['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
-  end
-
-  include_recipe "alfresco::share_config"
+  apply_amps = true
+  include_recipe "alfresco::share"
 end
 
 if node['alfresco']['components'].include? 'solr'
-  deploy = true
-  include_recipe "alfresco::_attributes_solr"
+  include_recipe "alfresco::solr"
 end
 
 if node['alfresco']['components'].include? 'tomcat'
@@ -139,18 +90,23 @@ end
 
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe "openssl::default"
-  include_recipe "alfresco::haproxy_install"
+  include_recipe "alfresco::haproxy"
 end
 
-# Always run artifact-deployer
 include_recipe "artifact-deployer::default"
 
-if deploy == true
-  include_recipe "alfresco::apply_amps"
+if apply_amps
+  include_recipe "alfresco::apply-amps"
 end
 
+# This must go after Alfresco installation
 if node['alfresco']['components'].include? 'analytics'
   include_recipe "alfresco::analytics"
+  install_activemq = true
+end
+
+if install_activemq
+  include_recipe 'activemq::default'
 end
 
 if node['alfresco']['components'].include? 'rsyslog'
@@ -161,10 +117,10 @@ if node['haproxy']['enable.ec2.discovery']
   include_recipe "alfresco::ec2-haproxy-peers"
 end
 
-# TODO - to fix temporary the lack of nossl distro for alfresco war 5.0.d
-# needs restart, before patching
+# TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
+# Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
-if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xml_nossl_patch']
+if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable.web.xml.nossl.patch']
   cookbook_file "/usr/local/bin/nossl-patch.sh" do
     source "nossl-patch.sh"
     mode "0755"
@@ -174,6 +130,7 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['web_xm
   end
 end
 
+# Restarting services, if enabled
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']
 restart_action    = node['alfresco']['restart_action']
