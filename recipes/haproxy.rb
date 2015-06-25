@@ -8,7 +8,7 @@ error_file_cookbook = node['haproxy']['error_file_cookbook']
 error_file_source = node['haproxy']['error_file_source']
 error_folder = node['haproxy']['error_folder']
 
-directory error_file_source do
+directory error_folder do
   action :create
   recursive true
 end

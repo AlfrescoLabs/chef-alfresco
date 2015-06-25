@@ -10,6 +10,8 @@ default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
 default['nginx']['port'] = "80"
 
+default['nginx']['proxy_port'] = node['haproxy']['port']
+
 #TODO - add SSL conf if databag is found
 
 default['nginx']['proxy_set_header_port'] = node['nginx']['port']

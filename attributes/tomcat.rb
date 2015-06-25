@@ -42,6 +42,7 @@ default["tomcat"]["java_options"] = "#{node['tomcat']['jvm_memory']} -Djava.rmi.
 
 # Tomcat default settings
 default['tomcat']['service_actions'] = [:disable,:stop]
+default['tomcat']['restart_action'] = :nothing
 default["tomcat"]["deploy_manager_apps"] = false
 default["tomcat"]["use_security_manager"] = false
 
