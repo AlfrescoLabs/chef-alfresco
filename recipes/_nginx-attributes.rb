@@ -1,22 +1,22 @@
 # Nginx settings
-default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
-default['nginx']['conf_cookbook'] = 'alfresco'
+node.default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
+node.default['nginx']['conf_cookbook'] = 'alfresco'
 
-default['nginx']['service_actions'] = [:enable,:start]
+node.default['nginx']['service_actions'] = [:enable,:start]
 
-default['nginx']['dns_server'] = "localhost"
+node.default['nginx']['dns_server'] = "localhost"
 
-default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
+node.default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
-default['nginx']['port'] = "80"
+node.default['nginx']['port'] = "80"
 
-default['nginx']['proxy_port'] = node['haproxy']['port']
+node.default['nginx']['proxy_port'] = node['haproxy']['port']
 
 #TODO - add SSL conf if databag is found
 
-default['nginx']['proxy_set_header_port'] = node['nginx']['port']
+node.default['nginx']['proxy_set_header_port'] = node['nginx']['port']
 
-default['nginx']['config'] = [
+node.default['nginx']['config'] = [
   "user  nobody;",
   "worker_processes  2;",
   "events {",

@@ -1,15 +1,31 @@
+# Setting Tomcat version
+# Needs to be done before invoking "tomcat::_attributes"
+node.override["tomcat"]["base_version"] = 7
+
+# Invoke attribute recipes; if defined as attributes/*.rb files,
+# The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
+# would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
+#
+include_recipe "tomcat::_attributes"
+include_recipe "alfresco::_tomcat-attributes"
+include_recipe "alfresco::_alfrescoproperties-attributes"
+include_recipe "alfresco::_repo-attributes"
+include_recipe "alfresco::_share-attributes"
+include_recipe "alfresco::_solr-attributes"
+include_recipe "alfresco::_rm-attributes"
+include_recipe "alfresco::_googledocs-attributes"
+include_recipe "alfresco::_aos-attributes"
+include_recipe "alfresco::_media-attributes"
+include_recipe "alfresco::_analytics-attributes"
+include_recipe "alfresco::_haproxy-attributes"
+include_recipe "alfresco::_nginx-attributes"
+
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
 apply_amps = false
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
-
-# Setting Tomcat version
-node.override["tomcat"]["base_version"] = 6
-if node['alfresco']['version'].start_with?("4.3") || node['alfresco']['version'].start_with?("5")
-  node.override["tomcat"]["base_version"] = 7
-end
 
 # Change artifactIds for alfresco and share WARs, if
 # we're using an Enterprise version (ends with a digit)
@@ -20,10 +36,6 @@ if enterprise
 end
 
 include_recipe "alfresco::package-repositories"
-
-# Using berkshelf-driven recipe for Tomcat; this is part of maoo PR
-# TODO - try to make community tomcat working properly
-include_recipe "tomcat::_attributes"
 
 if node['alfresco']['components'].include? 'postgresql'
   include_recipe "alfresco::postgresql-local-server"

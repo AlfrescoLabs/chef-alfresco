@@ -1,7 +1,9 @@
+node.default['artifacts']['alfresco']['enabled'] = true
+node.default['artifacts']['keystore']['enabled'] = true
+
 root_folder       = node['alfresco']['properties']['dir.root']
 shared_folder     = node['alfresco']['shared']
 config_folder     = node['tomcat']['config_dir']
-# base_folder       = node['alfresco']['home']
 log_folder        = node['tomcat']['log_dir']
 
 user              = node['alfresco']['user']
@@ -77,11 +79,3 @@ directory "tomcat-logs-permissions" do
   mode        "0775"
   recursive   true
 end
-
-# directory "tomcat-base-permissions" do
-#   path        base_folder
-#   owner       user
-#   group       group
-#   mode        "0775"
-#   recursive   true
-# end

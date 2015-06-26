@@ -3,11 +3,24 @@
 # aos - Alfresco Office Services (WARs); enterprise-only
 # media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
-# spp - Sharepoint protocol (AMP)
 #
 # Default Alfresco components
 #
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
+
+# TODO - overlap with haproxy hostname/domain and alfresco/default_hostname
+#
+#default['alfresco']['default_hostname'] = node['fqdn']
+default['alfresco']['default_hostname'] = "localhost"
+default['alfresco']['default_port'] = "8081"
+default['alfresco']['default_portssl'] = "8443"
+default['alfresco']['default_protocol'] = "http"
+
+default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
+default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
+
+default['haproxy']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
+default['haproxy']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
@@ -15,8 +28,6 @@ default['alfresco']['version'] = "5.0.d"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
-
-default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 
 # Patch alfresco web.xml to disable SSL restrictions and use secureComms=none
 default['alfresco']['enable.web.xml.nossl.patch'] = true
@@ -39,12 +50,11 @@ default['alfresco']['patch.share.config.custom'] = false
 default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'alfresco'
 
+# Using Alfresco Nexus public by default
+default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
+
 #Mysql defaults
 default['mysql']['update_gcc'] = true
-
-# Used in redeploy recipe
-default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
-default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
 # Java defaults
 default["java"]["default"] = true
@@ -62,26 +72,6 @@ default['alfresco']['install_fonts'] = true
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"
 
-# Alfresco services configuration
-default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
-default['alfresco']['restart_action']   = [:enable, :restart]
-
-# Additional Alfresco paths
-default['alfresco']['bin'] = "#{node['alfresco']['home']}/bin"
-default['alfresco']['shared'] = "#{node['alfresco']['home']}/shared"
-default['alfresco']['shared_lib'] = "#{node['alfresco']['shared']}/lib"
-default['alfresco']['amps_folder'] = "#{node['alfresco']['home']}/amps"
-default['alfresco']['amps_share_folder'] = "#{node['alfresco']['home']}/amps_share"
-
-#default['alfresco']['default_hostname'] = node['fqdn']
-default['alfresco']['default_hostname'] = "localhost"
-default['alfresco']['default_port'] = "8081"
-default['alfresco']['default_portssl'] = "8443"
-default['alfresco']['default_protocol'] = "http"
-
-default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['default_hostname']})"
-
 # Logging Attributes
 default['logging']['log4j.rootLogger'] = "error, Console, File"
 default['logging']['log4j.appender.Console'] = "org.apache.log4j.DailyRollingFileAppender"
@@ -94,25 +84,11 @@ default['logging']['log4j.appender.File.layout'] = "org.apache.log4j.PatternLayo
 default['logging']['log4j.appender.File.layout.ConversionPattern'] = "%d{ABSOLUTE} %-5p [%c] %m%n"
 default['logging']['log4j.appender.File.File'] = "${logfilename}"
 
-default['alfresco']['log4j'] = node['logging']
-
 # DB params shared between client and server
 default['alfresco']['db']['server_root_password'] = 'alfresco'
 default['alfresco']['db']['root_user'] = "root"
 
-# Alfresco MMT artifact
-default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
-default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
-default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
-default['artifacts']['alfresco-mmt']['type'] = "jar"
-default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
-default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
-default['artifacts']['alfresco-mmt']['unzip'] = false
-
-# Filtering properties with placeholders defined in the mentioned files
-# (only if classes zip is part of the artifact list, see recipes)
-default['artifacts']['sharedclasses']['unzip'] = false
-default['artifacts']['sharedclasses']['filtering_mode'] = "append"
-default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
-default['artifacts']['sharedclasses']['destinationName'] = "classes"
-default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
+# Alfresco services configuration
+default["alfresco"]["start_service"] = true
+default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
+default['alfresco']['restart_action']   = [:enable, :restart]
