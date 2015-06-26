@@ -8,19 +8,10 @@
 #
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
 
-# TODO - overlap with haproxy hostname/domain and alfresco/default_hostname
-#
-#default['alfresco']['default_hostname'] = node['fqdn']
 default['alfresco']['default_hostname'] = "localhost"
 default['alfresco']['default_port'] = "8081"
 default['alfresco']['default_portssl'] = "8443"
 default['alfresco']['default_protocol'] = "http"
-
-default['hosts']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
-default['hosts']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
-
-default['haproxy']['hostname'] = node['hostname'] ? node['hostname'] : 'localhost'
-default['haproxy']['domain'] = node['domain'] ? node['domain'] : 'localdomain'
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"

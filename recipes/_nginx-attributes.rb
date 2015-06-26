@@ -37,7 +37,7 @@ node.default['nginx']['config'] = [
   "    server {",
   "        listen #{node['nginx']['port']} default_server;",
   "        listen [::]:80 default_server;",
-  "        server_name #{node['hosts']['hostname']}.#{node['hosts']['domain']};",
+  "        server_name #{node['alfresco']['default_hostname']};",
   "        location / {",
   "            proxy_set_header Host $host:#{node['nginx']['proxy_set_header_port']};",
   "            proxy_pass http://localhost:#{node['nginx']['proxy_port']};",

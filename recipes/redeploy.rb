@@ -1,5 +1,23 @@
+# Invoke attribute recipes; if defined as attributes/*.rb files,
+# The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
+# would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
+#
+include_recipe "tomcat::_attributes"
+include_recipe "alfresco::_tomcat-attributes"
+include_recipe "alfresco::_alfrescoproperties-attributes"
+include_recipe "alfresco::_repo-attributes"
+include_recipe "alfresco::_share-attributes"
+include_recipe "alfresco::_solr-attributes"
+include_recipe "alfresco::_rm-attributes"
+include_recipe "alfresco::_googledocs-attributes"
+include_recipe "alfresco::_aos-attributes"
+include_recipe "alfresco::_media-attributes"
+include_recipe "alfresco::_analytics-attributes"
+include_recipe "alfresco::_haproxy-attributes"
+include_recipe "alfresco::_nginx-attributes"
+
 # haproxy.cfg updates
-host = "#{node['hosts']['hostname']}.#{node['hosts']['domain']}"
+host = "#{node['alfresco']['default_hostname']}"
 
 # DEPRECATED in favour of haproxy::default
 #
@@ -34,7 +52,7 @@ if replace_property_map
       replace   "#{propName}="
       with      "#{propName}=#{propValue}"
       not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
-      notifies :create, 'file[create.alfresco-global-changed.run]', :delayed
+      notifies  :restart, "service[#{tomcat_service_name}]", :delayed
     end
   end
 end
@@ -45,20 +63,9 @@ if append_property_map
     file_append "#{propName}-on-#{file_to_patch}" do
       path      file_to_patch
       line      "#{propName}=#{propValue}"
-      notifies :create, 'file[create.alfresco-global-changed.run]', :delayed
+      notifies  :restart, "service[#{tomcat_service_name}]", :delayed
     end
   end
-end
-
-file 'create.alfresco-global-changed.run' do
-  action :nothing
-  path '/var/run/alfresco-global-changed.run'
-  notifies :restart, 'service[tomcat_service]', :immediately
-end
-
-file 'delete.alfresco-global-changed.run' do
-  action :nothing
-  path '/var/run/alfresco-global-changed.run'
 end
 
 # DEPRECATED in favour of nginx::commons_conf
@@ -71,11 +78,6 @@ end
 #   notifies :restart, 'service[nginx]'
 # end
 include_recipe 'nginx::commons_conf'
-
-# Needed by commons_conf
-service 'nginx' do
-  action :nothing
-end
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
@@ -99,26 +101,18 @@ file_replace_line 'share-config-referer' do
   notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
 end
 
+# TODO - why this is here and not into _tomcat-attributes.rb ?
 file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{host}\""
 end
 
-service 'tomcat-share' do
-  action :nothing
+%w( tomcat tomcat-alfresco tomcat-share tomcat-solr ).each do |service_name|
+  service service_name do
+    action :nothing
+  end
 end
 
-# Define services that need (conditional) restart
-service 'tomcat_service' do
-  service_name tomcat_service_name
+# Needed by nginx::commons_conf
+service 'nginx' do
   action :nothing
-  notifies :delete, 'file[delete.alfresco-global-changed.run]', :immediately
 end
-
-# DEPRECATED - not needed for now
-# service 'nginx' do
-#   action :nothing
-# end
-#
-# service 'haproxy' do
-#   action :nothing
-# end
