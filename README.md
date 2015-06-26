@@ -125,7 +125,7 @@ Installs and configures Apache Tomcat using a [fork of Tomcat community cookbook
 - Standard Apache Tomcat installation using apt-get or yum repositories
 - Configurable SSL keystore/truststore in `server.xml`
 
-The complete list of configurable attributes can be found in [attributes/tomcat.rb](https://github.com/maoo/chef-alfresco/blob/master/attributes/tomcat.rb); java configuration is included in the [default attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb)
+The complete list of configurable attributes can be found in [tomcat attributes](https://github.com/maoo/chef-alfresco/blob/master/recipe/_tomcat-attributes.rb); java configuration is included in the [default attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/default.rb)
 
 #### mysql
 
@@ -328,11 +328,11 @@ Installs Alfresco Googledocs, using [Alfresco Googledocs 3.0.2 repo and share AM
 
 #### haproxy
 
-HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/haproxy.rb)
+HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_haproxy-attributes.rb)
 
 #### nginx
 
-Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/attributes/nginx.rb)
+Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_nginx-attributes.rb)
 
 #### rsyslog
 
