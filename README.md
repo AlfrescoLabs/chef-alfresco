@@ -65,7 +65,6 @@ The most important configurations of chef-alfresco can be found in [attributes/d
 
 ```
 # Alfresco components that are not enabled by default:
-# spp - Sharepoint protocol (AMP)
 # aos - Alfresco Office Services (WARs); enterprise-only
 # rsyslog - Remote logging
 #
@@ -282,10 +281,6 @@ Uses `alfresco::transformations` Chef recipe to install the following packages:
 - openoffice
 - imagemagick
 - swftools
-
-#### spp
-
-Installs Alfresco SharePoint Protocol, using [Alfresco Sharepoint Protocol 5.0.d AMP](https://artifacts.alfresco.com/nexus/index.html#nexus-search;gav~~alfresco-spp~5.0.d~~),
 
 #### media
 
