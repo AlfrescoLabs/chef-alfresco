@@ -1,19 +1,3 @@
-# Nginx settings
-node.default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
-node.default['nginx']['conf_cookbook'] = 'alfresco'
-
-node.default['nginx']['service_actions'] = [:enable,:start]
-
-node.default['nginx']['dns_server'] = "localhost"
-
-node.default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
-
-node.default['nginx']['port'] = "80"
-
-node.default['nginx']['proxy_port'] = node['haproxy']['port']
-
-#TODO - add SSL conf if databag is found
-
 node.default['nginx']['proxy_set_header_port'] = node['nginx']['port']
 
 node.default['nginx']['config'] = [
