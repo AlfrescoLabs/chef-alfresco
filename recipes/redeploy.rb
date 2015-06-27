@@ -17,7 +17,7 @@ include_recipe "alfresco::_haproxy-attributes"
 include_recipe "alfresco::_nginx-attributes"
 
 # haproxy.cfg updates
-host = "#{node['alfresco']['default_hostname']}"
+host = node['alfresco']['default_hostname']
 
 # DEPRECATED in favour of haproxy::default
 #
