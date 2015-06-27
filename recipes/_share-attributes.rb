@@ -6,18 +6,6 @@ node.default['rsyslog']['file_inputs']['share2']['file'] = '/var/log/tomcat-shar
 node.default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
 node.default['rsyslog']['file_inputs']['share2']['priority'] = 53
 
-# Haproxy configuration
-node.default['haproxy']['backends']['share']['acls']= ['path_beg /share']
-node.default['haproxy']['backends']['share']['entries'] = ["option httpchk GET /share","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-node.default['haproxy']['backends']['share']['nodes']['localhost'] = "127.0.0.1"
-node.default['haproxy']['backends']['share']['port'] = 8081
-
-node.default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
-node.default['haproxy']['redirects'] = [
-  "redirect location /share/ if !is_share !is_alfresco !is_solr4 !is_aos_root !is_aos_vti",
-  "redirect location /share/ if is_root"
-]
-
 # Artifact Deployer attributes
 node.default['artifacts']['share']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['share']['artifactId'] = "share"
