@@ -9,9 +9,9 @@ file "/etc/nginx/conf.d/default.conf" do
   action :delete
 end
 
-# nginx::packages must be explicitely called, to install nginx yum repos
+# nginx::repo must be explicitely called, to install nginx yum repos
 # and get the latest package versions
-include_recipe 'nginx::packages'
+include_recipe 'nginx::repo'
 
 include_recipe 'nginx::default'
 
