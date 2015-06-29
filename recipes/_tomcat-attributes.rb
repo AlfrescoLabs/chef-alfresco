@@ -8,7 +8,6 @@ node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
 
 node.default['tomcat']['jvm_route'] = "alfresco-#{node['alfresco']['default_hostname']}"
 
-node.default["tomcat"]["java_options"] = "#{node['tomcat']['jvm_memory']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dcom.sun.management.jmxremote=true -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 node.default['tomcat']['global_templates'] = [{
   "dest" => "#{node['alfresco']['home']}/conf",
   "filename" => "jmxremote.access",
@@ -26,3 +25,25 @@ node.default['tomcat']['global_templates'] = [{
   "filename" => "tomcat_limits.conf",
   "owner" => "tomcat"
 }]
+
+# Setting JAVA_OPTS
+if node['tomcat']['run_base_instance']
+  node.default['alfresco']['restart_services'] = ['tomcat']
+  if alfresco_components.include? 'solr'
+    node.default["tomcat"]["java_options"] = "#{node["tomcat"]["java_options"]} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']}"
+  end
+else
+  alfresco_components = node['alfresco']['components']
+  if alfresco_components.include? "repo"
+    node.default['alfresco']['repo_tomcat_instance']['java_options'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']} -Dalfresco.home=#{node['alfresco']['home']}-alfresco -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']}"
+    node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
+  end
+  if alfresco_components.include? 'share'
+    node.default['alfresco']['share_tomcat_instance']['java_options'] = "#{node['alfresco']['share_tomcat_instance']['java_options']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']}"
+    node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
+  end
+  if alfresco_components.include? 'solr'
+    node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']}"
+    node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
+  end
+end

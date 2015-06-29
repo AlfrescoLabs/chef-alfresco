@@ -1,35 +1,8 @@
-node.default['analytics']['properties']['# enable.reporting'] = "true"
-
-#TODO - this means that Share must be deployed on port 8081 ?
-node.default['analytics']['pentaho.ba-server.url'] = "http://localhost:8080/pentaho/"
-
-node.default['artifacts']['alfresco-pentaho']['destination'] = '/tmp'
-
 node.default['analytics']['analytics_path'] = "#{node['artifacts']['alfresco-pentaho']['destination']}/alfresco-analytics-1.0.2"
 node.default['analytics']['ba_server_path'] = "#{node['analytics']['analytics_path']}/ba-server"
 node.default['analytics']['license_installer_path'] = "#{node['analytics']['analytics_path']}/license-installer"
-node.default['analytics']['license_root_path'] = "/opt/analytics-licenses"
-
-node.default['analytics']['analytics_license_source'] = 'analytics-license'
-node.default['analytics']['analytics_license_cookbook'] = 'alfresco'
 
 node.default['analytics']['license_paths'] = "#{node['analytics']['license_root_path']}/license1.lic"
-
-node.default['analytics']['activemq_local_host'] = "localhost"
-node.default['analytics']['activemq_local_port'] = "61616"
-node.default['analytics']['pentaho_local_host'] = "localhost"
-node.default['analytics']['pentaho_local_port'] = "8070"
-node.default['analytics']['pentaho_public_host'] = "localhost"
-node.default['analytics']['pentaho_public_port'] = "8070"
-
-node.default['analytics']['alfresco_local_host'] = "localhost"
-node.default['analytics']['alfresco_public_host'] = "localhost"
-node.default['analytics']['alfresco_username'] = "admin"
-node.default['analytics']['alfresco_password'] = "admin"
-
-node.default['analytics']['alfresco_local_port'] = "8090"
-node.default['analytics']['share_public_port'] = "8081"
-
 
 # TODO - there's no default location publicly available,
 # since artifacts.alfresco.com doesn't contain analytics yet

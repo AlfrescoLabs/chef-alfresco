@@ -9,10 +9,15 @@ default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
 default['nginx']['port'] = "80"
 
-default['nginx']['proxy_port'] = node['haproxy']['port']
+default['nginx']['proxy_port'] = "9000"
 
-default['nginx']['proxy_set_header_port'] = node['nginx']['port']
+default['nginx']['proxy_set_header_port'] = "80"
 
+# TODO - this needs to be fixed, as node[''] items in this entry cannot be
+# overridden by default[] wrapping cookbooks (see CHEF-ATTRIBUTES.md, rule 3)
+#
+# As a workaround, you must override the entire default['nginx']['config'] attribute
+#
 default['nginx']['config'] = [
   "user  nobody;",
   "worker_processes  2;",
@@ -41,3 +46,8 @@ default['nginx']['config'] = [
   "        }",
   "    }",
   "}"]
+
+# Rsyslog defaults are only used if component includes "rsyslog"
+default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.log'
+default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
+default['rsyslog']['file_inputs']['nginx']['priority'] = 56

@@ -1,8 +1,3 @@
-# Rsyslog defaults are only used if component includes "rsyslog"
-node.default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.log'
-node.default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
-node.default['rsyslog']['file_inputs']['nginx']['priority'] = 56
-
 # Delete Centos default configuration
 # Replaced by /etc/nginx/sites-enabled/*
 file "/etc/nginx/conf.d/default.conf" do

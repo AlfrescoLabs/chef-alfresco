@@ -1,7 +1,3 @@
-node.set['alfresco']['properties']['solr.port'] = node['haproxy']['port']
-node.set['alfresco']['solrproperties']['alfresco.port'] = node['haproxy']['port']
-node.set['alfresco']['shareproperties']['alfresco.port'] = node['haproxy']['port']
-
 haproxy_cfg_source = node['haproxy']['conf_template_source']
 haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
 error_file_cookbook = node['haproxy']['error_file_cookbook']

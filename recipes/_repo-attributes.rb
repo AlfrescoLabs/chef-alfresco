@@ -40,9 +40,15 @@ node.default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco']['artifactId'] = "alfresco"
 node.default['artifacts']['alfresco']['version'] = node['alfresco']['version']
 node.default['artifacts']['alfresco']['type'] = "war"
-node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
+
 node.default['artifacts']['alfresco']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
+
+if node['tomcat']['run_base_instance']
+  node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
+else
+  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
+end
 
 # Alfresco MMT artifact
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']

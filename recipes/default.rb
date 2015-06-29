@@ -8,6 +8,7 @@ node.override["tomcat"]["base_version"] = 7
 # would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
 #
 include_recipe "tomcat::_attributes"
+include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
 include_recipe "alfresco::_repo-attributes"
