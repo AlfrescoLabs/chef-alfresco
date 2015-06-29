@@ -45,6 +45,10 @@ c.vm.provider "virtualbox" do |v|
 end
 ```
 
+#### Caching
+
+It is strongly advised to setup a local cached proxy, so that artifacts will be only downloaded once, in case of multiple runs; [here's how I've set it up on OSX](https://gist.github.com/maoo/3262589c9db989c6e948)
+
 Chef Usage
 ---
 
