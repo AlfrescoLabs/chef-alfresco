@@ -4,6 +4,7 @@ Packages and versions
 Hereby the list of packages, cookbooks, YUM (or source/binary) repositories and versions installed by chef-alfresco (depending on components being enabled) - (28/06/2015)
 
 | Package Name | Chef Cookbook | Repository | Version | Version in Code |
+| ------------ |:-------------:| ----------:| -------:| ---------------:|
 | Nginx | [nginx](https://github.com/miketheman/nginx) | [centosnginx](http://nginx.org/packages/centosnginx) | 1.8.0 | |
 | Oracle JDK | [java](https://github.com/agileorbit-cookbooks/java) | 8u45-b14 | [default.rb](https://github.com/Alfresco/chef-alfresco/blob/master/attributes/default.rb) |
 | Apache Tomcat | [maoo/tomcat](https://github.com/maoo/tomcat) | [centos](http://mirrorlist.centos.org) | 7.0.54-2.el7_1 | |
