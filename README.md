@@ -7,6 +7,9 @@ chef-alfresco is a Chef cookbook that provides a modular, configurable and exten
 
 It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14 (feel free to open issues)
 
+To know more about attribute definition and overriding, check [CHEF-ATTRIBUTES.md](CHEF-ATTRIBUTES.md)
+To get a list of packaged installed, their sources and versions, check [PACKAGES.md](PACKAGES.md)
+
 Local test (run)
 ---
 
