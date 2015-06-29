@@ -1,4 +1,6 @@
 node.default['alfresco']['properties']['db.prefix'] = 'psql'
+node.default['alfresco']['properties']['db.port'] = '5432'
+node.default['alfresco']['properties']['db.params'] = ''
 
 node.default['postgresql']['users'] = [
     {
