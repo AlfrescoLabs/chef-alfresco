@@ -49,6 +49,11 @@ end
 
 It is strongly advised to setup a local cached proxy, so that artifacts will be only downloaded once, in case of multiple runs; [here's how I've set it up on OSX](https://gist.github.com/maoo/3262589c9db989c6e948)
 
+#### Waiting for `kitchen converge`
+1. First time you run it will take roughly 50 minutes (I know it's a lot, please check caching configuration above)
+2. Second (or next) time you run, using caching, from a clean state (ie `kitchen destroy; kitchen converge` or `kitchen test`) it will roughly take 20 minutes
+3. Second (or next) time you run a `kitchen converge` without cleaning, it will take roughly 4 minutes
+
 Chef Usage
 ---
 
