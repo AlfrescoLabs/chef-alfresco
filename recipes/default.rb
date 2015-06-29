@@ -1,5 +1,6 @@
 # Setting Tomcat version
 # Needs to be done before invoking "tomcat::_attributes"
+# TODO - try using node.default or node.set
 node.override["tomcat"]["base_version"] = 7
 
 # Invoke attribute recipes; if defined as attributes/*.rb files,
@@ -17,8 +18,6 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
-include_recipe "alfresco::_haproxy-attributes"
-include_recipe "alfresco::_nginx-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
