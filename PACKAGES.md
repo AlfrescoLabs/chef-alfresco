@@ -12,7 +12,7 @@ Hereby the list of packages, cookbooks, YUM (or source/binary) repositories and 
 | Tomcat native | [chef-alfresco::tomcat](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/tomcat.rb) | epel | latest (1.1.30-1.el7) | no versions specified in code |
 | Tomcat APR | [chef-alfresco::tomcat](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/tomcat.rb) | [centos](http://mirrorlist.centos.org) | latest (1.4.8-3.el7) | no versions specified in code |
 | HAproxy (needs update!) | [haproxy](https://github.com/hw-cookbooks/haproxy) |  [centos](http://mirrorlist.centos.org) | latest (1.5.4-el7_1) | no versions specified in code |
-| MySQL Community | [mysql](https://github.com/chef-cookbooks/mysql) | [mysql-5.6-community](http://repo.mysql.com/yum/mysql-5.6-community) | 5.6.25-2.el7 | no versions specified in code |
+| MySQL Community | [mysql](https://github.com/chef-cookbooks/mysql) | [mysql-5.6-community](http://repo.mysql.com/yum/mysql-5.6-community) | latest (5.6.25-2.el7) | no versions specified in code |
 | ImageMagick | [imagemagick](https://github.com/someara/imagemagick) | [centos](http://mirrorlist.centos.org) | latest (6.7.8.9-10.el7) | no versions specified in code |
 | Media Libraries[1] | [chef-alfresco::transformations](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/transformations.rb) | [atrpms](http://dl.atrpms.net) | check repo | no versions specified in code |
 | LibreOffice | [libreoffice-cookbook](https://github.com/Youscribe/libreoffice-cookbook) | [centos](http://mirrorlist.centos.org) | latest (4.2.6.3-5.el7) | no versions specified in code |
