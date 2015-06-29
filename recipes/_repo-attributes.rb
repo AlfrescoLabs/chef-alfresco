@@ -24,7 +24,7 @@ node.default['artifacts']['mysql']['owner'] = node['alfresco']['user']
 node.default['artifacts']['psql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'psql'
 node.default['artifacts']['psql']['groupId'] = "org.postgresql"
 node.default['artifacts']['psql']['artifactId'] = "postgresql"
-node.default['artifacts']['psql']['version'] = "9.2-1002-jdbc4"
+node.default['artifacts']['psql']['version'] = "9.2-1004-jdbc4"
 node.default['artifacts']['psql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['psql']['owner'] = node['alfresco']['user']
 
