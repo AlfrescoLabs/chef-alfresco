@@ -6,7 +6,7 @@ Hereby the list of packages, cookbooks, YUM (or source/binary) repositories and 
 | Package Name | Chef Cookbook | Repository | Version | Version in Code |
 | ------------ |:-------------:| ----------:| -------:| ---------------:|
 | Nginx | [nginx](https://github.com/miketheman/nginx) | [centosnginx](http://nginx.org/packages/centosnginx) | latest (1.8.0) | no versions specified in code |
-| Oracle JDK | [java](https://github.com/agileorbit-cookbooks/java) | | 8u45-b14 | [default.rb](https://github.com/Alfresco/chef-alfresco/blob/master/attributes/default.rb) |
+| Oracle JDK | [java](https://github.com/agileorbit-cookbooks/java) | [oracle.com](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) | 8u45-b14 | [default.rb](https://github.com/Alfresco/chef-alfresco/blob/master/attributes/default.rb) |
 | Apache Tomcat | [maoo/tomcat](https://github.com/maoo/tomcat) | [centos](http://mirrorlist.centos.org) | latest (7.0.54-2.el7_1) | no versions specified in code |
 | Tomcat Catalina JMX | [chef-alfresco::_tomcat-attributes](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/_tomcat-attributes.rb) |  [maven.org](http://search.maven.org/#artifactdetails%7Corg.apache.tomcat%7Ctomcat-catalina-jmx-remote%7C7.0.54%7Cjar) | 7.0.54 | [_tomcat-attributes.rb](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/_tomcat-attributes.rb) |
 | Tomcat native | [chef-alfresco::tomcat](https://github.com/Alfresco/chef-alfresco/blob/master/recipes/tomcat.rb) | epel | latest (1.1.30-1.el7) | no versions specified in code |
