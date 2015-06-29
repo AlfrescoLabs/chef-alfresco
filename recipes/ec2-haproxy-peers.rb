@@ -40,7 +40,7 @@ if query_tags
             node['Tags'].each do |tag|
               if tag['Key'] == role_tag_name
                 role = tag['Value']
-                node.set['haproxy']['backends'][role]['nodes'] << peer_item
+                node.default['haproxy']['backends'][role]['nodes'] << peer_item
               end
             end
           end
@@ -48,8 +48,8 @@ if query_tags
       end
 
       # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
-      node.set['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
-      node.set['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+      node.default['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+      node.default['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
     end
     action :run
   end
