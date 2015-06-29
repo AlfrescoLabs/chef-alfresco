@@ -1,13 +1,14 @@
+# HAproxy supermarket cookbook attributes
+default['haproxy']['enable_ssl'] = false
+default['haproxy']['enable_admin'] = false
+default['haproxy']['enable_default_http'] = false
+default['haproxy']['enable_ssl'] = false
+
 default['haproxy']['enable.ec2.discovery'] = false
 
 # TODO - should be 127.0.0.1, but needs to be overridden in kitchen, for local runs
 default['haproxy']['bind_ip'] = "0.0.0.0"
 default['haproxy']['port'] = "9000"
-
-default['haproxy']['enable_ssl'] = false
-default['haproxy']['enable_admin'] = false
-default['haproxy']['enable_default_http'] = false
-default['haproxy']['enable_ssl'] = false
 
 default['haproxy']['conf_cookbook'] = 'alfresco'
 default['haproxy']['conf_template_source'] = 'haproxy/haproxy.cfg.erb'
