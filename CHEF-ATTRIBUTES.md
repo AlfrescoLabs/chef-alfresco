@@ -15,25 +15,35 @@ Guidelines:
 5. Avoid using node.set and node.override within chef-alfresco
 6. Don't define `default['something'] = "#{node['something_else']}/more" (or similar, unless Ohai-based) in ```attributes/*.rb```
 
-## Wrapping cookbook extensibility issues
+## Wrapping chef-alfresco
 
-Imagine that chef-alfresco defines a `attributes/test.rb` with
+Imagine that you want to write your `own-chef-alfresco` cookbook that wraps `chef-alfresco` features, overriding some derived attributes, such as
 ```
-default['something'] = "much"
-default['something_else'] = "#{node['something']}/more"
+node.set['alfresco']['properties']['dir.root.contentstore'] = #{node['alfresco']['properties']['dir.root']}/myowncontentstore`
 ```
 
-This would imply that I can:
+Below the steps to perform:
+1. Identify which `_*-attributes.rb` file in chef-alfresco defines `node['alfresco']['properties']['dir.root']`, which is `alfresco::_common-attributes.rb`
+2. Create a Chef recipe that includes the recipe found in step #1 (i.e `recipes/default.rb`)
+3. Set the attribute values (using node.default, node.set or node.override, depending on `alfresco::_common-attributes.rb` logic) that you want to define/overwrite
+4. Call chef-alfresco default recipe
 
-1. Create `my-own-chef-alfresco`
-2. Define `attributes/default.rb` with `default['something'] = "much/much"`
-3. Define `recipes/default.rb` with `include_recipe "alfresco::default"`
-4. Expect that `node['something_else']` is `much/much/more`
-
-This is not guaranteed by Chef (test this again!!!) and is the reason for the guidelines above.
-
-The right (and safe) way to override a derived attribute is to do it in a recipe (i.e. `recipes/default.rb`) , using `node.*['']` method:
+Here's the Chef code of `recipes/default.rb`
 ```
-include_recipe "alfresco::_test-attributes.rb"
+include_recipe "alfresco::_common-attributes.rb"
+node.default['alfresco']['proprties']['dir.root.contentstore'] = #{node['alfresco']['proprties']['dir.root']}/myowncontentstore`
 include_recipe "alfresco::default"
 ```
+
+### Default attribute warning
+
+It is very important to note that not all chef-alfresco default attributes cannot be overridden by the default attributes of a wrapping cookbook(!)
+
+Imagine the requirements described above; you could define `attributes/default.rb` as follows:
+```
+default['alfresco']['properties']['dir.root.contentstore'] = "#{node['alfresco']['properties']['dir.root']}/myowncontentstore"
+```
+
+There are 2 issues with this approach:
+1. The default attribute value declaration (of `default['alfresco']['properties']['dir.root.contentstore']`) would be overridden by `alfresco::_common-attributes.rb`
+2. The attribute value of `node['alfresco']['properties']['dir.root']` is not set yet; only `attributes/*.rb` attributes can be used here
