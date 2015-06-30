@@ -36,7 +36,7 @@ node.default['alfresco']['proprties']['dir.root.contentstore'] = #{node['alfresc
 include_recipe "alfresco::default"
 ```
 
-### Default attribute warning
+### Default attributes warning
 
 It is very important to note that not all chef-alfresco default attributes cannot be overridden by the default attributes of a wrapping cookbook(!)
 
