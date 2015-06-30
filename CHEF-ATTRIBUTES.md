@@ -23,6 +23,7 @@ node.set['alfresco']['properties']['dir.root.contentstore'] = #{node['alfresco']
 ```
 
 Below the steps to perform:
+
 1. Identify which `_*-attributes.rb` file in chef-alfresco defines `node['alfresco']['properties']['dir.root']`, which is `alfresco::_common-attributes.rb`
 2. Create a Chef recipe that includes the recipe found in step #1 (i.e `recipes/default.rb`)
 3. Set the attribute values (using node.default, node.set or node.override, depending on `alfresco::_common-attributes.rb` logic) that you want to define/overwrite
@@ -45,5 +46,6 @@ default['alfresco']['properties']['dir.root.contentstore'] = "#{node['alfresco']
 ```
 
 There are 2 issues with this approach:
+
 1. The default attribute value declaration (of `default['alfresco']['properties']['dir.root.contentstore']`) would be overridden by `alfresco::_common-attributes.rb`
 2. The attribute value of `node['alfresco']['properties']['dir.root']` is not set yet; only `attributes/*.rb` attributes can be used here
