@@ -45,7 +45,7 @@ Imagine the requirements described above; you could define `attributes/default.r
 default['alfresco']['properties']['dir.root.contentstore'] = "#{node['alfresco']['properties']['dir.root']}/myowncontentstore"
 ```
 
-There are 2 issues with this approach:
+This code won't work, for 2 reasons:
 
 1. The default attribute value declaration (of `default['alfresco']['properties']['dir.root.contentstore']`) would be overridden by `alfresco::_common-attributes.rb`
 2. The attribute value of `node['alfresco']['properties']['dir.root']` is not set yet; only `attributes/*.rb` attributes can be used here
