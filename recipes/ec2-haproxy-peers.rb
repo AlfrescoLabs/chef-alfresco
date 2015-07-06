@@ -29,7 +29,7 @@ if query_tags
     block do
       file = File.read(peers_file_path)
       peers_hash = JSON.parse(file)
-      if peers_hash['Reservations']
+      if peers_hash['Reservations'] and peers_hash['Reservations'].length > 0
         peers_hash['Reservations']['Instances'].each do |node|
           private_ip = node['PrivateIpAddress']
           status = node['State']['Name']
