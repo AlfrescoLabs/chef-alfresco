@@ -43,7 +43,7 @@ else
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
   if alfresco_components.include? 'solr'
-    node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']}"
+    node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Djava.rmi.server.hostname=#{node['alfresco']['default_hostname']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
 end
