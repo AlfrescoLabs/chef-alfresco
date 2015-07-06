@@ -29,6 +29,8 @@ default['alfresco']['generate.global.properties'] = true
 #Generates share-config-custom.xml using a pre-defined template (check templates/default) and configuring http endpoint and disabling CSRF
 default['alfresco']['generate.share.config.custom'] = true
 
+default['alfresco']['generate.solr.core.config'] = true
+
 #Generates repo-log4j.properties using all node['alfresco']['repo-log4j'] key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
