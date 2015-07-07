@@ -1,7 +1,7 @@
 # Clean cache files not used by 30 minutes
-*/<%= node['tomcat']['cleaner.minutes.interval'] %> * * * * root find <%= @tomcat_cache_path %> -mmin +<%= node['tomcat']['cleaner.minutes.interval'] %> -type f -exec rm {} \; >> /var/log/messages 2>&1 &
+*/<%= node['tomcat']['cleaner.minutes.interval'] %> * * * * root find <%= @tomcat_cache_path %> -mmin +<%= node['tomcat']['cleaner.minutes.interval'] %> -type f -exec rm {} \;
 
 # Clean rotated logs
-20 0 * * * root rm -rf <%= @tomcat_log_path %>/alfresco.*.log >> /var/log/messages 2>&1 &
-20 0 * * * root rm -rf <%= @tomcat_log_path %>/catalina.*.log >> /var/log/messages 2>&1 &
-20 0 * * * root rm -rf <%= @tomcat_log_path %>/localhost.*.log >> /var/log/messages 2>&1 &
+20 0 * * * root rm -rf <%= @tomcat_log_path %>/alfresco.*.log
+20 0 * * * root rm -rf <%= @tomcat_log_path %>/catalina.*.log
+20 0 * * * root rm -rf <%= @tomcat_log_path %>/localhost.*.log
