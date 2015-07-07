@@ -31,8 +31,29 @@ suites:
         "properties" : {
            "aos.port" : "8800"
         }
-        # To enable Enterprise version; remember to add databag too!
-        # "version" : "5.0.1.1"
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500
+        }
+      }
+    }
+  - name: chef-alfresco-checklist
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-test",
+      "nginx" : {
+        "proxy_set_header_port" : "8800"
+      },
+      "alfresco" : {
+        "properties" : {
+           "aos.port" : "8800",
+           "ftp.enabled" : true
+        },
+        "version" : "5.0.1.2"
       },
       "artifact-deployer" : {
         "maven" : {
