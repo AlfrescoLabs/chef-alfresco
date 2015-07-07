@@ -24,9 +24,16 @@ template "#{node['alfresco']['home']}/conf/context.xml" do
   group node['tomcat']['group']
 end
 
-file_replace_line 'share-config-origin' do
+file_replace_line 'patch-tomcat-conf-javahome' do
   path      '/etc/tomcat/tomcat.conf'
   replace   "JAVA_HOME="
   with      "JAVA_HOME=#{node['java']['java_home']}"
   not_if    "cat /etc/tomcat/tomcat.conf | grep 'JAVA_HOME=#{node['java']['java_home']}'"
+end
+
+file_replace_line 'patch-tomcat-conf-tmpdir' do
+  path      '/etc/tomcat/tomcat.conf'
+  replace   "CATALINA_TMPDIR="
+  with      "#CATALINA_TMPDIR="
+  not_if    "cat /etc/tomcat/tomcat.conf | grep '#CATALINA_TMPDIR="
 end
