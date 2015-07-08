@@ -40,6 +40,8 @@ if query_tags
             node['Tags'].each do |tag|
               if tag['Key'] == role_tag_name
                 role = tag['Value']
+                # TODO - still not working
+                # undefined method `[]' for nil:NilClass
                 node.default['haproxy']['backends'][role]['nodes'] << peer_item
               end
             end
