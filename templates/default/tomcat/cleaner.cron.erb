@@ -3,5 +3,6 @@
 
 # Clean rotated logs
 20 0 * * * root rm -rf <%= @tomcat_log_path %>/alfresco.*.log
-20 0 * * * root rm -rf <%= @tomcat_log_path %>/catalina.*.log
-20 0 * * * root rm -rf <%= @tomcat_log_path %>/localhost.*.log
+# TODO - this also removes the currently used one; fix it
+# 20 0 * * * root rm -rf <%= @tomcat_log_path %>/catalina.*.log
+# 20 0 * * * root rm -rf <%= @tomcat_log_path %>/localhost.*.log
