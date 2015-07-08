@@ -45,6 +45,10 @@ end
 
 include_recipe 'java::default'
 
+if node['alfresco']['components'].include? 'yourkit'
+  include_recipe "alfresco::yourkit"
+end
+
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end

@@ -6,7 +6,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
 default['alfresco']['default_hostname'] = "localhost"
 default['alfresco']['default_port'] = "8081"
