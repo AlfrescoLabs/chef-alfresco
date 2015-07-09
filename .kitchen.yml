@@ -27,10 +27,26 @@ suites:
       "nginx" : {
         "proxy_set_header_port" : "8800"
       },
+      "logging" : {
+        "log4j.rootLogger" : "info, Console, File"
+      },
       "alfresco" : {
         "properties" : {
            "aos.port" : "8800",
-           "ftp.enabled" : true
+           "ftp.enabled" : true,
+           "hybridworkflow.enabled" : true,
+           "sync.mode" : "ON_PREMISE",
+           "system.serverMode" : "PRODUCTION",
+           "system.workflow.engine.jbpm.enabled" : true,
+           "system.workflow.engine.jbpm.definitions.visible" : true,
+           "replication.enabled" : true,
+           "transferservice.receiver.enabled" : true,
+           "email.inbound.enabled" : true,
+           "email.server.enabled" : true,
+           "imap.server.enabled" : true,
+           # "imap.server.host" : true,
+           "imap.server.host" : "localhost",
+           "imap.server.imaps.enabled" : true,
         },
         "version" : "5.0.1.2"
       },
