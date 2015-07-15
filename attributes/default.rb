@@ -57,8 +57,8 @@ default["java"]["jdk_version"] = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u45-b14/jdk-8u45-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '58486d7b16d7b21fbea7374adc109233'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '4061b5f840db248086f3fbef829ae279'
 
 #3rd-party defaults
 default['alfresco']['install_fonts'] = true
