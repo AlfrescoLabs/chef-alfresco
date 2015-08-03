@@ -3,6 +3,8 @@ default["tomcat"]["files_cookbook"] = "alfresco"
 default["tomcat"]["deploy_manager_apps"] = false
 default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
 
+default["tomcat"]["maxHttpHeaderSize"] = "1048576"
+
 default['tomcat']['cleaner.minutes.interval'] = 30
 
 # Tomcat default[ settings
