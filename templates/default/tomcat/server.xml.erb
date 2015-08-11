@@ -95,6 +95,9 @@
         maxKeepAliveRequests="1"
         connectionTimeout="60000"
         disableUploadTimeout="true"
+        <% if node["tomcat"]["maxHttpHeaderSize"] -%>
+        maxHttpHeaderSize="<%= node["tomcat"]["maxHttpHeaderSize"] %>"
+        <% end -%>
         <% if @proxy_port == 443 or @ssl_port -%>
         secure="true"
         scheme="https"
