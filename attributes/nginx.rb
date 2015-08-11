@@ -1,3 +1,7 @@
+# Using 1.9 version
+default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/centos/#{node['platform_version'].to_i}/$basearch/"
+# default['nginx']['upstream_repository'] = "http://nginx.org/packages/centos/#{node['platform_version'].to_i}/$basearch/"
+
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
