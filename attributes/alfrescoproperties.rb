@@ -1,3 +1,6 @@
+#General
+default['alfresco']['system.serverMode'] = 'PRODUCTION'
+
 #Database
 default['alfresco']['mysql_version'] = '5.6'
 default['alfresco']['properties']['db.driver'] = 'org.gjt.mm.mysql.Driver'
