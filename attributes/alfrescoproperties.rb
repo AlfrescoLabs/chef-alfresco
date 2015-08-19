@@ -23,8 +23,8 @@ default['alfresco']['properties']['opencmis.servletpath.value'] = ''
 default['alfresco']['properties']['opencmis.server.override'] = true
 
 # Paths
-default['alfresco']['properties']['share.context'] = '/share'
-default['alfresco']['properties']['alfresco.context'] = '/alfresco'
+default['alfresco']['properties']['share.context'] = 'share'
+default['alfresco']['properties']['alfresco.context'] = 'alfresco'
 
 #Search Config
 default['alfresco']['properties']['index.subsystem.name'] = 'solr4'
