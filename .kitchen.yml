@@ -46,7 +46,7 @@ suites:
            "mail.port" : 2626,
            "mail.transport.protocol" : "imap",
            "mail.username" : "admin",
-           "mail.password" : "admin"
+           "mail.password" : "admin",
            "mail.smtp.auth" : true,
            "email.inbound.enabled" : true,
            "email.server.enabled" : true,
