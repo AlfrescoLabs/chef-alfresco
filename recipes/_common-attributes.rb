@@ -11,5 +11,5 @@ node.default['alfresco']['properties']['alfresco.protocol'] = node['alfresco']['
 node.default['alfresco']['solrproperties']['data.dir.root'] = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 node.default['alfresco']['solrproperties']['alfresco.host'] = node['alfresco']['properties']['alfresco.host']
 node.default['alfresco']['solrproperties']['alfresco.port.ssl'] = node['alfresco']['properties']['alfresco.port.ssl']
-node.default['alfresco']['solrproperties']['alfresco.baseUrl'] = node['alfresco']['properties']['alfresco.context']
+node.default['alfresco']['solrproperties']['alfresco.baseUrl'] = "/#{node['alfresco']['properties']['alfresco.context']}"
 node.default['alfresco']['solrproperties']['alfresco.secureComms'] = node['alfresco']['properties']['solr.secureComms']
