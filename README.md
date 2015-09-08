@@ -48,6 +48,14 @@ c.vm.provider "virtualbox" do |v|
 end
 ```
 
+#### Guest Addition error
+
+If you have issues installing the VM Guest Additions, run the following command
+
+```
+sudo ln -s /usr/include/ /lib/modules/3.10.0-123.el7.x86_64/build/
+```
+
 #### Waiting for `kitchen converge`
 1. First time you run it will take roughly 50 minutes
 2. Second (or next) time you run a `kitchen converge` (without a previous `kitchen destroy`), it will take roughly 4 minutes
