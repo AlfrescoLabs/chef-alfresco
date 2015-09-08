@@ -22,7 +22,7 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge
+kitchen converge chef-alfresco-centos-70
 ```
 It takes roughly 40 minutes for a full default configuration.
 
@@ -56,8 +56,8 @@ If you have issues installing the VM Guest Additions, run the following command
 sudo ln -s /usr/include/ /lib/modules/3.10.0-123.el7.x86_64/build/
 ```
 
-#### Waiting for `kitchen converge`
-1. First time you run it will take roughly 50 minutes
+#### Waiting for `kitchen converge
+1. First time you run it will take roughly 40 minutes
 2. Second (or next) time you run a `kitchen converge` (without a previous `kitchen destroy`), it will take roughly 4 minutes
 
 #### Caching (WIP)
