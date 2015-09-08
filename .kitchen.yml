@@ -68,7 +68,7 @@ suites:
            "action.rmi.service.port" : "8901",
            "deployment.rmi.service.port" : "9012"
         },
-        "version" : "5.0.1.2"
+        "version" : "5.0.d"
       },
       "artifact-deployer" : {
         "maven" : {
