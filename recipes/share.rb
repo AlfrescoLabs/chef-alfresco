@@ -1,5 +1,6 @@
 node.default['artifacts']['share']['enabled']           = true
 node.default['artifacts']['sharedclasses']['enabled']   = true
+node.default['artifacts']['hazelcast-cloud']['enabled'] = true
 
 shared_folder     = node['alfresco']['shared']
 
