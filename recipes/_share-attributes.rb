@@ -14,6 +14,12 @@ node.default['artifacts']['share']['type'] = "war"
 node.default['artifacts']['share']['owner'] = node['alfresco']['user']
 node.default['artifacts']['share']['unzip'] = false
 
+node.default['artifacts']['hazelcast-cloud']['groupId'] = "com.hazelcast"
+node.default['artifacts']['hazelcast-cloud']['artifactId'] = "hazelcast-cloud"
+node.default['artifacts']['hazelcast-cloud']['version'] = "2.4"
+node.default['artifacts']['hazelcast-cloud']['destination'] = node['alfresco']['shared_lib']
+node.default['artifacts']['hazelcast-cloud']['owner'] = node['alfresco']['user']
+
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['share']['destination'] = node['tomcat']['webapp_dir']
 else
