@@ -6,10 +6,6 @@ node.default['rsyslog']['file_inputs']['solr2']['file'] = '/var/log/tomcat-solr/
 node.default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
 node.default['rsyslog']['file_inputs']['solr2']['priority'] = 55
 
-# Keep it empty and invoke it anyway, since attributes/solr_config.rb must be loaded
-node.default['artifacts']['solrhome']['enabled'] = true
-node.default['artifacts']['solr4']['enabled'] = true
-
 # Artifact deployer attributes
 node.default['artifacts']['solrhome']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['solrhome']['artifactId'] = "alfresco-solr4"
