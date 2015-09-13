@@ -32,7 +32,7 @@ install_activemq = false
 # we're using an Enterprise version (ends with a digit)
 # enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 # [New implementation]
-if node['alfresco']['edition'] = 'enterprise'
+if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
   node.default['artifacts']['share']['artifactId']    = "share-enterprise"
 end
