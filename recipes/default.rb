@@ -27,10 +27,12 @@ apply_amps = false
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
 
+# [old implementation]
 # Change artifactIds for alfresco and share WARs, if
 # we're using an Enterprise version (ends with a digit)
-enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
-if enterprise
+# enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
+# [New implementation]
+if node['alfresco']['edition'] = 'enterprise'
   node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
   node.default['artifacts']['share']['artifactId']    = "share-enterprise"
 end

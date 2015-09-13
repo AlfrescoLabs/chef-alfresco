@@ -16,6 +16,7 @@ default['alfresco']['default_protocol'] = "http"
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.0.d"
+default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
