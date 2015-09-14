@@ -36,6 +36,8 @@ if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
   unless node['alfresco']['version'].start_with?("5.1")
     node.default['artifacts']['share']['artifactId']    = "share-enterprise"
+  else
+    node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
   end
 end
 
