@@ -34,7 +34,9 @@ install_activemq = false
 # [New implementation]
 if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
-  node.default['artifacts']['share']['artifactId']    = "share-enterprise"
+  unless node['alfresco']['version'].start_with?("5.1")
+    node.default['artifacts']['share']['artifactId']    = "share-enterprise"
+  end
 end
 
 include_recipe "alfresco::package-repositories"
