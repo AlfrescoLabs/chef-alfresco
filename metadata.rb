@@ -4,7 +4,7 @@ maintainer_email ""
 license          "Apache 2.0"
 description      "Installs Alfresco Community and Enterprise Edition."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version "0.6.3"
+version "0.6.4"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
@@ -27,7 +27,7 @@ depends "maven"
 # depends "openssl", "~> 4.0.0"
 # depends 'rsyslog', "~> 1.15.0"
 # depends "swftools", "~> 0.2.4"
-# depends 'yum-epel', '~> 0.6.3'
+# depends 'yum-epel', '~> 0.6.4'
 # depends 'yum-repoforge', '~> 0.5.1'
 # depends 'yum-atrpms', '~> 0.1.0'
 #
