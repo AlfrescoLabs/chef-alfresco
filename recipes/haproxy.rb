@@ -4,6 +4,13 @@ error_file_cookbook = node['haproxy']['error_file_cookbook']
 error_file_source = node['haproxy']['error_file_source']
 error_folder = node['haproxy']['error_folder']
 
+ssl_fqdn = node['haproxy']['ssl_fqdn']
+ssl_key_file = node['haproxy']['ssl_key_file']
+ssl_crt_file = node['haproxy']['ssl_crt_file']
+ssl_pem_file = node['haproxy']['ssl_pem_file']
+ssl_databag = node['haproxy']['ssl_databag']
+ssl_databag_item = node['haproxy']['ssl_databag_item']
+
 directory error_folder do
   action :create
   recursive true
@@ -16,31 +23,43 @@ end
   end
 end
 
-# TODO - SSL Logic is not tested; we need to come up with a common strategy for SSL
-ssl_pem_crt_file = node['haproxy']['ssl_pem_crt_file']
-ssl_pem_crt_databag = node['haproxy']['ssl_pem_crt_databag']
-ssl_pem_crt_databag_item = node['haproxy']['ssl_pem_crt_databag_item']
-
-directory File.dirname(ssl_pem_crt_file) do
+directory File.dirname(ssl_key_file) do
   action :create
   recursive true
+  only_if { ssl_key_file }
+end
+
+directory File.dirname(ssl_crt_file) do
+  action :create
+  recursive true
+  only_if { ssl_crt_file }
 end
 
 begin
-  ssl_pem_crt = data_bag_item(ssl_pem_crt_databag,ssl_pem_crt_databag_item)
-  file ssl_pem_crt_file do
+  ssl = data_bag_item(ssl_databag,ssl_databag_item)
+  file ssl_key_file do
     action :create
-    content ssl_pem_crt['pem']
+    content ssl['key']
+    not_if { File.exist?(ssl_key_file) }
+  end
+  file ssl_crt_file do
+    action :create
+    content ssl['crt']
+    not_if { File.exist?(ssl_crt_file) }
+  end
+  file ssl_pem_file do
+    action :create
+    content "#{ssl['cert']}\n#{ssl['key']}"
+    not_if { File.exist?(ssl_pem_file) }
   end
 rescue
-  execute "create-fake-haproxy.pem" do
-    command "openssl req \
-      -new -newkey rsa:4096 \
-      -days 365 -nodes \
-      -subj \"/C=US/ST=this-certificate/L=is/O=used/CN=by-haproxy\" \
-      -keyout #{ssl_pem_crt_file} \
-      -out /tmp/csr-haproxy.pem"
-    not_if "test -f #{ssl_pem_crt_file}"
+  execute "create-fake-haproxy-ssl-keypair" do
+    command "sudo openssl req -subj '/CN=#{ssl_fqdn}/' -x509 -days 3650 -batch -nodes -newkey rsa:4096 -keyout #{ssl_key_file} -out #{ssl_crt_file}"
+    not_if "test -f #{ssl_key_file}"
+  end
+  execute "create-pem-file" do
+    command "cat #{ssl_key_file} #{ssl_crt_file} > #{ssl_pem_file}"
+    not_if "test -f #{ssl_pem_file}"
   end
 end
 

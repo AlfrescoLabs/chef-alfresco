@@ -41,6 +41,10 @@ if node['alfresco']['edition'] == 'enterprise'
   end
 end
 
+if node['alfresco']['version'].start_with?("5.1") and node['alfresco']['version'].end_with?("EA")
+  node.default['artifacts']['share-services']['enabled'] = true
+end
+
 include_recipe "alfresco::package-repositories"
 
 if node['alfresco']['components'].include? 'postgresql'

@@ -87,6 +87,8 @@ suites:
         "proxy_set_header_port" : "8800"
       },
       "alfresco" : {
+        # "version" : "5.0.2",
+        "version" : "5.1.b-EA",
         "properties" : {
            "aos.port" : "8800"
         }
@@ -95,5 +97,10 @@ suites:
         "maven" : {
           "timeout" : 1500
         }
+      },
+      "haproxy" : {
+        "ssl_databag" : "ssl",
+        "ssl_databag_item" : "haproxy",
+        "ssl_fqdn" : "chef-alfresco-centos-70"
       }
     }

@@ -5,9 +5,9 @@ default['haproxy']['enable_default_http'] = false
 
 default['haproxy']['enable.ec2.discovery'] = false
 
-# TODO - should be 127.0.0.1, but needs to be overridden in kitchen, for local runs
-default['haproxy']['bind_ip'] = "0.0.0.0"
+default['haproxy']['bind_ip'] = "127.0.0.1"
 default['haproxy']['port'] = "9000"
+default['haproxy']['ssl_port'] = "9443"
 
 default['haproxy']['conf_cookbook'] = 'alfresco'
 default['haproxy']['conf_template_source'] = 'haproxy/haproxy.cfg.erb'
@@ -21,10 +21,9 @@ default['haproxy']['502_error_page_message'] = "Alfresco is having some issues!"
 default['haproxy']['503_error_page_message'] = "Alfresco is under heavy load right now!"
 default['haproxy']['504_error_page_message'] = "Alfresco is having some issues!"
 
-# TODO - integrate in default configuration
-default['haproxy']['ssl_pem_crt_file'] = "/etc/haproxy/haproxy.pem"
-default['haproxy']['ssl_pem_crt_databag'] = "ssl"
-default['haproxy']['ssl_pem_crt_databag_item'] = "haproxy"
+default['haproxy']['ssl_key_file'] = "/etc/pki/tls/certs/haproxy.key"
+default['haproxy']['ssl_crt_file'] = "/etc/pki/tls/certs/haproxy.crt"
+default['haproxy']['ssl_pem_file'] = "/etc/pki/tls/certs/haproxy.pem"
 
 # TODO - integrate in default configuration
 default['haproxy']['error_folder'] = "/var/www/html/errors"
@@ -72,6 +71,16 @@ default['haproxy']['general_config'] = [
 default['haproxy']['frontends']['http']['entries'] = [
   "bind #{node['haproxy']['bind_ip']}:#{node['haproxy']['port']}"
 ]
+
+# TODO - breaks http endpoint on port 9000 - returns 503 Forbidden
+#
+# default['haproxy']['frontends']['https']['entries'] = [
+#   "bind #{node['haproxy']['bind_ip']}:#{node['haproxy']['ssl_port']} ssl crt #{node['haproxy']['ssl_pem_file']}",
+#   "capture request header X-Forwarded-For len 64",
+#   "capture request header User-agent len 256",
+#   "capture request header Cookie len 64",
+#   "capture request header Accept-Language len 64"
+# ]
 
 # Share Haproxy configuration
 default['haproxy']['backends']['share']['acls']= ['path_beg /share']

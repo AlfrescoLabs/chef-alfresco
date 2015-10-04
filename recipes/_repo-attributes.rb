@@ -59,6 +59,14 @@ node.default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin
 node.default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco-mmt']['unzip'] = false
 
+node.default['artifacts']['share-services']['groupId'] = node['alfresco']['groupId']
+node.default['artifacts']['share-services']['artifactId'] = "alfresco-share-services"
+node.default['artifacts']['share-services']['version'] = node['alfresco']['version']
+node.default['artifacts']['share-services']['type'] = "amp"
+node.default['artifacts']['share-services']['destination'] = node['alfresco']['amps_folder']
+node.default['artifacts']['share-services']['owner'] = node['alfresco']['user']
+
+
 # Filtering properties with placeholders defined in the mentioned files
 # (only if classes zip is part of the artifact list, see recipes)
 node.default['artifacts']['sharedclasses']['unzip'] = false
