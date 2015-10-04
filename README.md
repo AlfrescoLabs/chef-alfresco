@@ -165,13 +165,13 @@ Installs and configures a local instance MySQL 5.6 Community Server, creates a d
     "repo_hosts" : "%",
     "root_user": "root",
     "server_root_password" : "ilikerandompasswords"
-  }
+  },
   "properties" : {
     "db.prefix": "mysql",
     "db.dbname" : "alfresco",
     "db.host": "localhost",
-    "db.port" : "3306"
-    "db.username" : "alfresco"
+    "db.port" : "3306",
+    "db.username" : "alfresco",
     "db.password" : "alfresco"
   }
 }
