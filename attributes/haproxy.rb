@@ -18,7 +18,7 @@ default['haproxy']['redirects'] = [
   "redirect location /share/ if is_root"
 ]
 
-default['haproxy']['ssl_pem_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.pem"
+default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.chain"
 
 default['haproxy']['general_config'] = [
   "global",
@@ -60,7 +60,7 @@ default['haproxy']['frontends']['http']['entries'] = [
   # Force HTTPS
   # "redirect scheme https if !{ ssl_fc }",
   # TODO - still not working
-  "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_portssl']} ssl crt #{node['haproxy']['ssl_pem_file']}",
+  "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_portssl']} ssl crt #{node['haproxy']['ssl_chain_file']}",
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 256",
   "capture request header Cookie len 64",

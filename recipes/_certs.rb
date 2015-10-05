@@ -29,17 +29,12 @@ begin
 rescue
   ssl_key_file = "#{ssl_folder}/#{ssl_fqdn}.key"
   ssl_crt_file = "#{ssl_folder}/#{ssl_fqdn}.crt"
-  ssl_pem_file = "#{ssl_folder}/#{ssl_fqdn}.pem"
   ssl_chain_file = "#{ssl_folder}/#{ssl_fqdn}.chain"
   ssl_dhparam_file = "#{ssl_folder}/#{ssl_fqdn}.dhparam"
 
   execute "create-fake-ssl-keypair" do
     command "sudo openssl req -subj '/C=UK/ST=Berkshire/L=Maidenhead/O=Alfresco/CN=#{ssl_fqdn}' -x509 -days 3650 -batch -nodes -newkey rsa:4096 -keyout #{ssl_key_file} -out #{ssl_crt_file}"
     not_if "test -f #{ssl_key_file}"
-  end
-  execute "create-pem-file" do
-    command "cat #{ssl_key_file} #{ssl_crt_file} > #{ssl_pem_file}"
-    not_if "test -f #{ssl_pem_file}"
   end
   execute "create-chain-file" do
     command "cat #{ssl_key_file} #{ssl_crt_file} > #{ssl_chain_file}"
