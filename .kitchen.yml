@@ -25,7 +25,7 @@ suites:
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
       "nginx" : {
-        "proxy_set_header_port" : "8800"
+        "proxy_host_header" : "$host:8800",
       },
       "logging" : {
         "log4j.rootLogger" : "info, Console, File"
@@ -68,7 +68,7 @@ suites:
            "action.rmi.service.port" : "8901",
            "deployment.rmi.service.port" : "9012"
         },
-        "version" : "5.0.d"
+        "version" : "5.1.b-EA"
       },
       "artifact-deployer" : {
         "maven" : {
@@ -85,8 +85,7 @@ suites:
       "hostname": "alfresco-allinone-test",
       "nginx" : {
         "proxy_host_header" : "$host:8800",
-        "trusted_certificate_enabled" : true,
-        "dhparam_enabled" : true
+        "trusted_certificate_enabled" : true
       },
       "alfresco" : {
         "version" : "5.1.b-EA",

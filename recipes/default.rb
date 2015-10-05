@@ -40,6 +40,8 @@ if node['alfresco']['edition'] == 'enterprise'
 end
 
 if node['alfresco']['version'].start_with?("5.1")
+  node.default['artifacts']['alfresco']['classifier'] = 'nossl'
+  node.set['alfresco']['enable.web.xml.nossl.patch'] = false
   node.default['artifacts']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end
