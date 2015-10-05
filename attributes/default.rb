@@ -8,14 +8,26 @@
 #
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
-default['alfresco']['default_hostname'] = "localhost"
-default['alfresco']['default_port'] = "8081"
-default['alfresco']['default_portssl'] = "8443"
-default['alfresco']['default_protocol'] = "http"
+# Old ones
+# default['alfresco']['default_hostname'] = "localhost"
+# default['alfresco']['default_port'] = "8081"
+# default['alfresco']['default_portssl'] = "8443"
+# default['alfresco']['default_protocol'] = "http"
+
+# New ones
+default['alfresco']['internal_hostname'] = "127.0.0.1"
+default['alfresco']['internal_port'] = "9000"
+default['alfresco']['internal_portssl'] = "9443"
+default['alfresco']['internal_protocol'] = "http"
+
+default['alfresco']['public_hostname'] = "localhost"
+default['alfresco']['public_port'] = "80"
+default['alfresco']['public_portssl'] = "443"
+default['alfresco']['public_protocol'] = "https"
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.0.d"
+default['alfresco']['version'] = "5.1.b-EA"
 default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"

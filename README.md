@@ -22,7 +22,7 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge chef-alfresco-centos-70
+kitchen converge chef-alfresco
 ```
 It takes roughly 40 minutes for a full default configuration.
 

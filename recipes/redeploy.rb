@@ -15,9 +15,6 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
-# haproxy.cfg updates
-host = node['alfresco']['default_hostname']
-
 # DEPRECATED in favour of haproxy::default
 #
 # haproxy_cfg_source = node['haproxy']['cfg_source']
@@ -101,6 +98,7 @@ file_replace_line 'share-config-referer' do
 end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
+host = node['alfresco']['public_hostname']
 file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{host}\""
 end

@@ -11,17 +11,50 @@ default['nginx']['dns_server'] = "localhost"
 
 default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
-default['nginx']['port'] = "80"
+default['nginx']['port'] = node['alfresco']['public_port']
+default['nginx']['portssl'] = node['alfresco']['public_portssl']
 
-default['nginx']['proxy_port'] = "9000"
+default['nginx']['proxy_port'] = node['alfresco']['internal_port']
 
-default['nginx']['proxy_set_header_port'] = "80"
+# Overridden by kitchen to $host:8800
+default['nginx']['proxy_host_header'] = "$host"
 
-# TODO - this needs to be fixed, as node[''] items in this entry cannot be
-# overridden by default[] wrapping cookbooks (see CHEF-ATTRIBUTES.md, rule 3)
-#
-# As a workaround, you must override the entire default['nginx']['config'] attribute
-#
+# Used to add ssl stapling or any other file related with nginx configuration
+default['nginx']['ssl_folder'] = "/etc/pki/tls/certs"
+default['nginx']['ssl_folder_source'] = "nginx_ssl"
+default['nginx']['ssl_folder_cookbook'] = "alfresco"
+
+default['nginx']['ssl_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.crt"
+default['nginx']['ssl_certificate_key'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.key"
+default['nginx']['dhparam_pem'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.dhparam"
+default['nginx']['trusted_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.chain"
+default['nginx']['ssl_stapling_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.staple"
+
+
+default['nginx']['stapling_enabled'] = false
+default['nginx']['trusted_certificate_enabled'] = false
+default['nginx']['dhparam_enabled'] = false
+
+# default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
+
+# Enable SSL Stapling, if stapling is provided
+ssl_stapling=""
+if node['nginx']['stapling_enabled']
+  ssl_stapling = "    ssl_stapling on; ssl_stapling_verify on; ssl_stapling_file #{node['nginx']['ssl_stapling_file']};"
+end
+
+# Enable SSL Trusted Certificate, if file is provided
+ssl_trusted_certificate=""
+if node['nginx']['trusted_certificate_enabled']
+  ssl_trusted_certificate = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
+end
+
+# Enable SSL Dh param PEM, if file is provided
+dh_param = ""
+if node['nginx']['dhparam_enabled']
+  dh_param = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
+end
+
 default['nginx']['config'] = [
   "user  nobody;",
   "worker_processes  2;",
@@ -29,26 +62,95 @@ default['nginx']['config'] = [
   "    worker_connections  1024;",
   "}",
   "http {",
-  "    sendfile on;",
-  "    tcp_nopush on;",
-  "    tcp_nodelay on;",
-  "    keepalive_timeout 65;",
-  "    types_hash_max_size 2048;",
-  "    include /etc/nginx/mime.types;",
-  "    default_type application/octet-stream;",
-  "    access_log /var/log/nginx/access.log;",
-  "    error_log /var/log/nginx/error.log;",
-  "    gzip on;",
-  "    gzip_disable \"msie6\";",
-  "    server {",
-  "        listen #{node['nginx']['port']} default_server;",
-  "        listen [::]:80 default_server;",
-  "        server_name #{node['alfresco']['default_hostname']};",
-  "        location / {",
-  "            proxy_set_header Host $host:#{node['nginx']['proxy_set_header_port']};",
-  "            proxy_pass http://localhost:#{node['nginx']['proxy_port']};",
-  "        }",
+  "    include       mime.types;",
+  "    default_type  application/octet-stream;",
+  "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" '",
+  "                      '$status $body_bytes_sent \"$http_referer\" '",
+  "                      '\"$http_user_agent\" \"$http_x_forwarded_for\"';",
+  "    client_max_body_size      0; # Allow upload of unlimited size",
+  "    proxy_read_timeout        600s;",
+  "    keepalive_timeout         120;",
+  "    ignore_invalid_headers    on;",
+  "    keepalive_requests        50;  # number of requests per connection, does not affect SPDY",
+  "    keepalive_disable         none; # allow all browsers to use keepalive connections",
+  "    max_ranges                0;   # disabled to stop range header DoS attacks",
+  "    msie_padding              off;",
+  "    output_buffers            1 512;",
+  "    reset_timedout_connection on;  # reset timed out connections freeing ram",
+  "    sendfile                  on;  # on for decent direct disk I/O",
+  "    server_tokens             off; # version number in error pages",
+  "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
+  "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
+  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver_timeout 10s;",
+  "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
+  "    error_log  /var/log/nginx/error.log info;",
+  "    port_in_redirect off;",
+  "    server_name_in_redirect off;",
+  "    error_page 403 /errors/403.html;",
+  "    error_page 404 /errors/404.html;",
+  "    error_page 405 /errors/405.html;",
+  "    error_page 500 /errors/500.html;",
+  "    error_page 501 /errors/501.html;",
+  "    error_page 502 /errors/502.html;",
+  "    error_page 503 /errors/503.html;",
+  "    error_page 504 /errors/504.html;",
+  "    gzip  on;",
+  "    gzip_http_version 1.1;",
+  "    gzip_vary on;",
+  "    gzip_comp_level 6;",
+  "    gzip_proxied any;",
+  "    gzip_buffers 16 8k;",
+  "    gzip_disable \"MSIE [1-6]\\.(?!.*SV1)\";",
+  "    # Turn on gzip for all content types that should benefit from it.",
+  "    gzip_types text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json;",
+  "server {",
+  "    listen #{node['nginx']['port']} default_server;",
+  "    listen #{node['nginx']['portssl']} ssl http2;",
+  "    server_name #{node['alfresco']['public_hostname']};",
+  "    # SSL Configuration",
+  "    ssl on;",
+  "    ssl_certificate #{node['nginx']['ssl_certificate']};",
+  "    ssl_certificate_key #{node['nginx']['ssl_certificate_key']};",
+  ssl_trusted_certificate,
+  "    # enable ocsp stapling - http://en.wikipedia.org/wiki/OCSP_stapling",
+  ssl_stapling,
+  "    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;",
+  "    ssl_prefer_server_ciphers on;",
+  "    # Use Intermediate Cipher Compatability from https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28default.29 ",
+  "    ssl_ciphers  ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;",
+  dh_param,
+  "    # ssl cache:",
+  "    ssl_session_cache shared:SSL:25m;",
+  "    ssl_session_timeout 10m;",
+  "    ssl_buffer_size 1400;",
+  "    ssl_session_tickets off;",
+  "    location /nginx_status {",
+  "        stub_status on;",
+  "        access_log   off;",
+  "        # Allow IP addresses",
+  "        #{node['nginx']['status_url_ip_allows']}",
+  "        deny all;",
   "    }",
+  "    location ^~ /errors/ {",
+  "        internal;",
+  "        root #{node['alfresco']['errorpages']['error_folder']};",
+  "    }",
+  "    # mitigation for nginx security advisory (CVE-2013-4547)",
+  "    if ($request_uri ~ \" \") {",
+  "        return 444;",
+  "    }",
+  "    location / {",
+  "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
+  "        proxy_redirect off;",
+  "        proxy_set_header        Host            #{node['nginx']['proxy_host_header']};",
+  "        proxy_set_header        X-Real-IP       $remote_addr;",
+  "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
+  "        proxy_set_header        X-Forwarded-Proto $scheme;",
+  "        proxy_pass  http://localhost:#{node['nginx']['proxy_port']};",
+  "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
+  "    }",
+  "}",
   "}"]
 
 # Rsyslog defaults are only used if component includes "rsyslog"

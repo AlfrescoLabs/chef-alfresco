@@ -44,12 +44,6 @@ node.default['artifacts']['alfresco']['type'] = "war"
 node.default['artifacts']['alfresco']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
 
-if node['tomcat']['run_base_instance']
-  node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
-else
-  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
-end
-
 # Alfresco MMT artifact
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = "alfresco-mmt"
@@ -66,7 +60,6 @@ node.default['artifacts']['share-services']['type'] = "amp"
 node.default['artifacts']['share-services']['destination'] = node['alfresco']['amps_folder']
 node.default['artifacts']['share-services']['owner'] = node['alfresco']['user']
 
-
 # Filtering properties with placeholders defined in the mentioned files
 # (only if classes zip is part of the artifact list, see recipes)
 node.default['artifacts']['sharedclasses']['unzip'] = false
@@ -74,3 +67,10 @@ node.default['artifacts']['sharedclasses']['filtering_mode'] = "append"
 node.default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
 node.default['artifacts']['sharedclasses']['destinationName'] = "classes"
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
+
+# Repo WAR destination
+if node['tomcat']['run_base_instance']
+  node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
+else
+  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
+end

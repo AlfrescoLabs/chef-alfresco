@@ -20,24 +20,20 @@ node.default['artifacts']['hazelcast-cloud']['version'] = "2.4"
 node.default['artifacts']['hazelcast-cloud']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['hazelcast-cloud']['owner'] = node['alfresco']['user']
 
+# Share pointers to Alfresco app
+node.default['alfresco']['shareproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
+node.default['alfresco']['shareproperties']['alfresco.context'] = node['alfresco']['properties']['alfresco.context']
+node.default['alfresco']['shareproperties']['alfresco.protocol'] = node['alfresco']['internal_protocol']
+node.default['alfresco']['shareproperties']['alfresco.port'] = node['alfresco']['internal_port']
+
+# node.default['alfresco']['shareproperties']['referer'] = ".*"
+# node.default['alfresco']['shareproperties']['origin'] = ".*"
+node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}.*"
+node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}"
+
+# Share WAR destination
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['share']['destination'] = node['tomcat']['webapp_dir']
 else
   node.default['artifacts']['share']['destination'] = "#{node['alfresco']['home']}-share/webapps"
-end
-
-# Share CSRF settings
-node.default['alfresco']['shareproperties']['alfresco.host'] = node['alfresco']['properties']['alfresco.host']
-node.default['alfresco']['shareproperties']['alfresco.context'] = node['alfresco']['properties']['alfresco.context']
-node.default['alfresco']['shareproperties']['alfresco.protocol'] = node['alfresco']['properties']['alfresco.protocol']
-node.default['alfresco']['shareproperties']['referer'] = ".*"
-node.default['alfresco']['shareproperties']['origin'] = ".*"
-
-# Share to Alfresco pointer
-if node['alfresco']['components'].include? "haproxy"
-  node.default['alfresco']['shareproperties']['alfresco.port'] = node['haproxy']['port']
-elsif node['alfresco']['components'].include? "tomcat" and node['tomcat']['run_base_instance'] == false
-  node.default['alfresco']['shareproperties']['alfresco.port'] = node['alfresco']['repo_tomcat_instance']['port']
-else
-  node.default['alfresco']['shareproperties']['alfresco.port'] = node['alfresco']['properties']['alfresco.port']
 end

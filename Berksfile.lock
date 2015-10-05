@@ -20,7 +20,7 @@ GRAPH
     windows (>= 1.2.2)
   activemq (2.0.2)
     java (~> 1.13)
-  alfresco (0.6.2)
+  alfresco (0.6.3)
     activemq (>= 0.0.0)
     artifact-deployer (>= 0.0.0)
     build-essential (>= 0.0.0)

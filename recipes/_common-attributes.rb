@@ -2,14 +2,19 @@
 node.default['alfresco']['properties']['dir.root'] = "#{node['alfresco']['home']}/alf_data"
 node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 
-# Repo config
-node.default['alfresco']['properties']['alfresco.host'] = node['alfresco']['default_hostname']
-node.default['alfresco']['properties']['alfresco.port.ssl'] = node['alfresco']['default_portssl']
-node.default['alfresco']['properties']['alfresco.protocol'] = node['alfresco']['default_protocol']
-
 # Solr Common attributes (used in _tomcat-attributes.rb)
 node.default['alfresco']['solrproperties']['data.dir.root'] = "#{node['alfresco']['properties']['dir.root']}/solrhome"
-node.default['alfresco']['solrproperties']['alfresco.host'] = node['alfresco']['properties']['alfresco.host']
-node.default['alfresco']['solrproperties']['alfresco.port.ssl'] = node['alfresco']['properties']['alfresco.port.ssl']
 node.default['alfresco']['solrproperties']['alfresco.baseUrl'] = "/#{node['alfresco']['properties']['alfresco.context']}"
 node.default['alfresco']['solrproperties']['alfresco.secureComms'] = node['alfresco']['properties']['solr.secureComms']
+
+# If haproxy is configured and not nginx, Tomcat should redirect to internal ports
+# see attributes/default.rb
+if node['alfresco']['components'].include? 'haproxy'
+  unless node['alfresco']['components'].include? 'nginx'
+    node.default['alfresco']['public_portssl'] = node.default['alfresco']['internal_portssl']
+    node.default['haproxy']['bind_ip'] = "0.0.0.0"
+  end
+end
+
+# If enabled, Tomcat SSL Connector will use this redirectPort
+node.default['tomcat']['ssl_redirect_port'] = node['alfresco']['public_portssl']

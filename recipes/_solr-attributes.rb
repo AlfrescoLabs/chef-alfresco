@@ -24,19 +24,17 @@ node.default['artifacts']['solr4']['type'] = "war"
 node.default['artifacts']['solr4']['owner'] = node['alfresco']['user']
 node.default['artifacts']['solr4']['unzip'] = false
 
+# Solr Pointers to Alfresco
+node.default['alfresco']['solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
+node.default['alfresco']['solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
+node.default['alfresco']['solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+
+# Log4j location
+node.default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
+
+# Solr WAR destination
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['solr4']['destination'] = node['tomcat']['webapp_dir']
-  node.default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
 elsif
   node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}-solr/webapps"
-  node.default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "/var/log/tomcat-solr/solr.log"
-end
-
-# Solr to Alfresco pointer
-if node['alfresco']['components'].include? "haproxy"
-  node.default['alfresco']['solrproperties']['alfresco.port'] = node['haproxy']['port']
-elsif node['alfresco']['components'].include? "tomcat" and node['tomcat']['run_base_instance'] == false
-  node.default['alfresco']['solrproperties']['alfresco.port'] = node['alfresco']['repo_tomcat_instance']['port']
-else
-  node.default['alfresco']['solrproperties']['alfresco.port'] = node['alfresco']['properties']['alfresco.port']
 end
