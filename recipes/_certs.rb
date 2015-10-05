@@ -9,8 +9,14 @@ directory ssl_folder do
 end
 
 begin
+  Chef::Log.warn("Loading databag #{ssl_databag}, item #{ssl_databag_item}")
+
   ssl = data_bag_item(ssl_databag,ssl_databag_item)
+
+  Chef::Log.warn("This is ssl _certs databag: #{ssl}")
+
   ssl.each do |ssl_item_name,ssl_item_value|
+    Chef::Log.warn("ssl _certs entry: #{ssl_item_name}=#{ssl_item_value}")
     unless ssl_item_name == "id"
       ssl_file = "#{ssl_folder}/#{ssl_fqdn}.#{ssl_item_name}"
       file ssl_file do

@@ -27,17 +27,21 @@ kitchen converge chef-alfresco
 It takes roughly 40 minutes for a full default configuration.
 
 #### Access
-- [http://localhost:8800/share](http://localhost:8800/share) (nginx)
+The only fully functional HTTPS endpoint is by default [https://localhost:8443](https://localhost:8443)
+
+You can also access internal and no-SSL ports, for debugging purposes
+- [http://localhost:8800/share](http://localhost:8800/share) (nginx no-SSL)
 - [http://localhost:9000](http://localhost:9000) (haproxy)
+- [http://localhost:9000](http://localhost:9443) (haproxy no-SSL)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
 - [http://localhost:8090/solr](http://localhost:8090/solr) (tomcat-solr)
 
 If you use analytics and/or media-management you can also access:
-- [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
+- (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
 - [http://localhost:61616](http://localhost:61616) (activemq)
 
-Access to the admin console is via http://localhost:9000/alfresco/ and then Alfresco Administration Console.
+Access to the admin console is via (https://localhost:8843/alfresco/)[https://localhost:8843/alfresco/] and then Alfresco Administration Console.
 
 #### Tweaking
 Please [review CPU/memory configurations](Vagrantfile.erb) of chef-alfresco and adapt them to your workstation specs; hereby the default values:
