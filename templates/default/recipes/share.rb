@@ -26,11 +26,3 @@ template "share-config-custom.xml" do
   #TODO - not working; for now, we run it all the time
   only_if     { node['alfresco']['generate.share.config.custom'] == true }
 end
-
-template "share-cluster-application-context.xml" do
-  path        "#{shared_folder}/classes/alfresco/web-extension/share-cluster-application-context.xml"
-  source      "share-cluster-application-context.xml.erb"
-  owner       node['alfresco']['user']
-  group       node['tomcat']['group']
-  mode        "0664"
-end

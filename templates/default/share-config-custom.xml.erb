@@ -10,6 +10,13 @@
       </properties>
    </config>
 
+   <config evaluator="string-compare" condition="WebFramework">
+      <web-framework>
+         <aggregate-dependencies>false</aggregate-dependencies>
+      </web-framework>
+   </config>
+
+
 	<!-- example port config used to access remote Alfresco server (default is 8081) -->
    <config evaluator="string-compare" condition="Remote">
       <remote>
