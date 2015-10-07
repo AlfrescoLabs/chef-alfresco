@@ -34,25 +34,11 @@ default['nginx']['stapling_enabled'] = false
 default['nginx']['trusted_certificate_enabled'] = false
 default['nginx']['dhparam_enabled'] = true
 
+node['nginx']['ssl_stapling_entry'] = ""
+node['nginx']['ssl_trusted_certificate_entry'] = ""
+node['nginx']['dh_param_entry'] = ""
+
 # default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
-
-# Enable SSL Stapling, if stapling is provided
-ssl_stapling=""
-if node['nginx']['stapling_enabled']
-  ssl_stapling = "    ssl_stapling on; ssl_stapling_verify on; ssl_stapling_file #{node['nginx']['ssl_stapling_file']};"
-end
-
-# Enable SSL Trusted Certificate, if file is provided
-ssl_trusted_certificate=""
-if node['nginx']['trusted_certificate_enabled']
-  ssl_trusted_certificate = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
-end
-
-# Enable SSL Dh param PEM, if file is provided
-dh_param = ""
-if node['nginx']['dhparam_enabled']
-  dh_param = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
-end
 
 default['nginx']['config'] = [
   "user  nobody;",
@@ -111,14 +97,14 @@ default['nginx']['config'] = [
   "    ssl on;",
   "    ssl_certificate #{node['nginx']['ssl_certificate']};",
   "    ssl_certificate_key #{node['nginx']['ssl_certificate_key']};",
-  ssl_trusted_certificate,
+  node['nginx']['ssl_trusted_certificate_entry'],
   "    # enable ocsp stapling - http://en.wikipedia.org/wiki/OCSP_stapling",
-  ssl_stapling,
+  node['nginx']['ssl_stapling_entry'],
   "    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;",
   "    ssl_prefer_server_ciphers on;",
   "    # Use Intermediate Cipher Compatability from https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28default.29 ",
   "    ssl_ciphers  ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA;",
-  dh_param,
+  node['nginx']['dh_param_entry'],
   "    # ssl cache:",
   "    ssl_session_cache shared:SSL:25m;",
   "    ssl_session_timeout 10m;",
