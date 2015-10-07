@@ -29,10 +29,10 @@ node.default['alfresco']['shareproperties']['alfresco.port'] = node['alfresco'][
 node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}.*"
 node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}"
 
-if node['alfresco']['public_portssl'] != 443
-  node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}.*"
-  node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}"
-end
+# if node['alfresco']['public_portssl'] != 443
+#   node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}.*"
+#   node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}"
+# end
 
 # Share WAR destination
 if node['tomcat']['run_base_instance']
