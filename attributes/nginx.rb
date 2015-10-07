@@ -147,7 +147,7 @@ default['nginx']['config'] = [
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
   "        proxy_set_header        X-Forwarded-Proto $scheme;",
-  "        proxy_pass  http://localhost:#{node['nginx']['proxy_port']};",
+  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['proxy_port']};",
   "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
   "    }",
   "}",
