@@ -28,6 +28,16 @@ node.default['artifacts']['psql']['version'] = "9.2-1004-jdbc4"
 node.default['artifacts']['psql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['psql']['owner'] = node['alfresco']['user']
 
+if node['alfresco']['properties']['s3.bucketName']
+  node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
+  node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
+  node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
+  node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.1-27"
+  node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
+  node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
+  node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
+end
+
 node.default['artifacts']['keystore']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['keystore']['artifactId'] = "alfresco-repository"
 node.default['artifacts']['keystore']['version'] = node['alfresco']['version']
