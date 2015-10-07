@@ -31,12 +31,12 @@ default['nginx']['trusted_certificate'] = "#{node['alfresco']['certs']['ssl_fold
 default['nginx']['ssl_stapling_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.staple"
 
 default['nginx']['stapling_enabled'] = false
-default['nginx']['trusted_certificate_enabled'] = false
+default['nginx']['trusted_certificate_enabled'] = true
 default['nginx']['dhparam_enabled'] = true
 
 default['nginx']['ssl_stapling_entry'] = ""
-default['nginx']['ssl_trusted_certificate_entry'] = ""
-default['nginx']['dh_param_entry'] = ""
+default['nginx']['ssl_trusted_certificate_entry'] = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
+default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
 
 # default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
 

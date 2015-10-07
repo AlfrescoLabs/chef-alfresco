@@ -3,16 +3,6 @@ if node['nginx']['stapling_enabled']
   node.default['nginx']['ssl_stapling_entry'] = "    ssl_stapling on; ssl_stapling_verify on; ssl_stapling_file #{node['nginx']['ssl_stapling_file']};"
 end
 
-# Enable SSL Trusted Certificate, if file is provided
-if node['nginx']['trusted_certificate_enabled']
-  node.default['nginx']['ssl_trusted_certificate_entry'] = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
-end
-
-# Enable SSL Dh param PEM, if file is provided
-if node['nginx']['dhparam_enabled']
-  node.default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
-end
-
 ssl_folder = node['nginx']['ssl_folder']
 ssl_folder_source = node['nginx']['ssl_folder_source']
 ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
