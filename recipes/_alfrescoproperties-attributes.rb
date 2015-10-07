@@ -25,11 +25,11 @@ node.default['alfresco']['properties']['solr.port.ssl'] = node['alfresco']['inte
 node.default['alfresco']['properties']['alfresco.host'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['alfresco.port.ssl'] = node['alfresco']['public_portssl']
 node.default['alfresco']['properties']['alfresco.protocol'] = node['alfresco']['public_protocol']
-node.default['alfresco']['properties']['alfresco.port'] = node['alfresco']['public_port']
+node.default['alfresco']['properties']['alfresco.port'] = node['alfresco']['public_portssl']
 
 #Share Public Endpoint
 node.default['alfresco']['properties']['share.host'] = node['alfresco']['public_hostname']
-node.default['alfresco']['properties']['share.port'] = node['alfresco']['public_port']
+node.default['alfresco']['properties']['share.port'] = node['alfresco']['public_portssl']
 node.default['alfresco']['properties']['share.protocol'] = node['alfresco']['public_protocol']
 
 # OpenCMIS
