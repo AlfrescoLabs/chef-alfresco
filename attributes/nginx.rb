@@ -34,9 +34,9 @@ default['nginx']['stapling_enabled'] = false
 default['nginx']['trusted_certificate_enabled'] = false
 default['nginx']['dhparam_enabled'] = true
 
-node['nginx']['ssl_stapling_entry'] = ""
-node['nginx']['ssl_trusted_certificate_entry'] = ""
-node['nginx']['dh_param_entry'] = ""
+default['nginx']['ssl_stapling_entry'] = ""
+default['nginx']['ssl_trusted_certificate_entry'] = ""
+default['nginx']['dh_param_entry'] = ""
 
 # default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
 
