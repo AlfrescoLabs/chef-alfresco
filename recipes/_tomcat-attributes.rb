@@ -30,7 +30,7 @@ node.default['tomcat']['global_templates'] = [{
 if node['tomcat']['run_base_instance']
   node.default['alfresco']['restart_services'] = ['tomcat']
   if alfresco_components.include? 'solr'
-    node.default["tomcat"]["java_options"] = "#{node["tomcat"]["java_options"]} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']}"
+    node.default["tomcat"]["java_options"] = "#{node["tomcat"]["java_options"]} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}"
   end
 else
   alfresco_components = node['alfresco']['components']
@@ -43,7 +43,7 @@ else
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
   if alfresco_components.include? 'solr'
-    node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.model.dir=#{node['alfresco']['solrproperties']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solrproperties']['data.dir.root']} -Djava.rmi.server.hostname=#{node['alfresco']['public_hostname']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
+    node.default['alfresco']['solr_tomcat_instance']['java_options'] = "#{node['alfresco']['solr_tomcat_instance']['java_options']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']} -Djava.rmi.server.hostname=#{node['alfresco']['public_hostname']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
 end

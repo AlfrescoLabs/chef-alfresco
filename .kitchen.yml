@@ -92,11 +92,11 @@ suites:
         "jmxremote_databag" : "credentials",
         "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
         # Enable S3 contentstore
-        "s3_databag" : "aws",
-        "s3_databag_item" : "test",
+        # "s3_databag" : "aws",
+        # "s3_databag_item" : "test",
         # Enable Share EC2 clustering
-        "hz_share_databag" : "aws",
-        "hz_share_databag_item" : "test",
+        # "hz_share_databag" : "aws",
+        # "hz_share_databag_item" : "test",
         "properties" : {
            # TODO - This looks weird, needs testing
            "aos.port" : "8800"

@@ -17,9 +17,12 @@ node.default['artifacts']['solr4']['owner'] = node['alfresco']['user']
 node.default['artifacts']['solr4']['unzip'] = false
 
 # Solr Pointers to Alfresco
-node.default['alfresco']['solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
-node.default['alfresco']['solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
-node.default['alfresco']['solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+node.default['alfresco']['workspace-solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
+node.default['alfresco']['workspace-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
+node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+node.default['alfresco']['archive-solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
+node.default['alfresco']['archive-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
+node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
 
 # Log4j location
 node.default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
