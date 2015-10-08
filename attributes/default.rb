@@ -3,6 +3,7 @@
 # aos - Alfresco Office Services (WARs); enterprise-only
 # media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
+# logstash-forwarder - Remote logging
 #
 # Default Alfresco components
 #

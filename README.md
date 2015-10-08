@@ -97,8 +97,11 @@ The most important configurations of chef-alfresco can be found in [attributes/d
 
 ```
 # Alfresco components that are not enabled by default:
+# analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
+# media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
+# logstash-forwarder - Remote logging
 #
 # Default Alfresco components
 #
@@ -362,6 +365,8 @@ Installs Alfresco Googledocs, using [Alfresco Googledocs 3.0.2 repo and share AM
 
 HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_haproxy-attributes.rb)
 
+This component will also install Rsyslog server, used to dump haproxy logs into /var/log/haproxy/haproxy/log
+
 #### nginx
 
 Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_nginx-attributes.rb)
@@ -369,6 +374,10 @@ Nginx is installed as OS package (using [nginx community cookbook](https://githu
 #### rsyslog
 
 Configures and runs an rsyslog standalone installation, which logs locally by default; you can set `node['rsyslog']['server_ip']` to configure the remote server to send logs to; for more info check the [rsyslog community cookbook](https://github.com/opscode-cookbooks/rsyslog)
+
+#### logstash-forwarder
+
+Configures and runs an logstash-forwarder to ship logs to a remote logstash server; you can set `node['logstash-forwarder']['logstash_servers']` to configure the remote server to send logs to; for more info check the [logstash community cookbook](https://github.com/elastic/logstash-forwarder)
 
 Roadmap
 ---

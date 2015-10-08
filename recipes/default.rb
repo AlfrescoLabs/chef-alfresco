@@ -142,6 +142,10 @@ if node['alfresco']['components'].include? 'rsyslog'
   include_recipe "rsyslog::default"
 end
 
+if node['alfresco']['components'].include? 'logstash-forwarder'
+  include_recipe "alfresco::logstash-forwarder"
+end
+
 if node['haproxy']['enable.ec2.discovery']
   include_recipe "alfresco::ec2-haproxy-peers"
 end

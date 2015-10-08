@@ -136,8 +136,3 @@ default['nginx']['config'] = [
   "    }",
   "}",
   "}"]
-
-# Rsyslog defaults are only used if component includes "rsyslog"
-# default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.log'
-# default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
-# default['rsyslog']['file_inputs']['nginx']['priority'] = 56
