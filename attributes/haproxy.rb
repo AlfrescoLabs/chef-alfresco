@@ -1,4 +1,9 @@
-# HAproxy supermarket cookbook attributes
+# Force rsyslog to use UDP on localhost
+default['rsyslog']['protocol'] = "udp"
+default['rsyslog']['bind'] = "127.0.0.1"
+default['rsyslog']['default_facility_logs'] = []
+
+# HAproxy cookbook attributes
 default['haproxy']['enable_ssl'] = false
 default['haproxy']['enable_admin'] = false
 default['haproxy']['enable_default_http'] = false
