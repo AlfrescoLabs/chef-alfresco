@@ -50,10 +50,6 @@ default['alfresco']['properties']['mail.smtp.auth'] = false
 default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
-# Defined in .kitchen.yml
-# default["alfresco"]["mailsmtp_databag"] = "credentials"
-# default["alfresco"]["mailsmtp_databag_item"] = "outbound-email"]
-
 # AOS
 default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
 

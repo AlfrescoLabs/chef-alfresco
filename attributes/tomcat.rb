@@ -36,11 +36,6 @@ default['tomcat']['server_template_source'] = 'tomcat/server.xml.erb'
 default['tomcat']['context_template_cookbook'] = 'alfresco'
 default['tomcat']['context_template_source'] = 'tomcat/context.xml.erb'
 
-# See templates/default[/tomcat/jmxremote.*
-# Defined in .kitchen.yml
-# default["alfresco"]["jmxremote_databag"] = "credentials"
-# default["alfresco"]["jmxremote_databag_items"] = ["systemsmonitor", "systemscontrol"]
-
 # See templates/default[/tomcat/controller-info.xml
 default["tomcat"]["application_name"] = "AlfrescoCloud.local"
 default["tomcat"]["tier_name"] = "allinone-tier"

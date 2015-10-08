@@ -8,11 +8,15 @@
 #
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
-# Old ones
-# default['alfresco']['default_hostname'] = "localhost"
-# default['alfresco']['default_port'] = "8081"
-# default['alfresco']['default_portssl'] = "8443"
-# default['alfresco']['default_protocol'] = "http"
+# See .kitchen.yml
+# default['alfresco']['s3_databag'] = ""
+# default['alfresco']['s3_databag_item'] = ""
+# default['alfresco']['hz_share_databag'] = ""
+# default['alfresco']['hz_share_databag_item'] = ""
+# default["alfresco"]["jmxremote_databag"] = "credentials"
+# default["alfresco"]["jmxremote_databag_items"] = ["systemsmonitor", "systemscontrol"]
+# default["alfresco"]["mailsmtp_databag"] = "credentials"
+# default["alfresco"]["mailsmtp_databag_item"] = "outbound-email"
 
 # New ones
 default['alfresco']['internal_hostname'] = "127.0.0.1"

@@ -28,7 +28,13 @@ node.default['artifacts']['psql']['version'] = "9.2-1004-jdbc4"
 node.default['artifacts']['psql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['psql']['owner'] = node['alfresco']['user']
 
-if node['alfresco']['properties']['s3.bucketName']
+s3_databag = node['alfresco']['s3_databag']
+s3_databag_item = node['alfresco']['s3_databag_item']
+hz_share_databag = node['alfresco']['hz_share_databag']
+hz_share_databag_item = node['alfresco']['hz_share_databag_item']
+
+begin
+  db_item = data_bag_item(s3_databag,s3_databag_item)
   node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
   node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
   node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
@@ -36,6 +42,19 @@ if node['alfresco']['properties']['s3.bucketName']
   node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
   node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
   node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
+  node.default['alfresco']['properties']['s3.accessKey'] = db_item['aws_access_key_id']
+  node.default['alfresco']['properties']['s3.secretKey'] = db_item['aws_secret_access_key']
+rescue
+  Chef::Log.warn("Error fetching databag #{s3_databag},  item #{s3_databag_item}")
+end
+
+begin
+  db_item = data_bag_item(hz_share_databag,hz_share_databag_item)
+  node.default['alfresco']['shareproperties']['hz_aws_enabled'] = true
+  node.default['alfresco']['shareproperties']['hz_aws_access_key'] = db_item['aws_access_key_id']
+  node.default['alfresco']['shareproperties']['hz_aws_secret_key'] = db_item['aws_secret_access_key']
+rescue
+  Chef::Log.warn("Error fetching databag #{hz_share_databag},  item #{hz_share_databag_item}")
 end
 
 node.default['artifacts']['keystore']['groupId'] = node['alfresco']['groupId']
