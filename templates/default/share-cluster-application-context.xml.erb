@@ -1,43 +1,51 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:hz="http://www.hazelcast.com/schema/spring"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-                http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-                http://www.hazelcast.com/schema/spring
-                http://www.hazelcast.com/schema/spring/hazelcast-spring-2.4.xsd">
-   <!--
-        Hazelcast distributed messaging configuration - Share web-tier cluster config (3.4.8 and 4.0.1)
-        - see http://www.hazelcast.com/docs.jsp
-        - and specifically http://www.hazelcast.com/docs/1.9.4/manual/single_html/#SpringIntegration
-   -->
-   <!-- Configure cluster to use either Multicast or direct TCP-IP messaging - multicast is default -->
-   <!-- Optionally specify network interfaces - server machines likely to have more than one interface -->
-   <!-- The messaging topic - the "name" is also used by the persister config below -->
-   <!-- -->
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:hz="http://www.hazelcast.com/schema/spring"
+xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.hazelcast.com/schema/spring
+http://www.hazelcast.com/schema/spring/hazelcast-spring-2.4.xsd">
+<!--
+Hazelcast distributed messaging configuration - Share web-tier cluster config (3.4.8 and 4.0.1)
+- see http://www.hazelcast.com/docs.jsp
+- and specifically http://www.hazelcast.com/docs/1.9.4/manual/single_html/#SpringIntegration
+-->
+<!-- Configure cluster to use either Multicast or direct TCP-IP messaging - multicast is default -->
+<!-- Optionally specify network interfaces - server machines likely to have more than one interface -->
+<!-- The messaging topic - the "name" is also used by the persister config below -->
+<!-- -->
 
-   <hz:topic id="topic" instance-ref="webframework.cluster.slingshot" name="slingshot-topic"/>
-   <hz:hazelcast id="webframework.cluster.slingshot">
-      <hz:config>
-         <hz:group name="share" password="<%= node['alfresco']['shareproperties']['hz_group_password'] %>"/>
-         <hz:network port="<%= node['alfresco']['shareproperties']['hz_network_port'] %>" port-auto-increment="true">
-            <hz:join>
-               <hz:multicast enabled="<%= node['alfresco']['shareproperties']['hz_multicast_enabled'] %>"
-                     multicast-group="<%= node['alfresco']['shareproperties']['hz_multicast_group'] %>"
-                     multicast-port="<%= node['alfresco']['shareproperties']['hz_multicast_port'] %>"/>
-               <hz:tcp-ip enabled="<%= node['alfresco']['shareproperties']['hz_tcpip_enabled'] %>">
-               <% node['alfresco']['shareproperties']['hz_tcpip_list'].each do |member| -%>
-                 <hz:members><%= member %></hz:members>
-               <% end -%>
-               </hz:tcp-ip>
-               <hz:aws enabled="<%= node['alfresco']['shareproperties']['hz_aws_enabled'] %>" access-key="<%= node['alfresco']['shareproperties']['hz_aws_access_key'] %>" secret-key="<%= node['alfresco']['shareproperties']['hz_aws_secret_key'] %>" region="<%= node['alfresco']['shareproperties']['hz_aws_region'] %>" security-group-name="<%= node['alfresco']['shareproperties']['hz_aws_sg_name'] %>" tag-key="<%= node['alfresco']['shareproperties']['hz_aws_tag_key'] %>" tag-value="<%= node['alfresco']['shareproperties']['hz_aws_tag_value'] %>"/>
-            </hz:join>
-            <hz:interfaces enabled="<%= node['alfresco']['shareproperties']['hz_interfaces_enabled'] %>">
-              <% node['alfresco']['shareproperties']['hz_interfaces_list'].each do |interface| -%>
-                <hz:interface><%= interface %></hz:interface>
+  <hz:topic id="topic" instance-ref="webframework.cluster.slingshot" name="slingshot-topic"/>
+  <hz:hazelcast id="webframework.cluster.slingshot">
+    <hz:config>
+      <hz:group name="share" password="<%= node['alfresco']['shareproperties']['hz_group_password'] %>"/>
+      <hz:network port="<%= node['alfresco']['shareproperties']['hz_network_port'] %>" port-auto-increment="true">
+        <hz:join>
+          <% if node['alfresco']['shareproperties']['hz_multicast_enabled'] -%>
+            <hz:multicast enabled="<%= node['alfresco']['shareproperties']['hz_multicast_enabled'] %>"
+              multicast-group="<%= node['alfresco']['shareproperties']['hz_multicast_group'] %>"
+              multicast-port="<%= node['alfresco']['shareproperties']['hz_multicast_port'] %>"/>
+          <% end -%>
+          <% if node['alfresco']['shareproperties']['hz_tcpip_enabled'] -%>
+            <hz:tcp-ip enabled="<%= node['alfresco']['shareproperties']['hz_tcpip_enabled'] %>">
+              <% node['alfresco']['shareproperties']['hz_tcpip_list'].each do |member| -%>
+                <hz:members><%= member %></hz:members>
               <% end -%>
-            </hz:interfaces>
-         </hz:network>
-      </hz:config>
-   </hz:hazelcast>
+            </hz:tcp-ip>
+          <% end -%>
+          <% if node['alfresco']['shareproperties']['hz_aws_enabled'] -%>
+            <hz:aws enabled="<%= node['alfresco']['shareproperties']['hz_aws_enabled'] %>" access-key="<%= node['alfresco']['shareproperties']['hz_aws_access_key'] %>" secret-key="<%= node['alfresco']['shareproperties']['hz_aws_secret_key'] %>" region="<%= node['alfresco']['shareproperties']['hz_aws_region'] %>" security-group-name="<%= node['alfresco']['shareproperties']['hz_aws_sg_name'] %>" tag-key="<%= node['alfresco']['shareproperties']['hz_aws_tag_key'] %>" tag-value="<%= node['alfresco']['shareproperties']['hz_aws_tag_value'] %>"/>
+          <% end -%>
+        </hz:join>
+        <% if node['alfresco']['shareproperties']['hz_interfaces_enabled'] -%>
+          <hz:interfaces enabled="<%= node['alfresco']['shareproperties']['hz_interfaces_enabled'] %>">
+            <% node['alfresco']['shareproperties']['hz_interfaces_list'].each do |interface| -%>
+              <hz:interface><%= interface %></hz:interface>
+            <% end -%>
+          </hz:interfaces>
+        <% end -%>
+      </hz:network>
+    </hz:config>
+  </hz:hazelcast>
 </beans>
