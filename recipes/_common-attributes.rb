@@ -3,6 +3,7 @@ node.default['alfresco']['properties']['dir.root'] = "#{node['alfresco']['home']
 node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 
 # Solr Common attributes (used in _tomcat-attributes.rb)
+node.default['alfresco']['solrproperties']['alfresco_models'] = "#{node['alfresco']['properties']['dir.root']}/newAlfrescoModels"
 node.default['alfresco']['solrproperties']['data.dir.root'] = "#{node['alfresco']['properties']['dir.root']}/solrhome"
 node.default['alfresco']['solrproperties']['alfresco.baseUrl'] = "/#{node['alfresco']['properties']['alfresco.context']}"
 node.default['alfresco']['solrproperties']['alfresco.secureComms'] = node['alfresco']['properties']['solr.secureComms']
