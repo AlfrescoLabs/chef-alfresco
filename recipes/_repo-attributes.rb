@@ -1,9 +1,9 @@
-node.default['rsyslog']['file_inputs']['repo1']['file'] = '/var/log/tomcat-alfresco/alfresco.log'
-node.default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
-node.default['rsyslog']['file_inputs']['repo1']['priority'] = 50
-node.default['rsyslog']['file_inputs']['repo2']['file'] = '/var/log/tomcat-alfresco/catalina.out.*'
-node.default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
-node.default['rsyslog']['file_inputs']['repo2']['priority'] = 51
+# node.default['rsyslog']['file_inputs']['repo1']['file'] = '/var/log/tomcat-alfresco/alfresco.log'
+# node.default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
+# node.default['rsyslog']['file_inputs']['repo1']['priority'] = 50
+# node.default['rsyslog']['file_inputs']['repo2']['file'] = '/var/log/tomcat-alfresco/catalina.out.*'
+# node.default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
+# node.default['rsyslog']['file_inputs']['repo2']['priority'] = 51
 
 # Tomcat Configuration for Alfresco keystore
 # TODO - these should be tomcat parent attribute, not alfresco

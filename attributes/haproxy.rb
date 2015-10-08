@@ -14,7 +14,7 @@ default['haproxy']['default_backend'] = "share"
 default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
 
 default['haproxy']['redirects'] = [
-  "redirect location /share/ if !is_share !is_alfresco !is_solr4 !is_aos_root !is_aos_vti",
+  "redirect location /share/ if !is_share !is_alfresco !is_solr !is_aos_root !is_aos_vti",
   "redirect location /share/ if is_root"
 ]
 

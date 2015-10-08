@@ -1,10 +1,10 @@
 # Rsyslog defaults are only used if component includes "rsyslog"
-node.default['rsyslog']['file_inputs']['solr1']['file'] = '/var/log/tomcat-solr/solr.log'
-node.default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
-node.default['rsyslog']['file_inputs']['solr1']['priority'] = 54
-node.default['rsyslog']['file_inputs']['solr2']['file'] = '/var/log/tomcat-solr/catalina.out.*'
-node.default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
-node.default['rsyslog']['file_inputs']['solr2']['priority'] = 55
+# node.default['rsyslog']['file_inputs']['solr1']['file'] = '/var/log/tomcat-solr/solr.log'
+# node.default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
+# node.default['rsyslog']['file_inputs']['solr1']['priority'] = 54
+# node.default['rsyslog']['file_inputs']['solr2']['file'] = '/var/log/tomcat-solr/catalina.out.*'
+# node.default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
+# node.default['rsyslog']['file_inputs']['solr2']['priority'] = 55
 
 # Artifact deployer attributes
 node.default['artifacts']['solrhome']['groupId'] = node['alfresco']['groupId']
