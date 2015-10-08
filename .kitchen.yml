@@ -67,8 +67,7 @@ suites:
            "repo.rmi.service.port" : "7890",
            "action.rmi.service.port" : "8901",
            "deployment.rmi.service.port" : "9012"
-        },
-        "version" : "5.1.b-EA"
+        }
       },
       "artifact-deployer" : {
         "maven" : {
@@ -88,7 +87,10 @@ suites:
         "trusted_certificate_enabled" : true
       },
       "alfresco" : {
-        "version" : "5.1.b-EA",
+        "mailsmtp_databag" : "credentials",
+        "mailsmtp_databag_item" : "outbound-email",
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
         "properties" : {
            # TODO - This looks weird, needs testing
            "aos.port" : "8800"

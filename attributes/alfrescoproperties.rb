@@ -44,13 +44,15 @@ default['alfresco']['properties']['solr.secureComms'] = 'none'
 default['alfresco']['properties']['mail.protocol'] = 'smtp'
 default['alfresco']['properties']['mail.host'] = '0.0.0.0'
 default['alfresco']['properties']['mail.port'] = '25'
-default['alfresco']['properties']['mail.username'] = 'anonymous'
-default['alfresco']['properties']['mail.password'] = ''
 default['alfresco']['properties']['mail.encoding'] = 'UTF-8'
 default['alfresco']['properties']['mail.from.enabled'] = false
 default['alfresco']['properties']['mail.smtp.auth'] = false
 default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
+
+# Defined in .kitchen.yml
+# default["alfresco"]["mailsmtp_databag"] = "credentials"
+# default["alfresco"]["mailsmtp_databag_item"] = "outbound-email"]
 
 # AOS
 default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"

@@ -9,6 +9,17 @@ node.default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['public_
 
 node.default['alfresco']['log4j'] = node['logging']
 
+mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
+mailsmtp_databag_items = node["alfresco"]["mailsmtp_databag_items"]
+
+begin
+  db_item = data_bag_item(mailsmtp_databag,mailsmtp_databag_item)
+  node.default['alfresco']['properties']['mail.username'] = db_item['username']
+  node.default['alfresco']['properties']['mail.password'] = db_item['password']
+rescue
+  Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_items}")
+end
+
 #JMX host
 node.default['alfresco']['properties']['hostname.public'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['hostname.private'] = node['alfresco']['internal_hostname']
