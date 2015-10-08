@@ -92,10 +92,10 @@ default['haproxy']['backends']['share']['nodes']['localhost'] = node['alfresco']
 default['haproxy']['backends']['share']['port'] = 8081
 
 # Solr Haproxy configuration
-default['haproxy']['backends']['solr4']['acls'] = ['path_beg /solr4']
-default['haproxy']['backends']['solr4']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['solr4']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-default['haproxy']['backends']['solr4']['port'] = 8090
+default['haproxy']['backends']['solr']['acls'] = ['path_beg /solr4']
+default['haproxy']['backends']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['solr']['nodes']['localhost'] = node['alfresco']['internal_hostname']
+default['haproxy']['backends']['solr']['port'] = 8090
 
 # HAproxy configuration
 default['haproxy']['backends']['alfresco']['acls'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
