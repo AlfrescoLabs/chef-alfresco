@@ -4,10 +4,10 @@ haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
 
-include_recipe 'haproxy::default'
-
 # Sets ec2 tags (must be before haproxy.cfg configuration)
 include_recipe 'alfresco::haproxy-ec2-discovery'
+
+include_recipe 'haproxy::default'
 
 # Set haproxy.cfg custom template
 # TODO - fix it upstream and send PR
