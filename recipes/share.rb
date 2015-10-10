@@ -1,3 +1,6 @@
+# Add Share backend entry to local instance
+node.default['haproxy']['backends']['share']['nodes']['localhost'] = node['alfresco']['internal_hostname']
+
 node.default['artifacts']['share']['enabled']           = true
 node.default['artifacts']['sharedclasses']['enabled']   = true
 node.default['artifacts']['hazelcast-cloud']['enabled'] = true
