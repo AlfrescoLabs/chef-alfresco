@@ -95,10 +95,6 @@ if node['alfresco']['components'].include? 'media'
   include_recipe 'alfresco::media-alfresco'
 end
 
-if node['alfresco']['components'].include? 'haproxy'
-  include_recipe 'alfresco::haproxy'
-end
-
 if node['alfresco']['components'].include? 'repo'
   apply_amps = true
   include_recipe "alfresco::repo"
@@ -111,6 +107,10 @@ end
 
 if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
+end
+
+if node['alfresco']['components'].include? 'haproxy'
+  include_recipe 'alfresco::haproxy'
 end
 
 if node['alfresco']['components'].include? 'tomcat'
