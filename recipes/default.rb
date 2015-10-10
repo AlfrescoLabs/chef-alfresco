@@ -146,10 +146,6 @@ if node['alfresco']['components'].include? 'logstash-forwarder'
   include_recipe "alfresco::logstash-forwarder"
 end
 
-if node['haproxy']['enable.ec2.discovery']
-  include_recipe "alfresco::ec2-haproxy-peers"
-end
-
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
