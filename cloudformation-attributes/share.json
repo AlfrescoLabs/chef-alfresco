@@ -53,5 +53,5 @@
     "tomcat" : {
         "cleaner.minutes.interval" : 1
     },
-    "run_list": ["img-alfresco::default"]
+    "run_list": ["alfresco::default"]
 }
