@@ -53,11 +53,11 @@
         "xmx_ratio" : 0.5
         },
         "workspace-solrproperties" : {
-        "alfresco.corePoolSize" : 16
+        "alfresco.corePoolSize" : 4
         }
     },
     "tomcat" : {
         "cleaner.minutes.interval" : 1
     },
-    "run_list": ["img-alfresco::default"]
+    "run_list": ["alfresco::default"]
 }
