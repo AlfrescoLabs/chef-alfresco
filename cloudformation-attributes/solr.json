@@ -7,7 +7,7 @@
                 "Status" : "complete"
             },
             "box_tags" : {
-                "haproxy-role" : role.lower(),
+                "haproxy-role" : "solr",
                 "stack-instance-id" : "@@STACK_NAME@@",
                 "Status" : "complete"
             }
