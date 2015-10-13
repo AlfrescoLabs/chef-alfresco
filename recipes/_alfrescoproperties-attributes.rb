@@ -9,7 +9,8 @@ node.default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['public_
 
 # Use JSON with log4j, if enabled
 if node['alfresco']['log.json.enabled']
-  node.default['artifacts']['json-logging-amp']['enabled'] = true
+  node.default['artifacts']['json-logging-repo-amp']['enabled'] = true
+  node.default['artifacts']['json-logging-share-amp']['enabled'] = true
   node.default['logging']['log4j.appender.File.layout'] = "net.logstash.log4j.JSONEventLayoutV1"
   node.default['logging']['log4j.appender.File.File'] = "${logfilename}.json"
   node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log.json']

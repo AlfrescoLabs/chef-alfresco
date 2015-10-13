@@ -7,11 +7,17 @@ node.default["alfresco"]["truststore_file"] = "#{node['alfresco']['properties'][
 node.default["alfresco"]["truststore_password"] = "kT9X6oe68t"
 node.default["alfresco"]["truststore_type"] = "JCEKS"
 
-node.default['artifacts']['json-logging-amp']['groupId'] = "org.alfresco.devops"
-node.default['artifacts']['json-logging-amp']['artifactId'] = "json-logging-amp"
-node.default['artifacts']['json-logging-amp']['version'] = "0.4"
-node.default['artifacts']['json-logging-amp']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['json-logging-amp']['owner'] = node['alfresco']['user']
+node.default['artifacts']['json-logging-repo-amp']['groupId'] = "org.alfresco.devops"
+node.default['artifacts']['json-logging-repo-amp']['artifactId'] = "alfresco-json-logging-amp"
+node.default['artifacts']['json-logging-repo-amp']['version'] = "0.4"
+node.default['artifacts']['json-logging-repo-amp']['destination'] = node['alfresco']['amps_folder']
+node.default['artifacts']['json-logging-repo-amp']['owner'] = node['alfresco']['user']
+
+node.default['artifacts']['json-logging-share-amp']['groupId'] = "org.alfresco.devops"
+node.default['artifacts']['json-logging-share-amp']['artifactId'] = "alfresco-json-logging-amp"
+node.default['artifacts']['json-logging-share-amp']['version'] = "0.4"
+node.default['artifacts']['json-logging-share-amp']['destination'] = node['alfresco']['amps_share_folder']
+node.default['artifacts']['json-logging-share-amp']['owner'] = node['alfresco']['user']
 
 node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
 node.default['artifacts']['mysql']['groupId'] = "mysql"
