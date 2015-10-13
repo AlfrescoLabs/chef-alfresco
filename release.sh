@@ -25,9 +25,9 @@ function incrementVersion () {
 }
 
 function deploy () {
-  repo_name="internal-releases"
+  repo_name="releases"
   if [[ $1 == *SNAPSHOT ]]; then
-    repo_name="internal-snapshots"
+    repo_name="snapshots"
   fi
 
   mvn deploy:deploy-file -Dfile=$(echo *.tar.gz) -DrepositoryId=alfresco-internal -Durl=https://artifacts.alfresco.com/nexus/content/repositories/$repo_name -DgroupId=org.alfresco.devops -DartifactId=chef-alfresco -Dversion=$1 -Dpackaging=tar.gz

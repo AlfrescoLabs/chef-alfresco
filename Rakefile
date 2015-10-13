@@ -28,7 +28,7 @@ end
 desc "Deploy dist into Nexus artifact"
 task :deploy, [:releaseversion] do |t,args|
   version = args[:releaseversion]
-  sh "mvn deploy:deploy-file -Dfile=chef-alfresco.tar.gz -DrepositoryId=alfresco-private-repository -Durl=https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots -DgroupId=org.alfresco.devops -DartifactId=chef-alfresco -Dversion=#{version}-SNAPSHOT -Dpackaging=tar.gz"
+  sh "mvn deploy:deploy-file -Dfile=chef-alfresco.tar.gz -DrepositoryId=alfresco-private-repository -Durl=https://artifacts.alfresco.com/nexus/content/repositories/snapshots -DgroupId=org.alfresco.devops -DartifactId=chef-alfresco -Dversion=#{version}-SNAPSHOT -Dpackaging=tar.gz"
 end
 
 task :integration do
