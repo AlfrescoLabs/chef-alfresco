@@ -9,7 +9,7 @@ node.default["alfresco"]["truststore_type"] = "JCEKS"
 
 node.default['artifacts']['json-logging-amp']['groupId'] = "org.alfresco.devops"
 node.default['artifacts']['json-logging-amp']['artifactId'] = "json-logging-amp"
-node.default['artifacts']['json-logging-amp']['version'] = "0.2-SNAPSHOT"
+node.default['artifacts']['json-logging-amp']['version'] = "0.4"
 node.default['artifacts']['json-logging-amp']['destination'] = = node['alfresco']['amps_folder']
 node.default['artifacts']['json-logging-amp']['owner'] = node['alfresco']['user']
 
