@@ -6,11 +6,11 @@
 #
 # AWS commandline tool is provided by artifact-deployer
 #
-query_tags = node['ec2']['query_tags']
-box_tags = node['ec2']['box_tags']
-peers_file_path = node['ec2']['peers_file_path']
-role_tag_name = node['ec2']['role_tag_name']
-aws_bin = node['ec2']['aws_bin']
+query_tags = node['haproxy']['ec2']['query_tags']
+box_tags = node['haproxy']['ec2']['box_tags']
+peers_file_path = node['haproxy']['ec2']['peers_file_path']
+role_tag_name = node['haproxy']['ec2']['role_tag_name']
+aws_bin = node['haproxy']['ec2']['aws_bin']
 
 # Query AWS instances and set node attributes for haproxy service discovery configuration
 if query_tags
@@ -30,19 +30,20 @@ if query_tags
       file = File.read(peers_file_path)
       peers_hash = JSON.parse(file)
       if peers_hash['Reservations'] and peers_hash['Reservations'].length > 0
-        peers_hash['Reservations'][0]['Instances'].each do |node|
-          private_ip = node['PrivateIpAddress']
-          status = node['State']['Name']
-          id = node['InstanceId']
-          peer_item = {"id" => id, "ip" => private_ip}
-
-          if status != "running"
-            node['Tags'].each do |tag|
+        peers_hash['Reservations'][0]['Instances'].each do |awsnode|
+          private_ip = awsnode['PrivateIpAddress']
+          status = awsnode['State']['Name']
+          id = awsnode['InstanceId']
+          Chef::Log.warn("DEBUG 1: #{status}")
+          if status == "running"
+            Chef::Log.warn("DEBUG 2: #{role_tag_name}")
+            awsnode['Tags'].each do |tag|
+              Chef::Log.warn("DEBUG 3: #{tag['Key']}")
               if tag['Key'] == role_tag_name
                 role = tag['Value']
-                # TODO - still not working
-                # undefined method `[]' for nil:NilClass
-                node.default['haproxy']['backends'][role]['nodes'] << peer_item
+                Chef::Log.warn("DEBUG 4: #{role},#{id},#{private_ip}")
+                node.default['haproxy']['backends'][role]['nodes'][id] = private_ip
+                Chef::Log.warn("DEBUG 5: #{node['haproxy']['backends'][role]}")
               end
             end
           end

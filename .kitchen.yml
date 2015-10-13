@@ -13,8 +13,8 @@ platforms:
   - name: centos-7.0
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
-    driver_config:
-      require_chef_omnibus: 12.3.0
+    # driver_config:
+    #   require_chef_omnibus: 12.4.1
 
 suites:
   - name: checklist
@@ -25,10 +25,10 @@ suites:
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
       "nginx" : {
-        "proxy_set_header_port" : "8800"
+        "proxy_host_header" : "$host:8800",
       },
       "logging" : {
-        "log4j.rootLogger" : "info, Console, File"
+        "log4j.rootLogger" : "info, File"
       },
       "alfresco" : {
         "properties" : {
@@ -67,8 +67,7 @@ suites:
            "repo.rmi.service.port" : "7890",
            "action.rmi.service.port" : "8901",
            "deployment.rmi.service.port" : "9012"
-        },
-        "version" : "5.0.d"
+        }
       },
       "artifact-deployer" : {
         "maven" : {
@@ -84,13 +83,28 @@ suites:
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
       "nginx" : {
-        "proxy_set_header_port" : "8800"
+        "proxy_host_header" : "$host:8443",
+        "trusted_certificate_enabled" : true
       },
       "alfresco" : {
-        # "version" : "5.0.2",
-        "version" : "5.1.b-EA",
+        "log.json.enabled" : true,
+        "mailsmtp_databag" : "credentials",
+        "mailsmtp_databag_item" : "outbound-email",
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        # Enable S3 contentstore
+        # "s3_databag" : "aws",
+        # "s3_databag_item" : "test",
+        # Enable Share EC2 clustering
+        # "hz_share_databag" : "aws",
+        # "hz_share_databag_item" : "test",
         "properties" : {
+           # TODO - This looks weird, needs testing
            "aos.port" : "8800"
+        },
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "local"
         }
       },
       "artifact-deployer" : {
@@ -99,8 +113,7 @@ suites:
         }
       },
       "haproxy" : {
-        "ssl_databag" : "ssl",
-        "ssl_databag_item" : "haproxy",
-        "ssl_fqdn" : "chef-alfresco-centos-70"
+        # Bind to all IFs, for debugging purposes
+        "bind_ip" : "0.0.0.0"
       }
     }

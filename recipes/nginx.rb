@@ -1,7 +1,29 @@
+# Enable SSL Stapling, if stapling is provided
+if node['nginx']['stapling_enabled']
+  node.default['nginx']['ssl_stapling_entry'] = "    ssl_stapling on; ssl_stapling_verify on; ssl_stapling_file #{node['nginx']['ssl_stapling_file']};"
+end
+
+ssl_folder = node['nginx']['ssl_folder']
+ssl_folder_source = node['nginx']['ssl_folder_source']
+ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
+
 # Delete Centos default configuration
 # Replaced by /etc/nginx/sites-enabled/*
 file "/etc/nginx/conf.d/default.conf" do
   action :delete
+end
+
+include_recipe 'alfresco::_certs'
+include_recipe 'alfresco::_errorpages'
+
+directory ssl_folder do
+  action :create
+  recursive true
+end
+
+remote_directory ssl_folder do
+  source ssl_folder_source
+  cookbook ssl_folder_cookbook
 end
 
 # nginx::repo must be explicitely called, to install nginx yum repos

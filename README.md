@@ -22,22 +22,26 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge chef-alfresco-centos-70
+kitchen converge chef-alfresco
 ```
 It takes roughly 40 minutes for a full default configuration.
 
 #### Access
-- [http://localhost:8800/share](http://localhost:8800/share) (nginx)
+The only fully functional HTTPS endpoint is by default [https://localhost:8443](https://localhost:8443)
+
+You can also access internal and no-SSL ports, for debugging purposes
+- [http://localhost:8800/share](http://localhost:8800/share) (nginx no-SSL)
 - [http://localhost:9000](http://localhost:9000) (haproxy)
+- [http://localhost:9000](http://localhost:9443) (haproxy no-SSL)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
 - [http://localhost:8090/solr](http://localhost:8090/solr) (tomcat-solr)
 
 If you use analytics and/or media-management you can also access:
-- [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
+- (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
 - [http://localhost:61616](http://localhost:61616) (activemq)
 
-Access to the admin console is via http://localhost:9000/alfresco/ and then Alfresco Administration Console.
+Access to the admin console is via (https://localhost:8843/alfresco/)[https://localhost:8843/alfresco/] and then Alfresco Administration Console.
 
 #### Tweaking
 Please [review CPU/memory configurations](Vagrantfile.erb) of chef-alfresco and adapt them to your workstation specs; hereby the default values:
@@ -93,8 +97,11 @@ The most important configurations of chef-alfresco can be found in [attributes/d
 
 ```
 # Alfresco components that are not enabled by default:
+# analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
+# media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
+# logstash-forwarder - Remote logging
 #
 # Default Alfresco components
 #
@@ -235,10 +242,7 @@ Generates repo-log4j.properties depending on attribute values:
 ```
 "alfresco": {
   "repo-log4j": {
-    "log4j.rootLogger"                                : "error, Console, File",
-    "log4j.appender.Console"                          : "org.apache.log4j.ConsoleAppender",
-    "log4j.appender.Console.layout"                   : "org.apache.log4j.PatternLayout",
-    "log4j.appender.Console.layout.ConversionPattern" : "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n",
+    "log4j.rootLogger"                                : "error, File",
     "log4j.appender.File"                             : "org.apache.log4j.DailyRollingFileAppender",
     "log4j.appender.File.Append"                      : "true",
     "log4j.appender.File.DatePattern"                 : "'.'yyyy-MM-dd",
@@ -358,6 +362,8 @@ Installs Alfresco Googledocs, using [Alfresco Googledocs 3.0.2 repo and share AM
 
 HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_haproxy-attributes.rb)
 
+This component will also install Rsyslog server, used to dump haproxy logs into /var/log/haproxy/haproxy/log
+
 #### nginx
 
 Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_nginx-attributes.rb)
@@ -365,6 +371,10 @@ Nginx is installed as OS package (using [nginx community cookbook](https://githu
 #### rsyslog
 
 Configures and runs an rsyslog standalone installation, which logs locally by default; you can set `node['rsyslog']['server_ip']` to configure the remote server to send logs to; for more info check the [rsyslog community cookbook](https://github.com/opscode-cookbooks/rsyslog)
+
+#### logstash-forwarder
+
+Configures and runs an logstash-forwarder to ship logs to a remote logstash server; you can set `node['logstash-forwarder']['logstash_servers']` to configure the remote server to send logs to; for more info check the [logstash community cookbook](https://github.com/elastic/logstash-forwarder)
 
 Roadmap
 ---

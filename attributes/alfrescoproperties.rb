@@ -12,6 +12,13 @@ default['alfresco']['properties']['db.port'] = '3306'
 default['alfresco']['properties']['db.dbname'] = 'alfresco'
 default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
 default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}"
+node.set['alfresco']['properties']['db.pool.initial'] = 30
+node.set['alfresco']['properties']['db.pool.max'] = 500
+node.set['alfresco']['properties']['db.pool.min'] = 0
+node.set['alfresco']['properties']['db.pool.evict.interval'] = 900000
+node.set['alfresco']['properties']['db.pool.evict.idle.min'] = 1800000
+node.set['alfresco']['properties']['db.pool.evict.num.tests'] = -2
+node.set['alfresco']['properties']['db.pool.evict.validate'] = true
 
 #JMX
 default['alfresco']['properties']['alfresco.rmi.services.host'] = '0.0.0.0'
@@ -37,8 +44,6 @@ default['alfresco']['properties']['solr.secureComms'] = 'none'
 default['alfresco']['properties']['mail.protocol'] = 'smtp'
 default['alfresco']['properties']['mail.host'] = '0.0.0.0'
 default['alfresco']['properties']['mail.port'] = '25'
-default['alfresco']['properties']['mail.username'] = 'anonymous'
-default['alfresco']['properties']['mail.password'] = ''
 default['alfresco']['properties']['mail.encoding'] = 'UTF-8'
 default['alfresco']['properties']['mail.from.enabled'] = false
 default['alfresco']['properties']['mail.smtp.auth'] = false
@@ -46,9 +51,7 @@ default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
 # AOS
-default['alfresco']['properties']['aos.port'] = "80"
 default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
-
 
 #Cluster
 default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescocluster'
@@ -86,3 +89,6 @@ default['alfresco']['properties']['cifs.tcpipSMB.port'] = '1445'
 default['alfresco']['properties']['cifs.netBIOSSMB.namePort'] = '1137'
 default['alfresco']['properties']['cifs.netBIOSSMB.datagramPort'] = '1138'
 default['alfresco']['properties']['cifs.netBIOSSMB.sessionPort'] = '1139'
+
+# Replication
+default['alfresco']['properties']['replication.enabled'] = true

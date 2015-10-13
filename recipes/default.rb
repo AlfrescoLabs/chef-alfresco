@@ -36,13 +36,16 @@ if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
   unless node['alfresco']['version'].start_with?("5.1")
     node.default['artifacts']['share']['artifactId']    = "share-enterprise"
-  else
-    node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
   end
 end
 
-if node['alfresco']['version'].start_with?("5.1") and node['alfresco']['version'].end_with?("EA")
+unless node['alfresco']['enable.web.xml.nossl.patch']
+  node.default['artifacts']['alfresco']['classifier'] = 'nossl'
+end
+
+if node['alfresco']['version'].start_with?("5.1")
   node.default['artifacts']['share-services']['enabled'] = true
+  node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end
 
 include_recipe "alfresco::package-repositories"
@@ -92,10 +95,6 @@ if node['alfresco']['components'].include? 'media'
   include_recipe 'alfresco::media-alfresco'
 end
 
-if node['alfresco']['components'].include? 'haproxy'
-  include_recipe 'alfresco::haproxy'
-end
-
 if node['alfresco']['components'].include? 'repo'
   apply_amps = true
   include_recipe "alfresco::repo"
@@ -108,6 +107,10 @@ end
 
 if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
+end
+
+if node['alfresco']['components'].include? 'haproxy'
+  include_recipe 'alfresco::haproxy'
 end
 
 if node['alfresco']['components'].include? 'tomcat'
@@ -139,8 +142,8 @@ if node['alfresco']['components'].include? 'rsyslog'
   include_recipe "rsyslog::default"
 end
 
-if node['haproxy']['enable.ec2.discovery']
-  include_recipe "alfresco::ec2-haproxy-peers"
+if node['alfresco']['components'].include? 'logstash-forwarder'
+  include_recipe "alfresco::logstash-forwarder"
 end
 
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped

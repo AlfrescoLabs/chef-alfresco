@@ -1,0 +1,17 @@
+default['alfresco']['shareproperties']['hz_group_password'] = "pwd"
+default['alfresco']['shareproperties']['hz_network_port'] = 5802
+default['alfresco']['shareproperties']['hz_tcpip_enabled'] = false
+default['alfresco']['shareproperties']['hz_aws_enabled'] = false
+# default['alfresco']['shareproperties']['hz_aws_access_key'] = ""
+# default['alfresco']['shareproperties']['hz_aws_secret_key'] = ""
+default['alfresco']['shareproperties']['hz_aws_region'] = "us-east-1"
+# default['alfresco']['shareproperties']['hz_aws_sg_name'] = ""
+default['alfresco']['shareproperties']['hz_aws_tag_key'] = "Role"
+default['alfresco']['shareproperties']['hz_aws_tag_value'] = "share"
+default['alfresco']['shareproperties']['hz_multicast_enabled'] = false
+default['alfresco']['shareproperties']['hz_interfaces_enabled'] = false
+default['alfresco']['shareproperties']['hz_interfaces_list'] = []
+default['alfresco']['shareproperties']['hz_tcpip_enabled'] = false
+default['alfresco']['shareproperties']['hz_tcpip_list'] = []
+default['alfresco']['shareproperties']['hz_multicast_group'] = "224.2.2.5"
+default['alfresco']['shareproperties']['hz_multicast_port'] = "54327"

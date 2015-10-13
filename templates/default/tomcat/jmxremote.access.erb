@@ -10,7 +10,7 @@
 # both the password and the access files.
 #
 # The default location of this file is $JRE/lib/management/jmxremote.access
-# You can specify an alternate location by specifying a property in 
+# You can specify an alternate location by specifying a property in
 # the management config file $JRE/lib/management/management.properties
 # (See that file for details)
 #
@@ -70,11 +70,10 @@
 #
 #
 # Default access control entries:
-# o The "monitorRole" role has readonly access.  
+# o The "monitorRole" role has readonly access.
 # o The "controlRole" role has readwrite access and can create the standard
 #   Timer and Monitor MBeans defined by the JMX API.
 
-systemsMonitorRole   readonly
-systemsControlRole   readwrite \
-              create javax.management.monitor.*,javax.management.timer.* \
-              unregister
+<% node["alfresco"]["jmxremote_databag_items"].each do |jmxremote_databag_item| -%>
+  <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_role"] %>   <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_access"] %>
+<% end -%>
