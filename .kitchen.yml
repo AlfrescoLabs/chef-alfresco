@@ -28,7 +28,7 @@ suites:
         "proxy_host_header" : "$host:8800",
       },
       "logging" : {
-        "log4j.rootLogger" : "info, Console, File"
+        "log4j.rootLogger" : "info, File"
       },
       "alfresco" : {
         "properties" : {
@@ -87,6 +87,7 @@ suites:
         "trusted_certificate_enabled" : true
       },
       "alfresco" : {
+        "log.json.enabled" : true,
         "mailsmtp_databag" : "credentials",
         "mailsmtp_databag_item" : "outbound-email",
         "jmxremote_databag" : "credentials",

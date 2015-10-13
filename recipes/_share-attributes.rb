@@ -18,8 +18,8 @@ node.default['alfresco']['shareproperties']['alfresco.context'] = node['alfresco
 node.default['alfresco']['shareproperties']['alfresco.protocol'] = node['alfresco']['internal_protocol']
 node.default['alfresco']['shareproperties']['alfresco.port'] = node['alfresco']['internal_port']
 
-node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}.*"
-node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}"
+node.default['alfresco']['shareproperties']['referer'] = ".*"
+node.default['alfresco']['shareproperties']['origin'] = ".*"
 
 # if node['alfresco']['public_portssl'] != 443
 #   node.default['alfresco']['shareproperties']['referer'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}.*"

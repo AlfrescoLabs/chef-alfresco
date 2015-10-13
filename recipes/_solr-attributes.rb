@@ -22,10 +22,6 @@ node.default['alfresco']['workspace-solrproperties']['alfresco.port.ssl'] = node
 node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
 node.default['alfresco']['archive-solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
 node.default['alfresco']['archive-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
-node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
-
-# Log4j location
-node.default['alfresco']['solr-log4j']['log4j.appender.File.File'] = "#{node['tomcat']['log_dir']}/solr.log"
 
 # Solr WAR destination
 if node['tomcat']['run_base_instance']

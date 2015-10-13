@@ -6,13 +6,13 @@ node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = node['al
 node.default['artifacts']['alfresco']['enabled'] = true
 node.default['artifacts']['keystore']['enabled'] = true
 
-root_folder       = node['alfresco']['properties']['dir.root']
-shared_folder     = node['alfresco']['shared']
-config_folder     = node['tomcat']['config_dir']
-log_folder        = node['tomcat']['log_dir']
+root_folder = node['alfresco']['properties']['dir.root']
+shared_folder = node['alfresco']['shared']
+config_folder = node['tomcat']['config_dir']
+log_folder = node['tomcat']['log_dir']
 
-user              = node['alfresco']['user']
-group             = node['tomcat']['group']
+user = node['alfresco']['user']
+group = node['tomcat']['group']
 
 alfresco_license_source = node['alfresco']['license_source']
 alfresco_license_cookbook = node['alfresco']['license_cookbook']
@@ -28,20 +28,20 @@ if node['alfresco']['generate.repo.log4j.properties'] == true
 end
 
 directory "alfresco-rootdir" do
-  path        root_folder
-  owner       user
-  group       group
-  mode        "0775"
-  recursive   true
+  path root_folder
+  owner user
+  group group
+  mode "0775"
+  recursive true
 end
 
 #TODO - make it generic using File.dirName(repo_log4j_path)
 directory "alfresco-extension" do
-  path        "#{shared_folder}/classes/alfresco/extension"
-  owner       user
-  group       group
-  mode        "0775"
-  recursive   true
+  path "#{shared_folder}/classes/alfresco/extension"
+  owner user
+  group group
+  mode "0775"
+  recursive true
 end
 
 # Install license
@@ -63,24 +63,24 @@ file "#{shared_folder}/classes/alfresco/log4j.properties" do
 end
 
 file "alfresco-global-empty" do
-  path        "#{shared_folder}/classes/alfresco-global.properties"
-  content     ""
-  owner       user
-  group       group
-  mode        "0775"
-  only_if     { generate_alfresco_global == true }
+  path "#{shared_folder}/classes/alfresco-global.properties"
+  content ""
+  owner user
+  group group
+  mode "0775"
+  only_if { generate_alfresco_global == true }
 end
 
 file_replace_line "#{config_folder}/catalina.properties" do
-  replace     "shared.loader="
-  with        "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
-  only_if     { File.exist?("#{config_folder}/catalina.properties") }
+  replace "shared.loader="
+  with "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
+  only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
 
 directory "tomcat-logs-permissions" do
-  path        log_folder
-  owner       user
-  group       group
-  mode        "0775"
-  recursive   true
+  path log_folder
+  owner user
+  group group
+  mode "0775"
+  recursive true
 end

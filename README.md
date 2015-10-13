@@ -242,10 +242,7 @@ Generates repo-log4j.properties depending on attribute values:
 ```
 "alfresco": {
   "repo-log4j": {
-    "log4j.rootLogger"                                : "error, Console, File",
-    "log4j.appender.Console"                          : "org.apache.log4j.ConsoleAppender",
-    "log4j.appender.Console.layout"                   : "org.apache.log4j.PatternLayout",
-    "log4j.appender.Console.layout.ConversionPattern" : "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n",
+    "log4j.rootLogger"                                : "error, File",
     "log4j.appender.File"                             : "org.apache.log4j.DailyRollingFileAppender",
     "log4j.appender.File.Append"                      : "true",
     "log4j.appender.File.DatePattern"                 : "'.'yyyy-MM-dd",
