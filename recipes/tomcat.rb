@@ -1,8 +1,8 @@
 # TODO - Tomcat users should be created by tomcat_instance resource, not via recipe
 # include_recipe "tomcat::users"
 
-node.default['artifacts']['alfresco-mmt']['enabled']    = true
-node.default['artifacts']['sharedclasses']['enabled']   = true
+node.default['artifacts']['alfresco-mmt']['enabled'] = true
+node.default['artifacts']['sharedclasses']['enabled'] = true
 node.default['artifacts']['catalina-jmx']['enabled'] = true
 
 context_template_cookbook = node['tomcat']['context_template_cookbook']
