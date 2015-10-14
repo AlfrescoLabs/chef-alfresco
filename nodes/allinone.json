@@ -13,6 +13,17 @@
             }
         }
     },
+    "artifact-deployer" : {
+      "maven" : {
+        "repositories" : {
+          "private" : {
+            "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+            "username" : "@@ARTIFACT_REPO_USERNAME@@",
+            "password" : "@@ARTIFACT_REPO_PASSWORD@@",
+          }
+        }
+      }
+    },
     "alfresco" : {
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : true,
