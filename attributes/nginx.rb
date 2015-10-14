@@ -83,11 +83,11 @@ default['nginx']['config'] = [
   "    gzip_disable \"MSIE [1-6]\\.(?!.*SV1)\";",
   "    # Turn on gzip for all content types that should benefit from it.",
   "    gzip_types text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json;",
-  "server {"
-  "    listen          #{node['nginx']['port']};"
+  "server {",
+  "    listen          #{node['nginx']['port']};",
   "    server_name #{node['alfresco']['public_hostname']};",
-  "    return         301 https://$server_name$request_uri;"
-  "} "
+  "    return         301 https://$server_name$request_uri;",
+  "} ",
   "server {",
   "    listen  default_server;",
   "    listen #{node['nginx']['portssl']} ssl http2;",
