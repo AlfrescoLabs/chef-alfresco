@@ -29,7 +29,7 @@
         "log.json.enabled" : true,
         "version" : "5.0.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","aos"],
-        "restart_services" : ["tomcat-alfresco","tomcat-share"],
+        "restart_services" : ["tomcat-alfresco","tomcat-share","tomcat-solr"],
         "jmxremote_databag" : "@@JMXREMOTE_DATABAG@@",
         "jmxremote_databag_items" : ["systemsmonitor","systemscontrol"],
         "shareproperties" : {
