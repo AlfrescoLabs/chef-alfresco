@@ -64,7 +64,7 @@ default['alfresco']['patch.share.config.custom'] = false
 default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'alfresco'
 
-# Using Alfresco Nexus public by default
+# Using Alfresco Nexus public by default (in case databags aren't in place)
 default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 
 #Mysql defaults

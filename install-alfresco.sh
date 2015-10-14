@@ -7,6 +7,7 @@
 #
 # export SKIP_CHEF_RUN=true
 # export NODE_NAME=share
+# export COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/$CHEF_ALFRESCO_VERSION/chef-alfresco-$CHEF_ALFRESCO_VERSION.tar.gz
 # curl -L https://raw.githubusercontent.com/Alfresco/chef-alfresco/master/install-alfresco.sh --no-sessionid | bash -s
 
 # Allowed values
@@ -29,14 +30,21 @@ if [ -z "$COOKBOOKS_TARBALL_URL" ]; then
   COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/$CHEF_ALFRESCO_VERSION/chef-alfresco-$CHEF_ALFRESCO_VERSION.tar.gz
 fi
 
+# Install Chef - latest version
+curl https://www.opscode.com/chef/install.sh | sudo bash
+
 # Download chef-alfresco tar.gz into /tmp folder
-curl -L $COOKBOOKS_TARBALL_URL > /tmp/chef-alfresco.tar.gz
+curl -L $COOKBOOKS_TARBALL_URL > /tmp/cookbooks.tar.gz
 
 # Unpack it in /tmp
-tar xvzf /tmp/chef-alfresco.tar.gz -C /tmp/chef-alfresco
+rm -rf /etc/chef/cookbooks
+tar xvzf /tmp/cookbooks.tar.gz -C /etc/chef
 
-# Copy cookbooks into /etc/chef location
-cp -rf /tmp/chef-alfresco/cookbooks /etc/chef
+if [ -n "$DATABAGS_TARBALL_URL" ]; then
+  curl -L $DATABAGS_TARBALL_URL > /tmp/databags.tar.gz
+  rm -rf /etc/chef/data_bags
+  tar xvzf /tmp/databags.tar.gz -C /etc/chef
+fi
 
 # Download Chef JSON attribute
 curl -L $NODE_URL > /etc/chef/attributes.json
