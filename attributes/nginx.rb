@@ -19,7 +19,7 @@ default['nginx']['proxy_port'] = node['alfresco']['internal_port']
 # Overridden by kitchen to $host:8800
 default['nginx']['proxy_host_header'] = "$host"
 
-# Used to add ssl stapling or any other file related with nginx configuration
+# Used to add ssl or any other file related with nginx configuration
 default['nginx']['ssl_folder'] = "/etc/pki/tls/certs"
 default['nginx']['ssl_folder_source'] = "nginx_ssl"
 default['nginx']['ssl_folder_cookbook'] = "alfresco"
@@ -28,10 +28,6 @@ default['nginx']['ssl_certificate'] = "#{node['alfresco']['certs']['ssl_folder']
 default['nginx']['ssl_certificate_key'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.key"
 default['nginx']['dhparam_pem'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.dhparam"
 default['nginx']['trusted_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.chain"
-default['nginx']['ssl_stapling_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.staple"
-
-default['nginx']['stapling_enabled'] = false
-default['nginx']['ssl_stapling_entry'] = ""
 
 default['nginx']['ssl_trusted_certificate_entry'] = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
 default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
@@ -97,7 +93,8 @@ default['nginx']['config'] = [
   "    ssl_certificate_key #{node['nginx']['ssl_certificate_key']};",
   node['nginx']['ssl_trusted_certificate_entry'],
   "    # enable ocsp stapling - http://en.wikipedia.org/wiki/OCSP_stapling",
-  node['nginx']['ssl_stapling_entry'],
+  "    ssl_stapling on;",
+  "    ssl_stapling_verify on;",
   "    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;",
   "    ssl_prefer_server_ciphers on;",
   "    # Use Intermediate Cipher Compatability from https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28default.29 ",

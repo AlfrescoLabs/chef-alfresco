@@ -1,8 +1,3 @@
-# Enable SSL Stapling, if stapling is provided
-if node['nginx']['stapling_enabled']
-  node.default['nginx']['ssl_stapling_entry'] = "    ssl_stapling on; ssl_stapling_verify on; ssl_stapling_file #{node['nginx']['ssl_stapling_file']};"
-end
-
 ssl_folder = node['nginx']['ssl_folder']
 ssl_folder_source = node['nginx']['ssl_folder_source']
 ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
