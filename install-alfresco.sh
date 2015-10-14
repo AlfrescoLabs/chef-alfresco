@@ -1,5 +1,15 @@
  #!/bin/bash
 
+# This script will install chef-alfresco into your box, fetching all
+# artifacts needed from remote locations
+#
+# An example of how to use it in a Cloudformation template:
+#
+# export SKIP_CHEF_RUN=true
+# export NODE_NAME=share
+# curl -L https://raw.githubusercontent.com/Alfresco/chef-alfresco/master/install-alfresco.sh --no-sessionid | bash -s
+
+# Allowed values
 #NODE_NAME=share
 #NODE_NAME=solr
 if [ -z "$NODE_NAME" ]; then
