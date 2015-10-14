@@ -12,8 +12,13 @@
 # Allowed values
 #NODE_NAME=share
 #NODE_NAME=solr
+
 if [ -z "$NODE_NAME" ]; then
   NODE_NAME=allinone
+fi
+
+if [ -z "$CHEF_ALFRESCO_VERSION" ]; then
+  CHEF_ALFRESCO_VERSION="0.6.6"
 fi
 
 if [ -z "$NODE_URL" ]; then
@@ -21,7 +26,7 @@ if [ -z "$NODE_URL" ]; then
 fi
 
 if [ -z "$COOKBOOKS_TARBALL_URL" ]; then
-  COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/0.6.6/chef-alfresco-0.6.6.tar.gz
+  COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/$CHEF_ALFRESCO_VERSION/chef-alfresco-$CHEF_ALFRESCO_VERSION.tar.gz
 fi
 
 # Download chef-alfresco tar.gz into /tmp folder
