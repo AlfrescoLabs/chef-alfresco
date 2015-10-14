@@ -1,17 +1,17 @@
 default['logstash-forwarder']['items']['alfresco-repo-catalina']['paths'] = ['/var/log/tomcat-alfresco/catalina.out.*']
 default['logstash-forwarder']['items']['alfresco-repo-catalina']['type'] = 'catalina'
 default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log']
-default['logstash-forwarder']['items']['alfresco-repo']['type'] = 'java'
+default['logstash-forwarder']['items']['alfresco-repo']['type'] = 'json'
 
 default['logstash-forwarder']['items']['alfresco-share-catalina']['paths'] = ['/var/log/tomcat-share/catalina.out.*']
 default['logstash-forwarder']['items']['alfresco-share-catalina']['type'] = 'catalina'
 default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/var/log/tomcat-share/share.log']
-default['logstash-forwarder']['items']['alfresco-share']['type'] = 'java'
+default['logstash-forwarder']['items']['alfresco-share']['type'] = 'json'
 
 default['logstash-forwarder']['items']['alfresco-solr-catalina']['paths'] = ['/var/log/tomcat-solr/catalina.out.*']
 default['logstash-forwarder']['items']['alfresco-solr-catalina']['type'] = 'catalina'
 default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/var/log/tomcat-solr/solr.log']
-default['logstash-forwarder']['items']['alfresco-solr']['type'] = 'java'
+default['logstash-forwarder']['items']['alfresco-solr']['type'] = 'json'
 
 # Optional, to be enabled only if needed
 # default['logstash-forwarder']['items']['mysqld']['paths'] = ['/var/log/mysqld.log']
