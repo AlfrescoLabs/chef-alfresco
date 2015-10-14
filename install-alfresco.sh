@@ -1,6 +1,7 @@
+ #!/bin/bash
+
 #NODE_NAME=share
 #NODE_NAME=solr
-
 if [ -z "$NODE_NAME" ]; then
   NODE_NAME=allinone
 fi
@@ -25,9 +26,10 @@ cp -rf /tmp/chef-alfresco/cookbooks /etc/chef
 # Download Chef JSON attribute
 curl -L $NODE_URL > /etc/chef/attributes.json
 
-# TODO - Apply placeholding for @@values@@
-# ...
-
 # Run chef
-cd /etc/chef
-chef-client -z -j /etc/chef/attributes.json
+# It can be skipped, in case you need to replace some properties
+# in your chef attributes file
+if [ "$SKIP_CHEF_RUN" -ne "true" ]; then
+  cd /etc/chef
+  chef-client -z -j /etc/chef/attributes.json
+fi
