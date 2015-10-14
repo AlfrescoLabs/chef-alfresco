@@ -24,7 +24,7 @@ default['nginx']['ssl_folder'] = "/etc/pki/tls/certs"
 default['nginx']['ssl_folder_source'] = "nginx_ssl"
 default['nginx']['ssl_folder_cookbook'] = "alfresco"
 
-default['nginx']['ssl_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.crt"
+default['nginx']['ssl_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.nginxcrt"
 default['nginx']['ssl_certificate_key'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.key"
 default['nginx']['dhparam_pem'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.dhparam"
 default['nginx']['trusted_certificate'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.chain"
