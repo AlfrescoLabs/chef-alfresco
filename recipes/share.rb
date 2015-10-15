@@ -25,6 +25,9 @@ template "share-config-custom.xml" do
   source      "share-config-custom.xml.erb"
   owner       node['alfresco']['user']
   group       node['tomcat']['group']
+  # TODO
+  # cookbook
+  # source
   mode        "0664"
   #TODO - not working; for now, we run it all the time
   only_if     { node['alfresco']['generate.share.config.custom'] == true }

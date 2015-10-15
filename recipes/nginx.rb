@@ -31,3 +31,8 @@ include_recipe 'nginx::default'
 service_actions = node['nginx']['service_actions']
 r = resources(service: 'nginx')
 r.action(service_actions)
+
+# Needed by nginx::commons_conf
+service 'nginx' do
+  action :nothing
+end

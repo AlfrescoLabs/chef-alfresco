@@ -55,7 +55,7 @@ if append_property_map
   end
 end
 
-include_recipe 'nginx::commons_conf'
+include_recipe 'alfresco::nginx'
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
@@ -92,9 +92,4 @@ if restart_services
       action :nothing
     end
   end
-end
-
-# Needed by nginx::commons_conf
-service 'nginx' do
-  action :nothing
 end
