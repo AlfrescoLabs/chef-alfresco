@@ -87,7 +87,7 @@ suites:
         "trusted_certificate_enabled" : true
       },
       "alfresco" : {
-        "log.json.enabled" : true,
+        "log.json.enabled" : false,
         "mailsmtp_databag" : "credentials",
         "mailsmtp_databag_item" : "outbound-email",
         "jmxremote_databag" : "credentials",
