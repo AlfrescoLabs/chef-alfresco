@@ -74,6 +74,11 @@
 # o The "controlRole" role has readwrite access and can create the standard
 #   Timer and Monitor MBeans defined by the JMX API.
 
-<% node["alfresco"]["jmxremote_databag_items"].each do |jmxremote_databag_item| -%>
-  <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_role"] %>   <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_access"] %>
+<% if node["alfresco"]["jmxremote_databag_items"] -%>
+  <% node["alfresco"]["jmxremote_databag_items"].each do |jmxremote_databag_item| -%>
+    <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_role"] %>   <%= node["tomcat"]["jmxremote_#{jmxremote_databag_item}_access"] %>
+  <% end -%>
+<% else -%>
+  systemsMonitorRole  readOnly
+  systemsControlRole  readwrite create javax.management.monitor.*,javax.management.timer.* unregister
 <% end -%>
