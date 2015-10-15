@@ -55,6 +55,15 @@ if append_property_map
   end
 end
 
+# Patch nginx configurations, making sure the service runs
+node.set['nginx']['service_actions'] = [:enable,:start]
+include_recipe 'nginx::commons_conf'
+
+# Needed by nginx::commons_conf
+service 'nginx' do
+  action :nothing
+end
+
 include_recipe 'alfresco::nginx'
 
 # Update share-config-custom.xml
