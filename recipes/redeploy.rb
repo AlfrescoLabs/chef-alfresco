@@ -15,15 +15,6 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
-# DEPRECATED in favour of haproxy::default
-#
-# haproxy_cfg_source = node['haproxy']['cfg_source']
-# haproxy_cfg_cookbook = node['haproxy']['cfg_cookbook']
-# template '/etc/haproxy/haproxy.cfg' do
-#   source haproxy_cfg_source
-#   cookbook haproxy_cfg_cookbook
-#   notifies :restart, 'service[haproxy]'
-# end
 include_recipe 'haproxy::default'
 
 # Set haproxy.cfg custom template
@@ -64,15 +55,6 @@ if append_property_map
   end
 end
 
-# DEPRECATED in favour of nginx::commons_conf
-#
-# nginx_cfg_source = node['nginx']['cfg_source']
-# nginx_cfg_cookbook = node['nginx']['cfg_cookbook']
-# template '/etc/nginx/nginx.conf' do
-#   source nginx_cfg_source
-#   cookbook nginx_cfg_cookbook
-#   notifies :restart, 'service[nginx]'
-# end
 include_recipe 'nginx::commons_conf'
 
 # Update share-config-custom.xml
@@ -103,9 +85,12 @@ file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{host}\""
 end
 
-%w( tomcat tomcat-alfresco tomcat-share tomcat-solr ).each do |service_name|
-  service service_name do
-    action :nothing
+restart_services = node['alfresco']['restart_services']
+if restart_services
+  restart_services.each do |service_name|
+    service service_name do
+      action :nothing
+    end
   end
 end
 
