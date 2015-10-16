@@ -17,7 +17,7 @@
           "private" : {
             "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
             "username" : "@@ARTIFACT_REPO_USERNAME@@",
-            "password" : "@@ARTIFACT_REPO_PASSWORD@@",
+            "password" : "@@ARTIFACT_REPO_PASSWORD@@"
           }
         }
       }
