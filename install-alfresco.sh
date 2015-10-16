@@ -31,7 +31,7 @@ if [ -z "$COOKBOOKS_TARBALL_URL" ]; then
 fi
 
 # Install Chef - latest version
-curl https://www.opscode.com/chef/install.sh | sudo bash
+curl https://www.opscode.com/chef/install.sh | bash
 
 # Download chef-alfresco tar.gz into /tmp folder
 curl -L $COOKBOOKS_TARBALL_URL > /tmp/cookbooks.tar.gz
