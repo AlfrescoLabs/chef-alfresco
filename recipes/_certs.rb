@@ -24,6 +24,7 @@ rescue
   ssl_key_file = "#{ssl_folder}/#{ssl_fqdn}.key"
   ssl_crt_file = "#{ssl_folder}/#{ssl_fqdn}.crt"
   ssl_chain_file = "#{ssl_folder}/#{ssl_fqdn}.chain"
+  ssl_nginxcrt_file = "#{ssl_folder}/#{ssl_fqdn}.nginxcrt"
   ssl_dhparam_file = "#{ssl_folder}/#{ssl_fqdn}.dhparam"
 
   execute "create-fake-ssl-keypair" do
@@ -34,9 +35,12 @@ rescue
     command "cat #{ssl_key_file} #{ssl_crt_file} > #{ssl_chain_file}"
     not_if "test -f #{ssl_chain_file}"
   end
+  execute "create-nginxcrt-file" do
+    command "cat #{ssl_key_file} #{ssl_crt_file} > #{ssl_nginxcrt_file}"
+    not_if "test -f #{ssl_nginxcrt_file}"
+  end
   execute "create-dhparam-file" do
     command "openssl dhparam -out #{ssl_dhparam_file} 4096"
     not_if "test -f #{ssl_dhparam_file}"
   end
-
 end
