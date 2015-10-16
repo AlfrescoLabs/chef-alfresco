@@ -53,6 +53,6 @@ fi
 # It can be skipped, in case you need to replace some properties
 # in your chef attributes file
 #if [ "$SKIP_CHEF_RUN" -ne "true" ]; then
-  cd /etc/chef
-  chef-client -z -j /etc/chef/attributes.json
+#  cd /etc/chef
+#  chef-client -z -j /etc/chef/attributes.json
 #fi
