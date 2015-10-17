@@ -27,6 +27,9 @@ apply_amps = false
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
 
+# Install/configure awscli, as it's used by haproxy ec2 discovery
+include_recipe "artifact-deployer::awscli"
+
 # [old implementation]
 # Change artifactIds for alfresco and share WARs, if
 # we're using an Enterprise version (ends with a digit)
