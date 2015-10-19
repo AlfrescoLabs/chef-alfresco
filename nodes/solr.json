@@ -17,6 +17,7 @@
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : false,
         "version" : "5.0.2",
+        "skip_certificate_creation" : true,
         "components" : ["haproxy","tomcat","repo","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
         "shareproperties" : {
