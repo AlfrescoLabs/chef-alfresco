@@ -4,4 +4,5 @@ MAILTO=""
 */<%= node['tomcat']['cleaner.minutes.interval'] %> * * * * root find <%= @tomcat_cache_path %> -mmin +<%= node['tomcat']['cleaner.minutes.interval'] %> -type f -exec rm -rf {} \;
 
 # Clean rotated logs
-20 0 * * * root find <%= @tomcat_log_path %> -mtime -1 -type f -exec rm {} \;
+# TODO - logrotate should do this
+# 20 0 * * * root find <%= @tomcat_log_path %> -mtime -1 -type f -exec rm {} \;

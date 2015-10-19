@@ -12,6 +12,15 @@ peers_file_path = node['haproxy']['ec2']['peers_file_path']
 role_tag_name = node['haproxy']['ec2']['role_tag_name']
 aws_bin = node['haproxy']['ec2']['aws_bin']
 
+#TODO - use aws cookbook
+# aws_resource_tag node['ec2']['instance_id'] do
+#   aws_access_key aws['aws_access_key_id']
+#   aws_secret_access_key aws['aws_secret_access_key']
+#   tags({"Name" => "www.example.com app server",
+#         "Environment" => node.chef_environment})
+#   action :update
+# end
+
 # Query AWS instances and set node attributes for haproxy service discovery configuration
 if query_tags
   query_tag_filter = ""
