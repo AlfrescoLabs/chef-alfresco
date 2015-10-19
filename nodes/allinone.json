@@ -23,6 +23,7 @@
       }
     },
     "alfresco" : {
+        "skip_certificate_creation" : true,
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : false,
         "version" : "5.0.2",
