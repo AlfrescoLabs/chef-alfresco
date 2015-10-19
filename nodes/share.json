@@ -15,12 +15,11 @@
     },
     "alfresco" : {
         "public_hostname" : "@@FQDN@@",
-        "log.json.enabled" : true,
+        "log.json.enabled" : false,
         "version" : "5.0.2",
+        "skip_certificate_creation" : true,
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
-        "jmxremote_databag" : "@@JMXREMOTE_DATABAG@@",
-        "jmxremote_databag_items" : ["systemsmonitor","systemscontrol"],
         "shareproperties" : {
           "hz_aws_enabled" : true
         },
