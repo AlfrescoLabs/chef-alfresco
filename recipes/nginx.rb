@@ -2,6 +2,11 @@ ssl_folder = node['nginx']['ssl_folder']
 ssl_folder_source = node['nginx']['ssl_folder_source']
 ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
 
+# Override config values, if ssl is disabled
+if node['alfresco']['skip_certificate_creation']
+  node.set['nginx']['config'] = node['nginx']['nossl_config']
+end
+
 # Delete Centos default configuration
 # Replaced by /etc/nginx/sites-enabled/*
 file "/etc/nginx/conf.d/default.conf" do
