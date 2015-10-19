@@ -38,6 +38,8 @@ default['alfresco']['edition'] = "community"
 default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
 
+default['alfresco']['skip_certificate_creation'] = false
+
 # Use log4j json as output
 default['alfresco']['log.json.enabled'] = false
 
