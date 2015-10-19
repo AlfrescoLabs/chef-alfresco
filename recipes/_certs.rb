@@ -35,7 +35,7 @@ rescue
   # TODO - .chain and .nginx are the same; use only .chain
   # TODO - ssh_trust_file should be created and concatenated to .chain file
   execute "create-chain-file" do
-    command "cat #{ssl_crt_file} #{ssl_key_file} > #{ssl_chain_file}"
+    command " echo '\n' >> #{ssl_crt_file}; cat #{ssl_crt_file} #{ssl_key_file} > #{ssl_chain_file}"
     not_if "test -f #{ssl_chain_file}"
   end
   execute "create-nginxcrt-file" do
