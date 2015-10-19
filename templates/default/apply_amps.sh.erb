@@ -24,7 +24,7 @@ if [ -f $TOMCAT_BIN/setenv.sh ]; then
 fi
 
 #echo "Shutting down tomcat . . ."
-#sudo service tomcat7 stop
+#service tomcat7 stop
 #sleep 2
 #if [ "x$CATALINA_PID" != "x" ]; then
 #   kill -0 $CATALINA_PID 2>/dev/null
@@ -47,4 +47,4 @@ rm -rf $CATALINA_BASE/temp/*
 rm -rf $CATALINA_BASE/work/*
 
 #echo "Starting Tomcat again . . ."
-#sudo service tomcat7 start
+#service tomcat7 start
