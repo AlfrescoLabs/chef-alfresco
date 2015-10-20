@@ -45,7 +45,7 @@ begin
   node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
   node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
   node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
-  node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.1-27"
+  node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.0.2"
   node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
   node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
   node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
