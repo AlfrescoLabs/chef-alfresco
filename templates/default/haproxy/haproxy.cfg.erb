@@ -17,14 +17,11 @@ frontend <%= frontendName %>
       <% end -%>
     <% end -%>
 
-    # Generic ACLs - only applies to http frontend (a bit hacky, I know)
-    <% if node['haproxy']['acls'] and frontendName == 'http' -%>
-      <% node['haproxy']['acls'].each do |acl| -%>
-acl <%= acl %>
-      <% end -%>
+# Default Backend
+default_backend <%= node['haproxy']['default_backend'] %>
     <% end -%>
 
-    # Backend ACLs
+# Backend ACLs
     <% if frontend['acls'] -%>
       <% frontend['acls'].each do |backendName,acls| -%>
         <% if acls -%>
@@ -37,19 +34,25 @@ acl is_<%= backendName %> <%= acl %>
   <% end -%>
 <% end -%>
 
+# Generic ACLs - only applies to http frontend (a bit hacky, I know)
+    <% if node['haproxy']['acls'] and frontendName == 'http' -%>
+      <% node['haproxy']['acls'].each do |acl| -%>
+acl <%= acl %>
+      <% end -%>
+
 # Other Configurations
-<% if node['haproxy']['other_config'] -%>
-  <% node['haproxy']['other_config'].each do |other_config| -%>
+      <% if node['haproxy']['other_config'] -%>
+        <% node['haproxy']['other_config'].each do |other_config| -%>
 <%= other_config %>
-  <% end -%>
-<% end -%>
+        <% end -%>
+      <% end -%>
 
 # Redirects
-<% if node['haproxy']['redirects'] -%>
-  <% node['haproxy']['redirects'].each do |redirect| -%>
+      <% if node['haproxy']['redirects'] -%>
+        <% node['haproxy']['redirects'].each do |redirect| -%>
 <%= redirect %>
-  <% end -%>
-<% end -%>
+        <% end -%>
+      <% end -%>
 
 # Use backends
 <% if node['haproxy']['backends'] -%>
@@ -60,8 +63,6 @@ use_backend <%= backendName %> if is_<%= backendName %>
   <% end -%>
 <% end -%>
 
-# Default Backend
-default_backend <%= node['haproxy']['default_backend'] %>
 
 # Backends list
 

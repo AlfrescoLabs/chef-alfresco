@@ -68,7 +68,7 @@ include_recipe 'nginx::commons_conf'
 
 # Needed by nginx::commons_conf
 service 'nginx' do
-  action :nothing
+  action node['nginx']['service_actions']
 end
 
 # Update share-config-custom.xml
