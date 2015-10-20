@@ -1,4 +1,5 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
+# Also the yamllint gem is useful if you don't like to leave your console!
 ---
 
 driver_plugin: vagrant
