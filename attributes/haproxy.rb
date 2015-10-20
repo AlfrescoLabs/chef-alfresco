@@ -23,7 +23,7 @@ default['haproxy']['redirects'] = [
   "redirect location /share/ if is_root"
 ]
 
-default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['ssl_fqdn']}.chain"
+default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 default['haproxy']['general_config'] = [
   "global",

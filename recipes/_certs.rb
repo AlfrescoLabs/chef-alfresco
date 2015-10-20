@@ -1,3 +1,4 @@
+filename = node['alfresco']['certs']['filename']
 ssl_fqdn = node['alfresco']['certs']['ssl_fqdn']
 ssl_folder = node['alfresco']['certs']['ssl_folder']
 ssl_databag = node['alfresco']['certs']['ssl_databag']
@@ -12,7 +13,7 @@ begin
   ssl = data_bag_item(ssl_databag,ssl_databag_item)
   ssl.each do |ssl_item_name,ssl_item_value|
     unless ssl_item_name == "id"
-      ssl_file = "#{ssl_folder}/#{ssl_fqdn}.#{ssl_item_name}"
+      ssl_file = "#{ssl_folder}/#{filename}.#{ssl_item_name}"
       file ssl_file do
         action :create
         content ssl_item_value
@@ -21,11 +22,11 @@ begin
     end
   end
 rescue
-  ssl_key_file = "#{ssl_folder}/#{ssl_fqdn}.key"
-  ssl_crt_file = "#{ssl_folder}/#{ssl_fqdn}.crt"
-  ssl_chain_file = "#{ssl_folder}/#{ssl_fqdn}.chain"
-  ssl_nginxcrt_file = "#{ssl_folder}/#{ssl_fqdn}.nginxcrt"
-  ssl_dhparam_file = "#{ssl_folder}/#{ssl_fqdn}.dhparam"
+  ssl_key_file = "#{ssl_folder}/#{filename}.key"
+  ssl_crt_file = "#{ssl_folder}/#{filename}.crt"
+  ssl_chain_file = "#{ssl_folder}/#{filename}.chain"
+  ssl_nginxcrt_file = "#{ssl_folder}/#{filename}.nginxcrt"
+  ssl_dhparam_file = "#{ssl_folder}/#{filename}.dhparam"
 
   unless node['alfresco']['skip_certificate_creation']
     execute "create-fake-ssl-keypair" do
