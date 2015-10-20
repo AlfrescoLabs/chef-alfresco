@@ -17,22 +17,22 @@ frontend <%= frontendName %>
       <% end -%>
     <% end -%>
 
-  <% end -%>
-<% end -%>
-
-# Backend ACLs
-<% node['haproxy']['backends'].each do |backendName,backend| -%>
-  <% if backend['acls'] -%>
-    <% backend['acls'].each do |acl| -%>
-acl is_<%= backendName %> <%= acl %>
-    <% end -%>
-  <% end -%>
-<% end -%>
-
-# Other ACLs
-<% if node['haproxy']['acls'] -%>
-  <% node['haproxy']['acls'].each do |acl| -%>
+    # Generic ACLs - only applies to http frontend (a bit hacky, I know)
+    <% if node['haproxy']['acls'] and frontendName == 'http' -%>
+      <% node['haproxy']['acls'].each do |acl| -%>
 acl <%= acl %>
+      <% end -%>
+    <% end -%>
+
+    # Backend ACLs
+    <% frontend['acls'].each do |backendName,acls| -%>
+      <% if acls -%>
+        <% acls.each do |acl| -%>
+acl is_<%= backendName %> <%= acl %>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+
   <% end -%>
 <% end -%>
 
