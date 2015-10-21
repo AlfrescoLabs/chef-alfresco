@@ -27,13 +27,13 @@ node.default['tomcat']['global_templates'] = [{
 }]
 
 # Setting JAVA_OPTS
+alfresco_components = node['alfresco']['components']
 if node['tomcat']['run_base_instance']
   node.default['alfresco']['restart_services'] = ['tomcat']
   if alfresco_components.include? 'solr'
     node.default["tomcat"]["java_options"] = "#{node["tomcat"]["java_options"]} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}"
   end
 else
-  alfresco_components = node['alfresco']['components']
   if alfresco_components.include? "repo"
     node.default['alfresco']['repo_tomcat_instance']['java_options'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']} -Dalfresco.home=#{node['alfresco']['home']}-alfresco -Djava.rmi.server.hostname=#{node['alfresco']['public_hostname']}"
     node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
