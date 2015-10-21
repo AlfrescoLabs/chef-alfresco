@@ -30,6 +30,8 @@ default['alfresco']['public_port'] = "80"
 default['alfresco']['public_portssl'] = "443"
 default['alfresco']['public_protocol'] = "https"
 
+default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
+
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.1.b-EA"
