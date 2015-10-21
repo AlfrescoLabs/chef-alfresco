@@ -27,10 +27,9 @@ kitchen converge chef-alfresco
 It takes roughly 40 minutes for a full default configuration.
 
 #### Access
-The only fully functional HTTPS endpoint is by default [https://localhost:8443](https://localhost:8443)
+The only fully functional HTTPS endpoint is by default [http://localhost:8800](https://localhost:8800)
 
 You can also access internal and no-SSL ports, for debugging purposes
-- [http://localhost:8800/share](http://localhost:8800/share) (nginx no-SSL)
 - [http://localhost:9000](http://localhost:9000) (haproxy)
 - [http://localhost:9000](http://localhost:9443) (haproxy no-SSL)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
