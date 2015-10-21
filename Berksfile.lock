@@ -112,7 +112,7 @@ GRAPH
     ohai (~> 2.0)
     runit (~> 1.2)
     yum-epel (~> 0.3)
-  ohai (2.0.1)
+  ohai (2.0.3)
   openssl (4.0.0)
     chef-sugar (>= 0.0.0)
   packagecloud (0.1.0)
