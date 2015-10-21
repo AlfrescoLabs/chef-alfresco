@@ -36,9 +36,7 @@ default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_p
 
 # default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
 
-default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" '",
-  "                      '$status $body_bytes_sent \"$http_referer\" '",
-  "                      '\"$http_user_agent\" \"$http_x_forwarded_for\"';"
+default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\"';"
 
 default['nginx']['logging_json_enabled'] = false
 
