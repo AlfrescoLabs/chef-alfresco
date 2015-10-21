@@ -83,10 +83,12 @@ suites:
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
       "nginx" : {
-        "proxy_host_header" : "$host:8443",
-        "trusted_certificate_enabled" : true
+        "proxy_host_header" : "$host:8800",
+        "use_nossl_config" : true
       },
       "alfresco" : {
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
         "log.json.enabled" : false,
         "mailsmtp_databag" : "credentials",
         "mailsmtp_databag_item" : "outbound-email",

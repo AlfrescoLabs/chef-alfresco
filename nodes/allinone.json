@@ -22,9 +22,14 @@
         }
       }
     },
+    "nginx" : {
+      "proxy_host_header" : "$host:8800",
+      "use_nossl_config" : true
+    },
     "alfresco" : {
         "skip_certificate_creation" : true,
         "public_hostname" : "@@FQDN@@",
+        "public_protocol" : "http",
         "log.json.enabled" : false,
         "version" : "5.0.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","aos"],

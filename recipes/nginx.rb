@@ -3,7 +3,7 @@ ssl_folder_source = node['nginx']['ssl_folder_source']
 ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
 
 # Override config values, if ssl is disabled
-if node['alfresco']['skip_certificate_creation']
+if node['nginx']['use_nossl_config']
   node.set['nginx']['config'] = node['nginx']['nossl_config']
 end
 
