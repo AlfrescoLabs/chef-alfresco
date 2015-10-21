@@ -28,6 +28,7 @@
     },
     "alfresco" : {
         "skip_certificate_creation" : true,
+        "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
         "public_protocol" : "http",
         "log.json.enabled" : false,
