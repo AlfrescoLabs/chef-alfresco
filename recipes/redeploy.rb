@@ -15,6 +15,9 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
+# Handle certs creation
+include_recipe "alfresco::_certs"
+
 # include_recipe 'haproxy::default'
 
 # Set haproxy.cfg custom template
