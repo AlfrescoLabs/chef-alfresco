@@ -1,3 +1,5 @@
+# ~FC014: the ruby_block MUST be decomposed, but its not a prio now
+
 # This recipe aims to help discovery process in EC2; it runs AWS commandline
 # with 2 objectives:
 # 1. Discovers other machines, depending on their tags and delivers a list
@@ -43,16 +45,11 @@ if query_tags
           private_ip = awsnode['PrivateIpAddress']
           status = awsnode['State']['Name']
           id = awsnode['InstanceId']
-          Chef::Log.warn("DEBUG 1: #{status}")
           if status == "running"
-            Chef::Log.warn("DEBUG 2: #{role_tag_name}")
             awsnode['Tags'].each do |tag|
-              Chef::Log.warn("DEBUG 3: #{tag['Key']}")
               if tag['Key'] == role_tag_name
                 role = tag['Value']
-                Chef::Log.warn("DEBUG 4: #{role},#{id},#{private_ip}")
                 node.default['haproxy']['backends'][role]['nodes'][id] = private_ip
-                Chef::Log.warn("DEBUG 5: #{node['haproxy']['backends'][role]}")
               end
             end
           end
