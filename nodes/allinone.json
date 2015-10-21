@@ -33,6 +33,7 @@
           "hz_aws_enabled" : true
         },
         "properties" : {
+            "dir.license.external" : "/opt/alflicense",
             "s3.accessKey" : "@@AWS_ACCESS_KEY@@",
             "s3.secretKey" : "@@AWS_SECRET_KEY@@",
             "hz_aws_access_key" : "@@AWS_ACCESS_KEY@@",
