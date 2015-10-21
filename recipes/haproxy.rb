@@ -5,7 +5,7 @@ include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
 
 # Sets ec2 tags (must be before haproxy.cfg configuration)
-include_recipe 'alfresco::haproxy-ec2-discovery'
+include_recipe 'alfresco::haproxy-ec2-discovery' # ~FC014
 
 include_recipe 'haproxy::default'
 

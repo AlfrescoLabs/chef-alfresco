@@ -48,7 +48,7 @@ GRAPH
   ark (0.9.0)
     7-zip (>= 0.0.0)
     windows (>= 0.0.0)
-  artifact-deployer (0.8.15)
+  artifact-deployer (0.8.16)
     apt (>= 2.3.10)
     ark (>= 0.9.0)
     file (>= 0.0.0)

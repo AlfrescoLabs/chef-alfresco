@@ -1,5 +1,3 @@
-# ~FC014: the ruby_block MUST be decomposed, but its not a prio now
-
 # This recipe aims to help discovery process in EC2; it runs AWS commandline
 # with 2 objectives:
 # 1. Discovers other machines, depending on their tags and delivers a list
