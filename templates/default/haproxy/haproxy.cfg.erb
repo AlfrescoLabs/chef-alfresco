@@ -64,18 +64,19 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 <% if node['haproxy']['backends'] -%>
   <% node['haproxy']['backends'].each do |backendName,backend| -%>
+    <% if node['haproxy']['enabled_backends'].include? backendName -%>
 # <%= backendName %> backend
 backend <%= backendName %>
-    <% if backend['entries'] -%>
-      <% backend['entries'].each do |entry| -%>
+      <% if backend['entries'] -%>
+        <% backend['entries'].each do |entry| -%>
 <%= entry %>
+        <% end -%>
       <% end -%>
-    <% end -%>
-    <% if backend['nodes'] -%>
-      <% backend['nodes'].each do |nodeHost,nodeIp| -%>
+      <% if backend['nodes'] -%>
+        <% backend['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
+        <% end -%>
       <% end -%>
     <% end -%>
-
   <% end -%>
 <% end -%>

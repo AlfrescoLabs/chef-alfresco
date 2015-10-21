@@ -1,3 +1,5 @@
+default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
+
 # Force rsyslog to use UDP on localhost
 default['rsyslog']['protocol'] = "udp"
 default['rsyslog']['bind'] = "127.0.0.1"
