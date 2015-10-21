@@ -64,7 +64,7 @@ GRAPH
   cpu (0.2.0)
   database (4.0.9)
     postgresql (>= 1.0.0)
-  dmg (2.2.2)
+  dmg (2.3.0)
   ffmpeg (0.4.4)
     build-essential (>= 0.0.0)
     git (>= 0.0.0)
