@@ -31,6 +31,7 @@
         "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
         "public_protocol" : "http",
+        "public_portssl" : "80",
         "log.json.enabled" : false,
         "version" : "5.0.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","aos"],
