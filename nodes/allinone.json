@@ -33,6 +33,7 @@
         "public_protocol" : "http",
         "log.json.enabled" : false,
         "version" : "5.0.2",
+        "edition" : "enterprise",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","aos"],
         "restart_services" : ["tomcat-alfresco","tomcat-share","tomcat-solr"],
         "shareproperties" : {

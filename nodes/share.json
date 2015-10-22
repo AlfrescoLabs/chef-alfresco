@@ -14,9 +14,12 @@
         }
     },
     "alfresco" : {
+        "skip_certificate_creation" : true,
+        "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : false,
         "version" : "5.0.2",
+        "edition" : "enterprise",
         "skip_certificate_creation" : true,
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
