@@ -12,8 +12,8 @@ DEPENDENCIES
     tag: v1.2.0-fork
   tomcat
     git: https://github.com/maoo/tomcat.git
-    revision: 3e1533ab8fa1926dad22ddc336542f3caa25768b
-    tag: v0.17.3-fork4
+    revision: 7556920f5ce447c48393443344c13ebd2954df0e
+    tag: v0.17.3-fork6
 
 GRAPH
   7-zip (1.0.2)
