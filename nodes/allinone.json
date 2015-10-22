@@ -23,7 +23,6 @@
       }
     },
     "nginx" : {
-      "proxy_host_header" : "$host:8800",
       "use_nossl_config" : true
     },
     "alfresco" : {
@@ -31,6 +30,7 @@
         "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
         "public_protocol" : "http",
+        "public_portssl" : "80",
         "log.json.enabled" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
