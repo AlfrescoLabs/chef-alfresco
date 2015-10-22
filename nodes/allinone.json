@@ -23,7 +23,6 @@
       }
     },
     "nginx" : {
-      "proxy_host_header" : "$host:8800",
       "use_nossl_config" : true
     },
     "alfresco" : {
