@@ -91,7 +91,7 @@ default['alfresco']['share_tomcat_instance']['jmx_port'] = 40010
 default['alfresco']['share_tomcat_instance']['xmx_ratio'] = 0.28
 share_memory = "#{(node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{share_memory}"
-default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-share/gc.log -Dlogfilename=/var/log/tomcat-share/alfresco.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-share/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-share/"
+default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-share/gc.log -Dlogfilename=/var/log/tomcat-share/share.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-share/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-share/"
 
 default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
@@ -99,4 +99,4 @@ default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40020
 default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
-default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-solr/gc.log -Dlogfilename=/var/log/tomcat-solr/alfresco.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-solr/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-solr/"
+default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-solr/gc.log -Dlogfilename=/var/log/tomcat-solr/solr.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-solr/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-solr/"
