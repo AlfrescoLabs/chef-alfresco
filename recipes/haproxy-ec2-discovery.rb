@@ -34,6 +34,8 @@ if query_tags
     # creates peers_file_path
   end
 
+  # TODO - refactor with:
+  # aws ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output text --filters Name=tag:Status,Values=complete
   ruby_block "handling-#{peers_file_path}" do
     block do
       file = File.read(peers_file_path)

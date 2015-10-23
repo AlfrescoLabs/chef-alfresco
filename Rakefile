@@ -16,6 +16,11 @@ task :foodcritic do
   sh "bundle exec foodcritic -f any ."
 end
 
+desc "Runs rubocop checks"
+task :rubocop do
+  sh "bundle exec rubocop --fail-level warn"
+end
+
 desc "Package Berkshelf distro"
 task :dist do
   sh "rm -rf Berksfile.lock cookbooks-*.tar.gz; bundle exec berks package; rm -f cookbooks-*.tar.gz"
@@ -26,4 +31,4 @@ end
 # Cannot disable such rule via code
 #
 # task :default => [:foodcritic, :knife, :dist]
-task :default => [:knife, :dist]
+task :default => [:foodcritic, :rubocop, :knife, :dist]
