@@ -33,11 +33,15 @@ CATALINA_TMPDIR="<%= @tmp_dir %>"
 # chef-alfresco adds logic to parse java_options as a dictionary
 # CLASS! <%= @java_options.class.name %>
 <% if @java_options.class.name.include? 'Mash' -%>
+  <% final_java_opts = '' -%>
   <% @java_options.each do |opts_name,opts_value| -%>
 # <%= opts_name %> configuration
-JAVA_OPTS="${JAVA_OPTS} <%= opts_value %>"
+# JAVA_OPTS="${JAVA_OPTS} <%= opts_value %>"
+    <% final_java_opts = "#{final_java_opts} #{opts_value}" -%>
 
   <% end -%>
+# Final JAVA_OPTS
+JAVA_OPTS="<%= final_java_opts %>"
 <% else -%>
 JAVA_OPTS="<%= @java_options %>"
 <% end -%>
