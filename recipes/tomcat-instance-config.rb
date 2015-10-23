@@ -14,7 +14,7 @@ if global_templates
   end
 end
 
-node['tomcat']['instances'].each do |tomcat_instance_name,tomcat_instance|
+node['tomcat']['instances'].each do |tomcat_instance_name,_|
   instance_templates = node['tomcat']['instance_templates']
 
   instance_templates.each do |instance_template|

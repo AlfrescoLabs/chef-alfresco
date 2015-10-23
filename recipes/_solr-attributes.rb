@@ -27,6 +27,6 @@ node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfr
 # Solr WAR destination
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['solr4']['destination'] = node['tomcat']['webapp_dir']
-elsif
+else
   node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}-solr/webapps"
 end

@@ -2,7 +2,6 @@ yourkit_package_path = node['yourkit']['package_path']
 yourkit_package_url = node['yourkit']['package_url']
 yourkit_install_parent_path = node['yourkit']['install_parent_path']
 yourkit_install_path = node['yourkit']['install_path']
-yourkit_session_name = node['yourkit']['session_name']
 
 remote_file yourkit_package_path do
   source yourkit_package_url
