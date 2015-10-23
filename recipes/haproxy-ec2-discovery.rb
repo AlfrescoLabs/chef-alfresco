@@ -1,5 +1,3 @@
-# ~FC014
-
 # This recipe aims to help discovery process in EC2; it runs AWS commandline
 # with 2 objectives:
 # 1. Discovers other machines, depending on their tags and delivers a list
@@ -36,7 +34,6 @@ if query_tags
     # creates peers_file_path
   end
 
-  # ~FC014
   ruby_block "handling-#{peers_file_path}" do
     block do
       file = File.read(peers_file_path)
