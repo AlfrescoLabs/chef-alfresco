@@ -37,21 +37,21 @@ else
   if alfresco_components.include? "repo"
     node.default["alfresco"]["repo_tomcat_instance"]['java_options']['rmi_and_alfhome'] = "-Dalfresco.home=#{node['alfresco']['home']}-alfresco -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-alfresco,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo"
+      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-alfresco,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=/usr/share/tomcat-alfresco/temp"
     end
     node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
   end
   if alfresco_components.include? 'share'
     node.default["alfresco"]["share_tomcat_instance"]['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-share,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share"
+      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-share,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=/usr/share/tomcat-share/temp"
     end
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
   if alfresco_components.include? 'solr'
     node.default["alfresco"]["solr_tomcat_instance"]['java_options']['rmi_and_solr'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}  -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-solr,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr"
+      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=/var/cache/tomcat-solr,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr,tmpdir=/usr/share/tomcat-solr/temp"
     end
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
