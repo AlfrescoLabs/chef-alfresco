@@ -67,7 +67,8 @@ default['tomcat']['instance_templates'] = [{
 default['tomcat']['java_options_hash']['generic_memory'] = "-XX:MaxPermSize=512m -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=128m"
 default['tomcat']['java_options_hash']['gc'] = "-XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC -Xloggc:/var/log/tomcat-alfresco/gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
 default['tomcat']['java_options_hash']['network'] = "-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dsun.security.ssl.allowUnsafeRenegotiation=true"
-default['tomcat']['java_options_hash']['jmx'] = "-Dhazelcast.jmx=true -Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/etc/tomcat/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/etc/tomcat/jmxremote.password"
+# -Dhazelcast.jmx=true causes alfresco.war to take 10 minutes to start
+default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/etc/tomcat/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/etc/tomcat/jmxremote.password"
 default['tomcat']['java_options_hash']['logging'] = "-Dlogfilename=/var/log/tomcat-alfresco/alfresco.log -Dlog4j.configuration=alfresco/log4j.properties -Dhazelcast.logging.type=log4j -XX:ErrorFile=/var/log/tomcat-alfresco/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-alfresco/"
 default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib64 -Djava.awt.headless=true"
 
