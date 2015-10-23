@@ -1,7 +1,7 @@
 global_templates = node['tomcat']['global_templates']
 if global_templates
   global_templates.each do |global_template|
-    irectory global_template['dest'] do
+    directory global_template['dest'] do
       action :create
       recursive true
     end
