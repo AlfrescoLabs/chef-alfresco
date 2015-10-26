@@ -116,22 +116,22 @@ default['alfresco']['generate.share.config.custom'] = true
 # key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
-# Alfresco version; you can use Enterprise versions, ie. '5.0.1'
-default['alfresco']['version'] = "5.0.d"
+# Alfresco version; you can use Enterprise versions, ie. '5.0.2' and edition (to "enterprise")
+default['alfresco']['version'] = "5.1-b-EA"
+default['alfresco']['edition'] = "community"
+# default['alfresco']['version'] = "5.0.2"
+# default['alfresco']['edition'] = "enterprise"
 ```
 
 Using Alfresco Enterprise
 ---
-As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to configure access to Alfresco private repository using your customer credentials (same login as https://artifacts.alfresco.com); create file `test/integration/data_bags/maven_repos/private.json`:
+In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables before running kitchen commands:
+```
+export NEXUS_USERNAME=myuser
+export NEXUS_PASSWORD=mypwd
+```
 
-```
-{
-  "id":"private",
-  "url": "https://artifacts.alfresco.com/nexus/content/groups/private",
-  "username":"<customer_username>",
-  "password":"<customer_password>"
-}
-```
+Alternatively, you can use databags, check [other.json.example](test/integration/data_bags/maven_repos/other.json.example)
 
 Using custom Maven repository
 ---
