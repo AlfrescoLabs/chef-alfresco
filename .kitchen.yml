@@ -45,8 +45,8 @@ suites:
             "repositories" : {
               "private" : {
                 "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
-                "username" : ENV['NEXUS_USERNAME'],
-                "password" : ENV['NEXUS_PASSWORD']
+                "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+                "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
               }
             }
           }
