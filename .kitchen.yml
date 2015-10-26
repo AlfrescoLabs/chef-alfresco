@@ -38,16 +38,16 @@ suites:
         "certs" : {
           "ssl_databag" : "ssl",
           "ssl_databag_item" : "local"
-        },
-        "artifact-deployer" : {
-          "maven" : {
-            "timeout" : 1500,
-            "repositories" : {
-              "private" : {
-                "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
-                "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-                "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-              }
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }
           }
         }
