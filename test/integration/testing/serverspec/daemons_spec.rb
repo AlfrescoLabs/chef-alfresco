@@ -9,16 +9,18 @@ require 'spec_helper'
 # Check Share transformation via webscripts
 # Check JMX
 # Check CMIS write/read
+# Check Nginx endpoint with certificate (generate certs for alfresco.test domain)
 
 # TODO CI
 #
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
-set :backend, :exec
-
 services = ['tomcat-alfresco','tomcat-share','tomcat-solr','haproxy','nginx']
 yumrepos = ['epel','nginx','rpmforge','rpmforge-extras','atrpms']
-alfresco_host = "chef-alfresco-testing.alfresco.test"
+
+# TODO - should be the FQDN, but still need to configure /etc/hosts to get this to work
+# alfresco_host = "chef-alfresco-testing.alfresco.test"
+alfresco_host = "localhost"
 
 yumrepos.each do |yumrepo|
   describe yumrepo(yumrepo) do
@@ -26,18 +28,20 @@ yumrepos.each do |yumrepo|
   end
 end
 
-describe host(alfresco_host) do
-  it { should be_resolvable.by('hosts') }
-end
+# TODO - this logic should be provided by another cookbook
+#
+# describe host(alfresco_host) do
+#   it { should be_resolvable.by('hosts') }
+# end
 
 describe "Alfresco daemons" do
   let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
   let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
   let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
   let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9000" }
-  let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
-  let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "https://#{alfresco_host}" }
-  let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "https://admin:admin@#{alfresco_host}" }
+  let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://localhost" }
+  let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
+  let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
   services.each do |service|
     it "has a running #{service} service" do
@@ -69,7 +73,7 @@ describe "Alfresco daemons" do
   end
 
   it 'Has an HTTP redirect' do
-    expect(httpNginxConnection.get('/').status).to eq 301
+    expect(httpNginxConnection.get('/').status).to eq 302
   end
 
   it 'Has an Enterprise license installed' do
