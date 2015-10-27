@@ -1,0 +1,15 @@
+{
+    "name": "haproxy-discovery",
+    "haproxy" : {
+        "ec2" : {
+            "query_tags" : {
+                "stack-instance-id" : "@@STACK_NAME@@"
+            },
+            "box_tags" : {
+                "haproxy-role" : "@@ROLE@@",
+                "stack-instance-id" : "@@STACK_NAME@@"
+            }
+        }
+    },
+    "run_list": ["alfresco::haproxy-ec2-discovery"]
+}
