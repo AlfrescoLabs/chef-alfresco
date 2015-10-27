@@ -19,7 +19,7 @@ default['haproxy']['bind_ip'] = "127.0.0.1"
 default['haproxy']['default_backend'] = "share"
 default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
-default['haproxy']['stats_pwd'] = "0DV6hUwx49Noc7J4O4dk2WuY"
+default['haproxy']['stats_pwd'] = "changeme"
 
 
 default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
