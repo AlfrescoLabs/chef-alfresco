@@ -17,6 +17,10 @@ default['haproxy']['conf_template_source'] = 'haproxy/haproxy.cfg.erb'
 
 default['haproxy']['bind_ip'] = "127.0.0.1"
 default['haproxy']['default_backend'] = "share"
+default['haproxy']['stats_port'] = "1936"
+default['haproxy']['stats_auth'] = "admin"
+default['haproxy']['stats_pwd'] = "changeme"
+
 
 default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
 
@@ -28,6 +32,7 @@ default['haproxy']['redirects'] = [
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 default['haproxy']['general_config'] = [
+  "# -- global settings section --",
   "global",
   "tune.ssl.default-dh-param 2048",
   # Logging should be handled with logstash-forwarder
@@ -36,6 +41,7 @@ default['haproxy']['general_config'] = [
   "stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin",
   "user haproxy",
   "group haproxy",
+  "# -- defaults settings section --",
   "defaults",
   "mode http",
   "log global",
@@ -74,6 +80,17 @@ default['haproxy']['frontends']['http']['entries'] = [
   "capture request header Accept-Language len 64"
 ]
 
+default['haproxy']['frontends']['stats']['entries'] = [
+  "bind #{node['haproxy']['bind_ip']}:#{node['haproxy']['stats_port']}",
+  "http-request set-log-level silent",
+  "stats enable",
+  "stats hide-version",
+  "stats realm Haproxy\ Statistics",
+  "stats uri /",
+  "stats auth #{node['haproxy']['stats_auth']}:#{node['haproxy']['stats_pwd']}",
+  "stats refresh   2s",
+]
+
 # Share Haproxy configuration
 # Note: the haproxy backend items are configured on each sub recipe: repo.rb, share.rb and solr.rb
 default['haproxy']['share_stats_auth'] = "admin:password"
@@ -81,12 +98,6 @@ default['haproxy']['frontends']['http']['acls']['share']= ['path_beg /share']
 default['haproxy']['backends']['share']['entries'] = [
   "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
   "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
-  "# Enable the cool stats page only on share backend",
-  "stats enable",
-  "stats hide-version",
-  "stats auth #{node['haproxy']['share_stats_auth']}",
-  "stats uri       /monitor",
-  "stats refresh   2s",
   "acl secured_cookie res.hdr(Set-Cookie),lower -m sub secure",
   "rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie",
   "rspdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
