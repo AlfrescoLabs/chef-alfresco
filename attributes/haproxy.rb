@@ -86,7 +86,7 @@ default['haproxy']['frontends']['stats']['entries'] = [
   "stats enable",
   "stats hide-version",
   "stats realm Haproxy\ Statistics",
-  "stats uri /"",
+  "stats uri /",
   "stats auth #{node['haproxy']['stats_auth']}:#{node['haproxy']['stats_pwd']}",
   "stats refresh   2s",
 ]
