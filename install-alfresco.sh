@@ -19,7 +19,7 @@
 #fi
 
 if [ -z "$CHEF_ALFRESCO_VERSION" ]; then
-  CHEF_ALFRESCO_VERSION="0.6.6"
+  CHEF_ALFRESCO_VERSION="0.6.7"
 fi
 
 #if [ -z "$NODE_URL" ]; then
@@ -27,9 +27,9 @@ fi
 #fi
 
 if [ -z "$COOKBOOKS_TARBALL_URL" ]; then
+  COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/$CHEF_ALFRESCO_VERSION/chef-alfresco-$CHEF_ALFRESCO_VERSION.tar.gz
   # temporary fix to get always snapshot version
-  # COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/releases/content/org/alfresco/devops/chef-alfresco/$CHEF_ALFRESCO_VERSION/chef-alfresco-$CHEF_ALFRESCO_VERSION.tar.gz
-  COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/snapshots/content/org/alfresco/devops/chef-alfresco/0.6.8-SNAPSHOT/chef-alfresco-0.6.8-20151027.170814-11.tar.gz
+  # COOKBOOKS_TARBALL_URL=https://artifacts.alfresco.com/nexus/service/local/repositories/snapshots/content/org/alfresco/devops/chef-alfresco/0.6.8-SNAPSHOT/chef-alfresco-0.6.8-20151027.170814-11.tar.gz
 fi
 
 # Install Chef - latest version
