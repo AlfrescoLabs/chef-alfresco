@@ -1,18 +1,5 @@
 {
     "name": "localhost",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                "stack-instance-id" : "@@STACK_NAME@@",
-                "Status" : "complete"
-            },
-            "box_tags" : {
-                "haproxy-role" : "share",
-                "stack-instance-id" : "@@STACK_NAME@@",
-                "Status" : "complete"
-            }
-        }
-    },
     "alfresco" : {
         "skip_certificate_creation" : true,
         "rmi_server_hostname" : "localhost",
