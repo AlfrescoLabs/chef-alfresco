@@ -1,16 +1,5 @@
 {
     "name": "localhost",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                "stack-instance-id" : "@@STACK_NAME@@"
-            },
-            "box_tags" : {
-                "haproxy-role" : "allinone",
-                "stack-instance-id" : "@@STACK_NAME@@"
-            }
-        }
-    },
     "artifact-deployer" : {
       "maven" : {
         "repositories" : {
