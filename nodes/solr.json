@@ -8,7 +8,7 @@
         "version" : "5.0.2",
         "edition" : "enterprise",
         "skip_certificate_creation" : true,
-        "components" : ["haproxy","tomcat","repo","solr"],
+        "components" : ["tomcat","repo","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
         "shareproperties" : {
           "hz_aws_enabled" : true
