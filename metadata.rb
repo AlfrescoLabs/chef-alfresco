@@ -21,6 +21,7 @@ depends "haproxy", ">= 1.6.6"
 depends "imagemagick", ">= 0.2.3"
 depends "java", ">= 1.31.0"
 depends "libreoffice", ">= 0.0.2"
+depends 'line', '>= 0.6.2'
 depends "logstash-forwarder", '>= 0.1.1'
 depends "mysql", ">= 6.0.21"
 depends 'mysql2_chef_gem', ">= 1.0.1"

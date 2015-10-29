@@ -1,5 +1,7 @@
 haproxy_cfg_source = node['haproxy']['conf_template_source']
 haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
+enable_rsyslog_server = node['haproxy']['enable_rsyslog_server']
+rsyslog_bind = node['haproxy']['rsyslog_bind']
 
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
@@ -25,8 +27,37 @@ template "/etc/rsyslog.d/haproxy.conf" do
   source "rsyslog/haproxy.conf.erb"
 end
 
-include_recipe 'rsyslog::server'
+# TODO - this block can be contributed to a lib cookbook, somewhere
+# Make sure Rsyslog is configured to receive Haproxy logs
+if enable_rsyslog_server and File.exist?('/etc/rsyslog.conf')
+  lines_to_append = [
+    ["$ModLoad imudp",nil],
+    ["$UDPServerAddress #{rsyslog_bind}","$UDPServerAddress"],
+    ["$UDPServerRun 514","$UDPServerRun"]
+  ]
+
+  lines_to_append.each do |line|
+    new_line = line[0]
+    line_match = line[1]
+
+    if line_match == nil
+      line_match = new_line
+    end
+    replace_or_add "rsyslog-conf-#{line}" do
+      path "/etc/rsyslog.conf"
+      pattern line_match
+      line new_line
+      notifies :restart, 'service[rsyslog]', :delayed
+    end
+  end
+
+  service 'rsyslog' do
+    action :nothing
+  end
+end
+
+# include_recipe 'rsyslog::server'
 
 # Disable default server configuration, we just need haproxy
-r = resources(template: "#{node['rsyslog']['config_prefix']}/rsyslog.d/35-server-per-host.conf")
-r.action(:nothing)
+# r = resources(template: "#{node['rsyslog']['config_prefix']}/rsyslog.d/35-server-per-host.conf")
+# r.action(:nothing)

@@ -1,9 +1,8 @@
 default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
 
 # Force rsyslog to use UDP on localhost
-default['rsyslog']['protocol'] = "udp"
-default['rsyslog']['bind'] = "127.0.0.1"
-default['rsyslog']['default_facility_logs'] = []
+default['haproxy']['enable_rsyslog_server'] = true
+default['haproxy']['rsyslog_bind'] = "127.0.0.1"
 
 # HAproxy cookbook attributes
 default['haproxy']['enable_ssl'] = false
@@ -41,6 +40,8 @@ default['haproxy']['general_config'] = [
   "stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin",
   "user haproxy",
   "group haproxy",
+  "tune.ssl.maxrecord 1419",
+  "spread-checks 5",
   "# -- defaults settings section --",
   "defaults",
   "mode http",
@@ -55,6 +56,7 @@ default['haproxy']['general_config'] = [
   "#optimisations",
   "option tcp-smart-accept",
   "option tcp-smart-connect",
+  "option contstats",
   "# Timeouts",
   "timeout http-request 10s",
   "timeout queue 1m",
@@ -63,6 +65,7 @@ default['haproxy']['general_config'] = [
   "timeout server 2m",
   "timeout http-keep-alive 10s",
   "timeout check 5s",
+  "timeout tarpit 60s",
   "compression algo gzip",
   "compression type text/html text/html;charset=utf-8 text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/atom+xml;type=entry application/atom+xml;type=feed application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json",
 ]
@@ -104,7 +107,28 @@ default['haproxy']['backends']['share']['entries'] = [
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "option httpchk GET /share",
   "balance leastconn",
-  "cookie JSESSIONID prefix"
+  "cookie JSESSIONID prefix",
+  "tcp-request inspect-delay 5s",
+  "capture request header X-Forwarded-For len 64",
+  "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
+  "acl HAS_JSESSIONID hdr_sub(cookie) JSESSIONID",
+  "tcp-request content track-sc0 hdr_ip(X-Forwarded-For,-1) if HTTP HAS_X_FORWARDED_FOR !HAS_JSESSIONID",
+  "http-request tarpit if { src_conn_cur ge 5 }",
+  "connections in 5 seconds",
+  "http-request tarpit if { src_conn_rate ge 20 }",
+  "http-request tarpit if { sc0_http_err_rate() gt 5 }",
+  "http-request tarpit if { sc0_http_req_rate() gt 20 }",
+  "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
+  "acl FORBIDDEN_HDR hdr_cnt(content-length) gt 1",
+  "acl FORBIDDEN_HDR hdr_val(content-length) lt 0",
+  "acl FORBIDDEN_HDR hdr_cnt(proxy-authorization) gt 0",
+  "acl FORBIDDEN_HDR hdr_cnt(x-xsrf-token) gt 1",
+  "acl FORBIDDEN_HDR hdr_len(x-xsrf-token) gt 36",
+  "acl FORBIDDEN_HDR hdr_cnt(X-Forwarded-For) gt 3",
+  "http-request tarpit if FORBIDDEN_HDR",
+  "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
+  "http-request tarpit if WEIRD_RANGE_HEADERS",
+  "rspadd Strict-Transport-Security:\ max-age=15768000"
 ]
 
 default['haproxy']['backends']['share']['port'] = 8081
