@@ -1,5 +1,7 @@
  #!/bin/bash
 
+# This is specific for cloudformation
+# 
 # This script will install chef-alfresco into your box, fetching all
 # artifacts needed from remote locations
 #
