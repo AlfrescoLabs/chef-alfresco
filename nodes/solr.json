@@ -16,9 +16,10 @@
         "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : false,
+        "install_fonts" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
-        "components" : ["tomcat","repo","solr"],
+        "components" : ["tomcat","repo","transform","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "properties" : {
             "dir.license.external" : "/opt/alflicense",
