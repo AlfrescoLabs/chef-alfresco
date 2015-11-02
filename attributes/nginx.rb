@@ -15,6 +15,7 @@ default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
 default['nginx']['port'] = node['alfresco']['public_port']
 default['nginx']['portssl'] = node['alfresco']['public_portssl']
+default['nginx']['status_port'] = 2100
 
 default['nginx']['proxy_port'] = node['alfresco']['internal_port']
 
@@ -36,7 +37,7 @@ default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_p
 
 # default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
 
-default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\"';"
+default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\" \"$gzip_ratio\"';"
 
 default['nginx']['logging_json_enabled'] = false
 
@@ -88,6 +89,16 @@ default['nginx']['config'] = [
   "    # Turn on gzip for all content types that should benefit from it.",
   "    gzip_types text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json;",
   "server {",
+  "   listen          #{node['nginx']['status_port']};",
+  "   location /nginx_status {",
+  "      stub_status on;",
+  "      access_log   off;",
+  "        # Allow IP addresses",
+  "        #{node['nginx']['status_url_ip_allows']}",
+  "      deny all;",
+  "   }",
+  "}",
+  "server {",
   "    listen          #{node['nginx']['port']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    return         301 https://$server_name$request_uri;",
@@ -113,13 +124,6 @@ default['nginx']['config'] = [
   "    ssl_session_timeout 10m;",
   "    ssl_buffer_size 1400;",
   "    ssl_session_tickets off;",
-  "    location /nginx_status {",
-  "        stub_status on;",
-  "        access_log   off;",
-  "        # Allow IP addresses",
-  "        #{node['nginx']['status_url_ip_allows']}",
-  "        deny all;",
-  "    }",
   "    location ^~ /errors/ {",
   "        internal;",
   "        root #{node['alfresco']['errorpages']['error_folder']};",
@@ -190,15 +194,18 @@ default['nginx']['nossl_config'] = [
   "    # Turn on gzip for all content types that should benefit from it.",
   "    gzip_types text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json;",
   "server {",
-  "    listen          #{node['nginx']['port']};",
-  "    server_name #{node['alfresco']['public_hostname']};",
-  "    location /nginx_status {",
-  "        stub_status on;",
-  "        access_log   off;",
+  "   listen          #{node['nginx']['status_port']};",
+  "   location /nginx_status {",
+  "      stub_status on;",
+  "      access_log   off;",
   "        # Allow IP addresses",
   "        #{node['nginx']['status_url_ip_allows']}",
-  "        deny all;",
-  "    }",
+  "      deny all;",
+  "   }",
+  "}",
+  "server {",
+  "    listen          #{node['nginx']['port']};",
+  "    server_name #{node['alfresco']['public_hostname']};",
   "    location ^~ /errors/ {",
   "        internal;",
   "        root #{node['alfresco']['errorpages']['error_folder']};",
