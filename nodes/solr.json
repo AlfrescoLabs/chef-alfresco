@@ -1,17 +1,15 @@
 {
-    "name": "localhost",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                "stack-instance-id" : "@@STACK_NAME@@",
-                "Status" : "complete"
-            },
-            "box_tags" : {
-                "haproxy-role" : "solr",
-                "stack-instance-id" : "@@STACK_NAME@@",
-                "Status" : "complete"
-            }
+    "name": "solr",
+    "artifact-deployer" : {
+      "maven" : {
+        "repositories" : {
+          "private" : {
+            "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+            "username" : "@@ARTIFACT_REPO_USERNAME@@",
+            "password" : "@@ARTIFACT_REPO_PASSWORD@@"
+          }
         }
+      }
     },
     "alfresco" : {
         "skip_certificate_creation" : true,
@@ -20,18 +18,12 @@
         "log.json.enabled" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
-        "skip_certificate_creation" : true,
-        "components" : ["haproxy","tomcat","repo","solr"],
-        "restart_services" : ["tomcat-alfresco","tomcat-share"],
-        "shareproperties" : {
-          "hz_aws_enabled" : true
-        },
+        "components" : ["tomcat","repo","solr"],
+        "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "properties" : {
             "dir.license.external" : "/opt/alflicense",
             "s3.accessKey" : "@@AWS_ACCESS_KEY@@",
             "s3.secretKey" : "@@AWS_SECRET_KEY@@",
-            "hz_aws_access_key" : "@@AWS_ACCESS_KEY@@",
-            "hz_aws_secret_key" : "@@AWS_SECRET_KEY@@",
             "db.host" : "@@DB_HOST@@",
             "db.dbname" : "@@DB_NAME@@",
             "db.username" : "@@DB_USERNAME@@",
@@ -39,17 +31,9 @@
             "db.prefix" : "mysql",
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
-            "s3.bucketRegion" : "@@AWS_REGION@@",
-            "s3service.s3-endpoint" : "s3.@@AWS_REGION@@.amazonaws.com",
-            "hz_aws_enabled" : true,
-            "hz_aws_sg_name" : "@@AWS_SG_NAME@@",
-            "hz_aws_tag_key" : "haproxy-role",
-            "hz_aws_tag_value" : "share"
+            "s3.bucketRegion" : "@@AWS_REGION@@"
         },
         "repo_tomcat_instance" : {
-            "xmx_ratio" : 0.5
-        },
-        "share_tomcat_instance" : {
             "xmx_ratio" : 0.5
         },
         "solr_tomcat_instance" : {
