@@ -34,7 +34,7 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.1.b-EA"
+default['alfresco']['version'] = "5.1.c-EA"
 default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
