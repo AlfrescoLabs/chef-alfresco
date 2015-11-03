@@ -80,7 +80,29 @@ default['haproxy']['frontends']['http']['entries'] = [
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 256",
   "capture request header Cookie len 64",
-  "capture request header Accept-Language len 64"
+  "capture request header Accept-Language len 64",
+  "capture request header X-Forwarded-For len 64",
+  "#---- ddos protection -----"
+  "tcp-request inspect-delay 5s",
+  "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
+  "acl HAS_JSESSIONID hdr_sub(cookie) JSESSIONID",
+  "tcp-request content track-sc0 hdr_ip(X-Forwarded-For,-1) if HTTP HAS_X_FORWARDED_FOR !HAS_JSESSIONID",
+  "http-request tarpit if { src_conn_cur ge 5 }",
+  "http-request tarpit if { src_conn_rate ge 20 }",
+  "http-request tarpit if { sc0_http_err_rate() gt 5 }",
+  "http-request tarpit if { sc0_http_req_rate() gt 20 }",
+  "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
+  "acl FORBIDDEN_HDR hdr_cnt(content-length) gt 1",
+  "acl FORBIDDEN_HDR hdr_val(content-length) lt 0",
+  "acl FORBIDDEN_HDR hdr_cnt(proxy-authorization) gt 0",
+  "acl FORBIDDEN_HDR hdr_cnt(x-xsrf-token) gt 1",
+  "acl FORBIDDEN_HDR hdr_len(x-xsrf-token) gt 36",
+  "acl FORBIDDEN_HDR hdr_cnt(X-Forwarded-For) gt 3",
+  "http-request tarpit if FORBIDDEN_HDR",
+  "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
+  "http-request tarpit if WEIRD_RANGE_HEADERS",
+  "#---- end ddos protection -----",
+  "rspadd Strict-Transport-Security:\ max-age=15768000"
 ]
 
 default['haproxy']['frontends']['stats']['entries'] = [
@@ -107,28 +129,7 @@ default['haproxy']['backends']['share']['entries'] = [
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "option httpchk GET /share",
   "balance leastconn",
-  "cookie JSESSIONID prefix",
-  "tcp-request inspect-delay 5s",
-  "capture request header X-Forwarded-For len 64",
-  "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
-  "acl HAS_JSESSIONID hdr_sub(cookie) JSESSIONID",
-  "tcp-request content track-sc0 hdr_ip(X-Forwarded-For,-1) if HTTP HAS_X_FORWARDED_FOR !HAS_JSESSIONID",
-  "http-request tarpit if { src_conn_cur ge 5 }",
-  "connections in 5 seconds",
-  "http-request tarpit if { src_conn_rate ge 20 }",
-  "http-request tarpit if { sc0_http_err_rate() gt 5 }",
-  "http-request tarpit if { sc0_http_req_rate() gt 20 }",
-  "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
-  "acl FORBIDDEN_HDR hdr_cnt(content-length) gt 1",
-  "acl FORBIDDEN_HDR hdr_val(content-length) lt 0",
-  "acl FORBIDDEN_HDR hdr_cnt(proxy-authorization) gt 0",
-  "acl FORBIDDEN_HDR hdr_cnt(x-xsrf-token) gt 1",
-  "acl FORBIDDEN_HDR hdr_len(x-xsrf-token) gt 36",
-  "acl FORBIDDEN_HDR hdr_cnt(X-Forwarded-For) gt 3",
-  "http-request tarpit if FORBIDDEN_HDR",
-  "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
-  "http-request tarpit if WEIRD_RANGE_HEADERS",
-  "rspadd Strict-Transport-Security:\ max-age=15768000"
+  "cookie JSESSIONID prefix"
 ]
 
 default['haproxy']['backends']['share']['port'] = 8081
