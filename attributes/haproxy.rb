@@ -82,7 +82,7 @@ default['haproxy']['frontends']['http']['entries'] = [
   "capture request header Cookie len 64",
   "capture request header Accept-Language len 64",
   "capture request header X-Forwarded-For len 64",
-  "#---- ddos protection -----"
+  "#---- ddos protection -----",
   "tcp-request inspect-delay 5s",
   "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
   "acl HAS_JSESSIONID hdr_sub(cookie) JSESSIONID",
