@@ -59,5 +59,11 @@
     "tomcat" : {
         "cleaner.minutes.interval" : 1
     },
+    "haproxy" : {
+      "ec2" : {
+        "stack_name" : "@@STACK_NAME@@",
+        "install_haproxy_discovery" : true
+      }
+    },
     "run_list": ["alfresco::default"]
 }
