@@ -74,6 +74,7 @@ suites:
       "alfresco" : {
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
+        "public_portssl" : "80",
         "log.json.enabled" : false,
         "mailsmtp_databag" : "credentials",
         "mailsmtp_databag_item" : "outbound-email",
