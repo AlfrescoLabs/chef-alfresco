@@ -2,3 +2,9 @@
 driver:
   name: docker
   privileged: true
+
+platforms:
+- name: centos
+  driver_config:
+    image: centos
+    platform: rhel
