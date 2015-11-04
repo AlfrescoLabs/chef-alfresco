@@ -114,7 +114,7 @@ default['haproxy']['frontends']['http']['entries'] = [
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
   "#---- end ddos protection -----",
-  "http-response set-header Strict-Transport-Security max-age=15768000;\ includeSubDomains;\ preload;",
+  "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;",
 ]
 
 default['haproxy']['frontends']['stats']['entries'] = [
