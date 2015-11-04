@@ -24,12 +24,12 @@ task :dist do
   sh "rm -rf Berksfile.lock cookbooks-*.tar.gz; bundle exec berks package; rm -f cookbooks-*.tar.gz"
 end
 
-desc 'Run integration tests with kitchen-vagrant'
-task :vagrant do
-  require 'kitchen'
-  Kitchen.logger = Kitchen.default_file_logger
-  Kitchen::Config.new.instances.each { |instance| instance.test(:always) }
-end
+# desc 'Run integration tests with kitchen-vagrant'
+# task :vagrant do
+#   require 'kitchen'
+#   Kitchen.logger = Kitchen.default_file_logger
+#   Kitchen::Config.new.instances.each { |instance| instance.test(:always) }
+# end
 
 desc 'Run integration tests with kitchen-docker'
 task :docker, [:instance] do |_t, args|
