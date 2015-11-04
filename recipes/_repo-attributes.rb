@@ -43,12 +43,6 @@ hz_share_databag_item = node['alfresco']['hz_share_databag_item']
 begin
   db_item = data_bag_item(s3_databag,s3_databag_item)
   node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
-  node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
-  node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
-  node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.0.2"
-  node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
-  node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
-  node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
   node.default['alfresco']['properties']['s3.accessKey'] = db_item['aws_access_key_id']
   node.default['alfresco']['properties']['s3.secretKey'] = db_item['aws_secret_access_key']
 rescue
