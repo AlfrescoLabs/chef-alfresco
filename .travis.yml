@@ -5,8 +5,7 @@ services: docker
 
 env:
   matrix:
-  - INSTANCE=default-ubuntu-1404
-  - INSTANCE=default-centos-66
+  - INSTANCE=testing
 
 before_install: curl -L https://www.getchef.com/chef/install.sh | sudo bash -s -- -P chefdk -v 0.9.0
 install: chef exec bundle install --jobs=3 --retry=3 --without='vagrant'
