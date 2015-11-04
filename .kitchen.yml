@@ -72,6 +72,8 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
+        "version" : "5.0.2",
+        "edition" : "enterprise",
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
         "public_portssl" : "80",

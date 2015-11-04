@@ -9,7 +9,7 @@ include_recipe 'alfresco::_errorpages'
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery
-  template '/etc/crond.d/haproxy-discovery.cron' do
+  template '/etc/cron.d/haproxy-discovery.cron' do
     source 'haproxy/haproxy-discovery.cron.erb'
   end
   template '/etc/chef/haproxy-discovery.json' do
