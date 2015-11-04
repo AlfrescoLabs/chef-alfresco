@@ -42,5 +42,5 @@ task :docker, [:instance] do |_t, args|
   instances.get(args.instance).verify
 end
 
-task :ci => [:foodcritic, :rubocop, :knife, :dist, :docker]
+task :ci => [:foodcritic, :knife, :dist, :docker]
 task :default => [:foodcritic, :rubocop, :knife, :dist]
