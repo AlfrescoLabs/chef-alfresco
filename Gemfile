@@ -6,10 +6,8 @@ gem 'foodcritic'
 gem 'minitest'
 gem 'rake'
 gem 'rubocop'
-gem 'berkshelf'
 gem 'chefspec'
 
-gem 'rake'
 gem 'berkshelf', '~> 4.0' # Comes with ChefDK 0.9.0
 
 group :docker do
