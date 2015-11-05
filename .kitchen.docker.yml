@@ -17,10 +17,8 @@ suites:
     attributes: {
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-testing",
+      "install_fonts": false,
       "alfresco" : {
-        "version" : "5.0.2",
-        "edition" : "enterprise",
-        # TODO - should disable only dhparam
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
         "log.json.enabled" : false,
