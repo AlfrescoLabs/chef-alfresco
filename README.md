@@ -22,7 +22,7 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge chef-alfresco
+kitchen converge community
 ```
 It takes roughly 40 minutes for a full default configuration.
 
@@ -125,10 +125,11 @@ default['alfresco']['edition'] = "community"
 
 Using Alfresco Enterprise
 ---
-In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables before running kitchen commands:
+In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables and kitchen command:
 ```
 export NEXUS_USERNAME=myuser
 export NEXUS_PASSWORD=mypwd
+kitchen converge enterprise
 ```
 
 Alternatively, you can use databags, check [other.json.example](test/integration/data_bags/maven_repos/other.json.example)
