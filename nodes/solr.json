@@ -48,5 +48,10 @@
     "tomcat" : {
         "cleaner.minutes.interval" : 1
     },
+    "artifacts" : {
+        "alfresco-s3-connector" : {
+            "enabled" : true
+        }
+    },
     "run_list": ["alfresco::default"]
 }

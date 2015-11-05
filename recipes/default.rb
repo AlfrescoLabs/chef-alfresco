@@ -42,7 +42,8 @@ if node['alfresco']['edition'] == 'enterprise'
   end
 end
 
-unless node['alfresco']['enable.web.xml.nossl.patch']
+#Chef::Log.warn("this is my condition2 #{node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['edition'] == 'enterprise'}")
+unless node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['classifier'] = 'nossl'
 end
 
