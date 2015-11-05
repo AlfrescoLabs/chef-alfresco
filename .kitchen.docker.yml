@@ -3,6 +3,7 @@ driver:
   name: docker
   privileged: true
 
+platforms:
 - name: centos-70
   driver_config:
     image: milcom/centos7-systemd
