@@ -33,7 +33,6 @@
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
             "s3.bucketRegion" : "@@AWS_REGION@@",
-            "s3service.s3-endpoint" : "s3.@@AWS_REGION@@.amazonaws.com",
             "solr.port" : "8090"
         },
         "repo_tomcat_instance" : {
