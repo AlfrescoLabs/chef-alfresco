@@ -24,7 +24,7 @@ Local test (run)
 ```
 kitchen converge community
 ```
-It takes roughly 40 minutes for a full default configuration.
+It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
 The only fully functional HTTP endpoint is by default [http://localhost:8800](https://localhost:8800)
