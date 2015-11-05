@@ -42,7 +42,7 @@ if node['alfresco']['edition'] == 'enterprise'
   end
 end
 
-unless node['alfresco']['enable.web.xml.nossl.patch']
+unless node['alfresco']['enable.web.xml.nossl.patch'] and node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['classifier'] = 'nossl'
 end
 
