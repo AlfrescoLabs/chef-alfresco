@@ -19,7 +19,9 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 # default["alfresco"]["mailsmtp_databag"] = "credentials"
 # default["alfresco"]["mailsmtp_databag_item"] = "outbound-email"
 
-# New ones
+# TODO - use this attribute for nossl and related attributes across chef-alfresco
+default['alfresco']['ssl_enabled'] = true
+
 default['alfresco']['internal_hostname'] = "127.0.0.1"
 default['alfresco']['internal_port'] = "9000"
 default['alfresco']['internal_portssl'] = "9443"

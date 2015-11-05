@@ -91,7 +91,9 @@
         <% if node["tomcat"]["maxHttpHeaderSize"] -%>
         maxHttpHeaderSize="<%= node["tomcat"]["maxHttpHeaderSize"] %>"
         <% end -%>
+        <% if node["alfresco"]["ssl_enabled"] -%>
         secure="true"
+        <% end -%>
       />
     <% end -%>
 

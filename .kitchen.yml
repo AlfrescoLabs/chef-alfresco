@@ -30,6 +30,7 @@ suites:
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-testing",
       "alfresco" : {
+        "ssl_enabled" : false,
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
@@ -68,6 +69,7 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
+        "ssl_enabled" : false,
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
         "public_portssl" : "80",
@@ -102,6 +104,7 @@ suites:
       "alfresco" : {
         "version" : "5.0.2",
         "edition" : "enterprise",
+        "ssl_enabled" : false,
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
         "public_portssl" : "80",
