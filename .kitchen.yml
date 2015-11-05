@@ -29,8 +29,9 @@ suites:
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-testing",
       "alfresco" : {
-        "version" : "5.0.2",
-        "edition" : "enterprise",
+        # Using community for CI testing
+        # "version" : "5.0.2",
+        # "edition" : "enterprise",
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
