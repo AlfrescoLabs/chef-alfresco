@@ -34,22 +34,37 @@ if query_tags
     # creates peers_file_path
   end
 
+  # Fetching current availability_zone
+  availability_zone_command = "wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone"
+
+  execute "set-ec2-availability-zone" do
+    command "#{availability_zone_command} > /etc/chef/availability-zone"
+  end
+
   # TODO - refactor with:
   # aws ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output text --filters Name=tag:Status,Values=complete
   ruby_block "handling-#{peers_file_path}" do
     block do
       file = File.read(peers_file_path)
+      current_availability_zone = File.read('/etc/chef/availability-zone')
       peers_hash = JSON.parse(file)
       if peers_hash['Reservations'] and peers_hash['Reservations'].length > 0
-        peers_hash['Reservations'][0]['Instances'].each do |awsnode|
-          private_ip = awsnode['PrivateIpAddress']
-          status = awsnode['State']['Name']
-          id = awsnode['InstanceId']
-          if status == "running"
-            awsnode['Tags'].each do |tag|
-              if tag['Key'] == role_tag_name
-                role = tag['Value']
-                node.default['haproxy']['backends'][role]['nodes'][id] = private_ip
+        peers_hash['Reservations'].each do |reservation|
+          reservation['Instances'].each do |awsnode|
+            private_ip = awsnode['PrivateIpAddress']
+            availability_zone = awsnode['Placement']['AvailabilityZone']
+            status = awsnode['State']['Name']
+            id = awsnode['InstanceId']
+            if status == "running"
+              awsnode['Tags'].each do |tag|
+                if tag['Key'] == role_tag_name
+                  role = tag['Value']
+                  if current_availability_zone == availability_zone
+                    node.default['haproxy']['backends'][role]['nodes'][availability_zone]['current'] = true
+                  end
+                  node.default['haproxy']['backends'][role]['nodes'][availability_zone][id] = private_ip
+                  Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
+                end
               end
             end
           end
@@ -61,6 +76,10 @@ if query_tags
       node.default['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
     end
     action :run
+  end
+
+  template '/etc/haproxy/haproxy.cfg' do
+    source 'haproxy/haproxy.cfg.erb'
   end
 end
 

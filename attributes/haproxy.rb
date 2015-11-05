@@ -1,3 +1,6 @@
+default['haproxy']['ec2']['discover_cron'] = "*/5 * * * *"
+default['haproxy']['ec2']['install_haproxy_discovery'] = false
+
 default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
 
 # Force rsyslog to use UDP on localhost
