@@ -20,6 +20,8 @@ default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
+default['haproxy']['logging'] = "option httplog"
+default['haproxy']['logging_json_enabled'] = false
 
 default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
 
@@ -48,7 +50,7 @@ default['haproxy']['general_config'] = [
   "log global",
   "retries 3",
   "# Options",
-  "option httplog",
+node['haproxy']['logging'],
   "option dontlognull",
   "option forwardfor",
   "option http-server-close",
@@ -78,10 +80,12 @@ default['haproxy']['frontends']['http']['entries'] = [
   # TODO - still not working
   # "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_portssl']} ssl crt #{node['haproxy']['ssl_chain_file']}",
   "capture request header X-Forwarded-For len 64",
-  "capture request header User-agent len 256",
+  "capture request header User-agent len 128",
   "capture request header Cookie len 64",
   "capture request header Accept-Language len 64",
   "capture request header X-Forwarded-For len 64",
+  "unique-id-format %{+X}o\ %ci:%cp_%fi:%fp_%Ts_%rt:%pid",
+  "unique-id-header X-Unique-ID", 
   "#---- ddos protection -----",
   "tcp-request inspect-delay 5s",
   "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
