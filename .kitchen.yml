@@ -21,7 +21,7 @@ platforms:
 
 
 suites:
-  - name: testing
+  - name: ci
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -29,8 +29,7 @@ suites:
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-testing",
       "alfresco" : {
-        "version" : "5.0.2",
-        "edition" : "enterprise",
+        "ssl_enabled" : false,
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
@@ -38,11 +37,7 @@ suites:
         "mailsmtp_databag" : "credentials",
         "mailsmtp_databag_item" : "outbound-email",
         "jmxremote_databag" : "credentials",
-        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
-        "certs" : {
-          "ssl_databag" : "ssl",
-          "ssl_databag_item" : "local"
-        }
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "artifact-deployer" : {
         "maven" : {
@@ -60,7 +55,8 @@ suites:
         "use_nossl_config" : true
       }
     }
-  - name: chef-alfresco
+  # TODO make it default
+  - name: community
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -72,29 +68,51 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
-        "version" : "5.0.2",
-        "edition" : "enterprise",
+        "ssl_enabled" : false,
         "skip_certificate_creation" : true,
         "public_protocol" : "http",
         "public_portssl" : "80",
         "log.json.enabled" : false,
-        "mailsmtp_databag" : "credentials",
-        "mailsmtp_databag_item" : "outbound-email",
         "jmxremote_databag" : "credentials",
         "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
-        # Enable S3 contentstore
-        # "s3_databag" : "aws",
-        # "s3_databag_item" : "test",
-        # Enable Share EC2 clustering
-        # "hz_share_databag" : "aws",
-        # "hz_share_databag_item" : "test",
         "properties" : {
            # TODO - This looks weird, needs testing
            "aos.port" : "8800"
-        },
-        "certs" : {
-          "ssl_databag" : "ssl",
-          "ssl_databag_item" : "local"
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500
+        }
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0"
+      }
+    }
+  - name: enterprise
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-enterprise-test",
+      "nginx" : {
+        "proxy_host_header" : "$host:8800",
+        "use_nossl_config" : true
+      },
+      "alfresco" : {
+        "version" : "5.0.2",
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        "properties" : {
+           # TODO - This looks weird, needs testing
+           "aos.port" : "8800"
         }
       },
       "artifact-deployer" : {
@@ -110,7 +128,6 @@ suites:
         }
       },
       "haproxy" : {
-        # Bind to all IFs, for debugging purposes
         "bind_ip" : "0.0.0.0"
       }
     }

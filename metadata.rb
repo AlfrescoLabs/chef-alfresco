@@ -7,6 +7,7 @@ long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version "0.6.8"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
+depends "file"
 depends "tomcat"
 depends "maven"
 
