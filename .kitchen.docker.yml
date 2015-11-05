@@ -10,7 +10,7 @@ platforms:
     privileged: true
 
 suites:
-  - name: testing
+  - name: ci
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"

@@ -21,8 +21,7 @@ platforms:
 
 
 suites:
-  # TODO rename it 'ci'
-  - name: testing
+  - name: ci
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -56,8 +55,8 @@ suites:
         "use_nossl_config" : true
       }
     }
-  # TODO rename it 'community'; make it default
-  - name: chef-alfresco
+  # TODO make it default
+  - name: community
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
