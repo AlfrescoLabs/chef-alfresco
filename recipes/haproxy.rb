@@ -6,6 +6,10 @@ rsyslog_bind = node['haproxy']['rsyslog_bind']
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
 
+if node['haproxy']['enable_ssl_header']
+  node.default['haproxy']['set_header'] = node['haproxy']['ssl_header']
+end
+
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery

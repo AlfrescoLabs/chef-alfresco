@@ -12,6 +12,10 @@ default['haproxy']['enable_ssl'] = false
 default['haproxy']['enable_admin'] = false
 default['haproxy']['enable_default_http'] = false
 
+default['haproxy']['enable_ssl_header'] = true
+default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
+default['haproxy']['set_header'] = ""
+
 default['haproxy']['enable.ec2.discovery'] = false
 
 default['haproxy']['conf_cookbook'] = 'alfresco'
@@ -121,7 +125,7 @@ default['haproxy']['frontends']['http']['entries'] = [
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
   "#---- end ddos protection -----",
-  "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;",
+  node['haproxy']['set_header']
 ]
 
 default['haproxy']['frontends']['stats']['entries'] = [
