@@ -129,6 +129,7 @@ suites:
         }
       },
       "haproxy" : {
-        "bind_ip" : "0.0.0.0"
+        "bind_ip" : "0.0.0.0",
+        "logging_json_enabled" : true
       }
     }
