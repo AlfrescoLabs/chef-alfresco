@@ -20,8 +20,9 @@ default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
-default['haproxy']['logging'] = "option httplog"
+#default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
+default['haproxy']['logformat'] = "#- wibble"
 
 default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
 
@@ -50,12 +51,13 @@ default['haproxy']['general_config'] = [
   "log global",
   "retries 3",
   "# Options",
-node['haproxy']['logging'],
+  "option httplog",
+node['haproxy']['logformat'],
   "option dontlognull",
   "option forwardfor",
   "option http-server-close",
   "option redispatch",
-  "#optimisations",
+  "# Optimisations",
   "option tcp-smart-accept",
   "option tcp-smart-connect",
   "option contstats",

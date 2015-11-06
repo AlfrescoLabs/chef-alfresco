@@ -10,7 +10,9 @@ include_recipe 'alfresco::_errorpages'
 include_recipe 'alfresco::haproxy-ec2-discovery' # ~FC014
 
 if node['haproxy']['logging_json_enabled']
-node.default['haproxy']['logging'] = " log_format  {\"type\":\"haproxy\",\"timestamp\":%Ts.%ms,\"actconn\":%ac,\"feconn\":%fc,\"beconn\":%bc,\"backend_queue\":%bq,\"srv_conn\":%sc,\"retry\":%rc,\"tq\":%Tq,\"tw\":%Tw,\"tc\":%Tc,\"tr\":%Tr,\"tt\":%Tt,\"tsc\":\"%tsc\",\"client_addr\":\"%ci:%cp\",\"front_addr\":\"%fi:%fp\",\"front_transport\":\"%ft\",\"ssl_version\":\"%sslv\",\"ssl_cipher\":\"%sslc\",\"http_status\":%ST,\"http_req\":\"%r\",\"back_name\":\"%b\",\"back_server\":\"%s\",\"req_header_cap\":\"%hr\",\"resp_header_cap\":\"%hs\",\"bytes_uploaded\":%U,\"bytes_read\":%B,\"unique_id\":\"%ID\"} "
+node.default['haproxy']['logformat'] = "log-format  {\"type\":\"haproxy\",\"timestamp\":%Ts.%ms,\"actconn\":%ac,\"feconn\":%fc,\"beconn\":%bc,\"backend_queue\":%bq,\"srv_conn\":%sc,\"retry\":%rc,\"tq\":%Tq,\"tw\":%Tw,\"tc\":%Tc,\"tr\":%Tr,\"tt\":%Tt,\"tsc\":\"%tsc\",\"client_addr\":\"%ci:%cp\",\"front_addr\":\"%fi:%fp\",\"front_transport\":\"%ft\",\"ssl_version\":\"%sslv\",\"ssl_cipher\":\"%sslc\",\"http_status\":%ST,\"http_req\":\"%r\",\"back_name\":\"%b\",\"back_server\":\"%s\",\"req_header_cap\":\"%hr\",\"resp_header_cap\":\"%hs\",\"bytes_uploaded\":%U,\"bytes_read\":%B,\"unique_id\":\"%ID\"} "
+else
+  node.default['haproxy']['logformat'] = "#-"
 end
 
 include_recipe 'haproxy::default'
