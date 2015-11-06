@@ -53,6 +53,10 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
   # TODO make it default
@@ -86,7 +90,8 @@ suites:
         }
       },
       "haproxy" : {
-        "bind_ip" : "0.0.0.0"
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
   - name: enterprise
@@ -128,6 +133,7 @@ suites:
         }
       },
       "haproxy" : {
-        "bind_ip" : "0.0.0.0"
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }

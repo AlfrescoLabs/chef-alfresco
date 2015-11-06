@@ -15,6 +15,11 @@ frontend <%= frontendName %>
 <%= entry %>
       <% end -%>
     <% end -%>
+    <% if frontend['headers'] -%>
+      <% frontend['headers'].each do |header| -%>
+<%= header %>
+      <% end -%>
+    <% end -%>
 
 # Backend ACLs
     <% if frontend['acls'] -%>
@@ -72,6 +77,12 @@ backend <%= backendName %>
 <%= entry %>
         <% end -%>
       <% end -%>
+      <% if backend['secure_entries'] -%>
+        <% backend['secure_entries'].each do |secure_entry| -%>
+<%= secure_entry %>
+        <% end -%>
+      <% end -%>
+
       <% if node['alfresco']['components'].include? backendName or
         (node['alfresco']['components'].include? 'repo' and backendName == 'alfresco') -%>
         server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
