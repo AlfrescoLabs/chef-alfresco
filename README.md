@@ -29,7 +29,7 @@ It takes roughly 20 minutes for a full default configuration (with a fast laptop
 #### Access
 The only fully functional HTTP endpoint is by default [http://localhost:8800](https://localhost:8800)
 
-You can also access internal and no-SSL ports, for debugging purposes
+You can also access internal ports for debugging purposes (though you need to open them manually using Virtualbox, or uncommenting some entries in [Vagrantfile.erb](Vagrantfile.erb))
 - [http://localhost:9000](http://localhost:9000) (haproxy)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
