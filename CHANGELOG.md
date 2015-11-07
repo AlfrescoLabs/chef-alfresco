@@ -1,5 +1,20 @@
 # Change Log
 
+## [v0.6.10](https://github.com/Alfresco/chef-alfresco/tree/v0.6.10) (2015-11-06)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.9...v0.6.10)
+
+## [v0.6.9](https://github.com/Alfresco/chef-alfresco/tree/v0.6.9) (2015-11-06)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.8...v0.6.9)
+
+## [v0.6.8](https://github.com/Alfresco/chef-alfresco/tree/v0.6.8) (2015-11-06)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.7...v0.6.8)
+
+**Merged pull requests:**
+
+- Fix kitchen travis [\#22](https://github.com/Alfresco/chef-alfresco/pull/22) ([svidrascu](https://github.com/svidrascu))
+- haproxy ddos config rejig [\#21](https://github.com/Alfresco/chef-alfresco/pull/21) ([steverigby](https://github.com/steverigby))
+- Webchanges for stats ports [\#19](https://github.com/Alfresco/chef-alfresco/pull/19) ([steverigby](https://github.com/steverigby))
+
 ## [v0.6.7](https://github.com/Alfresco/chef-alfresco/tree/v0.6.7) (2015-10-23)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.6...v0.6.7)
 
@@ -20,9 +35,7 @@
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.2...v0.6.3)
 
 **Merged pull requests:**
-- I Update this
-- Updated stuff
-- Update README.md [\#17](https://github.com/Alfresco/chef-alfresco/pull/17) ([sashman](https://github.com/sashman))
+
 
 ## [v0.6.2](https://github.com/Alfresco/chef-alfresco/tree/v0.6.2) (2015-09-25)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.1...v0.6.2)
