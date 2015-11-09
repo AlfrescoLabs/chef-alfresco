@@ -23,7 +23,7 @@
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "ssl_enabled" : false,
         "properties" : {
-            "dir.license.external" : "/opt/alflicense",
+            "dir.license.external" : "/usr/share/tomcat-alfresco/alflicense",
             "s3.accessKey" : "@@AWS_ACCESS_KEY@@",
             "s3.secretKey" : "@@AWS_SECRET_KEY@@",
             "db.host" : "@@DB_HOST@@",
