@@ -60,9 +60,9 @@ if query_tags
                 if tag['Key'] == role_tag_name
                   role = tag['Value']
                   if current_availability_zone == availability_zone
-                    node.default['haproxy']['backends'][role]['nodes'][availability_zone]['current'] = true
+		                  node.default['haproxy']['backends'][role]['zones'][availability_zone]['current'] = true
                   end
-                  node.default['haproxy']['backends'][role]['nodes'][availability_zone][id] = private_ip
+		              node.default['haproxy']['backends'][role]['zones'][availability_zone]['nodes'][id] = private_ip
                   Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
                 end
               end
@@ -70,8 +70,7 @@ if query_tags
           end
         end
       end
-
-      # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
+	    # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
       node.default['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
       node.default['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
     end
@@ -80,6 +79,10 @@ if query_tags
 
   template '/etc/haproxy/haproxy.cfg' do
     source 'haproxy/haproxy.cfg.erb'
+    notifies :restart, 'service[haproxy]', :delayed
+  end
+  service 'haproxy' do
+    action :nothing
   end
 end
 
