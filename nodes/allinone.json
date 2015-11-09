@@ -26,6 +26,7 @@
         "edition" : "enterprise",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","aos"],
         "restart_services" : ["tomcat-alfresco","tomcat-share","tomcat-solr"],
+        "ssl_enabled" : false,
         "shareproperties" : {
           "hz_aws_enabled" : true
         },

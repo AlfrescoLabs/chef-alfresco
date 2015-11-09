@@ -26,6 +26,7 @@
         "edition" : "enterprise",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
+        "ssl_enabled" : false,
         "shareproperties" : {
           "hz_aws_enabled" : true
         },
@@ -47,7 +48,8 @@
             "hz_aws_enabled" : true,
             "hz_aws_sg_name" : "@@AWS_SG_NAME@@",
             "hz_aws_tag_key" : "haproxy-role",
-            "hz_aws_tag_value" : "share"
+            "hz_aws_tag_value" : "share",
+            "alfresco_user_store.adminusername" : "@@ALFRESCO_PASSWORD@@"
         },
         "repo_tomcat_instance" : {
             "xmx_ratio" : 0.5
