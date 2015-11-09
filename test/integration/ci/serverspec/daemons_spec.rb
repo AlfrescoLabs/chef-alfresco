@@ -76,6 +76,10 @@ describe "Alfresco daemons" do
     expect(httpNginxConnection.get('/').status).to eq 302
   end
 
+  it 'Can search booted docs' do
+    expect(httpNginxConnection.get('/alfresco/service/slingshot/node/search?q=%40name%3A%22Project%20Meeting%20Minutes%22&lang=lucene&store=workspace%3A%2F%2FSpacesStore').body).to include('cm:Project Meeting Minutes')
+  end
+
   # These tests are Enterprise-specific, whereas CI runs on a public environment
   #
   # it 'Has an Enterprise license installed' do

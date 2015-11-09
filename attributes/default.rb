@@ -108,6 +108,7 @@ default['logging']['log4j.appender.File.File'] = "${logfilename}"
 # DB params shared between client and server
 default['alfresco']['db']['server_root_password'] = 'alfresco'
 default['alfresco']['db']['root_user'] = "root"
+default['alfresco']['db']['allowed_host'] = "127.0.0.1"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
