@@ -1,5 +1,8 @@
 # Change Log
 
+## [v0.6.11](https://github.com/Alfresco/chef-alfresco/tree/v0.6.11) (2015-11-09)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.10...v0.6.11)
+
 ## [v0.6.10](https://github.com/Alfresco/chef-alfresco/tree/v0.6.10) (2015-11-06)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.9...v0.6.10)
 
