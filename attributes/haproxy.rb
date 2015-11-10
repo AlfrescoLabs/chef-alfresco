@@ -1,3 +1,6 @@
+default['haproxy']['ec2']['discover_cron'] = "*/5 * * * *"
+default['haproxy']['ec2']['install_haproxy_discovery'] = false
+
 default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
 
 # Force rsyslog to use UDP on localhost
@@ -120,9 +123,13 @@ default['haproxy']['frontends']['http']['entries'] = [
   "http-request tarpit if FORBIDDEN_HDR",
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
-  "#---- end ddos protection -----",
-  "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;",
+  "#---- end ddos protection -----"
 ]
+
+default['haproxy']['enable_ssl_header'] = true
+default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
+
+default['haproxy']['frontends']['http']['headers'] = []
 
 default['haproxy']['frontends']['stats']['entries'] = [
   "bind #{node['haproxy']['bind_ip']}:#{node['haproxy']['stats_port']}",
@@ -142,13 +149,18 @@ default['haproxy']['frontends']['http']['acls']['share']= ['path_beg /share']
 default['haproxy']['backends']['share']['entries'] = [
   "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
   "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
-  "acl secured_cookie res.hdr(Set-Cookie),lower -m sub secure",
-  "rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie",
   "rspdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "option httpchk GET /share",
   "balance leastconn",
   "cookie JSESSIONID prefix"
+]
+
+default['haproxy']['backends']['share']['secure_entries'] = []
+
+default['haproxy']['secure_entries'] = [
+  "acl secured_cookie res.hdr(Set-Cookie),lower -m sub secure",
+  "rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie"
 ]
 
 default['haproxy']['backends']['share']['port'] = 8081

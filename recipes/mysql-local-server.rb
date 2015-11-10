@@ -4,7 +4,8 @@ db_port       = node['alfresco']['properties']['db.port']
 db_user       = node['alfresco']['properties']['db.username']
 db_pass       = node['alfresco']['properties']['db.password']
 
-db_root_user        = node['alfresco']['db']['root_user']
+db_root_user = node['alfresco']['db']['root_user']
+db_allowed_host = node['alfresco']['db']['allowed_host']
 mysql_root_password = node['alfresco']['db']['server_root_password']
 mysql_version = node['alfresco']['mysql_version']
 mysql_update_gcc = node['mysql']['update_gcc']
@@ -45,6 +46,7 @@ end
 
 mysql_database_user db_user do
   connection mysql_connection_info
+  host db_allowed_host
   password db_pass
   action [:create,:grant]
 end

@@ -19,10 +19,17 @@ node.default['artifacts']['solr4']['unzip'] = false
 # Solr Pointers to Alfresco
 node.default['alfresco']['workspace-solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
 node.default['alfresco']['workspace-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
-node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+
 node.default['alfresco']['archive-solrproperties']['alfresco.host'] = node['alfresco']['internal_hostname']
 node.default['alfresco']['archive-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
-node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+
+if node['alfresco']['components'].include? 'haproxy'
+  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+else
+  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['haproxy']['backends']['alfresco']['port']
+  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['haproxy']['backends']['alfresco']['port']
+end
 
 # Solr WAR destination
 if node['tomcat']['run_base_instance']

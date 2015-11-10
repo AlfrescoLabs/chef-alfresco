@@ -22,14 +22,14 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge chef-alfresco
+kitchen converge community
 ```
-It takes roughly 40 minutes for a full default configuration.
+It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
 The only fully functional HTTP endpoint is by default [http://localhost:8800](https://localhost:8800)
 
-You can also access internal and no-SSL ports, for debugging purposes
+You can also access internal ports for debugging purposes (though you need to open them manually using Virtualbox, or uncommenting some entries in [Vagrantfile.erb](Vagrantfile.erb))
 - [http://localhost:9000](http://localhost:9000) (haproxy)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
@@ -125,10 +125,11 @@ default['alfresco']['edition'] = "community"
 
 Using Alfresco Enterprise
 ---
-In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables before running kitchen commands:
+In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables and kitchen command:
 ```
 export NEXUS_USERNAME=myuser
 export NEXUS_PASSWORD=mypwd
+kitchen converge enterprise
 ```
 
 Alternatively, you can use databags, check [other.json.example](test/integration/data_bags/maven_repos/other.json.example)

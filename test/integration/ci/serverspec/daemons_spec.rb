@@ -76,17 +76,23 @@ describe "Alfresco daemons" do
     expect(httpNginxConnection.get('/').status).to eq 302
   end
 
-  it 'Has an Enterprise license installed' do
-    expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-license').body).to include('<span class="value">ENTERPRISE</span>')
+  it 'Can search booted docs' do
+    expect(authNginxConnection.get('/alfresco/service/slingshot/node/search?q=%40name%3A%22Project%20Meeting%20Minutes%22&lang=lucene&store=workspace%3A%2F%2FSpacesStore').body).to include('cm:Project Meeting Minutes')
   end
 
-  it 'Has an RM module installed' do
-    expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-systemsummary').body).to include('org_alfresco_module_rm')
-  end
-
-  it 'Has an Google Docs module installed' do
-    expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-systemsummary').body).to include('org.alfresco.integrations.google.docs')
-  end
+  # These tests are Enterprise-specific, whereas CI runs on a public environment
+  #
+  # it 'Has an Enterprise license installed' do
+  #   expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-license').body).to include('<span class="value">ENTERPRISE</span>')
+  # end
+  #
+  # it 'Has an RM module installed' do
+  #   expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-systemsummary').body).to include('org_alfresco_module_rm')
+  # end
+  #
+  # it 'Has an Google Docs module installed' do
+  #   expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-systemsummary').body).to include('org.alfresco.integrations.google.docs')
+  # end
 end
 
 # TODO - not working

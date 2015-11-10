@@ -6,8 +6,24 @@ rsyslog_bind = node['haproxy']['rsyslog_bind']
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
 
+if node['haproxy']['enable_ssl_header']
+  node.default['haproxy']['frontends']['http']['headers'] = [node['haproxy']['ssl_header']]
+  node.default['haproxy']['backends']['share']['secure_entries'] =  node['haproxy']['secure_entries']
+end
+
+# Install haproxy discovery
+install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
+if install_haproxy_discovery
+  template '/etc/cron.d/haproxy-discovery.cron' do
+    source 'haproxy/haproxy-discovery.cron.erb'
+  end
+  template '/etc/chef/haproxy-discovery.json' do
+    source 'haproxy/haproxy-discovery.json.erb'
+  end
+end
+
 # Sets ec2 tags (must be before haproxy.cfg configuration)
-include_recipe 'alfresco::haproxy-ec2-discovery' # ~FC014
+# include_recipe 'alfresco::haproxy-ec2-discovery' # ~FC014
 
 if node['haproxy']['logging_json_enabled']
   node.default['haproxy']['logformat'] = node['haproxy']['json_logformat']

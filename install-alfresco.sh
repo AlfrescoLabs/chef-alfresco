@@ -19,7 +19,7 @@
 #fi
 
 if [ -z "$CHEF_ALFRESCO_VERSION" ]; then
-  CHEF_ALFRESCO_VERSION="0.6.7"
+  CHEF_ALFRESCO_VERSION="0.6.11"
 fi
 
 #if [ -z "$NODE_URL" ]; then
