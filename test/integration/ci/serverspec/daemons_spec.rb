@@ -44,7 +44,7 @@ describe "Alfresco daemons" do
   let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
   services.each do |service|
-    it "has a running #{service} service" do
+    it "Has a running #{service} service" do
       expect(service(service)).to be_running
     end
   end
@@ -80,7 +80,7 @@ describe "Alfresco daemons" do
     expect(authNginxConnection.get('/alfresco/service/slingshot/node/search?q=%40name%3A%22Project%20Meeting%20Minutes%22&lang=lucene&store=workspace%3A%2F%2FSpacesStore').body).to include('cm:Project Meeting Minutes')
   end
 
-  # These tests are Enterprise-specific, whereas CI runs on a public environment
+  # # These tests are Enterprise-specific, whereas CI runs on a public environment
   #
   # it 'Has an Enterprise license installed' do
   #   expect(authNginxConnection.get('/alfresco/s/enterprise/admin/admin-license').body).to include('<span class="value">ENTERPRISE</span>')
