@@ -21,8 +21,7 @@ platforms:
 
 
 suites:
-  # TODO rename it 'ci'
-  - name: testing
+  - name: ci
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -54,10 +53,14 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
-  # TODO rename it 'community'; make it default
-  - name: chef-alfresco
+  # TODO make it default
+  - name: community
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -87,7 +90,8 @@ suites:
         }
       },
       "haproxy" : {
-        "bind_ip" : "0.0.0.0"
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
   - name: enterprise
@@ -99,6 +103,7 @@ suites:
       "hostname": "alfresco-allinone-enterprise-test",
       "nginx" : {
         "proxy_host_header" : "$host:8800",
+        "logging_json_enabled" : false,
         "use_nossl_config" : true
       },
       "alfresco" : {
@@ -130,6 +135,7 @@ suites:
       },
       "haproxy" : {
         "bind_ip" : "0.0.0.0",
-        "logging_json_enabled" : true
+        "logging_json_enabled" : false,
+        "enable_ssl_header" : false
       }
     }
