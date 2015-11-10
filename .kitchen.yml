@@ -103,6 +103,7 @@ suites:
       "hostname": "alfresco-allinone-enterprise-test",
       "nginx" : {
         "proxy_host_header" : "$host:8800",
+        "logging_json_enabled" : false,
         "use_nossl_config" : true
       },
       "alfresco" : {
@@ -134,6 +135,7 @@ suites:
       },
       "haproxy" : {
         "bind_ip" : "0.0.0.0",
+        "logging_json_enabled" : false,
         "enable_ssl_header" : false
       }
     }

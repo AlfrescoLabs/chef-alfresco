@@ -4,6 +4,8 @@
 <% node['haproxy']['general_config'].each do |line| -%>
 <%= line %>
 <% end -%>
+# Log format
+<%= node['haproxy']['logformat'] %>
 
 # Frontends
 
