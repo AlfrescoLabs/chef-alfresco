@@ -7,6 +7,7 @@ default['nginx']['use_nossl_config'] = false
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
+default['nginx']['disable_nginx_init'] = false
 default['nginx']['service_actions'] = [:enable,:start]
 
 default['nginx']['dns_server'] = "localhost"
