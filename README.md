@@ -1,9 +1,6 @@
 chef-alfresco
 ---
-<div style="float: left">
-    <img src="chef-alfresco-logo.png" alt="Chef Alfresco Logo" title="Chef Alfresco Logo"/>
-</div>
-
+<img align="left" src="chef-alfresco-logo.png" alt="Chef Alfresco Logo" title="Chef Alfresco Logo"/>
 
 [![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg)](https://travis-ci.org/Alfresco/chef-alfresco)
 
