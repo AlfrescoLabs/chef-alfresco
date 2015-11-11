@@ -1,7 +1,7 @@
 chef-alfresco
 ---
 <div style="float: left">
-    ![Logo](chef-alfresco-logo.png)
+    <img src="chef-alfresco-logo.png" alt="Chef Alfresco Logo" title="Chef Alfresco Logo"/>
 </div>
 
 
