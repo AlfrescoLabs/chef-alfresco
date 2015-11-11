@@ -1,5 +1,6 @@
 chef-alfresco
 ---
+![Logo](chef-alfresco-logo.png)
 
 [![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg)](https://travis-ci.org/Alfresco/chef-alfresco)
 
