@@ -28,13 +28,6 @@ default['haproxy']['logging_json_enabled'] = false
 default['haproxy']['logformat'] = "#- wibble"
 default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"timestamp\":%Ts.%ms,\"actconn\":%ac,\"feconn\":%fc,\"beconn\":%bc,\"backend_queue\":%bq,\"srv_conn\":%sc,\"retry\":%rc,\"tq\":%Tq,\"tw\":%Tw,\"tc\":%Tc,\"tr\":%Tr,\"tt\":%Tt,\"tsc\":\"%tsc\",\"client_addr\":\"%ci:%cp\",\"front_addr\":\"%fi:%fp\",\"front_transport\":\"%ft\",\"ssl_version\":\"%sslv\",\"ssl_cipher\":\"%sslc\",\"http_status\":%ST,\"http_req\":\"%r\",\"back_name\":\"%b\",\"back_server\":\"%s\",\"req_header_cap\":\"%hr\",\"resp_header_cap\":\"%hs\",\"bytes_uploaded\":%U,\"bytes_read\":%B,\"unique_id\":\"%ID\"} "
 
-default['haproxy']['acls'] = ["is_root path_reg ^$|^/$"]
-
-default['haproxy']['redirects'] = [
-  "redirect location /share/ if !is_share !is_alfresco !is_solr !is_aos_root !is_aos_vti",
-  "redirect location /share/ if is_root"
-]
-
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 default['haproxy']['general_config'] = [
@@ -78,13 +71,26 @@ node['haproxy']['logformat'],
   "compression type text/html text/html;charset=utf-8 text/plain text/css text/javascript application/x-javascript application/javascript application/ecmascript application/rss+xml application/atomsvc+xml application/atom+xml application/atom+xml;type=entry application/atom+xml;type=feed application/cmisquery+xml application/cmisallowableactions+xml application/cmisatom+xml application/cmistree+xml application/cmisacl+xml application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/json",
 ]
 
-default['haproxy']['frontends']['http']['entries'] = [
+default['haproxy']['frontends']['internal']['entries'] = [
   "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_port']}",
+  "capture request header X-Forwarded-For len 64",
+  "capture request header User-agent len 128",
+  "capture request header Cookie len 64",
+  "capture request header Accept-Language len 64",
+  "capture request header X-Forwarded-For len 64"
+]
+
+default['haproxy']['frontends']['external']['redirects'] = [
+  "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti",
+  "redirect location /share/ if is_root"
+]
+default['haproxy']['frontends']['external']['acl_lines'] = ["is_root path_reg ^$|^/$"]
+default['haproxy']['frontends']['external']['entries'] = [
+  "mode http",
+  "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
   # Force HTTPS
   # "redirect scheme https if !{ ssl_fc }",
-  # TODO - still not working
-  # "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_portssl']} ssl crt #{node['haproxy']['ssl_chain_file']}",
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
@@ -129,7 +135,7 @@ default['haproxy']['frontends']['http']['entries'] = [
 default['haproxy']['enable_ssl_header'] = true
 default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
 
-default['haproxy']['frontends']['http']['headers'] = []
+default['haproxy']['frontends']['external']['headers'] = []
 
 default['haproxy']['frontends']['stats']['entries'] = [
   "bind #{node['haproxy']['bind_ip']}:#{node['haproxy']['stats_port']}",
@@ -145,7 +151,7 @@ default['haproxy']['frontends']['stats']['entries'] = [
 # Share Haproxy configuration
 # Note: the haproxy backend items are configured on each sub recipe: repo.rb, share.rb and solr.rb
 default['haproxy']['share_stats_auth'] = "admin:password"
-default['haproxy']['frontends']['http']['acls']['share']= ['path_beg /share']
+default['haproxy']['frontends']['external']['acls']['share']= ['path_beg /share']
 default['haproxy']['backends']['share']['entries'] = [
   "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
   "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
@@ -166,19 +172,20 @@ default['haproxy']['secure_entries'] = [
 default['haproxy']['backends']['share']['port'] = 8081
 
 # Solr Haproxy configuration
-default['haproxy']['frontends']['http']['acls']['solr'] = ['path_beg /solr4']
+default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
 default['haproxy']['backends']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['solr']['port'] = 8090
 
 # HAproxy configuration
-default['haproxy']['frontends']['http']['acls']['alfresco'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
+default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
+default['haproxy']['frontends']['external']['acls']['alfresco'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
 default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['alfresco']['port'] = 8070
 
-default['haproxy']['frontends']['http']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
+default['haproxy']['frontends']['external']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
 default['haproxy']['backends']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['aos_vti']['port'] = 8070
 
-default['haproxy']['frontends']['http']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
+default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
 default['haproxy']['backends']['aos_root']['entries'] = ["option httpchk GET /","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['aos_root']['port'] = 8070
