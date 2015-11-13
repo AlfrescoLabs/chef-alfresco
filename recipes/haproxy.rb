@@ -7,7 +7,7 @@ include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
 
 if node['haproxy']['enable_ssl_header']
-  node.default['haproxy']['frontends']['http']['headers'] = [node['haproxy']['ssl_header']]
+  node.default['haproxy']['frontends']['external']['headers'] = [node['haproxy']['ssl_header']]
   node.default['haproxy']['backends']['share']['secure_entries'] =  node['haproxy']['secure_entries']
 end
 

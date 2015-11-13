@@ -38,7 +38,8 @@ describe "Alfresco daemons" do
   let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
   let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
   let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
-  let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9000" }
+  let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9001" }
+  let(:haproxyIntConnection) { $haproxyIntConnection ||= getFaradayConnection "http://localhost:9000" }
   let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://localhost" }
   let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
   let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
@@ -61,11 +62,15 @@ describe "Alfresco daemons" do
     expect(solrConnection.get('/solr4/').body).to include('Apache SOLR')
   end
 
-  it 'Has a running Haproxy service wrapping all Alfresco applications' do
+  it 'Has a running Haproxy service wrapping all Alfresco public applications' do
     expect(haproxyConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
     expect(haproxyConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
-    expect(haproxyConnection.get('/solr4/').body).to include('Apache SOLR')
   end
+
+  it 'Has a running Haproxy service wrapping all Alfresco internal applications' do
+    expect(haproxyIntConnection.get('/solr4/').body).to include('Apache SOLR')
+  end
+  # TODO - add vti and root here
 
   it 'Has a running Nginx service wrapping alfresco/share Haproxy endpoints' do
     expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')

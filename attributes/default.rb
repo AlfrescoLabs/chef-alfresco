@@ -22,8 +22,11 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 # TODO - use this attribute for nossl and related attributes across chef-alfresco
 default['alfresco']['ssl_enabled'] = true
 
+default['alfresco']['enable_tarpit'] = true
+
 default['alfresco']['internal_hostname'] = "127.0.0.1"
 default['alfresco']['internal_port'] = "9000"
+default['alfresco']['internal_secure_port'] = "9001"
 default['alfresco']['internal_portssl'] = "9443"
 default['alfresco']['internal_protocol'] = "http"
 

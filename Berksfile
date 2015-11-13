@@ -1,6 +1,6 @@
 source "https://api.berkshelf.com"
 
-cookbook 'tomcat', git:'https://github.com/maoo/tomcat.git', tag: "v0.17.3-fork6"
+cookbook 'tomcat', git:'https://github.com/maoo/tomcat.git', tag: "v11.17.3"
 # cookbook 'tomcat', path: '../tomcat'
 
 # Resolve transitive deps of artifact-deployer
