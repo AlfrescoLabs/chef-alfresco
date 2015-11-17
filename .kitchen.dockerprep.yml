@@ -1,0 +1,138 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
+---
+driver:
+  name: docker
+  privileged: true
+
+provisioner:
+  name: chef_zero
+
+platforms:
+- name: centos-7-prepped
+  driver_config:
+    image: svidrascu/chef_alfresco_prep
+    privileged: true
+- name: centos-70
+  driver_config:
+    image: milcom/centos7-systemd
+    privileged: true
+
+suites:
+  - name: ci
+    run_list:
+      - recipe[alfresco::docker_prep]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-testing",
+      "hostname": "chef-alfresco-testing",
+      "alfresco" : {
+        "ssl_enabled" : false,
+        # TODO - should disable only dhparam
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "log.json.enabled" : false,
+        "mailsmtp_databag" : "credentials",
+        "mailsmtp_databag_item" : "outbound-email",
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
+      }
+    }
+  # TODO make it default
+  - name: community
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-test",
+      "nginx" : {
+        "proxy_host_header" : "$host:8800",
+        "use_nossl_config" : true
+      },
+      "alfresco" : {
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        "properties" : {
+           # TODO - This looks weird, needs testing
+           "aos.port" : "8800"
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500
+        }
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
+      }
+    }
+  - name: enterprise
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-enterprise-test",
+      "nginx" : {
+        "proxy_host_header" : "$host:8800",
+        "logging_json_enabled" : false,
+        "use_nossl_config" : true
+      },
+      "alfresco" : {
+        "version" : "5.0.2",
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        "properties" : {
+           # TODO - This looks weird, needs testing
+           "aos.port" : "8800"
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "logging_json_enabled" : false,
+        "enable_ssl_header" : false
+      }
+    }
