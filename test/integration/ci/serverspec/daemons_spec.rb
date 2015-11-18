@@ -117,9 +117,9 @@ end
 # TODO - not working
 #
 # describe cron do
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-alfresco -mmin +30 -type f -exec rm -rf {} \;' }
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-share -mmin +30 -type f -exec rm -rf {} \;' }
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-solr -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-alfresco -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-share -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-solr -mmin +30 -type f -exec rm -rf {} \;' }
 # end
 
 # TODO - Check that new location is correct (https); none of the approaches work!

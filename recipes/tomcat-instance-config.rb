@@ -29,7 +29,7 @@ node['tomcat']['instances'].each do |tomcat_instance_name,_|
       group instance_template['owner']
       variables({
         :tomcat_log_path => "/var/log/tomcat-#{tomcat_instance_name}",
-        :tomcat_cache_path => "/var/cache/tomcat-#{tomcat_instance_name}"
+        :tomcat_cache_path => "#{node['tomcat']['cache_root_folder']}/tomcat-#{tomcat_instance_name}"
       })
     end
   end

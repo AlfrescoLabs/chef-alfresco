@@ -9,6 +9,7 @@ default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
 default["tomcat"]["maxHttpHeaderSize"] = "1048576"
 
 default['tomcat']['cleaner.minutes.interval'] = 30
+default['tomcat']['cache_root_folder'] = "/var/cache"
 
 # Tomcat default[ settings
 default['tomcat']['service_actions'] = [:disable,:stop]
