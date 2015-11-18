@@ -104,6 +104,7 @@ default['nginx']['config'] = [
   "server {",
   "    listen          #{node['nginx']['port']};",
   "    server_name #{node['alfresco']['public_hostname']};",
+  "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
