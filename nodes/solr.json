@@ -2,6 +2,7 @@
     "name": "solr",
     "artifact-deployer" : {
       "maven" : {
+        "timeout" : 1500,
         "repositories" : {
           "private" : {
             "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
