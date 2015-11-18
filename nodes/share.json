@@ -25,7 +25,7 @@
         "install_fonts" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos"],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos","googledocs"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
         "ssl_enabled" : false,
         "shareproperties" : {
