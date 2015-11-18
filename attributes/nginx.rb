@@ -139,6 +139,7 @@ default['nginx']['config'] = [
   "        add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
   "        proxy_redirect off;",
+  "        proxy_http_version 1.1;",
   "        proxy_set_header        Host            #{node['nginx']['proxy_host_header']};",
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
