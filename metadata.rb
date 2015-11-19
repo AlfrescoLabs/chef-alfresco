@@ -8,7 +8,7 @@ version "0.6.12"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
-depends "tomcat"
+depends "apache_tomcat"
 depends "maven"
 
 # Community cookbooks

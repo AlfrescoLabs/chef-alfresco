@@ -12,9 +12,9 @@ provisioner:
 platforms:
   - name: centos-7.0
     driver:
-      # Nah, not working :( Using Vagrantfile.erb
-      # network:
-      #   - ["private_network", {ip: "192.168.33.23"}]
+      customize:
+        - ["forwarded_port", {guest: 80, host: 8081}]
+        - ["private_network", {ip: "192.168.33.33"}]
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
     # driver_config:
     #   require_chef_omnibus: 12.4.1
