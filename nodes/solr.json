@@ -37,7 +37,7 @@
             "s3.bucketRegion" : "@@AWS_REGION@@",
             "s3service.s3-endpoint" : "s3-@@AWS_REGION@@.amazonaws.com",
             "solr.port" : "8090",
-            "alfresco_user_store.adminusername" : "@@ALFRESCO_PASSWORD@@"
+            "alfresco_user_store.adminpassword" : "@@ALFRESCO_PASSWORD@@"
         },
         "repo_tomcat_instance" : {
             "xmx_ratio" : 0.5
