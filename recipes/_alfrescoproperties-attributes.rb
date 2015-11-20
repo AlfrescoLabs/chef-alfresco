@@ -33,8 +33,6 @@ end
 # S3 default values (if not enabled, alfresco will ignore them)
 node.default['alfresco']['properties']['s3.encryption'] = "AES256"
 node.default['alfresco']['properties']['s3.flatRoot'] = true
-node.default['alfresco']['properties']['s3.bucketRegion'] = "eu-east-1"
-node.default['alfresco']['properties']['s3service.s3-endpoint'] = "s3-eu-east-1.amazonaws.com"
 node.default['alfresco']['properties']['s3service.https-only'] = true
 node.default['alfresco']['properties']['s3service.max-thread-count'] = "5"
 
