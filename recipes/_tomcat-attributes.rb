@@ -8,23 +8,21 @@ node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['ba
 case node['platform_family']
 
 when 'rhel', 'fedora'
-  suffix = node['tomcat']['base_version'].to_i < 7 ? node['tomcat']['base_version'] : ""
-
-  node.default['tomcat']['base_instance'] = "tomcat#{suffix}"
+  node.default['tomcat']['base_instance'] = "tomcat"
   node.default['tomcat']['user'] = 'tomcat'
   node.default['tomcat']['group'] = 'tomcat'
-  node.default['tomcat']['home'] = "/usr/share/tomcat#{suffix}"
-  node.default['tomcat']['base'] = "/usr/share/tomcat#{suffix}"
-  node.default['tomcat']['config_dir'] = "/etc/tomcat#{suffix}"
-  node.default['tomcat']['log_dir'] = "/var/log/tomcat#{suffix}"
-  node.default['tomcat']['tmp_dir'] = "/var/cache/tomcat#{suffix}/temp"
-  node.default['tomcat']['work_dir'] = "/var/cache/tomcat#{suffix}/work"
+  node.default['tomcat']['home'] = "/usr/share/tomcat"
+  node.default['tomcat']['base'] = "/usr/share/tomcat"
+  node.default['tomcat']['config_dir'] = "/etc/tomcat"
+  node.default['tomcat']['log_dir'] = "/var/log/tomcat"
+  node.default['tomcat']['tmp_dir'] = "/var/cache/tomcat/temp"
+  node.default['tomcat']['work_dir'] = "/var/cache/tomcat/work"
   node.default['tomcat']['context_dir'] = "#{node["tomcat"]["config_dir"]}/Catalina/localhost"
-  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{suffix}/webapps"
+  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat/webapps"
   node.default['tomcat']['lib_dir'] = "#{node["tomcat"]["home"]}/lib"
   node.default['tomcat']['endorsed_dir'] = "#{node["tomcat"]["lib_dir"]}/endorsed"
-  node.default['tomcat']['packages'] = ["tomcat#{suffix}"]
-  node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{suffix}-admin-webapps"]
+  node.default['tomcat']['packages'] = ["tomcat"]
+  node.default['tomcat']['deploy_manager_packages'] = ["tomcat-admin-webapps"]
 when 'debian'
   node.default['tomcat']['user'] = "tomcat#{node["tomcat"]["base_version"]}"
   node.default['tomcat']['group'] = "tomcat#{node["tomcat"]["base_version"]}"
@@ -70,6 +68,7 @@ else
 end
 
 
+#######################################
 
 
 

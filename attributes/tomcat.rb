@@ -1,3 +1,38 @@
+############## Temporary tomcat attributes from tomcat cookbook
+default['tomcat']['port'] = 8080
+default['tomcat']['proxy_port'] = nil
+default['tomcat']['ssl_port'] = 8443
+default['tomcat']['ssl_proxy_port'] = nil
+default['tomcat']['ajp_port'] = 8009
+default['tomcat']['jmx_port'] = nil
+default['tomcat']['shutdown_port'] = 8005
+default['tomcat']['catalina_options'] = ''
+default['tomcat']['java_options'] = '-Xmx128M -Djava.awt.headless=true'
+default['tomcat']['use_security_manager'] = false
+default['tomcat']['authbind'] = 'no'
+default['tomcat']['deploy_manager_apps'] = true
+default['tomcat']['max_threads'] = nil
+default['tomcat']['ssl_max_threads'] = 150
+default['tomcat']['ssl_cert_file'] = nil
+default['tomcat']['ssl_key_file'] = nil
+default['tomcat']['ssl_chain_files'] = []
+default['tomcat']['keystore_file'] = 'keystore.jks'
+default['tomcat']['keystore_type'] = 'jks'
+default['tomcat']['truststore_file'] = nil
+default['tomcat']['truststore_type'] = 'jks'
+default['tomcat']['certificate_dn'] = 'cn=localhost'
+default['tomcat']['loglevel'] = 'INFO'
+default['tomcat']['tomcat_auth'] = 'true'
+default['tomcat']['instances'] = {}
+default['tomcat']['run_base_instance'] = true
+default['tomcat']['keytool'] = 'keytool'
+
+#################
+
+default['tomcat']['tar']['url'] = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59.tar.gz'
+default['tomcat']['tar']['checksum'] = 'e0fe43d1fa17013bf7b3b2d3f71105d606a0582c153eb16fb210e7d5164941b0'
+default['tomcat']['tar']['version'] = '7.0.59'
+
 default['tomcat']['sysconfig_template_cookbook'] = 'alfresco'
 default['tomcat']['sysconfig_template_source'] = 'tomcat/sysconfig.erb'
 
