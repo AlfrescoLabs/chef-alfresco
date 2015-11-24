@@ -18,8 +18,6 @@ default['nginx']['port'] = node['alfresco']['public_port']
 default['nginx']['portssl'] = node['alfresco']['public_portssl']
 default['nginx']['status_port'] = 2100
 
-default['nginx']['proxy_port'] = node['alfresco']['internal_port']
-
 # Overridden by kitchen to $host:8800
 default['nginx']['proxy_host_header'] = "$host"
 
@@ -144,7 +142,7 @@ default['nginx']['config'] = [
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
   "        proxy_set_header        X-Forwarded-Proto $scheme;",
-  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['proxy_port']};",
+  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['internal_secure_port']};",
   "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
   "    }",
   "}",
@@ -225,7 +223,7 @@ default['nginx']['nossl_config'] = [
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
   "        proxy_set_header        X-Forwarded-Proto $scheme;",
-  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['proxy_port']};",
+  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['internal_port']};",
   "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
   "    }",
   "}",
