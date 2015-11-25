@@ -31,7 +31,7 @@
   <% end -%>
 
   <!--APR library loader. Documentation at /docs/apr.html -->
-  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <!-- <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" /> -->
 
   <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
   <Listener className="org.apache.catalina.core.JasperListener" />
@@ -74,13 +74,15 @@
          Define a non-SSL HTTP/1.1 Connector on port <%= node["tomcat"]["port"] %>
     -->
 
+
+    <!-- SET THIS IN CONNECTOR WHEN FIXING APR - protocol="org.apache.coyote.http11.Http11AprProtocol" -->
     <% if @port -%>
       <Connector port="<%= @port %>"
         <% if @max_threads -%>
           maxThreads="<%= @max_threads %>"
         <% end -%>
         executor="tomcatThreadPool"
-        protocol="org.apache.coyote.http11.Http11AprProtocol"
+        protocol="HTTP/1.1"
         URIEncoding="UTF-8"
         enableLookups="false"
         acceptCount="100"

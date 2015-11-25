@@ -85,9 +85,7 @@ apache_tomcat 'tomcat' do
       setenv_options do
         config(
           [
-            "export JAVA_HOME=\"#{node['java']['java_home']}\"",
-            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k, v| "#{v}"}.join(' ')}\"",
-            "export CATALINA_OPTS=\"#{attrs['catalina_options']}\""
+            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k, v| "#{v}"}.join(' ')}\""
           ]
         )
       end
@@ -101,7 +99,7 @@ apache_tomcat 'tomcat' do
           port attrs['port']
           proxy_port attrs['proxy_port']
           ajp_port attrs['ajp_port']
-          shutdown_port node['tomcat']['shutdown_port']
+          shutdown_port attrs['shutdown_port']
           # jmx_port attrs['jmx_port']
           max_threads attrs['max_threads']
           tomcat_auth attrs['tomcat_auth']
