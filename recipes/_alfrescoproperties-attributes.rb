@@ -13,9 +13,9 @@ if node['alfresco']['log.json.enabled']
   node.default['artifacts']['json-logging-share-amp']['enabled'] = true
   node.default['logging']['log4j.appender.File.layout'] = "net.logstash.log4j.JSONEventLayoutV1"
   node.default['logging']['log4j.appender.File.File'] = "${logfilename}.json"
-  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log.json']
-  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/var/log/tomcat-share/share.log.json']
-  node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/var/log/tomcat-solr/solr.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/etc/tomcat/alfresco/logs/alfresco.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/etc/tomcat/share/logs/share.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/etc/tomcat/solr/logs/solr.log.json']
 end
 node.default['alfresco']['log4j'] = node['logging']
 

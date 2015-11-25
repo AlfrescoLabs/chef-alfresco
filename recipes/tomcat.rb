@@ -102,7 +102,7 @@ apache_tomcat 'tomcat' do
           proxy_port attrs['proxy_port']
           ajp_port attrs['ajp_port']
           shutdown_port node['tomcat']['shutdown_port']
-          jmx_port attrs['jmx_port']
+          # jmx_port attrs['jmx_port']
           max_threads attrs['max_threads']
           tomcat_auth attrs['tomcat_auth']
           # config_dir attrs['config_dir']
