@@ -42,7 +42,7 @@ default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.1.c-EA"
 default['alfresco']['edition'] = "community"
 
-default['alfresco']['home'] = "/usr/share/tomcat"
+default['alfresco']['home'] = "/etc/tomcat"
 default['alfresco']['user'] = "tomcat"
 
 default['alfresco']['skip_certificate_creation'] = false

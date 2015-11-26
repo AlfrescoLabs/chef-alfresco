@@ -38,7 +38,7 @@ apache_tomcat 'tomcat' do
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
   version node['tomcat']['tar']['version']
-  instance_root '/etc/tomcat'
+  instance_root node['alfresco']['home']
   user node['tomcat']['user']
   group node['tomcat']['group']
 
