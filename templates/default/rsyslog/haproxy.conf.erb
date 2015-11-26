@@ -1,1 +1,16 @@
-local2.*    /var/log/haproxy/haproxy.log
+#local2.*    /var/log/haproxy/haproxy.log
+
+# log each haproxy backend traffic into its own log file
+<% if node['haproxy']['backends'] -%>
+  <% node['haproxy']['backends'].each do |backendName,backend| -%>
+    <% if node['haproxy']['enabled_backends'].include? backendName -%>
+
+    if $syslogfacility-text == 'local2' and $msg contains '<%= backendName %>/' then /var/log/haproxy/<%= backendName %>.log
+    & ~
+
+    <% end -%>
+  <% end -%>
+<% end -%>
+
+local2.*                                                /var/log/haproxy/haproxy.log
+& ~
