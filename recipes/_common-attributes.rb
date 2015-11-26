@@ -1,6 +1,5 @@
 # Alfresco dir root (used in _alfrescoproperties-attributes.rb and below)
 node.default['alfresco']['properties']['dir.root'] = "#{node['alfresco']['home']}/alf_data"
-node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 
 # Solr Common attributes (used in _tomcat-attributes.rb)
 node.default['alfresco']['solr']['alfresco_models'] = "#{node['alfresco']['properties']['dir.root']}/newAlfrescoModels"

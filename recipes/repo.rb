@@ -6,6 +6,10 @@ node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = node['al
 node.default['artifacts']['alfresco']['enabled'] = true
 node.default['artifacts']['keystore']['enabled'] = true
 
+if node['artifacts']['keystore']['enabled']
+  node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+end
+
 root_folder = node['alfresco']['properties']['dir.root']
 shared_folder = node['alfresco']['shared']
 config_folder = node['tomcat']['config_dir']
