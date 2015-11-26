@@ -116,7 +116,7 @@ default['haproxy']['frontends']['external']['entries'] = [
   "# TARPIT the new connection if the client has opened more than 20 connections in 3s",
   "# http-request tarpit if { src_conn_rate ge 20 }",
   "# TARPIT the connection if the client has passed the HTTP error rate (5 in 10s)",
-  "http-request tarpit if { sc0_http_err_rate() gt 5 }",
+  "# http-request tarpit if { sc0_http_err_rate() gt 5 }",
   "# TARPIT the connection if the client has passed the HTTP request rate (20 in 10s)",
   "# http-request tarpit if { sc0_http_req_rate() gt 20 }",
   "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
