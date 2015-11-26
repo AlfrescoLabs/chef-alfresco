@@ -17,7 +17,8 @@ if node['alfresco']['log.json.enabled']
   node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/var/log/tomcat-share/share.log.json']
   node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/var/log/tomcat-solr/solr.log.json']
 end
-node.default['alfresco']['log4j'] = node['logging']
+
+node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
 
 mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
 mailsmtp_databag_items = node["alfresco"]["mailsmtp_databag_items"]
