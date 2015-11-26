@@ -53,11 +53,20 @@ apache_tomcat 'tomcat' do
           ]
         )
       end
+      setcron_options do
+        config(
+          [
+            "MAILTO=\"\"",
+            "# Clean cache files not used by 30 minutes",
+            "*/#{node['tomcat']['cleaner.minutes.interval']} * * * * root find /etc/tomcat/#{node['tomcat']['base_instance']}/temp -mmin +#{node['tomcat']['cleaner.minutes.interval']} -type f -exec rm -rf {} \;",
+            "# Clean rotated logs",
+            "20 0 * * * root find /etc/tomcat/#{node['tomcat']['base_instance']}/logs -mtime -1 -type f -exec rm {} \;"
+          ]
+        )
+      end
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
-        # Optionally, pass hash key/values to `config_options` if your custom template
-        # needs variables
         options do
           port node['tomcat']['port']
           proxy_port node['tomcat']['proxy_port']
@@ -89,12 +98,20 @@ apache_tomcat 'tomcat' do
           ]
         )
       end
-
+      setcron_options do
+        config(
+          [
+            "MAILTO=\"\"",
+            "# Clean cache files not used by 30 minutes",
+            "*/#{node['tomcat']['cleaner.minutes.interval']} * * * * root find /etc/tomcat/#{name}/temp -mmin +#{node['tomcat']['cleaner.minutes.interval']} -type f -exec rm -rf {} \\;",
+            "# Clean rotated logs",
+            "20 0 * * * root find /etc/tomcat/#{name}/logs -mtime -1 -type f -exec rm {} \\;"
+          ]
+        )
+      end
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
-        # Optionally, pass hash key/values to `config_options` if your custom template
-        # needs variables
         options do
           port attrs['port']
           proxy_port attrs['proxy_port']
