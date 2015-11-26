@@ -30,12 +30,6 @@ rescue
   Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_items}")
 end
 
-# S3 default values (if not enabled, alfresco will ignore them)
-node.default['alfresco']['properties']['s3.encryption'] = "AES256"
-node.default['alfresco']['properties']['s3.flatRoot'] = true
-node.default['alfresco']['properties']['s3service.https-only'] = true
-node.default['alfresco']['properties']['s3service.max-thread-count'] = "5"
-
 node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
 node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
 node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.0.2"
