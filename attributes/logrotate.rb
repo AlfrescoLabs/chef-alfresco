@@ -14,7 +14,7 @@ default['logrotate']['global']['/var/log/tomcat-*/localhost.*'] = {
   'rotate' => node['logrotate']['rotate']
 }
 
-default['logrotate']['global']['/var/log/haproxy/haproxy.log'] = {
+default['logrotate']['global']['/var/log/haproxy/*.log'] = {
   'missingok' => true,
   'daily' => true,
   'compress' => true,
