@@ -4,7 +4,9 @@ node.default['haproxy']['backends']['aos_vti']['nodes']['localhost'] = node['alf
 node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = node['alfresco']['internal_hostname']
 
 node.default['artifacts']['alfresco']['enabled'] = true
-node.default['artifacts']['keystore']['enabled'] = true
+
+# Not needed on standard a installation, unless Solr SSL is enabled
+# node.default['artifacts']['keystore']['enabled'] = true
 
 if node['artifacts']['keystore']['enabled']
   node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"

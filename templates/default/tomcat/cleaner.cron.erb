@@ -1,8 +1,8 @@
 MAILTO=""
 
-# Clean cache files not used by 30 minutes
+# Clean cache files not used by x minutes
 */<%= node['tomcat']['cleaner.minutes.interval'] %> * * * * root find <%= @tomcat_cache_path %> -mmin +<%= node['tomcat']['cleaner.minutes.interval'] %> -type f -exec rm -rf {} \;
 
-# Clean rotated logs
-# TODO - logrotate should do this
-# 20 0 * * * root find <%= @tomcat_log_path %> -mtime -1 -type f -exec rm {} \;
+# Cleanup old tomcat logs
+# TODO - make it optional/configurable
+0 1 * * * root find <%= @tomcat_log_path %> -mtime -2 -type f -exec rm {} \;
