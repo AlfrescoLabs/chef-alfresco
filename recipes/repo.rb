@@ -9,7 +9,7 @@ node.default['artifacts']['keystore']['enabled'] = true
 root_folder = node['alfresco']['properties']['dir.root']
 shared_folder = node['alfresco']['shared']
 config_folder = node['tomcat']['config_dir']
-log_folder = node['tomcat']['log_dir']
+# log_folder = node['tomcat']['log_dir']
 
 user = node['alfresco']['user']
 group = node['tomcat']['group']
@@ -77,10 +77,10 @@ file_replace_line "#{config_folder}/catalina.properties" do
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
 
-directory "tomcat-logs-permissions" do
-  path log_folder
-  owner user
-  group group
-  mode "0775"
-  recursive true
-end
+# directory "tomcat-logs-permissions" do
+#   path log_folder
+#   owner user
+#   group group
+#   mode "0775"
+#   recursive true
+# end

@@ -38,7 +38,7 @@ apache_tomcat 'tomcat' do
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
   version node['tomcat']['tar']['version']
-  instance_root node['alfresco']['home']
+  instance_root "#{node['alfresco']['home']}-instances"
   user node['tomcat']['user']
   group node['tomcat']['group']
 
@@ -48,8 +48,11 @@ apache_tomcat 'tomcat' do
         config(
           [
             "export JAVA_HOME=\"#{node['java']['java_home']}\"",
-            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| "#{v}"}.join(' ')}\"",
-            "export CATALINA_OPTS=\"#{node['tomcat']['catalina_options']}\""
+            # "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| "#{v}"}.join(' ')}\"",
+            "export CATALINA_OPTS=\"#{node['tomcat']['catalina_options']}\"",
+            "ln -s #{node['alfresco']['home']}/conf/catalina.properties #{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/conf/catalina.properties",
+            "ln -s #{node['alfresco']['home']}/conf/catalina.policy #{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/conf/catalina.policy",
+            "ln -s #{node['alfresco']['home']}/conf/tomcat-users.xml #{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/conf/tomcat-users.xml"
           ]
         )
       end
@@ -94,7 +97,10 @@ apache_tomcat 'tomcat' do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k, v| "#{v}"}.join(' ')}\""
+            # "export JAVA_OPTS=\"#{attrs['java_options'].map{|k, v| "#{v}"}.join(' ')}\"",
+            "ln -sf #{node['alfresco']['home']}/conf/catalina.properties #{node['alfresco']['home']}-instances/#{name}/conf/catalina.properties",
+            "ln -sf #{node['alfresco']['home']}/conf/catalina.policy #{node['alfresco']['home']}-instances/#{name}/conf/catalina.policy",
+            "ln -sf #{node['alfresco']['home']}/conf/tomcat-users.xml #{node['alfresco']['home']}-instances/#{name}/conf/tomcat-users.xml"
           ]
         )
       end
@@ -103,9 +109,9 @@ apache_tomcat 'tomcat' do
           [
             "MAILTO=\"\"",
             "# Clean cache files not used by 30 minutes",
-            "*/#{node['tomcat']['cleaner.minutes.interval']} * * * * root find /etc/tomcat/#{name}/temp -mmin +#{node['tomcat']['cleaner.minutes.interval']} -type f -exec rm -rf {} \\;",
+            "*/#{node['tomcat']['cleaner.minutes.interval']} * * * * root find #{node['alfresco']['home']}-instances/#{name}/temp -mmin +#{node['tomcat']['cleaner.minutes.interval']} -type f -exec rm -rf {} \\;",
             "# Clean rotated logs",
-            "20 0 * * * root find /etc/tomcat/#{name}/logs -mtime -1 -type f -exec rm {} \\;"
+            "20 0 * * * root find #{node['alfresco']['home']}-instances/#{name}/logs -mtime -1 -type f -exec rm {} \\;"
           ]
         )
       end

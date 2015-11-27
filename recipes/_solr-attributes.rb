@@ -35,5 +35,5 @@ end
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['solr4']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}/solr/webapps"
+  node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}-instances/solr/webapps"
 end

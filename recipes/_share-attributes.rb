@@ -30,5 +30,5 @@ node.default['alfresco']['shareproperties']['origin'] = ".*"
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['share']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['share']['destination'] = "#{node['alfresco']['home']}/share/webapps"
+  node.default['artifacts']['share']['destination'] = "#{node['alfresco']['home']}-instances/share/webapps"
 end

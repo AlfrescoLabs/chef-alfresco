@@ -102,5 +102,5 @@ node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}/alfresco/webapps"
+  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-instances/alfresco/webapps"
 end
