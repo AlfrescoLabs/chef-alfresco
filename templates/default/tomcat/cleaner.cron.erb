@@ -5,4 +5,4 @@ MAILTO=""
 
 # Cleanup old tomcat logs
 # TODO - make it optional/configurable
-0 1 * * * root find <%= @tomcat_log_path %> -mtime -2 -type f -exec rm {} \;
+0 1 * * * root find <%= @tomcat_log_path %> -mtime +2 -type f -exec rm {} \;
