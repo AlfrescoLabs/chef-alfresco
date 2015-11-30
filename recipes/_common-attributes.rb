@@ -28,11 +28,15 @@ node.default['tomcat']['ssl_redirect_port'] = node['alfresco']['public_portssl']
 # Logrotate values; they will be used only if logrotate::global (or a wrapping recipe)
 # is part of the run_list
 node.default['logrotate']['global']['/var/log/haproxy/*.log'] = {
+  'daily'  => true,
+  'weekly'  => false,
   'create' => '600 haproxy haproxy',
   'postrotate'  => ['[ -f /var/run/syslogd.pid ] && kill -USR1 `cat /var/run/syslogd.pid`']
 }
 
 node.default['logrotate']['global']['/var/log/nginx/*.log'] = {
+  'daily'  => true,
+  'weekly'  => false,
   'delaycompress'  => true,
   'notifempty' => true,
   'sharedscripts' => true,
