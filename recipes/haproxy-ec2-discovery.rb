@@ -43,12 +43,14 @@ if query_tags
 
   # TODO - refactor with:
   # aws ec2 describe-instances --query "Reservations[*].Instances[*].PublicIpAddress" --output text --filters Name=tag:Status,Values=complete
+  haproxy_backends = node['haproxy']['backends'].to_hash.clone
   ruby_block "handling-#{peers_file_path}" do
     block do
       file = File.read(peers_file_path)
       current_availability_zone = File.read('/etc/chef/availability-zone')
       peers_hash = JSON.parse(file)
       Chef::Log.info("Parsing EC2 instances for current avaliability zone '#{current_availability_zone}'; Role Tag Name is '#{role_tag_name}'")
+
       if peers_hash['Reservations'] and peers_hash['Reservations'].length > 0
         Chef::Log.info("Found EC2 #{peers_hash['Reservations'].size()} instances")
         peers_hash['Reservations'].each do |reservation|
@@ -60,13 +62,21 @@ if query_tags
             Chef::Log.info("Parsing EC2 instance '#{id}', status '#{status}', avaliability zone '#{availability_zone}', private IP '#{private_ip}'")
             if status == "running"
               awsnode['Tags'].each do |tag|
-                if tag['Key'] == role_tag_name or tag['Key'] == "allinone"
+                if tag['Key'] == role_tag_name
                   role = tag['Value']
                   Chef::Log.info("EC2 instance '#{id}' has role '#{role}'")
-                  if current_availability_zone == availability_zone
-		                  node.default['haproxy']['backends'][role]['zones'][availability_zone]['current'] = true
+                  unless haproxy_backends[role]
+                    haproxy_backends[role] = {}
+                    haproxy_backends[role]['zones'] = {}
                   end
-		              node.default['haproxy']['backends'][role]['zones'][availability_zone]['nodes'][id] = private_ip
+                  unless haproxy_backends[role]['zones'][availability_zone]
+                    haproxy_backends[role]['zones'][availability_zone] = {}
+                    haproxy_backends[role]['zones'][availability_zone]['nodes'] = {}
+                  end
+                  if current_availability_zone == availability_zone
+		                  haproxy_backends[role]['zones'][availability_zone]['current'] = true
+                  end
+		              haproxy_backends[role]['zones'][availability_zone]['nodes'][id] = private_ip
                   Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
                 end
               end
@@ -74,17 +84,31 @@ if query_tags
           end
         end
       end
+
+      if haproxy_backends['allinone']
+        haproxy_backends['alfresco']['zones'] = haproxy_backends['allinone']['zones']
+        haproxy_backends['share']['zones'] = haproxy_backends['allinone']['zones']
+        haproxy_backends['solr']['zones'] = haproxy_backends['allinone']['zones']
+      end
+
 	    # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
-      node.default['haproxy']['backends']['aos_vti']['zones'] = node['haproxy']['backends']['alfresco']['zones']
-      node.default['haproxy']['backends']['aos_root']['zones'] = node['haproxy']['backends']['alfresco']['zones']
+      if haproxy_backends['alfresco'] and haproxy_backends['aos_vti'] and haproxy_backends['aos_root']
+        haproxy_backends['aos_vti']['zones'] = haproxy_backends['alfresco']['zones']
+        haproxy_backends['aos_root']['zones'] = haproxy_backends['alfresco']['zones']
+      end
+
+      Chef::Log.info("Haproxy backends: #{haproxy_backends}")
+
     end
     action :run
   end
 
   template '/etc/haproxy/haproxy.cfg' do
     source 'haproxy/haproxy.cfg.erb'
+    variables :haproxy_backends => haproxy_backends
     notifies :restart, 'service[haproxy]', :delayed
   end
+
   service 'haproxy' do
     action :nothing
   end

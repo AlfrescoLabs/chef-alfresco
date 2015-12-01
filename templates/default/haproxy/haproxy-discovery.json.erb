@@ -4,8 +4,8 @@
         "ec2" : {
             "query_tags" : {
                 <% if node['haproxy']['ec2']['query_tags'] -%>
-                  <% node['haproxy']['ec2']['query_tags'].each_with_index do |tagName,i| -%>
-                    "<%= tagName %>" : "<%= node['haproxy']['ec2']['query_tags'][tagName] %>"<% unless i == if node['haproxy']['ec2']['query_tags'].size - 1 -%>,<% end -%>
+                  <% node['haproxy']['ec2']['query_tags'].each_with_index do |(tagName,tagValue),i| -%>
+                    "<%= tagName %>" : "<%= tagValue %>"<% unless i == node['haproxy']['ec2']['query_tags'].size - 1 -%>,<% end -%>
                   <% end -%>
                 <% end -%>
             }

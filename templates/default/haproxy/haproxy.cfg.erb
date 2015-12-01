@@ -68,10 +68,10 @@ default_backend <%= node['haproxy']['default_backend'] %>
 <% end -%>
 
 # Backends list
-<% if node['haproxy']['backends'] -%>
-  <% node['haproxy']['backends'].each do |backendName,backend| -%>
+<% if @haproxy_backends -%>
+  <% @haproxy_backends.each do |backendName,backend| -%>
     <% if node['haproxy']['enabled_backends'].include? backendName -%>
-# <%= backendName %> backend
+# START <%= backendName %> backend
 backend <%= backendName %>
       <% if backend['entries'] -%>
         <% backend['entries'].each do |entry| -%>
@@ -87,24 +87,25 @@ backend <%= backendName %>
         (node['alfresco']['components'].include? 'repo' and backendName == 'alfresco') -%>
 server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
       <% end -%>
-
       <% if backend['zones'] -%>
+# EC2 Instances of the same availability zone
         <% backend['zones'].each do |zoneName,zoneParams| -%>
           <% if zoneParams['current'] == true -%>
-# First, the nodes of the same availability zone
             <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
             <% end -%>
           <% end -%>
+        <% end -%>
+# EC2 Instances of different availability zones
+        <% backend['zones'].each do |zoneName,zoneParams| -%>
           <% unless zoneParams['current'] == true -%>
-# Second, the nodes in the other availability zones
             <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
             <% end -%>
           <% end -%>
         <% end -%>
       <% end -%>
-
+      # END <%= backendName %> backend
     <% end -%>
   <% end -%>
 <% end -%>
