@@ -101,19 +101,19 @@ describe "Alfresco daemons" do
   # end
 end
 
-# Rsyslog files for haproxy
-describe file('/var/log/haproxy/haproxy.log') do
-  it { should exist }
-end
-describe file('/var/log/haproxy/alfresco.log') do
-  it { should exist }
-end
-describe file('/var/log/haproxy/share.log') do
-  it { should exist }
-end
-describe file('/var/log/haproxy/solr.log') do
-  it { should exist }
-end
+# TODO - Rsyslog files for haproxy
+# describe file('/var/log/haproxy/haproxy.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/alfresco.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/share.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/solr.log') do
+#   it { should exist }
+# end
 
 # TODO - not working
 #
