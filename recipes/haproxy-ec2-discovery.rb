@@ -57,7 +57,7 @@ if query_tags
             id = awsnode['InstanceId']
             if status == "running"
               awsnode['Tags'].each do |tag|
-                if tag['Key'] == role_tag_name
+                if tag['Key'] == role_tag_name or tag['Key'] == "allinone"
                   role = tag['Value']
                   if current_availability_zone == availability_zone
 		                  node.default['haproxy']['backends'][role]['zones'][availability_zone]['current'] = true
