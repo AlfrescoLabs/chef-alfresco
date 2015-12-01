@@ -37,8 +37,14 @@ if query_tags
   # Fetching current availability_zone
   availability_zone_command = "wget -q -O - http://169.254.169.254/latest/meta-data/placement/availability-zone"
 
+  private_ip_command = "wget -q -O - http://169.254.169.254/latest/meta-data/local-ipv4"
+
   execute "set-ec2-availability-zone" do
     command "#{availability_zone_command} > /etc/chef/availability-zone"
+  end
+
+  execute "set-ec2-private-ip" do
+    command "#{private_ip_command} > /etc/chef/private-ip"
   end
 
   # TODO - refactor with:
@@ -48,6 +54,7 @@ if query_tags
     block do
       file = File.read(peers_file_path)
       current_availability_zone = File.read('/etc/chef/availability-zone')
+      current_private_ip = File.read('/etc/chef/private-ip')
       peers_hash = JSON.parse(file)
       Chef::Log.info("Parsing EC2 instances for current avaliability zone '#{current_availability_zone}'; Role Tag Name is '#{role_tag_name}'")
 
@@ -76,8 +83,13 @@ if query_tags
                   if current_availability_zone == availability_zone
 		                  haproxy_backends[role]['zones'][availability_zone]['current'] = true
                   end
-		              haproxy_backends[role]['zones'][availability_zone]['nodes'][id] = private_ip
-                  Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
+
+                  unless current_private_ip == private_ip
+  		              haproxy_backends[role]['zones'][availability_zone]['nodes'][id] = private_ip
+                    Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
+                  else
+                    Chef::Log.info("Skipping instance #{private_ip} as it's the current instance")
+                  end
                 end
               end
             end
@@ -103,6 +115,7 @@ if query_tags
     action :run
   end
 
+  # TODO - make source/cookbook parametric
   template '/etc/haproxy/haproxy.cfg' do
     source 'haproxy/haproxy.cfg.erb'
     variables :haproxy_backends => haproxy_backends
