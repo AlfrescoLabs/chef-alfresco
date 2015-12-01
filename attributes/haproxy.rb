@@ -75,8 +75,7 @@ default['haproxy']['frontends']['internal']['entries'] = [
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
-  "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64"
+  "capture request header Accept-Language len 64"
 ]
 
 default['haproxy']['frontends']['external']['redirects'] = [
@@ -93,7 +92,6 @@ default['haproxy']['frontends']['external']['entries'] = [
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
   "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64",
   "unique-id-format %{+X}o\\ %ci:%cp_%fi:%fp_%Ts_%rt:%pid",
   "unique-id-header X-Unique-ID",
   "#---- ddos protection -----",

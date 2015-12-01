@@ -76,6 +76,8 @@ if query_tags
                   Chef::Log.info("EC2 instance '#{id}' has role '#{role}'")
                   unless haproxy_backends[role]
                     haproxy_backends[role] = {}
+                  end
+                  unless haproxy_backends[role]['zones']
                     haproxy_backends[role]['zones'] = {}
                   end
                   unless haproxy_backends[role]['zones'][availability_zone]
