@@ -168,22 +168,27 @@ default['haproxy']['secure_entries'] = [
 ]
 
 default['haproxy']['backends']['share']['port'] = 8081
+default['haproxy']['backends']['share']['options'] = "cookie check inter 5000"
 
 # Solr Haproxy configuration
 default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
 default['haproxy']['backends']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['solr']['port'] = 8090
+default['haproxy']['backends']['solr']['options'] = "check inter 5000"
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
 default['haproxy']['frontends']['external']['acls']['alfresco'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
 default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['alfresco']['port'] = 8070
+default['haproxy']['backends']['alfresco']['options'] = "cookie check inter 5000"
 
 default['haproxy']['frontends']['external']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
 default['haproxy']['backends']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['aos_vti']['port'] = 8070
+default['haproxy']['backends']['aos_vti']['options'] = "check inter 5000"
 
 default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
 default['haproxy']['backends']['aos_root']['entries'] = ["option httpchk GET /","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['aos_root']['port'] = 8070
+default['haproxy']['backends']['aos_root']['options'] = "check inter 5000"
