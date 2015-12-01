@@ -86,24 +86,25 @@ backend <%= backendName %>
       <% if node['alfresco']['components'].include? backendName or
         (node['alfresco']['components'].include? 'repo' and backendName == 'alfresco') -%>
 server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
-      <% else -%>
-        <% if backend['zones'] -%>
-          <% backend['zones'].each do |zoneName,zoneParams| -%>
-            <% if zoneParams['current'] == true -%>
+      <% end -%>
+
+      <% if backend['zones'] -%>
+        <% backend['zones'].each do |zoneName,zoneParams| -%>
+          <% if zoneParams['current'] == true -%>
 # First, the nodes of the same availability zone
-              <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
+            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
-              <% end -%>
             <% end -%>
-            <% unless zoneParams['current'] == true -%>
+          <% end -%>
+          <% unless zoneParams['current'] == true -%>
 # Second, the nodes in the other availability zones
-              <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
+            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
-              <% end -%>
             <% end -%>
           <% end -%>
         <% end -%>
       <% end -%>
+
     <% end -%>
   <% end -%>
 <% end -%>

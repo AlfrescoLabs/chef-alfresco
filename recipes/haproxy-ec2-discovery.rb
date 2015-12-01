@@ -48,17 +48,21 @@ if query_tags
       file = File.read(peers_file_path)
       current_availability_zone = File.read('/etc/chef/availability-zone')
       peers_hash = JSON.parse(file)
+      Chef::Log.info("Parsing EC2 instances for current avaliability zone '#{current_availability_zone}'; Role Tag Name is '#{role_tag_name}'")
       if peers_hash['Reservations'] and peers_hash['Reservations'].length > 0
+        Chef::Log.info("Found EC2 #{peers_hash['Reservations'].size()} instances")
         peers_hash['Reservations'].each do |reservation|
           reservation['Instances'].each do |awsnode|
             private_ip = awsnode['PrivateIpAddress']
             availability_zone = awsnode['Placement']['AvailabilityZone']
             status = awsnode['State']['Name']
             id = awsnode['InstanceId']
+            Chef::Log.info("Parsing EC2 instance '#{id}', status '#{status}', avaliability zone '#{availability_zone}', private IP '#{private_ip}'")
             if status == "running"
               awsnode['Tags'].each do |tag|
                 if tag['Key'] == role_tag_name or tag['Key'] == "allinone"
                   role = tag['Value']
+                  Chef::Log.info("EC2 instance '#{id}' has role '#{role}'")
                   if current_availability_zone == availability_zone
 		                  node.default['haproxy']['backends'][role]['zones'][availability_zone]['current'] = true
                   end
@@ -71,8 +75,8 @@ if query_tags
         end
       end
 	    # AOS backend is hosted by alfresco, so it inherits same haproxy configurations
-      node.default['haproxy']['backends']['aos_vti']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
-      node.default['haproxy']['backends']['aos_root']['nodes'] = node['haproxy']['backends']['alfresco']['nodes']
+      node.default['haproxy']['backends']['aos_vti']['zones'] = node['haproxy']['backends']['alfresco']['zones']
+      node.default['haproxy']['backends']['aos_root']['zones'] = node['haproxy']['backends']['alfresco']['zones']
     end
     action :run
   end
