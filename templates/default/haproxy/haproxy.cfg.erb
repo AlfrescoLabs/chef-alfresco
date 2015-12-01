@@ -80,7 +80,7 @@ backend <%= backendName %>
 <%= secure_entry %>
       <% end -%>
     <% end -%>
-    <% if backend['alfresco']['enabled_local'] -%>
+    <% if backend['enabled_local'] -%>
 server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
     <% end -%>
     <% if backend['zones'] -%>
