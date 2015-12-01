@@ -68,7 +68,7 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 <% if @haproxy_backends -%>
   <% @haproxy_backends.each do |backendName,backend| -%>
-    <% unless backendName == 'allione' -%>
+    <% unless backendName == 'allinone' -%>
 # START <%= backendName %> backend
 backend <%= backendName %>
       <% if backend['entries'] -%>
