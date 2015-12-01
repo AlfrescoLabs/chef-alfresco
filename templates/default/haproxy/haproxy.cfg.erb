@@ -68,33 +68,35 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 <% if @haproxy_backends -%>
   <% @haproxy_backends.each do |backendName,backend| -%>
+    <% unless backendName == 'allione' -%>
 # START <%= backendName %> backend
 backend <%= backendName %>
-    <% if backend['entries'] -%>
-      <% backend['entries'].each do |entry| -%>
+      <% if backend['entries'] -%>
+        <% backend['entries'].each do |entry| -%>
 <%= entry %>
-      <% end -%>
-    <% end -%>
-    <% if backend['secure_entries'] -%>
-      <% backend['secure_entries'].each do |secure_entry| -%>
-<%= secure_entry %>
-      <% end -%>
-    <% end -%>
-    <% if backend['enabled_local'] -%>
-server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
-    <% end -%>
-    <% if backend['zones'] -%>
-      <% backend['zones'].each do |zoneName,zoneParams| -%>
-        <% if zoneParams['current'] == true -%>
-          <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
-          <% end -%>
         <% end -%>
       <% end -%>
-      <% backend['zones'].each do |zoneName,zoneParams| -%>
-        <% unless zoneParams['current'] == true -%>
-          <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
+      <% if backend['secure_entries'] -%>
+        <% backend['secure_entries'].each do |secure_entry| -%>
+<%= secure_entry %>
+        <% end -%>
+      <% end -%>
+      <% if backend['enabled_local'] -%>
+server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
+      <% end -%>
+      <% if backend['zones'] -%>
+        <% backend['zones'].each do |zoneName,zoneParams| -%>
+          <% if zoneParams['current'] == true -%>
+            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
 server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
+            <% end -%>
+          <% end -%>
+        <% end -%>
+        <% backend['zones'].each do |zoneName,zoneParams| -%>
+          <% unless zoneParams['current'] == true -%>
+            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
+server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
+            <% end -%>
           <% end -%>
         <% end -%>
       <% end -%>
