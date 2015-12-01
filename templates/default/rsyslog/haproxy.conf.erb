@@ -2,7 +2,7 @@
 
 <% if node['haproxy']['backends'] -%>
   <% node['haproxy']['backends'].each do |backendName,backend| -%>
-    <% if node['haproxy']['enabled_backends'].include? backendName -%>
+    <% if backend['enabled_local'] -%>
 # TODO - syslogfacility-text doesn't match; find the proper syntax, then add it back
 # if $syslogfacility-text == 'local2' and $msg contains '<%= backendName %>/' then /var/log/haproxy/<%= backendName %>.log
 if $syslogfacility-text == 'local2' and $msg contains '<%= backendName %>/local_<%= backendName %>' then /var/log/haproxy/<%= backendName %>.log

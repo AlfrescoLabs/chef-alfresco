@@ -1,7 +1,7 @@
 # Add Repo backend entries to local instance
-node.default['haproxy']['backends']['alfresco']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-node.default['haproxy']['backends']['aos_vti']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = node['alfresco']['internal_hostname']
+node.default['haproxy']['backends']['alfresco']['enabled_local'] = true
+node.default['haproxy']['backends']['aos_vti']['enabled_local'] = true
+node.default['haproxy']['backends']['aos_root']['enabled_local'] = true
 
 node.default['artifacts']['alfresco']['enabled'] = true
 
