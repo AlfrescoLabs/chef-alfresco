@@ -6,6 +6,7 @@ default['nginx']['use_nossl_config'] = false
 
 # Set to 'on' for enabling access logs
 default['nginx']['access_log'] = "off"
+default['nginx']['log_level'] = "warn"
 
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
@@ -73,7 +74,7 @@ default['nginx']['config'] = [
   "    resolver #{node['nginx']['dns_server']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
-  "    error_log  /var/log/nginx/error.log info;",
+  "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
   "    error_page 403 /errors/403.html;",
