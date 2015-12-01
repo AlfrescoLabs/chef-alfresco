@@ -5,6 +5,7 @@ rsyslog_bind = node['haproxy']['rsyslog_bind']
 
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
+include_recipe 'alfresco::haproxy-backend-config'
 
 if node['haproxy']['enable_ssl_header']
   node.default['haproxy']['frontends']['external']['headers'] = [node['haproxy']['ssl_header']]

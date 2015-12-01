@@ -1,8 +1,3 @@
-# Add Repo backend entries to local instance
-node.default['haproxy']['backends']['alfresco']['enabled_local'] = true
-node.default['haproxy']['backends']['aos_vti']['enabled_local'] = true
-node.default['haproxy']['backends']['aos_root']['enabled_local'] = true
-
 node.default['artifacts']['alfresco']['enabled'] = true
 
 # Not needed on standard a installation, unless Solr SSL is enabled

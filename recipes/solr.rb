@@ -1,6 +1,3 @@
-# Add Solr backend entry to local instance
-node.default['haproxy']['backends']['solr']['enabled_local'] = true
-
 node.default['artifacts']['solrhome']['enabled'] = true
 node.default['artifacts']['solr4']['enabled'] = true
 

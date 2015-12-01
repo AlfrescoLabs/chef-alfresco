@@ -12,6 +12,8 @@ peers_file_path = node['haproxy']['ec2']['peers_file_path']
 role_tag_name = node['haproxy']['ec2']['role_tag_name']
 aws_bin = node['haproxy']['ec2']['aws_bin']
 
+include_recipe 'alfresco::haproxy-backend-config'
+
 #TODO - use aws cookbook
 # aws_resource_tag node['ec2']['instance_id'] do
 #   aws_access_key aws['aws_access_key_id']
