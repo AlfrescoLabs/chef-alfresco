@@ -4,6 +4,9 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 
 default['nginx']['use_nossl_config'] = false
 
+# Set to 'on' for enabling access logs
+default['nginx']['access_log'] = "off"
+
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
@@ -101,12 +104,14 @@ default['nginx']['config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
   "    listen #{node['nginx']['portssl']} ssl http2;",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    # SSL Configuration",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
@@ -208,6 +213,7 @@ default['nginx']['nossl_config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    location ^~ /errors/ {",
   "        internal;",
