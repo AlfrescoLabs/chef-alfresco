@@ -56,6 +56,7 @@ default['nginx']['config'] = [
   "    default_type  application/octet-stream;",
   node['nginx']['logging_json'],
   "    client_max_body_size      0; # Allow upload of unlimited size",
+  "    client_body_buffer_size   1000M;",
   "    proxy_read_timeout        600s;",
   "    keepalive_timeout         120;",
   "    ignore_invalid_headers    on;",
