@@ -2,10 +2,6 @@ ssl_folder = node['nginx']['ssl_folder']
 ssl_folder_source = node['nginx']['ssl_folder_source']
 ssl_folder_cookbook = node['nginx']['ssl_folder_cookbook']
 
-if node['alfresco']['enable_tarpit']
-  node.set['nginx']['proxy_port'] = node['alfresco']['internal_secure_port']
-end
-
 # Override config values, if ssl is disabled
 if node['nginx']['use_nossl_config']
   node.set['nginx']['config'] = node['nginx']['nossl_config']

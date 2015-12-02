@@ -45,6 +45,11 @@ begin
   node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
   node.default['alfresco']['properties']['s3.accessKey'] = db_item['aws_access_key_id']
   node.default['alfresco']['properties']['s3.secretKey'] = db_item['aws_secret_access_key']
+  # S3 default values (if not enabled, alfresco will ignore them)
+  node.default['alfresco']['properties']['s3.encryption'] = "AES256"
+  node.default['alfresco']['properties']['s3.flatRoot'] = true
+  node.default['alfresco']['properties']['s3service.https-only'] = true
+  node.default['alfresco']['properties']['s3service.max-thread-count'] = "5"
 rescue
   Chef::Log.warn("Error fetching databag #{s3_databag},  item #{s3_databag_item}")
 end
