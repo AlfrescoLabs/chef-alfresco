@@ -82,20 +82,20 @@ backend <%= backendName %>
         <% end -%>
       <% end -%>
       <% if backend['enabled_local'] -%>
-server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> <%= backend['options'] %>
+server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> <%= backend['local_options'] || "check inter 5000" %>
       <% end -%>
       <% if backend['zones'] -%>
         <% backend['zones'].each do |zoneName,zoneParams| -%>
           <% if zoneParams['current'] == true -%>
-            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> <%= backend['options'] %>
+            <% zoneParams['nodes'].each do |nodeHost,nodeParams| -%>
+server <%= nodeHost %> <%= nodeParams['ip'] %>:<%= backend['port'] %> <%= nodeParams['options'] || "check inter 5000" %>
             <% end -%>
           <% end -%>
         <% end -%>
         <% backend['zones'].each do |zoneName,zoneParams| -%>
           <% unless zoneParams['current'] == true -%>
-            <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> <%= backend['options'] %>
+            <% zoneParams['nodes'].each do |nodeHost,nodeParams| -%>
+server <%= nodeHost %> <%= nodeParams['ip'] %>:<%= backend['port'] %> <%= nodeParams['options'] || "check inter 5000" %>
             <% end -%>
           <% end -%>
         <% end -%>

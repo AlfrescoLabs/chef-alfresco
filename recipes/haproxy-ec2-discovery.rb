@@ -69,31 +69,50 @@ if query_tags
             status = awsnode['State']['Name']
             id = awsnode['InstanceId']
             Chef::Log.info("Parsing EC2 instance '#{id}', status '#{status}', avaliability zone '#{availability_zone}', private IP '#{private_ip}'")
-            if status == "running"
-              awsnode['Tags'].each do |tag|
-                if tag['Key'] == role_tag_name
-                  role = tag['Value']
-                  Chef::Log.info("EC2 instance '#{id}' has role '#{role}'")
-                  unless haproxy_backends[role]
-                    haproxy_backends[role] = {}
-                  end
-                  unless haproxy_backends[role]['zones']
-                    haproxy_backends[role]['zones'] = {}
-                  end
-                  unless haproxy_backends[role]['zones'][availability_zone]
-                    haproxy_backends[role]['zones'][availability_zone] = {}
-                    haproxy_backends[role]['zones'][availability_zone]['nodes'] = {}
-                  end
-                  if current_availability_zone == availability_zone
-		                  haproxy_backends[role]['zones'][availability_zone]['current'] = true
-                  end
 
-                  unless current_private_ip == private_ip
-  		              haproxy_backends[role]['zones'][availability_zone]['nodes'][id] = private_ip
-                    Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
-                  else
-                    Chef::Log.info("Skipping instance #{private_ip} as it's the current instance")
-                  end
+            role = ""
+            instanceName = ""
+
+            if status == "running"
+
+              # 1. Collect Name and role_tag values from AWS tags
+              awsnode['Tags'].each do |tag|
+                if tag['Key'] == "Name"
+                  instanceName = tag['Value']
+                elsif tag['Key'] == role_tag_name
+                  role = tag['Value']
+                end
+              end
+
+              # Define node and haproxy backend configuration
+              Chef::Log.info("EC2 instance '#{id}' has role '#{role}'")
+              haproxy_backends[role] = {} unless haproxy_backends[role]
+
+              haproxy_backends[role]['zones'] = {} unless haproxy_backends[role]['zones']
+
+              unless haproxy_backends[role]['zones'][availability_zone]
+                haproxy_backends[role]['zones'][availability_zone] = {}
+                haproxy_backends[role]['zones'][availability_zone]['nodes'] = {}
+              end
+
+              haproxy_backends[role]['zones'][availability_zone]['current'] = true if current_availability_zone == availability_zone
+
+              unless current_private_ip == private_ip
+                haproxy_backends[role]['zones'][availability_zone]['nodes'][id] = {}
+                haproxy_backends[role]['zones'][availability_zone]['nodes'][id]['ip'] = private_ip
+                Chef::Log.info("haproxy-ec2-discovery: Discovered node with ip '#{private_ip}', role '#{role}' and availability_zone '#{availability_zone}'")
+
+                if role == "share"
+                  backend_options = "check cookie #{instanceName.split('-')[1]} inter 5000"
+                end
+
+                Chef::Log.info("2 #{haproxy_backends[role]['zones']}")
+
+                haproxy_backends[role]['zones'][availability_zone]['nodes'][id]['options'] = backend_options
+              else
+                Chef::Log.info("Skipping instance #{private_ip} as it's the current instance")
+                if role == "share"
+                  haproxy_backends[role]['local_options'] = "check cookie #{instanceName.split('-')[1]} inter 5000"
                 end
               end
             end
