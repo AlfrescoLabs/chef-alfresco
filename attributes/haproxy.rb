@@ -84,11 +84,14 @@ default['haproxy']['frontends']['external']['redirects'] = [
 ]
 default['haproxy']['frontends']['external']['acl_lines'] = [
   "is_root path_reg ^$|^/$",
-  "acl alfresco_path path_reg ^/alfresco/.*",
-  "acl robots path_reg ^/robots.txt$",
-  "acl solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
-  "acl activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
-  "acl webinf path_reg ^/share/res/WEB-INF/.*",
+  "alfresco_path path_reg ^/alfresco/.*",
+  "robots path_reg ^/robots.txt$",
+  "solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
+  "activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
+  "webinf path_reg ^/share/res/WEB-INF/.*"
+]
+
+default['haproxy']['frontends']['external']['other_config'] = [
   "http-request deny if alfresco_path",
   "http-request deny if robots",
   "http-request deny if solr_path",
