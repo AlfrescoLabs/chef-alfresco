@@ -92,7 +92,8 @@ default['haproxy']['frontends']['external']['acl_lines'] = [
 ]
 
 default['haproxy']['frontends']['external']['other_config'] = [
-  "http-request deny if alfresco_path",
+  # Use it to avoid accessing the /alfresco path (careful with api calls)
+  # "http-request deny if alfresco_path",
   "http-request deny if robots",
   "http-request deny if solr_path",
   "http-request deny if activity_path",
