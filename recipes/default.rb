@@ -77,30 +77,30 @@ if node['alfresco']['components'].include? 'nginx'
   include_recipe "alfresco::nginx"
 end
 
-# if node['alfresco']['components'].include? 'transform'
-#   include_recipe "alfresco::transformations"
-# end
-#
-# if node['alfresco']['components'].include? 'aos'
-#   include_recipe "alfresco::aos"
-# end
-#
-# if node['alfresco']['components'].include? 'googledocs'
-#   include_recipe "alfresco::googledocs"
-# end
-#
-# if node['alfresco']['components'].include? 'rm'
-#   include_recipe "alfresco::rm"
-# end
-#
-# if node['media']['install.content.services']
-#   include_recipe 'alfresco::media-content-services'
-#   install_activemq = true
-# end
-#
-# if node['alfresco']['components'].include? 'media'
-#   include_recipe 'alfresco::media-alfresco'
-# end
+if node['alfresco']['components'].include? 'transform'
+  include_recipe "alfresco::transformations"
+end
+
+if node['alfresco']['components'].include? 'aos'
+  include_recipe "alfresco::aos"
+end
+
+if node['alfresco']['components'].include? 'googledocs'
+  include_recipe "alfresco::googledocs"
+end
+
+if node['alfresco']['components'].include? 'rm'
+  include_recipe "alfresco::rm"
+end
+
+if node['media']['install.content.services']
+  include_recipe 'alfresco::media-content-services'
+  install_activemq = true
+end
+
+if node['alfresco']['components'].include? 'media'
+  include_recipe 'alfresco::media-alfresco'
+end
 
 if node['alfresco']['components'].include? 'repo'
   apply_amps = true
@@ -134,16 +134,16 @@ include_recipe "artifact-deployer::default"
 if apply_amps
   include_recipe "alfresco::apply-amps"
 end
-#
-# # This must go after Alfresco installation
-# if node['alfresco']['components'].include? 'analytics'
-#   include_recipe "alfresco::analytics"
-#   install_activemq = true
-# end
-#
-# if install_activemq
-#   include_recipe 'activemq::default'
-# end
+
+# This must go after Alfresco installation
+if node['alfresco']['components'].include? 'analytics'
+  include_recipe "alfresco::analytics"
+  install_activemq = true
+end
+
+if install_activemq
+  include_recipe 'activemq::default'
+end
 
 if node['alfresco']['components'].include? 'rsyslog'
   include_recipe "rsyslog::default"
