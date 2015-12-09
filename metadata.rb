@@ -10,6 +10,7 @@ version "0.6.16"
 depends "file"
 depends "tomcat"
 depends "maven"
+depends "commons"
 
 # Community cookbooks
 depends "activemq", ">= 1.3.3"

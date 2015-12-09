@@ -1,11 +1,16 @@
 haproxy_backends = node['haproxy']['backends'].to_hash.clone
 
+# include Chef::Ec2Discovery
+# include_relative '../../commons/libraries/'
+
 # Define HaProxy local backends
 node['alfresco']['components'].each do |component|
   if ['share','solr','repo'].include? component
     component = 'alfresco' if component == 'repo'
     id = "local_#{component}_backend"
-    Ec2Discovery.setDeepAttribute(haproxy_backends,"roles/#{component}/az/local/id/#{id}",{})
+
+    # Make sure the hash structure is created
+    Ec2Discovery.setDeepAttribute(haproxy_backends,['roles',component,'az','local','id',id],{})
 
     haproxy_backends['roles'][component]['az']['local']['id'][id]['id'] = id
     haproxy_backends['roles'][component]['az']['local']['id'][id]['ip'] = "127.0.0.1"
@@ -19,13 +24,35 @@ node['alfresco']['components'].each do |component|
 end
 
 # Duplicate alfresco backend into aos_vti, root and alfresco_api
-haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['alfresco_api']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['webdav']['az'] = haproxy_backends['alfresco']['az']
+haproxy_backends['roles']['aos_vti']['az'] = haproxy_backends['roles']['alfresco']['az']
+haproxy_backends['roles']['aos_root']['az'] = haproxy_backends['roles']['alfresco']['az']
+haproxy_backends['roles']['alfresco_api']['az'] = haproxy_backends['roles']['alfresco']['az']
+haproxy_backends['roles']['webdav']['az'] = haproxy_backends['roles']['alfresco']['az']
 
 if node['haproxy']['ec2_discovery_enabled']
-  include_recipe 'alfresco::haproxy-ec2-discovery'
+  # Run EC2 discovery
+  ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
+
+  # Merge local and EC2 configuration entries
+  haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
+end
+
+# Order AZs as follows:
+# 1. Local
+# 2. Current AZ
+# 3. Others
+#
+current_az = haproxy_backends['current']['az'] if haproxy_backends['current']
+haproxy_backends['roles'].each do |roleName,role|
+  ordered_role = []
+  ordered_role << haproxy_backends['roles'][roleName]['az']['local']
+  ordered_role << haproxy_backends['roles'][roleName]['az'][current_az] if current_az
+  role['az'].each do |azName,az|
+    if 'local' != azName and (current_az == nil or current_az != azName)
+      ordered_role << az
+    end
+  end
+  role['ordered_az'] = ordered_role
 end
 
 # Configure balancing and load distribution options on each instance:
