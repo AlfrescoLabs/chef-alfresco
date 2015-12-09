@@ -42,6 +42,13 @@ apache_tomcat 'tomcat' do
   user node['tomcat']['user']
   group node['tomcat']['group']
 
+  template "#{node['alfresco']['home']}/conf/logging.properties" do
+    source 'tomcat/logging.properties.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
+
   if node['tomcat']['run_base_instance']
     apache_tomcat_instance node['tomcat']['base_instance'] do
 
@@ -69,7 +76,7 @@ apache_tomcat 'tomcat' do
         })
       end
 
-      %w(catalina.properties catalina.policy tomcat-users.xml).each do |linked_file|
+      %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
         link "#{node['alfresco']['home']}/conf/#{linked_file}" do
           to "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}"
         end
@@ -78,6 +85,24 @@ apache_tomcat 'tomcat' do
       apache_tomcat_config 'context' do
         source node['tomcat']['context_template_source']
         cookbook node['tomcat']['context_template_cookbook']
+      end
+
+      template "/etc/sysconfig/tomcat-#{node['tomcat']['base_instance']}" do
+        cookbook node['tomcat']['sysconfig_template_cookbook']
+        source node['tomcat']['sysconfig_template_source']
+        variables ({
+          :user => node['tomcat']['user'],
+          :home => node['alfresco']['home'],
+          :base => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}",
+          :java_options => node['tomcat']['java_options'],
+          :use_security_manager => node['tomcat']['use_security_manager'],
+          :tmp_dir => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/temp",
+          :catalina_options => node['tomcat']['catalina_options'],
+          :endorsed_dir => node['tomcat']['endorsed_dir']
+        })
+        owner 'root'
+        group 'root'
+        mode '0644'
       end
 
       apache_tomcat_service node['tomcat']['base_instance'] do
