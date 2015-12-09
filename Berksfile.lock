@@ -2,6 +2,9 @@ DEPENDENCIES
   alfresco
     path: .
     metadata: true
+  commons
+    git: git@github.com:Alfresco/chef-commons.git
+    revision: 4659c51a6a7015cd14795a97187b350b10764dfc
   file
     git: https://github.com/jenssegers/chef-file.git
     revision: 050c5554efcc024d9a058908280bfb05037f9848
@@ -62,6 +65,8 @@ GRAPH
   build-essential (2.2.4)
   chef-sugar (3.1.1)
   chef_handler (1.2.0)
+  commons (0.0.1)
+    python (>= 1.4.6)
   cpu (0.2.0)
   database (4.0.9)
     postgresql (>= 1.0.0)

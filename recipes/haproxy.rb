@@ -5,7 +5,6 @@ rsyslog_bind = node['haproxy']['rsyslog_bind']
 
 include_recipe 'alfresco::_certs'
 include_recipe 'alfresco::_errorpages'
-include_recipe 'alfresco::haproxy-backend-config'
 
 if node['haproxy']['enable_ssl_header']
   node.default['haproxy']['frontends']['external']['headers'] = [node['haproxy']['ssl_header']]
@@ -31,13 +30,7 @@ if node['haproxy']['logging_json_enabled']
 end
 
 include_recipe 'haproxy::default'
-
-# TODO - make source/cookbook parametric
-template '/etc/haproxy/haproxy.cfg' do
-  source 'haproxy/haproxy.cfg.erb'
-  variables :haproxy_backends => node['haproxy']['backends']
-  notifies :restart, 'service[haproxy]', :delayed
-end
+include_recipe 'alfresco::haproxy-config'
 
 # Haproxy rsyslog configuration
 directory "/var/log/haproxy" do

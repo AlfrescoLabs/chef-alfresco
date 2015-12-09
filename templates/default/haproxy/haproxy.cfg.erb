@@ -66,42 +66,32 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 # Backends
 
-<% if @haproxy_backends -%>
-  <% @haproxy_backends.each do |backendName,backend| -%>
-    <% unless ['allinone','solrshard'].include? backendName -%>
-# START <%= backendName %> backend
-backend <%= backendName %>
-      <% if backend['entries'] -%>
-        <% backend['entries'].each do |entry| -%>
+<% if @haproxy_backends['roles'] -%>
+  <% @haproxy_backends['roles'].each do |roleName,role| -%>
+# START <%= roleName %> backend
+backend <%= roleName %>
+    <% if role['entries'] -%>
+      <% role['entries'].each do |entry| -%>
 <%= entry %>
-        <% end -%>
-      <% end -%>
-      <% if backend['secure_entries'] -%>
-        <% backend['secure_entries'].each do |secure_entry| -%>
-<%= secure_entry %>
-        <% end -%>
-      <% end -%>
-      <% if backend['enabled_local'] -%>
-server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> <%= backend['local_options'] || "check inter 5000" %>
-      <% end -%>
-      <% if backend['zones'] -%>
-        <% backend['zones'].each do |zoneName,zoneParams| -%>
-          <% if zoneParams['current'] == true -%>
-            <% zoneParams['nodes'].each do |nodeHost,nodeParams| -%>
-server <%= nodeHost %> <%= nodeParams['ip'] %>:<%= backend['port'] %> <%= nodeParams['options'] || "check inter 5000" %>
-            <% end -%>
-          <% end -%>
-        <% end -%>
-        <% backend['zones'].each do |zoneName,zoneParams| -%>
-          <% unless zoneParams['current'] == true -%>
-            <% zoneParams['nodes'].each do |nodeHost,nodeParams| -%>
-server <%= nodeHost %> <%= nodeParams['ip'] %>:<%= backend['port'] %> <%= nodeParams['options'] || "check inter 5000" %>
-            <% end -%>
-          <% end -%>
-        <% end -%>
       <% end -%>
     <% end -%>
-# END <%= backendName %> backend
+    <% if role['balanced'] -%>
+balance leastconn
+cookie JSESSIONID prefix
+    <% end -%>
+    <% if role['secure_entries'] -%>
+      <% role['secure_entries'].each do |secure_entry| -%>
+<%= secure_entry %>
+      <% end -%>
+    <% end -%>
+
+    <% role.each['ordered_az'] do |az| -%>
+      <% az['id'].each do |instanceName,instance| -%>
+# Instance <%= instanceName %>, az <%= instance['az'] %>
+server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
+      <% end -%>
+    <% end -%>
+# END <%= roleName %> backend
 
   <% end -%>
 <% end -%>
