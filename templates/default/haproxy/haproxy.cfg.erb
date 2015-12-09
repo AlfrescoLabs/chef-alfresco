@@ -85,7 +85,7 @@ cookie JSESSIONID prefix
       <% end -%>
     <% end -%>
 
-    <% role.each['ordered_az'] do |az| -%>
+    <% role['ordered_az'].each do |az| -%>
       <% az['id'].each do |instanceName,instance| -%>
 # Instance <%= instanceName %>, az <%= instance['az'] %>
 server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>

@@ -1,8 +1,5 @@
 haproxy_backends = node['haproxy']['backends'].to_hash.clone
 
-# include Chef::Ec2Discovery
-# include_relative '../../commons/libraries/'
-
 # Define HaProxy local backends
 node['alfresco']['components'].each do |component|
   if ['share','solr','repo'].include? component
@@ -19,7 +16,11 @@ node['alfresco']['components'].each do |component|
     haproxy_backends['roles'][component]['az']['local']['id'][id]['jvm_route'] = node['tomcat']['jvm_route']
 
     # Enable balancing for Share backend
-    haproxy_backends['roles'][component]['balanced'] = true if component == 'share'
+    if component == 'share'
+      haproxy_backends['roles'][component]['balanced'] = true
+    else
+      haproxy_backends['roles'][component]['balanced'] = false
+    end
   end
 end
 
@@ -30,11 +31,15 @@ haproxy_backends['roles']['alfresco_api']['az'] = haproxy_backends['roles']['alf
 haproxy_backends['roles']['webdav']['az'] = haproxy_backends['roles']['alfresco']['az']
 
 if node['haproxy']['ec2_discovery_enabled']
-  # Run EC2 discovery
-  ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
-
-  # Merge local and EC2 configuration entries
-  haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
+  ruby_block 'run-ec2-discovery' do
+    block do
+      # Run EC2 discovery
+      ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
+      # Merge local and EC2 configuration entries
+      haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
+    end
+    action :run
+  end
 end
 
 # Order AZs as follows:
@@ -62,14 +67,14 @@ end
 # will be listed as backup
 #
 haproxy_backends['roles'].each do |roleName,role|
-  balancing = role['balancing']
-  options = "check cookie inter 5000"
+  balanced = role['balanced']
+  options = "check inter 5000"
   role['ordered_az'].each_with_index do |az,index|
     az['id'].each do |instanceName,instance|
-      if balancing
+      if balanced
         options = "check cookie #{instance['jvm_route']} inter 5000"
       elsif index > 0
-        options = "check cookie inter 5000 backup"
+        options = "check inter 5000 backup"
       end
       instance['options'] = options
     end

@@ -14,16 +14,13 @@ end
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery
-  template '/etc/cron.d/haproxy-discovery.cron' do
+  template node['haproxy']['ec2']['discovery_chef_erb'] do
     source 'haproxy/haproxy-discovery.cron.erb'
   end
-  template '/etc/chef/haproxy-discovery.json' do
+  template node['haproxy']['ec2']['discovery_chef_json'] do
     source 'haproxy/haproxy-discovery.json.erb'
   end
 end
-
-# Sets ec2 tags (must be before haproxy.cfg configuration)
-# include_recipe 'alfresco::haproxy-ec2-discovery' # ~FC014
 
 if node['haproxy']['logging_json_enabled']
   node.default['haproxy']['logformat'] = node['haproxy']['json_logformat']
@@ -31,6 +28,9 @@ end
 
 include_recipe 'haproxy::default'
 include_recipe 'alfresco::haproxy-config'
+
+
+# TODO - rsyslog stuff should go somewhere else (not sure where)
 
 # Haproxy rsyslog configuration
 directory "/var/log/haproxy" do
