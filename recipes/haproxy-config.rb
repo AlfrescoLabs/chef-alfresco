@@ -30,16 +30,15 @@ haproxy_backends['roles']['aos_root']['az'] = haproxy_backends['roles']['alfresc
 haproxy_backends['roles']['alfresco_api']['az'] = haproxy_backends['roles']['alfresco']['az']
 haproxy_backends['roles']['webdav']['az'] = haproxy_backends['roles']['alfresco']['az']
 
-if node['haproxy']['ec2_discovery_enabled']
-  ruby_block 'run-ec2-discovery' do
-    block do
-      # Run EC2 discovery
-      ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
-      # Merge local and EC2 configuration entries
-      haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
-    end
-    action :run
+ruby_block 'run-ec2-discovery' do
+  block do
+    # Run EC2 discovery
+    ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
+    # Merge local and EC2 configuration entries
+    haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
   end
+  action :run
+  only_if { node['haproxy']['ec2_discovery_enabled'] }
 end
 
 # Order AZs as follows:
