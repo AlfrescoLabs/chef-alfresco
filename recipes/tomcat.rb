@@ -38,26 +38,23 @@ apache_tomcat 'tomcat' do
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
   version node['tomcat']['tar']['version']
-  instance_root '/etc/tomcat'
+  instance_root "#{node['alfresco']['home']}-instances"
   user node['tomcat']['user']
   group node['tomcat']['group']
 
+  template "#{node['alfresco']['home']}/conf/logging.properties" do
+    source 'tomcat/logging.properties.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
+
   if node['tomcat']['run_base_instance']
     apache_tomcat_instance node['tomcat']['base_instance'] do
-      setenv_options do
-        config(
-          [
-            "export JAVA_HOME=\"#{node['java']['java_home']}\"",
-            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| "#{v}"}.join(' ')}\"",
-            "export CATALINA_OPTS=\"#{node['tomcat']['catalina_options']}\""
-          ]
-        )
-      end
+
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
-        # Optionally, pass hash key/values to `config_options` if your custom template
-        # needs variables
         options do
           port node['tomcat']['port']
           proxy_port node['tomcat']['proxy_port']
@@ -68,13 +65,49 @@ apache_tomcat 'tomcat' do
         end
       end
 
+      template "/etc/cron.d/#{node['tomcat']['base_instance']}-cleaner.cron" do
+        source 'tomcat/cleaner.cron.erb'
+        owner 'root'
+        group 'root'
+        mode '0755'
+        variables({
+          :tomcat_log_path => "#{node['tomcat']['base_instance']}/logs",
+          :tomcat_cache_path => "#{node['tomcat']['base_instance']}/temp"
+        })
+      end
+
+      %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
+        link "#{node['alfresco']['home']}/conf/#{linked_file}" do
+          to "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}"
+        end
+      end
+
       apache_tomcat_config 'context' do
         source node['tomcat']['context_template_source']
         cookbook node['tomcat']['context_template_cookbook']
       end
 
+      template "/etc/sysconfig/tomcat-#{node['tomcat']['base_instance']}" do
+        cookbook node['tomcat']['sysconfig_template_cookbook']
+        source node['tomcat']['sysconfig_template_source']
+        variables ({
+          :user => node['tomcat']['user'],
+          :home => node['alfresco']['home'],
+          :base => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}",
+          :java_options => node['tomcat']['java_options'],
+          :use_security_manager => node['tomcat']['use_security_manager'],
+          :tmp_dir => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/temp",
+          :catalina_options => node['tomcat']['catalina_options'],
+          :endorsed_dir => node['tomcat']['endorsed_dir']
+        })
+        owner 'root'
+        group 'root'
+        mode '0644'
+      end
+
       apache_tomcat_service node['tomcat']['base_instance'] do
         java_home node['java']['java_home']
+        restart_on_update false
       end
     end
   end
@@ -82,19 +115,9 @@ apache_tomcat 'tomcat' do
   node['tomcat']['instances'].each do |name, attrs|
     apache_tomcat_instance "#{name}" do
 
-      setenv_options do
-        config(
-          [
-            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k, v| "#{v}"}.join(' ')}\""
-          ]
-        )
-      end
-
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
-        # Optionally, pass hash key/values to `config_options` if your custom template
-        # needs variables
         options do
           port attrs['port']
           proxy_port attrs['proxy_port']
@@ -112,51 +135,61 @@ apache_tomcat 'tomcat' do
         end
       end
 
+      template "/etc/cron.d/#{name}-cleaner.cron" do
+        source 'tomcat/cleaner.cron.erb'
+        owner 'root'
+        group 'root'
+        mode '0755'
+        variables({
+          :tomcat_log_path => "#{node['alfresco']['home']}-instances/#{name}/logs",
+          :tomcat_cache_path => "#{node['alfresco']['home']}-instances/#{name}/temp"
+        })
+      end
+
       apache_tomcat_config 'context' do
         source context_template_source
         cookbook context_template_cookbook
       end
 
+      %w(catalina.properties catalina.policy tomcat-users.xml).each do |linked_file|
+        link "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}" do
+          to "#{node['alfresco']['home']}/conf/#{linked_file}"
+          owner node['tomcat']['user']
+          group node['tomcat']['group']
+          mode '0755'
+        end
+      end
+
+      directory  attrs['endorsed_dir'] do
+        owner node['tomcat']['user']
+        group node['tomcat']['group']
+        mode '0755'
+        action :create
+      end
+
+      template "/etc/sysconfig/tomcat-#{name}" do
+        cookbook node['tomcat']['sysconfig_template_cookbook']
+        source node['tomcat']['sysconfig_template_source']
+        variables ({
+          :user => node['tomcat']['user'],
+          :home => node['alfresco']['home'],
+          :base => "#{node['alfresco']['home']}-instances/#{name}",
+          :java_options => attrs['java_options'],
+          :use_security_manager => attrs['use_security_manager'],
+          :tmp_dir => "#{node['alfresco']['home']}-instances/#{name}/temp",
+          :catalina_options => attrs['catalina_options'],
+          :endorsed_dir => attrs['endorsed_dir']
+        })
+        owner 'root'
+        group 'root'
+        mode '0644'
+      end
+
       apache_tomcat_service "#{name}" do
         java_home node['java']['java_home']
+        restart_on_update false
       end
+
     end
   end
 end
-
-#
-# include_recipe 'tomcat::default'
-
-# if node['tomcat']['run_base_instance']
-# tomcat_instance "base" do
-#   # port node['tomcat']['port']
-#   proxy_port node['tomcat']['proxy_port']
-#   # ssl_port node['tomcat']['ssl_port']
-#   ssl_proxy_port node['tomcat']['ssl_proxy_port']
-#   # ajp_port node['tomcat']['ajp_port']
-#   # shutdown_port node['tomcat']['shutdown_port']
-# end
-# end
-#
-# node['tomcat']['instances'].each do |name, attrs|
-#   tomcat_instance "#{name}" do
-# log_dir attrs['log_dir']
-# work_dir attrs['work_dir']
-# context_dir attrs['context_dir']
-# webapp_dir attrs['webapp_dir']
-# use_security_manager attrs['use_security_manager']
-# authbind attrs['authbind']
-# truststore_type attrs['truststore_type']
-# truststore_file attrs['truststore_file']
-# ssl_key_file attrs['ssl_key_file']
-# ssl_chain_files attrs['ssl_chain_files']
-# ssl_cert_file attrs['ssl_cert_file']
-# certificate_dn attrs['certificate_dn']
-# loglevel attrs['loglevel']
-# home attrs['home']
-# base attrs['base']
-# tmp_dir attrs['tmp_dir']
-# lib_dir attrs['lib_dir']
-# endorsed_dir attrs['endorsed_dir']
-#   end
-# end

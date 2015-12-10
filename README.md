@@ -6,7 +6,7 @@ chef-alfresco
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
-It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14 (feel free to open issues)
+It is tested on Centos 7.x and Ubuntu 14.04 (soon on Centos 6.7)
 
 To know more about attribute definition and overriding, check [CHEF-ATTRIBUTES.md](CHEF-ATTRIBUTES.md)
 To get a list of packaged installed, their sources and versions, check [PACKAGES.md](PACKAGES.md)

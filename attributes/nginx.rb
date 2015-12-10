@@ -4,6 +4,10 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 
 default['nginx']['use_nossl_config'] = false
 
+# Set to 'on' for enabling access logs
+default['nginx']['access_log'] = "off"
+default['nginx']['log_level'] = "warn"
+
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
@@ -17,8 +21,6 @@ default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 default['nginx']['port'] = node['alfresco']['public_port']
 default['nginx']['portssl'] = node['alfresco']['public_portssl']
 default['nginx']['status_port'] = 2100
-
-default['nginx']['proxy_port'] = node['alfresco']['internal_port']
 
 # Overridden by kitchen to $host:8800
 default['nginx']['proxy_host_header'] = "$host"
@@ -55,6 +57,7 @@ default['nginx']['config'] = [
   "    default_type  application/octet-stream;",
   node['nginx']['logging_json'],
   "    client_max_body_size      0; # Allow upload of unlimited size",
+  "    client_body_buffer_size   1000M;",
   "    proxy_read_timeout        600s;",
   "    keepalive_timeout         120;",
   "    ignore_invalid_headers    on;",
@@ -71,7 +74,7 @@ default['nginx']['config'] = [
   "    resolver #{node['nginx']['dns_server']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
-  "    error_log  /var/log/nginx/error.log info;",
+  "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
   "    error_page 403 /errors/403.html;",
@@ -103,13 +106,17 @@ default['nginx']['config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
+  "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
   "    listen #{node['nginx']['portssl']} ssl http2;",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    # SSL Configuration",
+  "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    ssl on;",
   "    ssl_certificate #{node['nginx']['ssl_certificate']};",
   "    ssl_certificate_key #{node['nginx']['ssl_certificate_key']};",
@@ -136,14 +143,14 @@ default['nginx']['config'] = [
   "        return 444;",
   "    }",
   "    location / {",
-  "        add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
   "        proxy_redirect off;",
+  "        proxy_http_version 1.1;",
   "        proxy_set_header        Host            #{node['nginx']['proxy_host_header']};",
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
   "        proxy_set_header        X-Forwarded-Proto $scheme;",
-  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['proxy_port']};",
+  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['alfresco']['internal_secure_port']};",
   "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
   "    }",
   "}",
@@ -208,6 +215,7 @@ default['nginx']['nossl_config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    location ^~ /errors/ {",
   "        internal;",
@@ -220,11 +228,12 @@ default['nginx']['nossl_config'] = [
   "    location / {",
   "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
   "        proxy_redirect off;",
+  "        proxy_http_version 1.1;",
   "        proxy_set_header        Host            #{node['nginx']['proxy_host_header']};",
   "        proxy_set_header        X-Real-IP       $remote_addr;",
   "        proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;",
   "        proxy_set_header        X-Forwarded-Proto $scheme;",
-  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['nginx']['proxy_port']};",
+  "        proxy_pass  #{node['alfresco']['internal_protocol']}://#{node['alfresco']['internal_hostname']}:#{node['alfresco']['internal_port']};",
   "        proxy_max_temp_file_size 1M; # Set files larger than 1M to stream rather than cache",
   "    }",
   "}",

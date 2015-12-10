@@ -101,6 +101,20 @@ describe "Alfresco daemons" do
   # end
 end
 
+# TODO - Rsyslog files for haproxy
+# describe file('/var/log/haproxy/haproxy.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/alfresco.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/share.log') do
+#   it { should exist }
+# end
+# describe file('/var/log/haproxy/solr.log') do
+#   it { should exist }
+# end
+
 # TODO - not working
 #
 # -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -117,9 +131,9 @@ end
 # TODO - not working
 #
 # describe cron do
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-alfresco -mmin +30 -type f -exec rm -rf {} \;' }
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-share -mmin +30 -type f -exec rm -rf {} \;' }
-#   it { should have_entry '*/30 * * * * root find /var/cache/tomcat-solr -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-alfresco -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-share -mmin +30 -type f -exec rm -rf {} \;' }
+#   it { should have_entry '*/30 * * * * root find #{node['tomcat']['cache_root_folder']}/tomcat-solr -mmin +30 -type f -exec rm -rf {} \;' }
 # end
 
 # TODO - Check that new location is correct (https); none of the approaches work!

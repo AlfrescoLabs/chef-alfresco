@@ -1,15 +1,16 @@
-# Add Repo backend entries to local instance
-node.default['haproxy']['backends']['alfresco']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-node.default['haproxy']['backends']['aos_vti']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-node.default['haproxy']['backends']['aos_root']['nodes']['localhost'] = node['alfresco']['internal_hostname']
-
 node.default['artifacts']['alfresco']['enabled'] = true
-node.default['artifacts']['keystore']['enabled'] = true
+
+# Not needed on standard a installation, unless Solr SSL is enabled
+# node.default['artifacts']['keystore']['enabled'] = true
+
+if node['artifacts']['keystore']['enabled']
+  node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+end
 
 root_folder = node['alfresco']['properties']['dir.root']
 shared_folder = node['alfresco']['shared']
 config_folder = node['tomcat']['config_dir']
-log_folder = node['tomcat']['log_dir']
+# log_folder = node['tomcat']['log_dir']
 
 user = node['alfresco']['user']
 group = node['tomcat']['group']
@@ -77,10 +78,10 @@ file_replace_line "#{config_folder}/catalina.properties" do
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
 
-directory "tomcat-logs-permissions" do
-  path log_folder
-  owner user
-  group group
-  mode "0775"
-  recursive true
-end
+# directory "tomcat-logs-permissions" do
+#   path log_folder
+#   owner user
+#   group group
+#   mode "0775"
+#   recursive true
+# end

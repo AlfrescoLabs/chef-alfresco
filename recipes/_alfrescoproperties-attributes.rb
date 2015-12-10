@@ -17,7 +17,8 @@ if node['alfresco']['log.json.enabled']
   node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/etc/tomcat/share/logs/share.log.json']
   node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/etc/tomcat/solr/logs/solr.log.json']
 end
-node.default['alfresco']['log4j'] = node['logging']
+
+node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
 
 mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
 mailsmtp_databag_items = node["alfresco"]["mailsmtp_databag_items"]
@@ -29,14 +30,6 @@ begin
 rescue
   Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_items}")
 end
-
-# S3 default values (if not enabled, alfresco will ignore them)
-node.default['alfresco']['properties']['s3.encryption'] = "AES256"
-node.default['alfresco']['properties']['s3.flatRoot'] = true
-node.default['alfresco']['properties']['s3.bucketRegion'] = "eu-east-1"
-node.default['alfresco']['properties']['s3service.s3-endpoint'] = "s3-eu-east-1.amazonaws.com"
-node.default['alfresco']['properties']['s3service.https-only'] = true
-node.default['alfresco']['properties']['s3service.max-thread-count'] = "5"
 
 node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
 node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"

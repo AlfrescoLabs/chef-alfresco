@@ -1,8 +1,6 @@
 default['haproxy']['ec2']['discover_cron'] = "*/5 * * * *"
 default['haproxy']['ec2']['install_haproxy_discovery'] = false
 
-default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
-
 # Force rsyslog to use UDP on localhost
 default['haproxy']['enable_rsyslog_server'] = true
 default['haproxy']['rsyslog_bind'] = "127.0.0.1"
@@ -77,15 +75,31 @@ default['haproxy']['frontends']['internal']['entries'] = [
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
-  "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64"
+  "capture request header Accept-Language len 64"
 ]
 
 default['haproxy']['frontends']['external']['redirects'] = [
   "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti",
   "redirect location /share/ if is_root"
 ]
-default['haproxy']['frontends']['external']['acl_lines'] = ["is_root path_reg ^$|^/$"]
+default['haproxy']['frontends']['external']['acl_lines'] = [
+  "is_root path_reg ^$|^/$",
+  "alfresco_path path_reg ^/alfresco/.*",
+  "robots path_reg ^/robots.txt$",
+  "solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
+  "activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
+  "webinf path_reg ^/share/res/WEB-INF/.*"
+]
+
+default['haproxy']['frontends']['external']['other_config'] = [
+  # Use it to avoid accessing the /alfresco path (careful with api calls)
+  # "http-request deny if alfresco_path",
+  "http-request deny if robots",
+  "http-request deny if solr_path",
+  "http-request deny if activity_path",
+  "http-request deny if webinf"
+]
+
 default['haproxy']['frontends']['external']['entries'] = [
   "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
@@ -95,7 +109,6 @@ default['haproxy']['frontends']['external']['entries'] = [
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
   "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64",
   "unique-id-format %{+X}o\\ %ci:%cp_%fi:%fp_%Ts_%rt:%pid",
   "unique-id-header X-Unique-ID",
   "#---- ddos protection -----",

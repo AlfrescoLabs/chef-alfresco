@@ -45,6 +45,11 @@ begin
   node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
   node.default['alfresco']['properties']['s3.accessKey'] = db_item['aws_access_key_id']
   node.default['alfresco']['properties']['s3.secretKey'] = db_item['aws_secret_access_key']
+  # S3 default values (if not enabled, alfresco will ignore them)
+  node.default['alfresco']['properties']['s3.encryption'] = "AES256"
+  node.default['alfresco']['properties']['s3.flatRoot'] = true
+  node.default['alfresco']['properties']['s3service.https-only'] = true
+  node.default['alfresco']['properties']['s3service.max-thread-count'] = "5"
 rescue
   Chef::Log.warn("Error fetching databag #{s3_databag},  item #{s3_databag_item}")
 end
@@ -102,5 +107,5 @@ node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['alfresco']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}/alfresco/webapps"
+  node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-instances/alfresco/webapps"
 end

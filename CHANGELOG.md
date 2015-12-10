@@ -1,5 +1,22 @@
 # Change Log
 
+## [v0.6.15](https://github.com/Alfresco/chef-alfresco/tree/v0.6.15) (2015-11-20)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.14...v0.6.15)
+
+## [v0.6.14](https://github.com/Alfresco/chef-alfresco/tree/v0.6.14) (2015-11-20)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.13...v0.6.14)
+
+## [v0.6.13](https://github.com/Alfresco/chef-alfresco/tree/v0.6.13) (2015-11-13)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.12...v0.6.13)
+
+## [v0.6.12](https://github.com/Alfresco/chef-alfresco/tree/v0.6.12) (2015-11-13)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.11...v0.6.12)
+
+**Merged pull requests:**
+
+- fixed haproxy tarpit configuration to be only for external connections [\#25](https://github.com/Alfresco/chef-alfresco/pull/25) ([maoo](https://github.com/maoo))
+- Jsonlog format for haproxy and nginx [\#24](https://github.com/Alfresco/chef-alfresco/pull/24) ([steverigby](https://github.com/steverigby))
+
 ## [v0.6.11](https://github.com/Alfresco/chef-alfresco/tree/v0.6.11) (2015-11-09)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.10...v0.6.11)
 

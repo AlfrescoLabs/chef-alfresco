@@ -2,6 +2,7 @@
     "name": "share",
     "artifact-deployer" : {
       "maven" : {
+        "timeout" : 1500,
         "repositories" : {
           "private" : {
             "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
@@ -24,7 +25,7 @@
         "install_fonts" : false,
         "version" : "5.0.2",
         "edition" : "enterprise",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos"],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos","googledocs"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
         "ssl_enabled" : false,
         "shareproperties" : {
@@ -43,13 +44,11 @@
             "db.prefix" : "mysql",
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
-            "s3.bucketRegion" : "@@AWS_REGION@@",
-            "s3service.s3-endpoint" : "s3-@@AWS_REGION@@.amazonaws.com",
             "hz_aws_enabled" : true,
             "hz_aws_sg_name" : "@@AWS_SG_NAME@@",
             "hz_aws_tag_key" : "haproxy-role",
             "hz_aws_tag_value" : "share",
-            "alfresco_user_store.adminusername" : "@@ALFRESCO_PASSWORD@@"
+            "alfresco_user_store.adminpassword" : "@@ALFRESCO_PASSWORD@@"
         },
         "repo_tomcat_instance" : {
             "xmx_ratio" : 0.5

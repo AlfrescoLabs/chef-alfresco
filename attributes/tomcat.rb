@@ -44,6 +44,7 @@ default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
 default["tomcat"]["maxHttpHeaderSize"] = "1048576"
 
 default['tomcat']['cleaner.minutes.interval'] = 30
+default['tomcat']['cache_root_folder'] = "/var/cache"
 
 # Tomcat default[ settings
 default['tomcat']['service_actions'] = [:disable,:stop]
@@ -118,7 +119,6 @@ default['alfresco']['repo_tomcat_instance']['jmx_port'] = 40000
 default['alfresco']['repo_tomcat_instance']['xmx_ratio'] = 0.42
 alfresco_memory = "#{(node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{alfresco_memory}"
-default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/etc/tomcat/alfresco/logs/gc.log -Dlogfilename=/etc/tomcat/alfresco/logs/alfresco.log -Dlog4j.configuration=/etc/tomcat/alfresco/conf/log4j.properties -XX:ErrorFile=/etc/tomcat/alfresco/logs/jvm_crash%p.log -XX:HeapDumpPath=/etc/tomcat/alfresco/logs/"
 
 default['alfresco']['share_tomcat_instance']['port'] = 8081
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
@@ -126,7 +126,6 @@ default['alfresco']['share_tomcat_instance']['jmx_port'] = 40010
 default['alfresco']['share_tomcat_instance']['xmx_ratio'] = 0.28
 share_memory = "#{(node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{share_memory}"
-default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/etc/tomcat/share/logs/gc.log -Dlogfilename=/etc/tomcat/share/logs/share.log -Dlog4j.configuration=/etc/tomcat/alfresco/conf/log4j.properties -XX:ErrorFile=/etc/tomcat/share/logs/jvm_crash%p.log -XX:HeapDumpPath=/etc/tomcat/share/logs/"
 
 default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
@@ -134,4 +133,3 @@ default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40020
 default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
-default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/etc/tomcat/solr/logs/gc.log -Dlogfilename=/etc/tomcat/solr/logs/solr.log -Dlog4j.configuration=/etc/tomcat/alfresco/conf/log4j.properties -XX:ErrorFile=/etc/tomcat/solr/logs/jvm_crash%p.log -XX:HeapDumpPath=/etc/tomcat/solr/logs/"
