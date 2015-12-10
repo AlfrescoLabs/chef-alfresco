@@ -48,15 +48,17 @@ end
 #
 current_az = haproxy_backends['current']['az'] if haproxy_backends['current']
 haproxy_backends['roles'].each do |roleName,role|
-  ordered_role = []
-  ordered_role << haproxy_backends['roles'][roleName]['az']['local']
-  ordered_role << haproxy_backends['roles'][roleName]['az'][current_az] if current_az
-  role['az'].each do |azName,az|
-    if 'local' != azName and (current_az == nil or current_az != azName)
-      ordered_role << az
+  if role['az']
+    ordered_role = []
+    ordered_role << role['az']['local']
+    ordered_role << role['az'][current_az] if current_az
+    role['az'].each do |azName,az|
+      if 'local' != azName and (current_az == nil or current_az != azName)
+        ordered_role << az
+      end
     end
+    role['ordered_az'] = ordered_role
   end
-  role['ordered_az'] = ordered_role
 end
 
 # Configure balancing and load distribution options on each instance:
@@ -66,16 +68,18 @@ end
 # will be listed as backup
 #
 haproxy_backends['roles'].each do |roleName,role|
-  balanced = role['balanced']
-  options = "check inter 5000"
-  role['ordered_az'].each_with_index do |az,index|
-    az['id'].each do |instanceName,instance|
-      if balanced
-        options = "check cookie #{instance['jvm_route']} inter 5000"
-      elsif index > 0
-        options = "check inter 5000 backup"
+  if role['ordered_az']
+    balanced = role['balanced']
+    options = "check inter 5000"
+    role['ordered_az'].each_with_index do |az,index|
+      az['id'].each do |instanceName,instance|
+        if balanced
+          options = "check cookie #{instance['jvm_route']} inter 5000"
+        elsif index > 0
+          options = "check inter 5000 backup"
+        end
+        instance['options'] = options
       end
-      instance['options'] = options
     end
   end
 end

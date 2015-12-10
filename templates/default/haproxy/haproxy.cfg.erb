@@ -85,10 +85,12 @@ cookie JSESSIONID prefix
       <% end -%>
     <% end -%>
 
-    <% role['ordered_az'].each do |az| -%>
-      <% az['id'].each do |instanceName,instance| -%>
-# Instance <%= instanceName %>, az <%= instance['az'] %>
-server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
+    <% if role['ordered_az'] -%>
+      <% role['ordered_az'].each do |az| -%>
+        <% az['id'].each do |instanceName,instance| -%>
+  # Instance <%= instanceName %>, az <%= instance['az'] %>
+  server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
+        <% end -%>
       <% end -%>
     <% end -%>
 # END <%= roleName %> backend
