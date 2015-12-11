@@ -54,7 +54,7 @@ apache_tomcat 'tomcat' do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| "#{v}"}.join(' ')}\""
+            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| v}.join(' ')}\""
           ]
         )
       end
@@ -101,11 +101,11 @@ apache_tomcat 'tomcat' do
   end
 
   node['tomcat']['instances'].each do |name, attrs|
-    apache_tomcat_instance "#{name}" do
+    apache_tomcat_instance name do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k,v| "#{v}"}.join(' ')}\""
+            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k,v| v}.join(' ')}\""
           ]
         )
       end
@@ -161,7 +161,7 @@ apache_tomcat 'tomcat' do
         action :create
       end
 
-      apache_tomcat_service "#{name}" do
+      apache_tomcat_service name do
         java_home node['java']['java_home']
         restart_on_update false
       end
