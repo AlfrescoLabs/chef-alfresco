@@ -108,27 +108,27 @@ else
   if alfresco_components.include? 'repo'
     instance_home = "#{node['alfresco']['home']}-instances/alfresco"
     node.default['alfresco']['repo_tomcat_instance']['java_options']['rmi_and_alfhome'] = "-Dalfresco.home=#{instance_home} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
-    node.default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/alfresco.log -Dlog4j.configuration=#{node['alfresco']['home']}/shared/classes/alfresco/log4j.properties -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
+    node.default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/alfresco.log -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=#{instance_home}/temp"
+      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home}/temp,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=#{instance_home}/temp"
     end
     node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
   end
   if alfresco_components.include? 'share'
     instance_home = "#{node['alfresco']['home']}-instances/share"
     node.default['alfresco']['share_tomcat_instance']['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
-    node.default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/share.log -Dlog4j.configuration=#{node['alfresco']['home']}/shared/classes/alfresco/log4j.properties -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
+    node.default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/share.log -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=#{instance_home}/temp"
+      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home}/temp,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=#{instance_home}/temp"
     end
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
   if alfresco_components.include? 'solr'
     instance_home = "#{node['alfresco']['home']}-instances/solr"
     node.default['alfresco']['solr_tomcat_instance']['java_options']['rmi_and_solr'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}  -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
-    node.default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/solr.log -Dlog4j.configuration=#{node['alfresco']['home']}/shared/classes/alfresco/log4j.properties -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
+    node.default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/solr.log -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr,tmpdir=#{instance_home}/temp"
+      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home}/temp,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr,tmpdir=#{instance_home}/temp"
     end
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
