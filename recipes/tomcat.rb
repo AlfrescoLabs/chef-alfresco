@@ -145,7 +145,7 @@ apache_tomcat 'tomcat' do
         cookbook context_template_cookbook
       end
 
-      %w(catalina.properties catalina.policy tomcat-users.xml).each do |linked_file|
+      %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
         link "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}" do
           to "#{node['alfresco']['home']}/conf/#{linked_file}"
           owner node['tomcat']['user']
