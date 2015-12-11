@@ -28,7 +28,7 @@ kitchen converge community
 It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
-The only fully functional HTTP endpoint is by default [http://192.168.33.23](http://192.168.33.23)
+The only fully functional HTTP endpoint is by default [http://192.168.33.23/share](http://192.168.33.23/share)
 
 If you use analytics and/or media-management you can also access:
 - (WIP) [http://192.168.33.23:8080/pentaho](http://192.168.33.23:8080/pentaho) (ba-server tomcat)
