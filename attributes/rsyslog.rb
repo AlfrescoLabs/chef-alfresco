@@ -1,21 +1,21 @@
-default['rsyslog']['file_inputs']['repo1']['file'] = '/etc/tomcat/alfresco/logs/alfresco.log'
+default['rsyslog']['file_inputs']['repo1']['file'] = '/usr/share/tomcat-instances/alfresco/logs/alfresco.log'
 default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['repo1']['priority'] = 50
-default['rsyslog']['file_inputs']['repo2']['file'] = '/etc/tomcat/alfresco/logs/catalina.out.*'
+default['rsyslog']['file_inputs']['repo2']['file'] = '/usr/share/tomcat-instances/alfresco/logs/catalina.out.*'
 default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
 default['rsyslog']['file_inputs']['repo2']['priority'] = 51
 
-default['rsyslog']['file_inputs']['share1']['file'] = '/etc/tomcat/share/logs/share.log'
+default['rsyslog']['file_inputs']['share1']['file'] = '/usr/share/tomcat-instances/share/logs/share.log'
 default['rsyslog']['file_inputs']['share1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['share1']['priority'] = 52
-default['rsyslog']['file_inputs']['share2']['file'] = '/etc/tomcat/share/logs/catalina.out.*'
+default['rsyslog']['file_inputs']['share2']['file'] = '/usr/share/tomcat-instances/share/logs/catalina.out.*'
 default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
 default['rsyslog']['file_inputs']['share2']['priority'] = 53
 
-default['rsyslog']['file_inputs']['solr1']['file'] = '/etc/tomcat/solr/logs/solr.log'
+default['rsyslog']['file_inputs']['solr1']['file'] = '/usr/share/tomcat-instances/solr/logs/solr.log'
 default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['solr1']['priority'] = 54
-default['rsyslog']['file_inputs']['solr2']['file'] = '/etc/tomcat/solr/logs/catalina.out.*'
+default['rsyslog']['file_inputs']['solr2']['file'] = '/usr/share/tomcat-instances/solr/logs/catalina.out.*'
 default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
 default['rsyslog']['file_inputs']['solr2']['priority'] = 55
 

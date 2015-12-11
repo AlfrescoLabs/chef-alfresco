@@ -51,7 +51,13 @@ apache_tomcat 'tomcat' do
 
   if node['tomcat']['run_base_instance']
     apache_tomcat_instance node['tomcat']['base_instance'] do
-
+      setenv_options do
+        config(
+          [
+            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| "#{v}"}.join(' ')}\""
+          ]
+        )
+      end
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
@@ -87,24 +93,6 @@ apache_tomcat 'tomcat' do
         cookbook node['tomcat']['context_template_cookbook']
       end
 
-      template "/etc/sysconfig/tomcat-#{node['tomcat']['base_instance']}" do
-        cookbook node['tomcat']['sysconfig_template_cookbook']
-        source node['tomcat']['sysconfig_template_source']
-        variables ({
-          :user => node['tomcat']['user'],
-          :home => node['alfresco']['home'],
-          :base => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}",
-          :java_options => node['tomcat']['java_options'],
-          :use_security_manager => node['tomcat']['use_security_manager'],
-          :tmp_dir => "#{node['alfresco']['home']}-instances/#{node['tomcat']['base_instance']}/temp",
-          :catalina_options => node['tomcat']['catalina_options'],
-          :endorsed_dir => node['tomcat']['endorsed_dir']
-        })
-        owner 'root'
-        group 'root'
-        mode '0644'
-      end
-
       apache_tomcat_service node['tomcat']['base_instance'] do
         java_home node['java']['java_home']
         restart_on_update false
@@ -114,7 +102,13 @@ apache_tomcat 'tomcat' do
 
   node['tomcat']['instances'].each do |name, attrs|
     apache_tomcat_instance "#{name}" do
-
+      setenv_options do
+        config(
+          [
+            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k,v| "#{v}"}.join(' ')}\""
+          ]
+        )
+      end
       apache_tomcat_config 'server' do
         source node['tomcat']['server_template_source']
         cookbook node['tomcat']['server_template_cookbook']
@@ -165,24 +159,6 @@ apache_tomcat 'tomcat' do
         group node['tomcat']['group']
         mode '0755'
         action :create
-      end
-
-      template "/etc/sysconfig/tomcat-#{name}" do
-        cookbook node['tomcat']['sysconfig_template_cookbook']
-        source node['tomcat']['sysconfig_template_source']
-        variables ({
-          :user => node['tomcat']['user'],
-          :home => node['alfresco']['home'],
-          :base => "#{node['alfresco']['home']}-instances/#{name}",
-          :java_options => attrs['java_options'],
-          :use_security_manager => attrs['use_security_manager'],
-          :tmp_dir => "#{node['alfresco']['home']}-instances/#{name}/temp",
-          :catalina_options => attrs['catalina_options'],
-          :endorsed_dir => attrs['endorsed_dir']
-        })
-        owner 'root'
-        group 'root'
-        mode '0644'
       end
 
       apache_tomcat_service "#{name}" do

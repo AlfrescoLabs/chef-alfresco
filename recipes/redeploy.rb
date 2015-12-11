@@ -97,7 +97,7 @@ file_replace_line 'share-config-referer' do
 end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
-file_append '/etc/tomcat/tomcat.conf' do
+file_append '/usr/share/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
