@@ -28,19 +28,13 @@ kitchen converge community
 It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
-The only fully functional HTTP endpoint is by default [http://localhost:8800](https://localhost:8800)
-
-You can also access internal ports for debugging purposes (though you need to open them manually using Virtualbox, or uncommenting some entries in [Vagrantfile.erb](Vagrantfile.erb))
-- [http://localhost:9000](http://localhost:9000) (haproxy)
-- [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
-- [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
-- [http://localhost:8090/solr](http://localhost:8090/solr) (tomcat-solr)
+The only fully functional HTTP endpoint is by default [http://192.168.33.23](http://192.168.33.23)
 
 If you use analytics and/or media-management you can also access:
-- (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
-- [http://localhost:61616](http://localhost:61616) (activemq)
+- (WIP) [http://192.168.33.23:8080/pentaho](http://192.168.33.23:8080/pentaho) (ba-server tomcat)
+- [http://192.168.33.23:61616](http://192.168.33.23:61616) (activemq)
 
-Access to the admin console is via (https://localhost:8843/alfresco/)[https://localhost:8843/alfresco/] and then Alfresco Administration Console.
+Access to the admin console is via (https://192.168.33.23/alfresco/)[https://192.168.33.23/alfresco/] and then Alfresco Administration Console.
 
 #### Tweaking
 Please [review CPU/memory configurations](Vagrantfile.erb) of chef-alfresco and adapt them to your workstation specs; hereby the default values:
