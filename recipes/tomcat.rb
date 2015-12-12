@@ -33,6 +33,10 @@ rescue
   Chef::Log.warn("Error fetching databag #{jmxremote_databag},  item #{jmxremote_databag_items}")
 end
 
+directory '/etc/cron.d' do
+  action :create
+end
+
 apache_tomcat 'tomcat' do
   url node['tomcat']['tar']['url']
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
