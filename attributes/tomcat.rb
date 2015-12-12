@@ -80,6 +80,10 @@ default["tomcat"]["application_name"] = "AlfrescoCloud.local"
 default["tomcat"]["tier_name"] = "allinone-tier"
 default["tomcat"]["node_name"] = "allinone-node"
 
+directory '/etc/cron.d' do
+  action :create
+end
+
 default['tomcat']['instance_templates'] = [{
   "dest" => "/etc/cron.d",
   "filename" => "cleaner.cron",
