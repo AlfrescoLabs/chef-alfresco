@@ -18,23 +18,6 @@ include_recipe "alfresco::_analytics-attributes"
 # Handle certs creation
 include_recipe "alfresco::_certs"
 
-# include_recipe 'haproxy::default'
-
-# Set haproxy.cfg custom template
-# TODO - fix it upstream and send PR
-# haproxy_cfg_source = node['haproxy']['conf_template_source']
-# haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
-# r = resources(template: "#{node['haproxy']['conf_dir']}/haproxy.cfg")
-# r.source(haproxy_cfg_source)
-# r.cookbook(haproxy_cfg_cookbook)
-
-# Much easier to just use the template
-template "#{node['haproxy']['conf_dir']}/haproxy.cfg" do
-  source node['haproxy']['conf_template_source']
-  cookbook node['haproxy']['conf_cookbook']
-end
-
-
 # alfresco-global.properties updates
 replace_property_map = node['alfresco']['properties']
 # TODO - reuse existing attributes

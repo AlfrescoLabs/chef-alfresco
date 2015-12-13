@@ -4,6 +4,10 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 
 default['nginx']['use_nossl_config'] = false
 
+# Set to 'on' for enabling access logs
+default['nginx']['access_log'] = "off"
+default['nginx']['log_level'] = "warn"
+
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
@@ -53,6 +57,7 @@ default['nginx']['config'] = [
   "    default_type  application/octet-stream;",
   node['nginx']['logging_json'],
   "    client_max_body_size      0; # Allow upload of unlimited size",
+  "    client_body_buffer_size   1000M;",
   "    proxy_read_timeout        600s;",
   "    keepalive_timeout         120;",
   "    ignore_invalid_headers    on;",
@@ -69,7 +74,7 @@ default['nginx']['config'] = [
   "    resolver #{node['nginx']['dns_server']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
-  "    error_log  /var/log/nginx/error.log info;",
+  "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
   "    error_page 403 /errors/403.html;",
@@ -101,12 +106,14 @@ default['nginx']['config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']} proxy_protocol;",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
   "    listen #{node['nginx']['portssl']} ssl http2 proxy_protocol;",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    # SSL Configuration",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
@@ -208,6 +215,7 @@ default['nginx']['nossl_config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']} proxy_protocol;",
+  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    location ^~ /errors/ {",
   "        internal;",
