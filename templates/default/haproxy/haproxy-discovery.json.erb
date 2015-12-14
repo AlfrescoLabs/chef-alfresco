@@ -1,15 +1,11 @@
 {
     "name": "haproxy-discovery",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                <% if node['haproxy']['ec2']['query_tags'] -%>
-                  <% node['haproxy']['ec2']['query_tags'].each_with_index do |(tagName,tagValue),i| -%>
-                    "<%= tagName %>" : "<%= tagValue %>"<% unless i == node['haproxy']['ec2']['query_tags'].size - 1 -%>,<% end -%>
-                  <% end -%>
-                <% end -%>
-            }
+    "commons" : {
+        "ec2-tagging" : {
+          <% if node['commons'] and node['commons']['ec2-tagging'] and node['commons']['ec2-tagging']['query_tags'] -%>
+            "query_tags" : <%= node['commons']['ec2-tagging']['query_tags'].to_json %>
+          <% end -%>
         }
     },
-    "run_list": ["alfresco::haproxy-ec2-discovery"]
+    "run_list": ["alfresco::haproxy-config"]
 }
