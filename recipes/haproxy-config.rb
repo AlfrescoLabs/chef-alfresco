@@ -79,15 +79,15 @@ ruby_block 'run-ec2-discovery' do
           end
         end
       end
-
-      r = Chef::Resource::Template.new('haproxy.cfg', run_context)
-      r.path '/etc/haproxy/haproxy.cfg'
-      r.source 'haproxy/haproxy.cfg.erb'
-      r.cookbook 'alfresco'
-      r.variables :haproxy_backends => haproxy_backends
-      r.run_action :create
-      r.notifies :restart, 'service[haproxy]', :delayed
     end
+
+    r = Chef::Resource::Template.new('haproxy.cfg', run_context)
+    r.path '/etc/haproxy/haproxy.cfg'
+    r.source 'haproxy/haproxy.cfg.erb'
+    r.cookbook 'alfresco'
+    r.variables :haproxy_backends => haproxy_backends
+    r.run_action :create
+    r.notifies :restart, 'service[haproxy]', :delayed
   end
   action :run
   only_if { node['haproxy']['ec2']['discovery_enabled'] }
