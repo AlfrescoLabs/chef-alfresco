@@ -74,7 +74,7 @@ haproxy_backends['roles'].each do |roleName,role|
     role['ordered_az'].each_with_index do |az,index|
       az['id'].each do |instanceName,instance|
         if balanced
-          options = "check cookie #{instance['jvm_route']} inter 5000"
+          options = "cookie #{instance['jvm_route']} check inter 5000"
         elsif index > 0
           options = "check inter 5000 backup"
         end
