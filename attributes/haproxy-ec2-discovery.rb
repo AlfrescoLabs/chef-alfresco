@@ -5,8 +5,8 @@ default['haproxy']['ec2']['discovery_chef_json'] = "/etc/chef/haproxy-discovery.
 
 # Following attributes are only used to build haproxy-discovery.json
 #
-default['commons']['ec2_discovery']['query_tags']['status'] = "complete"
 # Define it at bootstrap time
+# default['commons']['ec2_discovery']['query_tags']['status'] = "complete"
 # default['commons']['ec2_discovery']['query_tags']['stack_name'] = "mystack"
 
 default['commons']['ec2_discovery']['group_by'] = ['haproxy_backends','az','id']
