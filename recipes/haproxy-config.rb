@@ -47,11 +47,11 @@ ruby_block 'run-ec2-discovery' do
     haproxy_backends.each do |roleName,role|
       if role['az']
         ordered_role = []
-        ordered_role << role['az']['local']
+        ordered_role << role['az']['local'] if role['az']['local']
         ordered_role << role['az'][current_az] if current_az
         role['az'].each do |azName,az|
           if 'local' != azName and (current_az == nil or current_az != azName)
-            ordered_role << az
+            ordered_role << az if az
           end
         end
         role['ordered_az'] = ordered_role
