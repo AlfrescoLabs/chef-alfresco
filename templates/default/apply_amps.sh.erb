@@ -8,12 +8,12 @@ TOMCAT_BIN=<%= node['alfresco']['bin'] %>
 
 ALF_TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
 <% if node['tomcat']['instances']['alfresco'] %>
-  ALF_TOMCAT_WEBAPPS="<%= node['alfresco']['home'] %>-instances/alfresco/webapps"
+  ALF_TOMCAT_WEBAPPS="<%= node['alfresco']['home'] %>/alfresco/webapps"
 <% end -%>
 
 SHARE_TOMCAT_WEBAPPS=<%= node['tomcat']['webapp_dir'] %>
 <% if node['tomcat']['instances']['share'] %>
-  SHARE_TOMCAT_WEBAPPS="<%= node['alfresco']['home'] %>-instances/share/webapps"
+  SHARE_TOMCAT_WEBAPPS="<%= node['alfresco']['home'] %>/share/webapps"
 <% end -%>
 
 AMPS_FOLDER=<%= node['alfresco']['amps_folder'] %>

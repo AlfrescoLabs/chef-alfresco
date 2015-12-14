@@ -11,14 +11,14 @@ node.default['artifacts']['catalina-jmx']['enabled'] = true
 context_template_cookbook = node['tomcat']['context_template_cookbook']
 context_template_source = node['tomcat']['context_template_source']
 
-#
-# additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
-# additional_tomcat_packages.each do |pkg|
-#   package pkg do
-#     action :install
-#   end
-# end
-#
+
+additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
+additional_tomcat_packages.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
 jmxremote_databag = node['alfresco']['jmxremote_databag']
 jmxremote_databag_items = node['alfresco']['jmxremote_databag_items']
 
@@ -42,7 +42,8 @@ apache_tomcat 'tomcat' do
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
   version node['tomcat']['tar']['version']
-  instance_root "#{node['alfresco']['home']}-instances"
+  instance_root "#{node['alfresco']['home']}"
+  catalina_home "#{node['alfresco']['home']}"
   user node['tomcat']['user']
   group node['tomcat']['group']
 
@@ -88,7 +89,7 @@ apache_tomcat 'tomcat' do
 
       %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
         link "#{node['alfresco']['home']}/conf/#{linked_file}" do
-          to "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}"
+          to "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
         end
       end
 
@@ -139,8 +140,8 @@ apache_tomcat 'tomcat' do
         group 'root'
         mode '0755'
         variables({
-          :tomcat_log_path => "#{node['alfresco']['home']}-instances/#{name}/logs",
-          :tomcat_cache_path => "#{node['alfresco']['home']}-instances/#{name}/temp"
+          :tomcat_log_path => "#{node['alfresco']['home']}/#{name}/logs",
+          :tomcat_cache_path => "#{node['alfresco']['home']}/#{name}/temp"
         })
       end
 
@@ -150,7 +151,7 @@ apache_tomcat 'tomcat' do
       end
 
       %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
-        link "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}" do
+        link "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}" do
           to "#{node['alfresco']['home']}/conf/#{linked_file}"
           owner node['tomcat']['user']
           group node['tomcat']['group']

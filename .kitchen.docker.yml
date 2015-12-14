@@ -8,6 +8,7 @@ platforms:
   driver_config:
     image: milcom/centos7-systemd
     privileged: true
+    run_command: /usr/sbin/init
 
 suites:
   - name: ci
