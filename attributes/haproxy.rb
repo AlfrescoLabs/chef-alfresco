@@ -10,8 +10,6 @@ default['haproxy']['enable_ssl'] = false
 default['haproxy']['enable_admin'] = false
 default['haproxy']['enable_default_http'] = false
 
-default['haproxy']['enable.ec2.discovery'] = false
-
 default['haproxy']['conf_cookbook'] = 'alfresco'
 default['haproxy']['conf_template_source'] = 'haproxy/haproxy.cfg.erb'
 

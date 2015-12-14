@@ -90,3 +90,7 @@ template '/etc/haproxy/haproxy.cfg' do
   variables :haproxy_backends => haproxy_backends
   notifies :restart, 'service[haproxy]', :delayed
 end
+
+service 'haproxy' do
+  action :nothing
+end
