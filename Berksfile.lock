@@ -3,17 +3,18 @@ DEPENDENCIES
     path: .
     metadata: true
   commons
-    path: ../chef-commons
+    git: https://github.com/Alfresco/chef-commons.git
+    revision: d67896a11fcd0da79b4ee52e4257e73cf2bbcf06
   file
-    git: git@github.com:jenssegers/chef-file.git
+    git: https://github.com/jenssegers/chef-file.git
     revision: 050c5554efcc024d9a058908280bfb05037f9848
     tag: v1.0.0
   maven
-    git: git@github.com:maoo/maven.git
+    git: https://github.com/maoo/maven.git
     revision: 3a652591f06335412a0c00ae5148447e1236ac35
     tag: v1.2.0-fork
   tomcat
-    git: git@github.com:maoo/tomcat.git
+    git: https://github.com/maoo/tomcat.git
     revision: fa811024940bea972e38c47d03a44df74b84216d
     tag: v11.17.3
 
@@ -63,7 +64,7 @@ GRAPH
   bluepill (2.4.1)
     rsyslog (~> 2.0)
   build-essential (2.2.4)
-  chef-sugar (3.1.1)
+  chef-sugar (3.2.0)
   chef_handler (1.2.0)
   commons (0.0.1)
     python (>= 1.4.6)
@@ -161,6 +162,6 @@ GRAPH
     yum (~> 3.2)
   yum-mysql-community (0.1.21)
     yum (>= 3.2)
-  yum-repoforge (0.5.5)
+  yum-repoforge (0.5.7)
     yum (~> 3.2)
     yum-epel (>= 0.0.0)

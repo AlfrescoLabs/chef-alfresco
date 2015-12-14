@@ -1,11 +1,7 @@
 {
     "name": "haproxy-discovery",
     "commons" : {
-        "ec2-tagging" : {
-          <% if node['commons'] and node['commons']['ec2-tagging'] and node['commons']['ec2-tagging']['query_tags'] -%>
-            "query_tags" : <%= node['commons']['ec2-tagging']['query_tags'].to_json %>
-          <% end -%>
-        }
+        "ec2_discovery" : <%= node['commons']['ec2_discovery'].to_json %>
     },
     "run_list": ["alfresco::haproxy-config"]
 }

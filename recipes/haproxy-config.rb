@@ -33,12 +33,12 @@ haproxy_backends['roles']['webdav']['az'] = haproxy_backends['roles']['alfresco'
 ruby_block 'run-ec2-discovery' do
   block do
     # Run EC2 discovery
-    ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2-discovery'])
+    ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
     # Merge local and EC2 configuration entries
     haproxy_backends = haproxy_backends.merge(ec2_discovery_output)
   end
   action :run
-  only_if { node['haproxy']['ec2_discovery_enabled'] }
+  only_if { node['haproxy']['ec2']['discovery_enabled'] }
 end
 
 # Order AZs as follows:
