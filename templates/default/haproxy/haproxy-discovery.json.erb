@@ -1,5 +1,10 @@
 {
     "name": "haproxy-discovery",
+    "haproxy" : {
+      "ec2" : {
+        "discovery_enabled" : true
+      }
+    },
     "commons" : {
         "ec2_discovery" : <%= node['commons']['ec2_discovery'].to_json %>
     },
