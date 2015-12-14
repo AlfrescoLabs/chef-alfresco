@@ -1,7 +1,7 @@
 {
     "name": "haproxy-discovery",
     "tomcat" : {
-      "jvm_route" : <%= node['tomcat']['jvm_route'] %>
+      "jvm_route" : "<%= node['tomcat']['jvm_route'] %>"
     },
     "haproxy" : {
       "ec2" : {
