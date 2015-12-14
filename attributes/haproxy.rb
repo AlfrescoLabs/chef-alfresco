@@ -88,7 +88,7 @@ default['haproxy']['frontends']['external']['redirects'] = [
 default['haproxy']['frontends']['external']['acl_lines'] = ["is_root path_reg ^$|^/$"]
 default['haproxy']['frontends']['external']['entries'] = [
   "mode http",
-  "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']} accept-proxy",
+  "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
   # Force HTTPS
   # "redirect scheme https if !{ ssl_fc }",
   "capture request header X-Forwarded-For len 64",
