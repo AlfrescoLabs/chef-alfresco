@@ -11,6 +11,7 @@
 
 <% if node['haproxy']['frontends'] -%>
   <% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
+# START frontend <%= frontendName %>
 frontend <%= frontendName %>
     <% if frontend['entries'] -%>
       <% frontend['entries'].each do |entry| -%>
@@ -22,7 +23,6 @@ frontend <%= frontendName %>
 <%= header %>
       <% end -%>
     <% end -%>
-
 # Backend ACLs
     <% if frontend['acls'] -%>
       <% frontend['acls'].each do |backendName,acls| -%>
@@ -33,77 +33,67 @@ acl is_<%= backendName %> <%= acl %>
         <% end -%>
       <% end -%>
     <% end -%>
-
 # Free formed ACLs
     <% if frontend['acl_lines'] -%>
       <% frontend['acl_lines'].each do |acl| -%>
 acl <%= acl %>
       <% end -%>
     <% end -%>
-
 # Other Configurations
     <% if frontend['other_config'] -%>
       <% frontend['other_config'].each do |other_config| -%>
 <%= other_config %>
       <% end -%>
     <% end -%>
-
 # Redirects
     <% if frontend['redirects'] -%>
       <% frontend['redirects'].each do |redirect| -%>
 <%= redirect %>
       <% end -%>
     <% end -%>
-
 # Use backends
     <% if frontend['acls'] -%>
       <% frontend['acls'].each do |backendName,acls| -%>
 use_backend <%= backendName %> if is_<%= backendName %>
       <% end -%>
     <% end -%>
-
 # Default Backend
 default_backend <%= node['haproxy']['default_backend'] %>
+# END frontend <%= frontendName %>
+
   <% end -%>
 <% end -%>
 
-# Backends list
-<% if node['haproxy']['backends'] -%>
-  <% node['haproxy']['backends'].each do |backendName,backend| -%>
-    <% if node['haproxy']['enabled_backends'].include? backendName -%>
-# <%= backendName %> backend
-backend <%= backendName %>
-      <% if backend['entries'] -%>
-        <% backend['entries'].each do |entry| -%>
+# Backends
+
+<% if @haproxy_backends['roles'] -%>
+  <% @haproxy_backends['roles'].each do |roleName,role| -%>
+# START <%= roleName %> backend
+backend <%= roleName %>
+    <% if role['entries'] -%>
+      <% role['entries'].each do |entry| -%>
 <%= entry %>
-        <% end -%>
       <% end -%>
-      <% if backend['secure_entries'] -%>
-        <% backend['secure_entries'].each do |secure_entry| -%>
+    <% end -%>
+    <% if role['balanced'] -%>
+balance leastconn
+cookie JSESSIONID prefix
+    <% end -%>
+    <% if role['secure_entries'] -%>
+      <% role['secure_entries'].each do |secure_entry| -%>
 <%= secure_entry %>
-        <% end -%>
       <% end -%>
-      <% if node['alfresco']['components'].include? backendName or
-        (node['alfresco']['components'].include? 'repo' and backendName == 'alfresco') -%>
-server local_<%= backendName %> 127.0.0.1:<%= backend['port'] %> check inter 5000
-      <% else -%>
-        <% if backend['zones'] -%>
-          <% backend['zones'].each do |zoneName,zoneParams| -%>
-            <% if zoneParams['current'] == true -%>
-# First, the nodes of the same availability zone
-              <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
-              <% end -%>
-            <% end -%>
-            <% unless zoneParams['current'] == true -%>
-# Second, the nodes in the other availability zones
-              <% zoneParams['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
-              <% end -%>
-            <% end -%>
-          <% end -%>
+    <% end -%>
+
+    <% if role['ordered_az'] -%>
+      <% role['ordered_az'].each do |az| -%>
+        <% az['id'].each do |instanceName,instance| -%>
+  # Instance <%= instanceName %>, az <%= instance['az'] %>
+  server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
         <% end -%>
       <% end -%>
     <% end -%>
+# END <%= roleName %> backend
+
   <% end -%>
 <% end -%>

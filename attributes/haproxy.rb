@@ -1,8 +1,6 @@
 default['haproxy']['ec2']['discover_cron'] = "*/5 * * * *"
 default['haproxy']['ec2']['install_haproxy_discovery'] = false
 
-default['haproxy']['enabled_backends'] = ['alfresco','solr','share','aos_root','aos_vti']
-
 # Force rsyslog to use UDP on localhost
 default['haproxy']['enable_rsyslog_server'] = true
 default['haproxy']['rsyslog_bind'] = "127.0.0.1"
@@ -77,15 +75,31 @@ default['haproxy']['frontends']['internal']['entries'] = [
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
-  "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64"
+  "capture request header Accept-Language len 64"
 ]
 
 default['haproxy']['frontends']['external']['redirects'] = [
   "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti",
   "redirect location /share/ if is_root"
 ]
-default['haproxy']['frontends']['external']['acl_lines'] = ["is_root path_reg ^$|^/$"]
+default['haproxy']['frontends']['external']['acl_lines'] = [
+  "is_root path_reg ^$|^/$",
+  "alfresco_path path_reg ^/alfresco/.*",
+  "robots path_reg ^/robots.txt$",
+  "solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
+  "activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
+  "webinf path_reg ^/share/res/WEB-INF/.*"
+]
+
+default['haproxy']['frontends']['external']['other_config'] = [
+  # Use it to avoid accessing the /alfresco path (careful with api calls)
+  # "http-request deny if alfresco_path",
+  "http-request deny if robots",
+  "http-request deny if solr_path",
+  "http-request deny if activity_path",
+  "http-request deny if webinf"
+]
+
 default['haproxy']['frontends']['external']['entries'] = [
   "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
@@ -95,7 +109,6 @@ default['haproxy']['frontends']['external']['entries'] = [
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
   "capture request header Accept-Language len 64",
-  "capture request header X-Forwarded-For len 64",
   "unique-id-format %{+X}o\\ %ci:%cp_%fi:%fp_%Ts_%rt:%pid",
   "unique-id-header X-Unique-ID",
   "#---- ddos protection -----",
@@ -112,13 +125,13 @@ default['haproxy']['frontends']['external']['entries'] = [
   "stick-table type ip size 500k expire 30s store conn_cur,conn_rate(3s),http_req_rate(10s),http_err_rate(10s)",
   "# Tarpit Definitions",
   "# TARPIT the new connection if the client already has 10 opened",
-  "http-request tarpit if { src_conn_cur ge 10 }",
+  "# http-request tarpit if { src_conn_cur ge 10 }",
   "# TARPIT the new connection if the client has opened more than 20 connections in 3s",
-  "http-request tarpit if { src_conn_rate ge 20 }",
+  "# http-request tarpit if { src_conn_rate ge 20 }",
   "# TARPIT the connection if the client has passed the HTTP error rate (5 in 10s)",
-  "http-request tarpit if { sc0_http_err_rate() gt 5 }",
+  "# http-request tarpit if { sc0_http_err_rate() gt 5 }",
   "# TARPIT the connection if the client has passed the HTTP request rate (20 in 10s)",
-  "http-request tarpit if { sc0_http_req_rate() gt 20 }",
+  "# http-request tarpit if { sc0_http_req_rate() gt 20 }",
   "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
   "acl FORBIDDEN_HDR hdr_cnt(content-length) gt 1",
   "acl FORBIDDEN_HDR hdr_val(content-length) lt 0",
@@ -152,40 +165,46 @@ default['haproxy']['frontends']['stats']['entries'] = [
 # Note: the haproxy backend items are configured on each sub recipe: repo.rb, share.rb and solr.rb
 default['haproxy']['share_stats_auth'] = "admin:password"
 default['haproxy']['frontends']['external']['acls']['share']= ['path_beg /share']
-default['haproxy']['backends']['share']['entries'] = [
+default['haproxy']['backends']['roles']['share']['entries'] = [
   "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
   "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
   "rspdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
-  "option httpchk GET /share",
-  "balance leastconn",
-  "cookie JSESSIONID prefix"
+  "option httpchk GET /share"
 ]
 
-default['haproxy']['backends']['share']['secure_entries'] = []
+default['haproxy']['backends']['roles']['share']['secure_entries'] = []
 
 default['haproxy']['secure_entries'] = [
   "acl secured_cookie res.hdr(Set-Cookie),lower -m sub secure",
   "rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie"
 ]
 
-default['haproxy']['backends']['share']['port'] = 8081
+default['haproxy']['backends']['roles']['share']['port'] = 8081
 
 # Solr Haproxy configuration
 default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
-default['haproxy']['backends']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['solr']['port'] = 8090
+default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['solr']['port'] = 8090
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
 default['haproxy']['frontends']['external']['acls']['alfresco'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
-default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['alfresco']['port'] = 8070
+default['haproxy']['backends']['roles']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['alfresco']['port'] = 8070
 
 default['haproxy']['frontends']['external']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
-default['haproxy']['backends']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['aos_vti']['port'] = 8070
+default['haproxy']['backends']['roles']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['aos_vti']['port'] = 8070
 
 default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
-default['haproxy']['backends']['aos_root']['entries'] = ["option httpchk GET /","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['aos_root']['port'] = 8070
+default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
+default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
+
+default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]
+default['haproxy']['backends']['roles']['alfresco_api']['entries'] = ["option httpchk GET /alfresco/api"]
+default['haproxy']['backends']['roles']['alfresco_api']['port'] = 8070
+
+default['haproxy']['frontends']['external']['acls']['webdav'] = ["path_beg /alfresco/webdav"]
+default['haproxy']['backends']['roles']['webdav']['entries'] = ["option httpchk GET /alfresco/webdav"]
+default['haproxy']['backends']['roles']['webdav']['port'] = 8070

@@ -1,11 +1,11 @@
 {
     "name": "haproxy-discovery",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                "aws:cloudformation:stack-name" : "<%= node['haproxy']['ec2']['stack_name'] %>"
-            }
+    "commons" : {
+        "ec2-tagging" : {
+          <% if node['commons'] and node['commons']['ec2-tagging'] and node['commons']['ec2-tagging']['query_tags'] -%>
+            "query_tags" : <%= node['commons']['ec2-tagging']['query_tags'].to_json %>
+          <% end -%>
         }
     },
-    "run_list": ["alfresco::haproxy-ec2-discovery"]
+    "run_list": ["alfresco::haproxy-config"]
 }

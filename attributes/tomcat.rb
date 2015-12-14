@@ -20,7 +20,8 @@ default["tomcat"]["use_security_manager"] = false
 # https://github.com/abrt/abrt/wiki/ABRT-Project
 # http://tomcat.apache.org/download-native.cgi
 # http://tomcat.apache.org/tomcat-7.0-doc/apr.html
-default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr abrt}
+# default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr abrt}
+default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr}
 
 default['tomcat']['jmxremote.access.file'] = '/etc/tomcat/jmxremote.access'
 default['tomcat']['jmxremote.password.file'] = '/etc/tomcat/jmxremote.password'
