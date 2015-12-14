@@ -1,5 +1,8 @@
 {
     "name": "haproxy-discovery",
+    "tomcat" : {
+      "jvm_route" : <%= node['tomcat']['jvm_route'] %>
+    },
     "haproxy" : {
       "ec2" : {
         "discovery_enabled" : true

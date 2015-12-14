@@ -66,8 +66,8 @@ default_backend <%= node['haproxy']['default_backend'] %>
 
 # Backends
 
-<% if @haproxy_backends['roles'] -%>
-  <% @haproxy_backends['roles'].each do |roleName,role| -%>
+<% if @haproxy_backends -%>
+  <% @haproxy_backends.each do |roleName,role| -%>
 # START <%= roleName %> backend
 backend <%= roleName %>
     <% if role['entries'] -%>
@@ -88,8 +88,8 @@ cookie JSESSIONID prefix
     <% if role['ordered_az'] -%>
       <% role['ordered_az'].each do |az| -%>
         <% az['id'].each do |instanceName,instance| -%>
-  # Instance <%= instanceName %>, az <%= instance['az'] %>
-  server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
+# Instance <%= instanceName %>, az <%= instance['az'] %>
+server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
         <% end -%>
       <% end -%>
     <% end -%>
