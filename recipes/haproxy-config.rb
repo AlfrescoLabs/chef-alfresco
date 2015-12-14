@@ -24,12 +24,6 @@ node['alfresco']['components'].each do |component|
   end
 end
 
-# Duplicate alfresco backend into aos_vti, root and alfresco_api
-haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['alfresco_api']['az'] = haproxy_backends['alfresco']['az']
-haproxy_backends['webdav']['az'] = haproxy_backends['alfresco']['az']
-
 ruby_block 'run-ec2-discovery' do
   block do
     # Run EC2 discovery
@@ -37,6 +31,12 @@ ruby_block 'run-ec2-discovery' do
 
     # Merge local and EC2 configuration entries
     haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
+
+    # Duplicate alfresco backend into aos_vti, root and alfresco_api
+    haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
+    haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
+    haproxy_backends['alfresco_api']['az'] = haproxy_backends['alfresco']['az']
+    haproxy_backends['webdav']['az'] = haproxy_backends['alfresco']['az']
 
     # Order AZs as follows:
     # 1. Local
