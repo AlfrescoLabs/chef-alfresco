@@ -68,8 +68,8 @@ apache_tomcat 'tomcat' do
         options do
           port node['tomcat']['port']
           proxy_port node['tomcat']['proxy_port']
-          # ssl_port node['tomcat']['ssl_port']
-          # ssl_proxy_port node['tomcat']['ssl_proxy_port']
+          ssl_port node['tomcat']['ssl_port']
+          ssl_proxy_port node['tomcat']['ssl_proxy_port']
           ajp_port node['tomcat']['ajp_port']
           shutdown_port node['tomcat']['shutdown_port']
         end
