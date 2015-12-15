@@ -199,10 +199,11 @@ default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$
 default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
 default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
 
-default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]
-default['haproxy']['backends']['roles']['alfresco_api']['entries'] = ["option httpchk GET /alfresco/api"]
-default['haproxy']['backends']['roles']['alfresco_api']['port'] = 8070
-
-default['haproxy']['frontends']['external']['acls']['webdav'] = ["path_beg /alfresco/webdav"]
-default['haproxy']['backends']['roles']['webdav']['entries'] = ["option httpchk GET /alfresco/webdav"]
-default['haproxy']['backends']['roles']['webdav']['port'] = 8070
+# TODO - WIP
+# default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]
+# default['haproxy']['backends']['roles']['alfresco_api']['entries'] = ["option httpchk GET /alfresco/api"]
+# default['haproxy']['backends']['roles']['alfresco_api']['port'] = 8070
+#
+# default['haproxy']['frontends']['external']['acls']['webdav'] = ["path_beg /alfresco/webdav"]
+# default['haproxy']['backends']['roles']['webdav']['entries'] = ["option httpchk GET /alfresco/webdav"]
+# default['haproxy']['backends']['roles']['webdav']['port'] = 8070
