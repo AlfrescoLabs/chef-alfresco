@@ -41,8 +41,8 @@ ruby_block 'run-ec2-discovery' do
 
       # Merge local and EC2 configuration entries
       haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
-    }
-    
+    end
+
     # Duplicate alfresco backend into aos_vti, root and alfresco_api
     haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
     haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
