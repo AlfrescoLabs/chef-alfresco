@@ -1,9 +1,9 @@
 # Add error pages to external frontend
 error_folder = node['alfresco']['errorpages']['error_folder']
 %w( 400 403 404 408 500 502 503 504 ).each do |error_code|
-  node['haproxy']['frontends']['external']['entries'] << "errorfile #{error_code} #{error_folder}/#{error_code}.http"
-  node['haproxy']['frontends']['external']['entries'] << "acl is_#{error_code}_error status ge #{error_code}"
-  node['haproxy']['frontends']['external']['entries'] << "rspideny . if is_#{error_code}_error"
+  node.default['haproxy']['frontends']['external']['entries'] << "errorfile #{error_code} #{error_folder}/#{error_code}.http"
+  node.default['haproxy']['frontends']['external']['entries'] << "acl is_#{error_code}_error status ge #{error_code}"
+  node.default['haproxy']['frontends']['external']['entries'] << "rspideny . if is_#{error_code}_error"
 end
 
 haproxy_backends = node['haproxy']['backends']['roles'].to_hash.clone
