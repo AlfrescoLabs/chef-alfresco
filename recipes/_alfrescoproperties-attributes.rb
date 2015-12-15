@@ -1,6 +1,7 @@
 # Additional Alfresco paths
 node.default['alfresco']['bin'] = "#{node['alfresco']['home']}/bin"
 node.default['alfresco']['shared'] = "#{node['alfresco']['home']}/shared"
+node.default['alfresco']['config_dir'] = "#{node['alfresco']['home']}/conf"
 node.default['alfresco']['shared_lib'] = "#{node['alfresco']['shared']}/lib"
 node.default['alfresco']['amps_folder'] = "#{node['alfresco']['home']}/amps"
 node.default['alfresco']['amps_share_folder'] = "#{node['alfresco']['home']}/amps_share"

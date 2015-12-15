@@ -9,7 +9,7 @@ end
 
 root_folder = node['alfresco']['properties']['dir.root']
 shared_folder = node['alfresco']['shared']
-config_folder = node['tomcat']['config_dir']
+config_folder = node['alfresco']['config_dir']
 
 user = node['alfresco']['user']
 group = node['tomcat']['group']

@@ -8,12 +8,12 @@ node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['ba
 case node['platform_family']
 
 when 'rhel', 'fedora'
-  node.default['tomcat']['base_instance'] = 'tomcat7'
+  node.default['tomcat']['base_instance'] = 'tomcat'
   node.default['tomcat']['user'] = 'tomcat'
   node.default['tomcat']['group'] = 'tomcat'
   node.default['tomcat']['home'] = '/usr/share/tomcat'
-  node.default['tomcat']['config_dir'] = "#{node['tomcat']['base_instance']}/conf"
-  node.default['tomcat']['webapp_dir'] = "#{node['tomcat']['base_instance']}/webapps"
+  node.default['tomcat']['config_dir'] = "#{node['tomcat']['home']}/conf"
+  node.default['tomcat']['webapp_dir'] = "#{node['tomcat']['home']}/webapps"
 when 'debian'
   node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
   node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
