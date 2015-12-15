@@ -14,8 +14,6 @@ default['nginx']['conf_cookbook'] = 'alfresco'
 default['nginx']['disable_nginx_init'] = false
 default['nginx']['service_actions'] = [:enable,:start]
 
-default['nginx']['dns_server'] = "localhost"
-
 default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
 default['nginx']['port'] = node['alfresco']['public_port']
@@ -71,20 +69,20 @@ default['nginx']['config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
   "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
-  "    error_page 403 #{node['alfresco']['errorpages']['error_folder']}/403.http;",
-  "    error_page 404 #{node['alfresco']['errorpages']['error_folder']}/404.http;",
-  "    error_page 405 #{node['alfresco']['errorpages']['error_folder']}/405.http;",
-  "    error_page 500 #{node['alfresco']['errorpages']['error_folder']}/500.http;",
-  "    error_page 501 #{node['alfresco']['errorpages']['error_folder']}/501.http;",
-  "    error_page 502 #{node['alfresco']['errorpages']['error_folder']}/502.http;",
-  "    error_page 503 #{node['alfresco']['errorpages']['error_folder']}/503.http;",
-  "    error_page 504 #{node['alfresco']['errorpages']['error_folder']}/504.http;",
+  "    error_page 403 /errors/403.http;",
+  "    error_page 404 /errors/404.http;",
+  "    error_page 405 /errors/405.http;",
+  "    error_page 500 /errors/500.http;",
+  "    error_page 501 /errors/501.http;",
+  "    error_page 502 /errors/502.http;",
+  "    error_page 503 /errors/503.http;",
+  "    error_page 504 /errors/504.http;",
   "    gzip  on;",
   "    gzip_http_version 1.1;",
   "    gzip_vary on;",
@@ -180,7 +178,7 @@ default['nginx']['nossl_config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
   "    error_log  /var/log/nginx/error.log info;",
