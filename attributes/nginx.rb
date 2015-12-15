@@ -14,8 +14,6 @@ default['nginx']['conf_cookbook'] = 'alfresco'
 default['nginx']['disable_nginx_init'] = false
 default['nginx']['service_actions'] = [:enable,:start]
 
-default['nginx']['dns_server'] = "localhost"
-
 default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
 default['nginx']['port'] = node['alfresco']['public_port']
@@ -71,7 +69,7 @@ default['nginx']['config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['alfresco']['public_hostname']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
   "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
@@ -180,7 +178,7 @@ default['nginx']['nossl_config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['alfresco']['public_hostname']} valid=300s;",
   "    resolver_timeout 10s;",
   "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
   "    error_log  /var/log/nginx/error.log info;",
