@@ -34,12 +34,15 @@ end
 
 ruby_block 'run-ec2-discovery' do
   block do
-    # Run EC2 discovery
-    ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
 
-    # Merge local and EC2 configuration entries
-    haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
+    if node['haproxy']['ec2']['discovery_enabled']
+      # Run EC2 discovery
+      ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
 
+      # Merge local and EC2 configuration entries
+      haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
+    }
+    
     # Duplicate alfresco backend into aos_vti, root and alfresco_api
     haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
     haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
@@ -99,7 +102,6 @@ ruby_block 'run-ec2-discovery' do
     r.notifies :restart, 'service[haproxy]', :delayed
   end
   action :run
-  only_if { node['haproxy']['ec2']['discovery_enabled'] }
 end
 
 service 'haproxy' do
