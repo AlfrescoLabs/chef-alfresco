@@ -4,10 +4,12 @@ driver:
   privileged: true
 
 platforms:
-- name: centos7
+- name: centos-70
   driver_config:
-    image: centos:7
+    # TODO - we should be able to use official centos7 images
+    image: milcom/centos7-systemd
     privileged: true
+    run_command: /usr/sbin/init
 
 suites:
   - name: ci
