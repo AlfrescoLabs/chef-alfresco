@@ -26,7 +26,7 @@ if node['alfresco']['components'].include? 'haproxy'
   node.default['logrotate']['global']['/var/log/haproxy/*.log'] = {
     'daily'  => true,
     'weekly'  => false,
-    'create' => '600 haproxy haproxy',
+    'create' => '600 root adm',
     'postrotate'  => ['[ -f /var/run/syslogd.pid ] && kill -USR1 `cat /var/run/syslogd.pid`']
   }
 end
