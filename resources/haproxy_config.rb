@@ -1,3 +1,5 @@
+default_action :nothing
+
 load_current_value do
 end
 
