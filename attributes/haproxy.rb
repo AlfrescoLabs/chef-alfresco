@@ -4,6 +4,7 @@ default['haproxy']['ec2']['install_haproxy_discovery'] = false
 # Force rsyslog to use UDP on localhost
 default['haproxy']['enable_rsyslog_server'] = true
 default['haproxy']['rsyslog_bind'] = "127.0.0.1"
+default['haproxy']['domain'] = "localhost"
 
 # HAproxy cookbook attributes
 default['haproxy']['enable_ssl'] = false
@@ -164,8 +165,8 @@ default['haproxy']['frontends']['stats']['entries'] = [
 default['haproxy']['share_stats_auth'] = "admin:password"
 default['haproxy']['frontends']['external']['acls']['share']= ['path_beg /share']
 default['haproxy']['backends']['roles']['share']['entries'] = [
-  "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
-  "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
+  "rspirep ^Location:\\s*http://.*?\.#{node['haproxy']['domain']}(/.*)$ Location:\\ \\1",
+  "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['haproxy']['domain']}%2f.*)$ Location:\\ \\1https\\2",
   "rspdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "option httpchk GET /share"

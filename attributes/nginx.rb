@@ -5,6 +5,7 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 default['nginx']['use_nossl_config'] = false
 
 # Set to 'on' for enabling access logs
+# default['nginx']['access_log'] = "/var/log/nginx/host.access.log main"
 default['nginx']['access_log'] = "off"
 default['nginx']['log_level'] = "warn"
 
@@ -71,7 +72,7 @@ default['nginx']['config'] = [
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
   "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
-  "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
+  "    access_log  #{node['nginx']['access_log']};",
   "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
@@ -104,14 +105,12 @@ default['nginx']['config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
   "    listen #{node['nginx']['portssl']} ssl http2;",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    # SSL Configuration",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
@@ -180,7 +179,7 @@ default['nginx']['nossl_config'] = [
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
   "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
-  "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
+  "    access_log  #{node['nginx']['access_log']};",
   "    error_log  /var/log/nginx/error.log info;",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
@@ -213,7 +212,6 @@ default['nginx']['nossl_config'] = [
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    location ^~ /var/www/html/errors/ {",
   "        internal;",
