@@ -9,8 +9,6 @@ end
 # TODO - switch to http://repo.enetres.net/
 # Read more on  http://vicendominguez.blogspot.nl/2015/09/atrpms-is-dead-and-i-need-ffmpeg-for.html
 
-node.default['yum']['atrpms']['baseurl'] = "https://www.mirrorservice.org/sites/dl.atrpms.net/el$releasever-$basearch/atrpms/stable"
-
 # node.set['yum']['atrpms']['baseurl'] = "https://www.mirrorservice.org/sites/dl.atrpms.net/el$releasever-$basearch/atrpms/stable"
 # node.set['yum']['atrpms']['gpgcheck'] = false
 
