@@ -1,5 +1,10 @@
 {
     "name": "solr",
+    "yum" : {
+      "atrpms" : {
+        "baseurl" : "https://www.mirrorservice.org/sites/dl.atrpms.net/sl$releasever-$basearch/atrpms/stable"
+      }
+    },
     "artifact-deployer" : {
       "maven" : {
         "timeout" : 1500,

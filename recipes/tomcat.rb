@@ -31,6 +31,12 @@ end
 
 include_recipe 'tomcat::default'
 
+# This file defines an old log location (catalina.out)
+# As such, we disable it
+file "/etc/logrotate.d/tomcat" do
+  action :delete
+end
+
 template "#{node['alfresco']['home']}/conf/context.xml" do
   cookbook context_template_cookbook
   source context_template_source

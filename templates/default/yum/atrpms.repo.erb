@@ -3,7 +3,7 @@
 
 [atrpms]
 name=Red Hat Enterprise Linux $releasever - $basearch - ATrpms
-baseurl=https://www.mirrorservice.org/sites/dl.atrpms.net/el$releasever-$basearch/atrpms/stable
+baseurl=<%= node['yum']['atrpms']['baseurl'] %>
 enabled=1
 failovermethod=priority
 gpgcheck=0
