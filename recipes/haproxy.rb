@@ -70,9 +70,3 @@ if enable_rsyslog_server and File.exist?('/etc/rsyslog.conf')
     action :nothing
   end
 end
-
-# include_recipe 'rsyslog::server'
-
-# Disable default server configuration, we just need haproxy
-# r = resources(template: "#{node['rsyslog']['config_prefix']}/rsyslog.d/35-server-per-host.conf")
-# r.action(:nothing)
