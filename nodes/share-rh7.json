@@ -50,6 +50,7 @@
             "db.username" : "@@DB_USERNAME@@",
             "db.password" : "@@DB_PASSWORD@@",
             "db.prefix" : "mysql",
+            "s3service.s3-endpoint": "s3-us-gov-west-1.amazonaws.com",
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
             "hz_aws_enabled" : true,
