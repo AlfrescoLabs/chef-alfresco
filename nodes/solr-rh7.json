@@ -55,6 +55,14 @@
     "tomcat" : {
         "cleaner.minutes.interval" : 1
     },
+    "commons" : {
+      "ec2_tags" : {
+        "haproxy_backends" : "alfresco,solr",
+        "stack_name" : "@@STACK_NAME@@",
+        "jvm_route" : "solr1",
+        "Status" : "complete"    
+      }
+    },
     "artifacts" : {
         "alfresco-s3-connector" : {
             "enabled" : true
