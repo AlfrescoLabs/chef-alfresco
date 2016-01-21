@@ -58,9 +58,8 @@
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "alfresco,solr",
-        "stack_name" : "@@STACK_NAME@@",
         "jvm_route" : "solr1",
-        "Status" : "complete"    
+        "status" : "complete"    
       }
     },
     "artifacts" : {
