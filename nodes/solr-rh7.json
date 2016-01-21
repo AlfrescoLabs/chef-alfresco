@@ -57,7 +57,7 @@
     },
     "commons" : {
       "ec2_tags" : {
-        "haproxy_backends" : "alfresco,solr",
+        "haproxy_backends" : "solr",
         "jvm_route" : "solr1",
         "status" : "complete"    
       }
