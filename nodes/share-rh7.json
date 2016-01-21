@@ -66,9 +66,22 @@
         "cleaner.minutes.interval" : 1
     },
     "haproxy" : {
-      "ec2" : {
+        "ec2" : {
+            "install_haproxy_discovery" : true
+        }
+    },
+    "commons" : {
+      "ec2_tags" : {
+        "haproxy_backends" : "alfresco,share",
         "stack_name" : "@@STACK_NAME@@",
-        "install_haproxy_discovery" : true
+        "jvm_route" : "share1",
+        "Status" : "complete"    
+      },
+      "ec2_discovery" : {
+        "query_tags" : {
+          "stack_name" : "@@STACK_NAME@@",
+          "Status" : "complete",
+        }
       }
     },
     "artifacts" : {
