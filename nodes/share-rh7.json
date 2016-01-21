@@ -1,7 +1,7 @@
 {
     "name": "share",
     "tomcat" : {
-        "jvm_route" : "@@JVM_ROUTE@@",
+        "jvm_route" : "@@JVM_ROUTE@@"
     },
     "yum" : {
       "atrpms" : {
