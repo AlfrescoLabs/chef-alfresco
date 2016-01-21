@@ -73,14 +73,13 @@
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "alfresco,share",
-        "stack_name" : "@@STACK_NAME@@",
         "jvm_route" : "share1",
-        "Status" : "complete"    
+        "status" : "complete"    
       },
       "ec2_discovery" : {
         "query_tags" : {
-          "stack_name" : "@@STACK_NAME@@",
-          "Status" : "complete",
+          "aws:cloudformation:stack-name" : "@@STACK_NAME@@",
+          "status" : "complete",
         }
       }
     },
