@@ -83,7 +83,7 @@
       "ec2_discovery" : {
         "query_tags" : {
           "aws:cloudformation:stack-name" : "@@STACK_NAME@@",
-          "status" : "complete",
+          "status" : "complete"
         }
       }
     },
