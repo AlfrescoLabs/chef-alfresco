@@ -61,7 +61,7 @@
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "solr",
-        "jvm_route" : "solr1",
+        "jvm_route" : "@@JVM_ROUTE@@",
         "status" : "complete"    
       }
     },
