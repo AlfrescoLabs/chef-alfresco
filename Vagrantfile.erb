@@ -7,8 +7,8 @@ Vagrant.configure("2") do |c|
   c.vm.box = "<%= config[:box] %>"
   c.vm.box_url = "<%= config[:box_url] %>"
 
-  c.vm.network :forwarded_port, guest: 80, host: 8800
-  c.vm.network :forwarded_port, guest: 443, host: 8843
+  # c.vm.network :forwarded_port, guest: 80, host: 8800
+  # c.vm.network :forwarded_port, guest: 443, host: 8843
   # c.vm.network :forwarded_port, guest: 8070, host: 8070
   # c.vm.network :forwarded_port, guest: 8080, host: 8080
   # c.vm.network :forwarded_port, guest: 8081, host: 8081
@@ -17,12 +17,12 @@ Vagrant.configure("2") do |c|
   # c.vm.network :forwarded_port, guest: 9443, host: 9443
   # c.vm.network :forwarded_port, guest: 61616, host: 61616
 
-  c.vm.network :private_network, ip: "192.168.33.23"
+  # c.vm.network :private_network, ip: "192.168.33.23"
 
   # Path to the root chef-alfresco folder
-  c.vm.synced_folder "../../../", "/root-project"
+  # c.vm.synced_folder "../../../", "/root-project"
 
-  if Vagrant.has_plugin?("vagrant-cachier")
-    c.cache.auto_detect = true
-  end
+  # if Vagrant.has_plugin?("vagrant-cachier")
+  #   c.cache.auto_detect = true
+  # end
 end

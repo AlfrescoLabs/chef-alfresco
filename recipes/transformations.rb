@@ -1,5 +1,34 @@
 include_recipe "build-essential::default"
-include_recipe "libreoffice::default"
+
+libre_office_name = node['alfresco']['libre_office_name']
+libre_office_tar_name = node['alfresco']['libre_office_tar_name']
+libre_office_tar_url = node['alfresco']['libre_office_tar_url']
+
+# TODO - translate to chef code and contribute back
+# execute 'install-libreoffice' do
+#   cwd Chef::Config[:file_cache_path]
+#   command "wget https://downloadarchive.documentfoundation.org/libreoffice/old/#{libreoffice_version}/rpm/x86_64/LibreOffice_#{libreoffice_version}_Linux_x86-64_rpm.tar.gz ; tar -xf LibreOffice_#{libreoffice_version}_Linux_x86-64_rpm.tar.gz ; yum -y localinstall LibreOffice_#{libreoffice_version}_Linux_x86-64_rpm/RPMS/*.rpm"
+# end
+
+remote_file "#{Chef::Config[:file_cache_path]}/#{libre_office_tar_name}" do
+  source libre_office_tar_url
+  owner 'root'
+  group 'root'
+end
+
+execute 'unpack-libreoffice' do
+  cwd Chef::Config[:file_cache_path]
+  command "tar -xf #{libre_office_tar_name}"
+  creates "#{Chef::Config[:file_cache_path]}/#{libre_office_name}"
+  not_if "test -d #{Chef::Config[:file_cache_path]}/#{libre_office_name}"
+end
+
+execute 'install-libreoffice' do
+  cwd Chef::Config[:file_cache_path]
+  command "yum -y localinstall #{Chef::Config[:file_cache_path]}/#{libre_office_name}/RPMS/*.rpm"
+  not_if "yum list installed | grep libreoffice"
+end
+
 include_recipe "imagemagick::default"
 
 if node['platform_family'] == "ubuntu"
