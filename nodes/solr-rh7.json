@@ -1,5 +1,8 @@
 {
     "name": "solr",
+    "tomcat" : {
+        "jvm_route" : "@@JVM_ROUTE@@"
+    },
     "yum" : {
       "atrpms" : {
         "baseurl" : "https://www.mirrorservice.org/sites/dl.atrpms.net/sl7-$basearch/atrpms/stable"
@@ -37,6 +40,7 @@
             "db.username" : "@@DB_USERNAME@@",
             "db.password" : "@@DB_PASSWORD@@",
             "db.prefix" : "mysql",
+            "s3service.s3-endpoint": "s3-us-gov-west-1.amazonaws.com",
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
             "solr.port" : "8090",
@@ -54,6 +58,13 @@
     },
     "tomcat" : {
         "cleaner.minutes.interval" : 1
+    },
+    "commons" : {
+      "ec2_tags" : {
+        "haproxy_backends" : "solr",
+        "jvm_route" : "solr1",
+        "status" : "complete"    
+      }
     },
     "artifacts" : {
         "alfresco-s3-connector" : {
