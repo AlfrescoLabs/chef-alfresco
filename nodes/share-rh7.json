@@ -92,5 +92,5 @@
             "enabled" : true
         }
     },
-    "run_list": ["alfresco::default"]
+    "run_list": ["commons::ec2-tagging","alfresco::default"]
 }
