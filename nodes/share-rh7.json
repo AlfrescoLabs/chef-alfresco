@@ -1,8 +1,5 @@
 {
     "name": "share",
-    "tomcat" : {
-        "jvm_route" : "@@JVM_ROUTE@@"
-    },
     "yum" : {
       "atrpms" : {
         "baseurl" : "https://www.mirrorservice.org/sites/dl.atrpms.net/sl7-$basearch/atrpms/stable"
@@ -67,7 +64,8 @@
         }
     },
     "tomcat" : {
-        "cleaner.minutes.interval" : 1
+        "cleaner.minutes.interval" : 1,
+        "jvm_route" : "@@JVM_ROUTE@@"
     },
     "haproxy" : {
         "ec2" : {
@@ -77,13 +75,13 @@
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "alfresco,share",
-        "jvm_route" : "share1",
+        "jvm_route" : "@@JVM_ROUTE@@",
         "status" : "complete"    
       },
       "ec2_discovery" : {
         "query_tags" : {
           "aws:cloudformation:stack-name" : "@@STACK_NAME@@",
-          "status" : "complete",
+          "status" : "complete"
         }
       }
     },
@@ -92,5 +90,5 @@
             "enabled" : true
         }
     },
-    "run_list": ["alfresco::default"]
+    "run_list": ["commons::ec2-tagging","alfresco::default"]
 }

@@ -1,8 +1,5 @@
 {
     "name": "solr",
-    "tomcat" : {
-        "jvm_route" : "@@JVM_ROUTE@@"
-    },
     "yum" : {
       "atrpms" : {
         "baseurl" : "https://www.mirrorservice.org/sites/dl.atrpms.net/sl7-$basearch/atrpms/stable"
@@ -32,6 +29,7 @@
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "ssl_enabled" : false,
         "properties" : {
+            "alfresco.cluster.enabled" : false,
             "dir.license.external" : "/usr/share/tomcat-alfresco/alflicense",
             "s3.accessKey" : "@@AWS_ACCESS_KEY@@",
             "s3.secretKey" : "@@AWS_SECRET_KEY@@",
@@ -57,12 +55,13 @@
         }
     },
     "tomcat" : {
-        "cleaner.minutes.interval" : 1
+        "cleaner.minutes.interval" : 1,
+        "jvm_route" : "@@JVM_ROUTE@@"
     },
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "solr",
-        "jvm_route" : "solr1",
+        "jvm_route" : "@@JVM_ROUTE@@",
         "status" : "complete"    
       }
     },
@@ -71,5 +70,5 @@
             "enabled" : true
         }
     },
-    "run_list": ["alfresco::default"]
+    "run_list": ["commons::ec2-tagging","alfresco::default"]
 }
