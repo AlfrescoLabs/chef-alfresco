@@ -3,6 +3,7 @@ default['haproxy']['ec2']['install_haproxy_discovery'] = false
 
 # Force rsyslog to use UDP on localhost
 default['haproxy']['enable_rsyslog_server'] = true
+default['haproxy']['enable_local_logging'] = false
 default['haproxy']['rsyslog_bind'] = "127.0.0.1"
 default['haproxy']['domain'] = "localhost"
 

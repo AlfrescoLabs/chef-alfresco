@@ -40,6 +40,7 @@ directory "/var/log/haproxy" do
 end
 template "/etc/rsyslog.d/haproxy.conf" do
   source "rsyslog/haproxy.conf.erb"
+  only_if { node['haproxy']['enable_local_logging'] }
 end
 
 # TODO - this block can be contributed to a lib cookbook, somewhere
