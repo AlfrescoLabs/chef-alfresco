@@ -21,6 +21,8 @@ default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
+default['haproxy']['log_level'] = "warning"
+
 #default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
 default['haproxy']['logformat'] = "#- wibble"
@@ -33,7 +35,7 @@ default['haproxy']['general_config'] = [
   "global",
   "tune.ssl.default-dh-param 2048",
   # Logging should be handled with logstash-forwarder
-  "log 127.0.0.1 local2 info",
+  "log 127.0.0.1 local2 #{node['haproxy']['log_level']}",
   "pidfile /var/run/haproxy.pid",
   "stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin",
   "user haproxy",
