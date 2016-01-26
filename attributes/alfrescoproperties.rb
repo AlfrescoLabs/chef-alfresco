@@ -73,6 +73,9 @@ default['alfresco']['properties']['img.gslib'] = '${img.dyn}'
 default['alfresco']['properties']['img.coders'] = '${img.dyn}/ImageMagick-6.7.8/modules-Q16/coders'
 default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/config'
 
+# Wait 45secs for Libreoffice to start
+default['alfresco']['properties']['jodconverter.taskQueueTimeout'] = 45000
+
 #FTP
 default['alfresco']['properties']['ftp.enabled'] = false
 
