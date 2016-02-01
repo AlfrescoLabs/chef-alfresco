@@ -75,8 +75,7 @@
     "commons" : {
       "ec2_tags" : {
         "haproxy_backends" : "alfresco,share",
-        "jvm_route" : "@@JVM_ROUTE@@",
-        "status" : "complete"    
+        "jvm_route" : "@@JVM_ROUTE@@"
       },
       "ec2_discovery" : {
         "query_tags" : {
