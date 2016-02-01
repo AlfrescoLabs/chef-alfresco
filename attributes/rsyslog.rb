@@ -3,24 +3,24 @@ default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['repo1']['priority'] = 50
 # TODO - this is not working
 # default['rsyslog']['file_inputs']['repo2']['file'] = '/var/log/tomcat-alfresco/catalina.*.log'
-default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
-default['rsyslog']['file_inputs']['repo2']['priority'] = 51
+# default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
+# default['rsyslog']['file_inputs']['repo2']['priority'] = 51
 
 default['rsyslog']['file_inputs']['share1']['file'] = '/var/log/tomcat-share/share.log'
 default['rsyslog']['file_inputs']['share1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['share1']['priority'] = 52
 # TODO - this is not working
 # default['rsyslog']['file_inputs']['share2']['file'] = '/var/log/tomcat-share/catalina.*.log'
-default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
-default['rsyslog']['file_inputs']['share2']['priority'] = 53
+# default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
+# default['rsyslog']['file_inputs']['share2']['priority'] = 53
 
 default['rsyslog']['file_inputs']['solr1']['file'] = '/var/log/tomcat-solr/solr.log'
 default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['solr1']['priority'] = 54
 # TODO - this is not working
 # default['rsyslog']['file_inputs']['solr2']['file'] = '/var/log/tomcat-solr/catalina.*.log'
-default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
-default['rsyslog']['file_inputs']['solr2']['priority'] = 55
+# default['rsyslog']['file_inputs']['solr2']['severity'] = 'info'
+# default['rsyslog']['file_inputs']['solr2']['priority'] = 55
 
 default['rsyslog']['file_inputs']['mysql-error']['file'] = '/var/log/mysql-default/error.log'
 default['rsyslog']['file_inputs']['mysql-error']['severity'] = 'error'
