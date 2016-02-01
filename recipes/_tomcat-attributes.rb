@@ -44,7 +44,7 @@ else
   if alfresco_components.include? 'share'
     node.default["alfresco"]["share_tomcat_instance"]['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{node['tomcat']['cache_root_folder']}/tomcat-share,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=/usr/share/tomcat-share/temp"
+      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{node['tomcat']['cache_root_folder']}/tomcat-share,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=/usr/share/tomcat-share/temp,disableall"
     end
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
