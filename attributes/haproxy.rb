@@ -21,7 +21,7 @@ default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
-default['haproxy']['log_level'] = "warning"
+default['haproxy']['log_level'] = "info"
 
 #default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
