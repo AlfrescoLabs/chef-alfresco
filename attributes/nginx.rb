@@ -4,10 +4,10 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 
 default['nginx']['use_nossl_config'] = false
 
-# Set to 'on' for enabling access logs
-# default['nginx']['access_log'] = "/var/log/nginx/host.access.log main"
-default['nginx']['access_log'] = "off"
-default['nginx']['log_level'] = "warn"
+# Set to 'off' for disabling access logs
+default['nginx']['access_log'] = "/var/log/nginx/host.access.log main"
+# http://nginx.org/en/docs/ngx_core_module.html#error_log
+default['nginx']['log_level'] = "info"
 
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
