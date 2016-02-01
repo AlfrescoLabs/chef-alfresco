@@ -4,7 +4,7 @@
 driver:
   name: vagrant
   customize:
-    memory: 2048
+    memory: 4096
     cpus: 2
 
 provisioner:
@@ -91,7 +91,7 @@ suites:
         "enable_ssl_header" : false
       }
     }
-    
+
   - name: enterprise
     run_list:
       - recipe[alfresco::default]
