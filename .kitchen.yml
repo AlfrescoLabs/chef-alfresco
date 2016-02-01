@@ -1,14 +1,10 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
 
-# driver_plugin: vagrant
-# use_vagrant_berkshelf_plugin: true
-# driver:
-#   vagrantfile_erb: Vagrantfile.erb
 driver:
   name: vagrant
   customize:
-    memory: 1024
+    memory: 2048
     cpus: 2
 
 provisioner:
