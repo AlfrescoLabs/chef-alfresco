@@ -23,7 +23,7 @@ default['rsyslog']['file_inputs']['mysql-error']['file'] = '/var/log/mysql-defau
 default['rsyslog']['file_inputs']['mysql-error']['severity'] = 'error'
 default['rsyslog']['file_inputs']['mysql-error']['priority'] = 57
 
-default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/error.log'
+default['rsyslog']['file_inputs']['nginx']['file'] = '/var/log/nginx/*.log'
 default['rsyslog']['file_inputs']['nginx']['severity'] = 'error'
 default['rsyslog']['file_inputs']['nginx']['priority'] = 56
 
