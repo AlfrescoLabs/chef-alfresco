@@ -59,12 +59,12 @@ action :run do
   # 2. Current AZ
   # 3. Others
   #
-  current_az = haproxy_backends['current']['az'] if haproxy_backends['current']
+  current_az = Ec2Discovery.getCurrentAz()
   haproxy_backends.each do |roleName,role|
     if role['az']
       ordered_role = []
       ordered_role << role['az']['local'] if role['az']['local']
-      ordered_role << role['az'][current_az] if current_az
+      ordered_role << role['az'][current_az] if current_az and role['az'][current_az]
       role['az'].each do |azName,az|
         if 'local' != azName and (current_az == nil or current_az != azName)
           ordered_role << az if az
