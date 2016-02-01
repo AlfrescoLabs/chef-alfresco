@@ -79,11 +79,7 @@ suites:
         "public_portssl" : "80",
         "log.json.enabled" : false,
         "jmxremote_databag" : "credentials",
-        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
-        "properties" : {
-           # TODO - This looks weird, needs testing
-           "aos.port" : "8800"
-        }
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "artifact-deployer" : {
         "maven" : {
@@ -95,6 +91,7 @@ suites:
         "enable_ssl_header" : false
       }
     }
+    
   - name: enterprise
     run_list:
       - recipe[alfresco::default]
@@ -108,7 +105,7 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
-        "version" : "5.0.2",
+        "version" : "5.0.2.5",
         "edition" : "enterprise",
         "ssl_enabled" : false,
         "skip_certificate_creation" : true,
@@ -116,11 +113,7 @@ suites:
         "public_portssl" : "80",
         "log.json.enabled" : false,
         "jmxremote_databag" : "credentials",
-        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
-        "properties" : {
-           # TODO - This looks weird, needs testing
-           "aos.port" : "8800"
-        }
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "artifact-deployer" : {
         "maven" : {
