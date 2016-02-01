@@ -39,10 +39,12 @@ action :run do
     end
   end
 
+  current_az = nil
   if node['haproxy']['ec2']['discovery_enabled']
     # Run EC2 discovery
     ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
 
+    current_az = Ec2Discovery.getCurrentAz()
     # Merge local and EC2 configuration entries
     haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
   end
@@ -59,7 +61,6 @@ action :run do
   # 2. Current AZ
   # 3. Others
   #
-  current_az = Ec2Discovery.getCurrentAz()
   haproxy_backends.each do |roleName,role|
     if role['az']
       ordered_role = []
