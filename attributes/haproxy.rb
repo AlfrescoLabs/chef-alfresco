@@ -3,14 +3,14 @@ default['haproxy']['ec2']['install_haproxy_discovery'] = false
 
 # Force rsyslog to use UDP on localhost
 default['haproxy']['enable_rsyslog_server'] = true
+default['haproxy']['enable_local_logging'] = false
 default['haproxy']['rsyslog_bind'] = "127.0.0.1"
+default['haproxy']['domain'] = "localhost"
 
 # HAproxy cookbook attributes
 default['haproxy']['enable_ssl'] = false
 default['haproxy']['enable_admin'] = false
 default['haproxy']['enable_default_http'] = false
-
-default['haproxy']['enable.ec2.discovery'] = false
 
 default['haproxy']['conf_cookbook'] = 'alfresco'
 default['haproxy']['conf_template_source'] = 'haproxy/haproxy.cfg.erb'
@@ -20,6 +20,8 @@ default['haproxy']['default_backend'] = "share"
 default['haproxy']['stats_port'] = "1936"
 default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
+
+default['haproxy']['log_level'] = "info"
 
 #default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
@@ -33,7 +35,7 @@ default['haproxy']['general_config'] = [
   "global",
   "tune.ssl.default-dh-param 2048",
   # Logging should be handled with logstash-forwarder
-  "log 127.0.0.1 local2 info",
+  "log 127.0.0.1 local2 #{node['haproxy']['log_level']}",
   "pidfile /var/run/haproxy.pid",
   "stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin",
   "user haproxy",
@@ -165,40 +167,47 @@ default['haproxy']['frontends']['stats']['entries'] = [
 # Note: the haproxy backend items are configured on each sub recipe: repo.rb, share.rb and solr.rb
 default['haproxy']['share_stats_auth'] = "admin:password"
 default['haproxy']['frontends']['external']['acls']['share']= ['path_beg /share']
-default['haproxy']['backends']['share']['entries'] = [
-  "rspirep ^Location:\\s*http://.*?\.#{node['alfresco']['public_hostname']}(/.*)$ Location:\\ \\1",
-  "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['alfresco']['public_hostname']}%2f.*)$ Location:\\ \\1https\\2",
+default['haproxy']['backends']['roles']['share']['entries'] = [
+  "rspirep ^Location:\\s*http://.*?\.#{node['haproxy']['domain']}(/.*)$ Location:\\ \\1",
+  "rspirep ^Location:(.*\\?\w+=)http(%3a%2f%2f.*?\\.#{node['haproxy']['domain']}%2f.*)$ Location:\\ \\1https\\2",
   "rspdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
   "reqdel Expires\\=Thu\\,\\ 01\-Jan\\-1970\\ 00\\:00\\:10\\ GMT",
-  "option httpchk GET /share",
-  "balance leastconn",
-  "cookie JSESSIONID prefix"
+  "option httpchk GET /share"
 ]
 
-default['haproxy']['backends']['share']['secure_entries'] = []
+default['haproxy']['backends']['roles']['share']['secure_entries'] = []
 
 default['haproxy']['secure_entries'] = [
   "acl secured_cookie res.hdr(Set-Cookie),lower -m sub secure",
   "rspirep ^(set-cookie:.*) \\1;\\ Secure if !secured_cookie"
 ]
 
-default['haproxy']['backends']['share']['port'] = 8081
+default['haproxy']['backends']['roles']['share']['port'] = 8081
 
 # Solr Haproxy configuration
 default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
-default['haproxy']['backends']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['solr']['port'] = 8090
+default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['solr']['port'] = 8090
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
 default['haproxy']['frontends']['external']['acls']['alfresco'] = ["path_beg /alfresco", "path_reg ^/alfresco/aos/.*","path_reg ^/alfresco/aos$"]
-default['haproxy']['backends']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['alfresco']['port'] = 8070
+default['haproxy']['backends']['roles']['alfresco']['entries'] = ["option httpchk GET /alfresco","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['alfresco']['port'] = 8070
 
 default['haproxy']['frontends']['external']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
-default['haproxy']['backends']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['aos_vti']['port'] = 8070
+default['haproxy']['backends']['roles']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['aos_vti']['port'] = 8070
 
 default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
-default['haproxy']['backends']['aos_root']['entries'] = ["option httpchk GET /","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['aos_root']['port'] = 8070
+default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
+default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
+
+# TODO - WIP
+# default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]
+# default['haproxy']['backends']['roles']['alfresco_api']['entries'] = ["option httpchk GET /alfresco/api"]
+# default['haproxy']['backends']['roles']['alfresco_api']['port'] = 8070
+#
+# default['haproxy']['frontends']['external']['acls']['webdav'] = ["path_beg /alfresco/webdav"]
+# default['haproxy']['backends']['roles']['webdav']['entries'] = ["option httpchk GET /alfresco/webdav"]
+# default['haproxy']['backends']['roles']['webdav']['port'] = 8070

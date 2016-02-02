@@ -1,24 +1,25 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
 
-driver_plugin: vagrant
-use_vagrant_berkshelf_plugin: true
 driver:
-  vagrantfile_erb: Vagrantfile.erb
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
 
 provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-7.0
+  - name: centos-7.2
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.33.23"}]
+
     driver:
-      customize:
-        - ["forwarded_port", {guest: 80, host: 8081}]
-        - ["private_network", {ip: "192.168.33.33"}]
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
     # driver_config:
     #   require_chef_omnibus: 12.4.1
-
 
 suites:
   - name: ci
@@ -89,6 +90,7 @@ suites:
         "enable_ssl_header" : false
       }
     }
+
   - name: enterprise
     run_list:
       - recipe[alfresco::default]
@@ -101,7 +103,7 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
-        "version" : "5.0.2",
+        "version" : "5.0.2.5",
         "edition" : "enterprise",
         "ssl_enabled" : false,
         "skip_certificate_creation" : true,

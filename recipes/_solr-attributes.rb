@@ -27,8 +27,8 @@ if node['alfresco']['components'].include? 'haproxy'
   node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
   node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
 else
-  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['haproxy']['backends']['alfresco']['port']
-  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['haproxy']['backends']['alfresco']['port']
+  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['haproxy']['backends']['roles']['alfresco']['port']
+  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['haproxy']['backends']['roles']['alfresco']['port']
 end
 
 # Solr WAR destination

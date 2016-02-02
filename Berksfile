@@ -9,4 +9,7 @@ cookbook 'apache_tomcat', git:'https://gitlab.com/maoo/chef-apache_tomcat.git'
 cookbook 'maven', git:'https://github.com/maoo/maven.git', tag: "v1.2.0-fork"
 cookbook 'file', git: 'https://github.com/jenssegers/chef-file.git', tag: "v1.0.0"
 
+cookbook 'commons', git: 'https://github.com/Alfresco/chef-commons.git'
+# cookbook 'commons', path: '../chef-commons'
+
 metadata

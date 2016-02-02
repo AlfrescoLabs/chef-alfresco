@@ -1,15 +1,15 @@
 {
     "name": "haproxy-discovery",
-    "haproxy" : {
-        "ec2" : {
-            "query_tags" : {
-                <% if node['haproxy']['ec2']['query_tags'] -%>
-                  <% node['haproxy']['ec2']['query_tags'].each_with_index do |(tagName,tagValue),i| -%>
-                    "<%= tagName %>" : "<%= tagValue %>"<% unless i == node['haproxy']['ec2']['query_tags'].size - 1 -%>,<% end -%>
-                  <% end -%>
-                <% end -%>
-            }
-        }
+    "tomcat" : {
+      "jvm_route" : "<%= node['tomcat']['jvm_route'] %>"
     },
-    "run_list": ["alfresco::haproxy-ec2-discovery"]
+    "haproxy" : {
+      "ec2" : {
+        "discovery_enabled" : true
+      }
+    },
+    "commons" : {
+        "ec2_discovery" : <%= node['commons']['ec2_discovery'].to_json %>
+    },
+    "run_list": ["alfresco::haproxy-config"]
 }

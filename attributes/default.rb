@@ -45,7 +45,7 @@ default['alfresco']['edition'] = "community"
 default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
 
-default['alfresco']['skip_certificate_creation'] = false
+default['alfresco']['skip_certificate_creation'] = true
 
 # Use log4j json as output
 default['alfresco']['log.json.enabled'] = false
@@ -87,11 +87,18 @@ default["java"]["jdk_version"] = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u66-b17/jdk-8u66-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '88f31f3d642c3287134297b8c10e61bf'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = 'f45932f9a3a9c38e47a60504d21449f8'
 
 #3rd-party defaults
-default['alfresco']['install_fonts'] = true
+default['alfresco']['libreoffice_version'] = "4.2.5.2"
+default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
+default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office_name']}.tar.gz"
+default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentfoundation.org/libreoffice/old/#{node['alfresco']['libreoffice_version']}/rpm/x86_64/#{node['alfresco']['libre_office_tar_name']}"
+
+default['alfresco']['install_fonts'] = false
+default['alfresco']['install_swftools'] = true
+
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"
 

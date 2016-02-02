@@ -11,6 +11,8 @@ It is tested on Centos 7.x and Ubuntu 14.04 (soon on Centos 6.7)
 To know more about attribute definition and overriding, check [CHEF-ATTRIBUTES.md](CHEF-ATTRIBUTES.md)
 To get a list of packaged installed, their sources and versions, check [PACKAGES.md](PACKAGES.md)
 
+[Graph of cookbooks dependencies](http://berksgraph.tolleiv.de/grph?1453651870699#2016-01-24-6ead5d913f1442303236b555f017a1afebc4a4ec.js)
+
 Local test (run)
 ---
 

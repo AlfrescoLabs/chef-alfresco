@@ -1,5 +1,10 @@
 {
     "name": "solr",
+    "yum" : {
+      "atrpms" : {
+        "baseurl" : "https://www.mirrorservice.org/sites/dl.atrpms.net/sl7-$basearch/atrpms/stable"
+      }
+    },
     "artifact-deployer" : {
       "maven" : {
         "timeout" : 1500,
@@ -18,12 +23,14 @@
         "public_hostname" : "@@FQDN@@",
         "log.json.enabled" : false,
         "install_fonts" : false,
-        "version" : "5.0.2.5",
+        "version" : "5.0.2",
         "edition" : "enterprise",
         "components" : ["tomcat","repo","transform","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "ssl_enabled" : false,
+        "install_swftools" : false,
         "properties" : {
+            "alfresco.cluster.enabled" : false,
             "dir.license.external" : "/usr/share/tomcat-alfresco/alflicense",
             "s3.accessKey" : "@@AWS_ACCESS_KEY@@",
             "s3.secretKey" : "@@AWS_SECRET_KEY@@",
@@ -32,6 +39,7 @@
             "db.username" : "@@DB_USERNAME@@",
             "db.password" : "@@DB_PASSWORD@@",
             "db.prefix" : "mysql",
+            "s3service.s3-endpoint": "s3-us-gov-west-1.amazonaws.com",
             "s3.bucketName" : "@@CONTENTSTORE_S3_BUCKET@@",
             "s3.bucketLocation" : "@@AWS_REGION@@",
             "solr.port" : "8090",
@@ -48,12 +56,20 @@
         }
     },
     "tomcat" : {
-        "cleaner.minutes.interval" : 1
+        "cleaner.minutes.interval" : 1,
+        "jvm_route" : "@@JVM_ROUTE@@"
+    },
+    "commons" : {
+      "ec2_tags" : {
+        "haproxy_backends" : "solr",
+        "jvm_route" : "@@JVM_ROUTE@@",
+        "status" : "complete"    
+      }
     },
     "artifacts" : {
         "alfresco-s3-connector" : {
             "enabled" : true
         }
     },
-    "run_list": ["alfresco::default"]
+    "run_list": ["commons::ec2-tagging","alfresco::default"]
 }

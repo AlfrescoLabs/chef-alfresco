@@ -119,7 +119,7 @@ else
     node.default['alfresco']['share_tomcat_instance']['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
     node.default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{instance_home}/logs/gc.log -Dlogfilename=#{instance_home}/logs/share.log -XX:ErrorFile=#{instance_home}/logs/jvm_crash%p.log -XX:HeapDumpPath=#{instance_home}/logs/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home}/temp,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=#{instance_home}/temp"
+      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{instance_home}/temp,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=#{instance_home}/temp,disableall"
     end
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end

@@ -24,7 +24,7 @@ node.default['artifacts']['json-logging-share-amp']['owner'] = node['alfresco'][
 node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
 node.default['artifacts']['mysql']['groupId'] = "mysql"
 node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
-node.default['artifacts']['mysql']['version'] = "5.1.36"
+node.default['artifacts']['mysql']['version'] = "5.1.37"
 node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared_lib']
 node.default['artifacts']['mysql']['owner'] = node['alfresco']['user']
 

@@ -1,5 +1,41 @@
 # Change Log
 
+## [v0.6.20](https://github.com/Alfresco/chef-alfresco/tree/v0.6.20) (2016-02-02)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.19...v0.6.20)
+
+**Merged pull requests:**
+
+
+## [v0.6.19](https://github.com/Alfresco/chef-alfresco/tree/v0.6.19) (2016-02-02)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.18...v0.6.19)
+
+## [v0.6.18](https://github.com/Alfresco/chef-alfresco/tree/v0.6.18) (2016-02-01)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.17...v0.6.18)
+
+**Merged pull requests:**
+
+
+## [v0.6.17](https://github.com/Alfresco/chef-alfresco/tree/v0.6.17) (2016-01-19)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.16...v0.6.17)
+
+**Merged pull requests:**
+
+
+## [v0.6.16](https://github.com/Alfresco/chef-alfresco/tree/v0.6.16) (2016-01-19)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.15...v0.6.16)
+
+**Closed issues:**
+
+- Edit online needs ssl  [\#13](https://github.com/Alfresco/chef-alfresco/issues/13)
+- Exception on Image preview dashlet [\#10](https://github.com/Alfresco/chef-alfresco/issues/10)
+- Solr not working  [\#9](https://github.com/Alfresco/chef-alfresco/issues/9)
+- Support for Oracle and MSSQL jdbc drivers [\#7](https://github.com/Alfresco/chef-alfresco/issues/7)
+
+**Merged pull requests:**
+
+- Newhaproxydiscovery [\#29](https://github.com/Alfresco/chef-alfresco/pull/29) ([maoo](https://github.com/maoo))
+- Split haproxy logs out for each backend service. [\#27](https://github.com/Alfresco/chef-alfresco/pull/27) ([steverigby](https://github.com/steverigby))
+
 ## [v0.6.15](https://github.com/Alfresco/chef-alfresco/tree/v0.6.15) (2015-11-20)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.14...v0.6.15)
 

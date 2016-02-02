@@ -4,17 +4,16 @@ default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/ce
 
 default['nginx']['use_nossl_config'] = false
 
-# Set to 'on' for enabling access logs
-default['nginx']['access_log'] = "off"
-default['nginx']['log_level'] = "warn"
+# Set to 'off' for disabling access logs
+default['nginx']['access_log'] = "/var/log/nginx/host.access.log main"
+# http://nginx.org/en/docs/ngx_core_module.html#error_log
+default['nginx']['log_level'] = "info"
 
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 
 default['nginx']['disable_nginx_init'] = false
 default['nginx']['service_actions'] = [:enable,:start]
-
-default['nginx']['dns_server'] = "localhost"
 
 default['nginx']['resolver'] = "8.8.4.4 8.8.8.8"
 
@@ -38,11 +37,11 @@ default['nginx']['trusted_certificate'] = "#{node['alfresco']['certs']['ssl_fold
 default['nginx']['ssl_trusted_certificate_entry'] = "    ssl_trusted_certificate #{node['nginx']['trusted_certificate']};"
 default['nginx']['dh_param_entry'] = "    ssl_dhparam #{node['nginx']['dhparam_pem']};"
 
-# default['nginx']['status_url_ip_allows'] = "      allow 127.0.0.1"
+default['nginx']['status_url_ip_allows'] = "127.0.0.1"
 
 default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\" \"$gzip_ratio\"';"
-default['nginx']['logging_json'] =   " log_format main '{ \"@timestamp\": \"$time_iso8601\", \"@fields\": { \"remote_addr\": \"$remote_addr\", \"remote_user\": \"$remote_user\", \"x_forwarded_for\": \"$http_x_forwarded_for\", \"proxy_protocol_addr\": \"$proxy_protocol_addr\", \"body_bytes_sent\": \"$body_bytes_sent\", \"request_time\": \"$request_time\", \"body_bytes_sent\":\"$body_bytes_sent\", \"bytes_sent\":\"$bytes_sent\", \"status\": \"$status\", \"request\": \"$request\", \"request_method\": \"$request_method\", \"http_cookie\": \"$http_cookie\", \"http_referrer\": \"$http_referer\", \"http_user_agent\": \"$http_user_agent\" } }'; "
 
+default['nginx']['logging_json'] =   " log_format main '{ \"@timestamp\": \"$time_iso8601\", \"@fields\": { \"remote_addr\": \"$remote_addr\", \"remote_user\": \"$remote_user\", \"x_forwarded_for\": \"$http_x_forwarded_for\", \"proxy_protocol_addr\": \"$proxy_protocol_addr\", \"body_bytes_sent\": \"$body_bytes_sent\", \"request_time\": \"$request_time\", \"body_bytes_sent\":\"$body_bytes_sent\", \"bytes_sent\":\"$bytes_sent\", \"status\": \"$status\", \"request\": \"$request\", \"request_method\": \"$request_method\", \"http_cookie\": \"$http_cookie\", \"http_referrer\": \"$http_referer\", \"http_user_agent\": \"$http_user_agent\" } }'; "
 
 default['nginx']['logging_json_enabled'] = false
 
@@ -55,7 +54,7 @@ default['nginx']['config'] = [
   "http {",
   "    include       mime.types;",
   "    default_type  application/octet-stream;",
-  node['nginx']['logging_json'],
+  node['nginx']['logging'],
   "    client_max_body_size      0; # Allow upload of unlimited size",
   "    client_body_buffer_size   1000M;",
   "    proxy_read_timeout        600s;",
@@ -71,20 +70,20 @@ default['nginx']['config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
-  "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
+  "    access_log  #{node['nginx']['access_log']};",
   "    error_log  /var/log/nginx/error.log #{node['nginx']['log_level']};",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
-  "    error_page 403 /errors/403.html;",
-  "    error_page 404 /errors/404.html;",
-  "    error_page 405 /errors/405.html;",
-  "    error_page 500 /errors/500.html;",
-  "    error_page 501 /errors/501.html;",
-  "    error_page 502 /errors/502.html;",
-  "    error_page 503 /errors/503.html;",
-  "    error_page 504 /errors/504.html;",
+  "    error_page 403 /errors/403.http;",
+  "    error_page 404 /errors/404.http;",
+  "    error_page 405 /errors/405.http;",
+  "    error_page 500 /errors/500.http;",
+  "    error_page 501 /errors/501.http;",
+  "    error_page 502 /errors/502.http;",
+  "    error_page 503 /errors/503.http;",
+  "    error_page 504 /errors/504.http;",
   "    gzip  on;",
   "    gzip_http_version 1.1;",
   "    gzip_vary on;",
@@ -99,21 +98,19 @@ default['nginx']['config'] = [
   "   location /nginx_status {",
   "      stub_status on;",
   "      access_log   off;",
-  "        # Allow IP addresses",
-  "        #{node['nginx']['status_url_ip_allows']}",
+  "      # Allow IP addresses",
+  "      allow #{node['nginx']['status_url_ip_allows']};",
   "      deny all;",
   "   }",
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
   "    return         301 https://$server_name$request_uri;",
   "}",
   "server {",
   "    listen #{node['nginx']['portssl']} ssl http2;",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
   "    # SSL Configuration",
   "    add_header Strict-Transport-Security \"max-age=31536000; includeSubdomains;\";",
@@ -134,7 +131,7 @@ default['nginx']['config'] = [
   "    ssl_session_timeout 10m;",
   "    ssl_buffer_size 1400;",
   "    ssl_session_tickets off;",
-  "    location ^~ /errors/ {",
+  "    location ^~ /var/www/html/errors/ {",
   "        internal;",
   "        root #{node['alfresco']['errorpages']['error_folder']};",
   "    }",
@@ -180,9 +177,9 @@ default['nginx']['nossl_config'] = [
   "    server_tokens             off; # version number in error pages",
   "    tcp_nodelay               on; # Nagle buffering algorithm, used for keepalive only",
   "    tcp_nopush                on; # send headers in one peace, its better then sending them one by one",
-  "    resolver #{node['nginx']['dns_server']} valid=300s;",
+  "    resolver #{node['nginx']['resolver']} valid=300s;",
   "    resolver_timeout 10s;",
-  "    access_log  /var/log/nginx/host.access.log main buffer=32k;",
+  "    access_log  #{node['nginx']['access_log']};",
   "    error_log  /var/log/nginx/error.log info;",
   "    port_in_redirect off;",
   "    server_name_in_redirect off;",
@@ -208,16 +205,15 @@ default['nginx']['nossl_config'] = [
   "   location /nginx_status {",
   "      stub_status on;",
   "      access_log   off;",
-  "        # Allow IP addresses",
-  "        #{node['nginx']['status_url_ip_allows']}",
+  "      # Allow IP addresses",
+  "      allow #{node['nginx']['status_url_ip_allows']};",
   "      deny all;",
   "   }",
   "}",
   "server {",
   "    listen          #{node['nginx']['port']};",
-  "    access_log   #{node['nginx']['access_log']};",
   "    server_name #{node['alfresco']['public_hostname']};",
-  "    location ^~ /errors/ {",
+  "    location ^~ /var/www/html/errors/ {",
   "        internal;",
   "        root #{node['alfresco']['errorpages']['error_folder']};",
   "    }",

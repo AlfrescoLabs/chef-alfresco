@@ -62,7 +62,7 @@ default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = f
 #Transformations
 default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
 default['alfresco']['properties']['ooo.enabled'] = false
-default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib64/libreoffice'
+default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice4.2/'
 default['alfresco']['properties']['jodconverter.portNumbers'] = '8101,8102'
 default['alfresco']['properties']['jodconverter.enabled'] = true
 default['alfresco']['properties']['img.root'] = '/usr'
@@ -72,6 +72,9 @@ default['alfresco']['properties']['img.dyn'] = '${img.root}/lib64'
 default['alfresco']['properties']['img.gslib'] = '${img.dyn}'
 default['alfresco']['properties']['img.coders'] = '${img.dyn}/ImageMagick-6.7.8/modules-Q16/coders'
 default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/config'
+
+# Wait 45secs for Libreoffice to start
+default['alfresco']['properties']['jodconverter.connectTimeout'] = 45000
 
 #FTP
 default['alfresco']['properties']['ftp.enabled'] = false
