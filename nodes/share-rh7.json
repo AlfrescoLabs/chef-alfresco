@@ -33,6 +33,7 @@
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","aos","googledocs"],
         "restart_services" : ["tomcat-alfresco","tomcat-share"],
         "ssl_enabled" : false,
+        "install_swftools" : false,
         "shareproperties" : {
           "hz_aws_enabled" : true
         },
