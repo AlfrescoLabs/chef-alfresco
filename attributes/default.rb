@@ -97,6 +97,8 @@ default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office
 default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentfoundation.org/libreoffice/old/#{node['alfresco']['libreoffice_version']}/rpm/x86_64/#{node['alfresco']['libre_office_tar_name']}"
 
 default['alfresco']['install_fonts'] = false
+default['alfresco']['install_swftools'] = true
+
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"
 

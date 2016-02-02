@@ -28,6 +28,7 @@
         "components" : ["tomcat","repo","transform","solr"],
         "restart_services" : ["tomcat-alfresco","tomcat-solr"],
         "ssl_enabled" : false,
+        "install_swftools" : false,
         "properties" : {
             "alfresco.cluster.enabled" : false,
             "dir.license.external" : "/usr/share/tomcat-alfresco/alflicense",

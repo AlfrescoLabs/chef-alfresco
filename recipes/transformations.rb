@@ -51,6 +51,7 @@ elsif node['platform_family'] == "rhel"
     make && make install
     EOH
     not_if "test -f /usr/local/bin/pdf2swf"
+    only_if { node['alfresco']['install_swftools'] }
   end
 end
 
