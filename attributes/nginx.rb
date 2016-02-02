@@ -41,18 +41,18 @@ default['nginx']['status_url_ip_allows'] = "127.0.0.1"
 
 default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\" \"$gzip_ratio\"';"
 
-default['nginx']['logging_json'] = " log_format main '{ \"@timestamp\": \"$time_iso8601\", '",
-"                        '\"@fields\": { '",
-"                        '\"remote_addr\": \"$remote_addr\", '",
-"                        '\"remote_user\": \"$remote_user\", '",
-"                        '\"request_time\": \"$request_time\", '",
-"                        '\"request\": \"$request\", '",
-"                        '\"status\": \"$status\", '",
-"                        '\"body_bytes_sent\": \"$body_bytes_sent\", '",
-"                        '\"request_method\": \"$request_method\", '",
-"                        '\"http_referrer\": \"$http_referer\", '",
-"                        '\"http_user_agent\": \"$http_user_agent\",",
-"                        '\"$http_x_forwarded_for\" : \"$http_x_forwarded_for\" } }';"
+default['nginx']['logging_json'] = " log_format main '{ \"@timestamp\": \"$time_iso8601\", '" +
+"'\"@fields\": { '" +
+"'\"remote_addr\": \"$remote_addr\", '" +
+"'\"remote_user\": \"$remote_user\", '" +
+"'\"request_time\": \"$request_time\", '" +
+"'\"request\": \"$request\", '" +
+"'\"status\": \"$status\", '" +
+"'\"body_bytes_sent\": \"$body_bytes_sent\", '" +
+"'\"request_method\": \"$request_method\", '" +
+"'\"http_referrer\": \"$http_referer\", '" +
+"'\"http_user_agent\": \"$http_user_agent\"," +
+"'\"$http_x_forwarded_for\" : \"$http_x_forwarded_for\" } }';"
 
 default['nginx']['logging_json_enabled'] = false
 
