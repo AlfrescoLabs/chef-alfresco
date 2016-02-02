@@ -1,4 +1,4 @@
-default['rsyslog']['file_inputs']['repo1']['file'] = '/usr/share/tomcat-instances/alfresco/logs/alfresco.log'
+default['rsyslog']['file_inputs']['repo1']['file'] = '/usr/share/tomcat/alfresco/logs/alfresco.log'
 default['rsyslog']['file_inputs']['repo1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['repo1']['priority'] = 50
 
@@ -7,7 +7,7 @@ default['rsyslog']['file_inputs']['repo1']['priority'] = 50
 # default['rsyslog']['file_inputs']['repo2']['severity'] = 'info'
 # default['rsyslog']['file_inputs']['repo2']['priority'] = 51
 
-default['rsyslog']['file_inputs']['share1']['file'] = '/usr/share/tomcat-instances/share/logs/share.log'
+default['rsyslog']['file_inputs']['share1']['file'] = '/usr/share/tomcat/share/logs/share.log'
 default['rsyslog']['file_inputs']['share1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['share1']['priority'] = 52
 
@@ -16,7 +16,7 @@ default['rsyslog']['file_inputs']['share1']['priority'] = 52
 # default['rsyslog']['file_inputs']['share2']['severity'] = 'info'
 # default['rsyslog']['file_inputs']['share2']['priority'] = 53
 
-default['rsyslog']['file_inputs']['solr1']['file'] = '/usr/share/tomcat-instances/solr/logs/solr.log'
+default['rsyslog']['file_inputs']['solr1']['file'] = '/usr/share/tomcat/solr/logs/solr.log'
 default['rsyslog']['file_inputs']['solr1']['severity'] = 'info'
 default['rsyslog']['file_inputs']['solr1']['priority'] = 54
 

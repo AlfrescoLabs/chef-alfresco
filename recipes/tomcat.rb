@@ -11,14 +11,13 @@ node.default['artifacts']['catalina-jmx']['enabled'] = true
 context_template_cookbook = node['tomcat']['context_template_cookbook']
 context_template_source = node['tomcat']['context_template_source']
 
-#
-# additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
-# additional_tomcat_packages.each do |pkg|
-#   package pkg do
-#     action :install
-#   end
-# end
-#
+additional_tomcat_packages = node['tomcat']['additional_tomcat_packages']
+additional_tomcat_packages.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
 jmxremote_databag = node['alfresco']['jmxremote_databag']
 jmxremote_databag_items = node['alfresco']['jmxremote_databag_items']
 
@@ -42,7 +41,8 @@ apache_tomcat 'tomcat' do
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
   version node['tomcat']['tar']['version']
-  instance_root "#{node['alfresco']['home']}-instances"
+  instance_root node['alfresco']['home']
+  catalina_home node['alfresco']['home']
   user node['tomcat']['user']
   group node['tomcat']['group']
 
@@ -58,7 +58,7 @@ apache_tomcat 'tomcat' do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map{|k,v| v}.join(' ')}\""
+            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map { |_k, v| v }.join(' ')}\""
           ]
         )
       end
@@ -68,8 +68,8 @@ apache_tomcat 'tomcat' do
         options do
           port node['tomcat']['port']
           proxy_port node['tomcat']['proxy_port']
-          # ssl_port node['tomcat']['ssl_port']
-          # ssl_proxy_port node['tomcat']['ssl_proxy_port']
+          ssl_port node['tomcat']['ssl_port']
+          ssl_proxy_port node['tomcat']['ssl_proxy_port']
           ajp_port node['tomcat']['ajp_port']
           shutdown_port node['tomcat']['shutdown_port']
         end
@@ -80,15 +80,13 @@ apache_tomcat 'tomcat' do
         owner 'root'
         group 'root'
         mode '0755'
-        variables({
-          :tomcat_log_path => "#{node['tomcat']['base_instance']}/logs",
-          :tomcat_cache_path => "#{node['tomcat']['base_instance']}/temp"
-        })
+        variables(tomcat_log_path: "#{node['tomcat']['base_instance']}/logs",
+                  tomcat_cache_path: "#{node['tomcat']['base_instance']}/temp")
       end
 
       %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
         link "#{node['alfresco']['home']}/conf/#{linked_file}" do
-          to "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}"
+          to "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
         end
       end
 
@@ -109,7 +107,7 @@ apache_tomcat 'tomcat' do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{attrs['java_options'].map{|k,v| v}.join(' ')}\""
+            "export JAVA_OPTS=\"#{attrs['java_options'].map { |_k, v| v }.join(' ')}\""
           ]
         )
       end
@@ -138,10 +136,8 @@ apache_tomcat 'tomcat' do
         owner 'root'
         group 'root'
         mode '0755'
-        variables({
-          :tomcat_log_path => "#{node['alfresco']['home']}-instances/#{name}/logs",
-          :tomcat_cache_path => "#{node['alfresco']['home']}-instances/#{name}/temp"
-        })
+        variables(tomcat_log_path: "#{node['alfresco']['home']}/#{name}/logs",
+                  tomcat_cache_path: "#{node['alfresco']['home']}/#{name}/temp")
       end
 
       apache_tomcat_config 'context' do
@@ -150,7 +146,7 @@ apache_tomcat 'tomcat' do
       end
 
       %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
-        link "#{node['alfresco']['home']}-instances/#{name}/conf/#{linked_file}" do
+        link "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}" do
           to "#{node['alfresco']['home']}/conf/#{linked_file}"
           owner node['tomcat']['user']
           group node['tomcat']['group']
@@ -158,7 +154,7 @@ apache_tomcat 'tomcat' do
         end
       end
 
-      directory  attrs['endorsed_dir'] do
+      directory attrs['endorsed_dir'] do
         owner node['tomcat']['user']
         group node['tomcat']['group']
         mode '0755'
@@ -169,7 +165,6 @@ apache_tomcat 'tomcat' do
         java_home node['java']['java_home']
         restart_on_update false
       end
-
     end
   end
 end

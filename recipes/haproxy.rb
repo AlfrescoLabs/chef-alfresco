@@ -1,5 +1,4 @@
-haproxy_cfg_source = node['haproxy']['conf_template_source']
-haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
+
 enable_rsyslog_server = node['haproxy']['enable_rsyslog_server']
 rsyslog_bind = node['haproxy']['rsyslog_bind']
 

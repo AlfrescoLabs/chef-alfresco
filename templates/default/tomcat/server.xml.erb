@@ -31,7 +31,7 @@
   <% end -%>
 
   <!--APR library loader. Documentation at /docs/apr.html -->
-  <!-- <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" /> -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
 
   <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
   <Listener className="org.apache.catalina.core.JasperListener" />
@@ -82,7 +82,7 @@
           maxThreads="<%= @max_threads %>"
         <% end -%>
         executor="tomcatThreadPool"
-        protocol="HTTP/1.1"
+        protocol="org.apache.coyote.http11.Http11AprProtocol"
         URIEncoding="UTF-8"
         enableLookups="false"
         acceptCount="100"

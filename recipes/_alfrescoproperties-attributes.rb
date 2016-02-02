@@ -1,6 +1,7 @@
 # Additional Alfresco paths
 node.default['alfresco']['bin'] = "#{node['alfresco']['home']}/bin"
 node.default['alfresco']['shared'] = "#{node['alfresco']['home']}/shared"
+node.default['alfresco']['config_dir'] = "#{node['alfresco']['home']}/conf"
 node.default['alfresco']['shared_lib'] = "#{node['alfresco']['shared']}/lib"
 node.default['alfresco']['amps_folder'] = "#{node['alfresco']['home']}/amps"
 node.default['alfresco']['amps_share_folder'] = "#{node['alfresco']['home']}/amps_share"
@@ -13,9 +14,9 @@ if node['alfresco']['log.json.enabled']
   node.default['artifacts']['json-logging-share-amp']['enabled'] = true
   node.default['logging']['log4j.appender.File.layout'] = "net.logstash.log4j.JSONEventLayoutV1"
   node.default['logging']['log4j.appender.File.File'] = "${logfilename}.json"
-  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/usr/share/tomcat-instances/alfresco/logs/alfresco.log.json']
-  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/usr/share/tomcat-instances/share/logs/share.log.json']
-  node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/usr/share/tomcat-instances/solr/logs/solr.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/usr/share/tomcat/alfresco/logs/alfresco.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/usr/share/tomcat/share/logs/share.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/usr/share/tomcat/solr/logs/solr.log.json']
 end
 
 node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])

@@ -1,4 +1,11 @@
-############## Temporary tomcat attributes from tomcat cookbook
+# Tomcat binary attributes
+
+default['tomcat']['tar']['url'] = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59.tar.gz'
+# Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
+default['tomcat']['tar']['checksum'] = 'e0fe43d1fa17013bf7b3b2d3f71105d606a0582c153eb16fb210e7d5164941b0'
+default['tomcat']['tar']['version'] = '7.0.59'
+
+# Tomcat attributes for base instance
 default['tomcat']['port'] = 8080
 default['tomcat']['proxy_port'] = nil
 default['tomcat']['ssl_port'] = 8443
@@ -27,16 +34,9 @@ default['tomcat']['instances'] = {}
 default['tomcat']['run_base_instance'] = true
 default['tomcat']['keytool'] = 'keytool'
 
-#################
-
-default['tomcat']['tar']['url'] = 'http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.59/bin/apache-tomcat-7.0.59.tar.gz'
-default['tomcat']['tar']['checksum'] = 'e0fe43d1fa17013bf7b3b2d3f71105d606a0582c153eb16fb210e7d5164941b0'
-default['tomcat']['tar']['version'] = '7.0.59'
-
 default['tomcat']['sysconfig_template_cookbook'] = 'alfresco'
 default['tomcat']['sysconfig_template_source'] = 'tomcat/sysconfig.erb'
 
-# Tomcat default[s of single instance configuration
 default["tomcat"]["files_cookbook"] = "alfresco"
 default["tomcat"]["deploy_manager_apps"] = false
 default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
@@ -46,7 +46,7 @@ default["tomcat"]["maxHttpHeaderSize"] = "1048576"
 default['tomcat']['cleaner.minutes.interval'] = 30
 default['tomcat']['cache_root_folder'] = "/var/cache"
 
-# Tomcat default[ settings
+# Tomcat default settings
 default['tomcat']['service_actions'] = [:disable,:stop]
 default['tomcat']['restart_action'] = :nothing
 default["tomcat"]["deploy_manager_apps"] = false
