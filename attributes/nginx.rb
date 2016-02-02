@@ -41,18 +41,7 @@ default['nginx']['status_url_ip_allows'] = "127.0.0.1"
 
 default['nginx']['logging'] =   "    log_format  main  '$remote_addr - $remote_user [$time_local] \"$request\" ' '$status $body_bytes_sent \"$http_referer\" ' '\"$http_user_agent\" \"$http_x_forwarded_for\" \"$gzip_ratio\"';"
 
-default['nginx']['logging_json'] = " log_format main '{ \"@timestamp\": \"$time_iso8601\", '" +
-"'\"@fields\": { '" +
-"'\"remote_addr\": \"$remote_addr\", '" +
-"'\"remote_user\": \"$remote_user\", '" +
-"'\"request_time\": \"$request_time\", '" +
-"'\"request\": \"$request\", '" +
-"'\"status\": \"$status\", '" +
-"'\"body_bytes_sent\": \"$body_bytes_sent\", '" +
-"'\"request_method\": \"$request_method\", '" +
-"'\"http_referrer\": \"$http_referer\", '" +
-"'\"http_user_agent\": \"$http_user_agent\"," +
-"'\"$http_x_forwarded_for\" : \"$http_x_forwarded_for\" } }';"
+default['nginx']['logging_json'] =   " log_format main '{ \"@timestamp\": \"$time_iso8601\", \"@fields\": { \"remote_addr\": \"$remote_addr\", \"remote_user\": \"$remote_user\", \"x_forwarded_for\": \"$http_x_forwarded_for\", \"proxy_protocol_addr\": \"$proxy_protocol_addr\", \"body_bytes_sent\": \"$body_bytes_sent\", \"request_time\": \"$request_time\", \"body_bytes_sent\":\"$body_bytes_sent\", \"bytes_sent\":\"$bytes_sent\", \"status\": \"$status\", \"request\": \"$request\", \"request_method\": \"$request_method\", \"http_cookie\": \"$http_cookie\", \"http_referrer\": \"$http_referer\", \"http_user_agent\": \"$http_user_agent\" } }'; "
 
 default['nginx']['logging_json_enabled'] = false
 
@@ -65,7 +54,7 @@ default['nginx']['config'] = [
   "http {",
   "    include       mime.types;",
   "    default_type  application/octet-stream;",
-  node['nginx']['logging_json'],
+  node['nginx']['logging'],
   "    client_max_body_size      0; # Allow upload of unlimited size",
   "    client_body_buffer_size   1000M;",
   "    proxy_read_timeout        600s;",
