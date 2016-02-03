@@ -66,7 +66,7 @@ default['tomcat']['instance_templates'] = [{
 # -XX:+PrintGCTimeStamps"
 # -verbose:gc"
 
-default['tomcat']['java_options_hash']['generic_memory'] = ""
+default['tomcat']['java_options_hash']['generic_memory'] = "-XX:+UseCompressedOops"
 default['tomcat']['java_options_hash']['gc'] = "-XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
 default['tomcat']['java_options_hash']['network'] = "-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 # -Dhazelcast.jmx=true causes alfresco.war to take 10 minutes to start
