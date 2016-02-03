@@ -24,6 +24,8 @@ default['nginx']['status_port'] = 2100
 # Overridden by kitchen to $host:8800
 default['nginx']['proxy_host_header'] = "$host"
 
+default['nginx']['additional_locations'] = ""
+
 # Used to add ssl or any other file related with nginx configuration
 default['nginx']['ssl_folder'] = "/etc/pki/tls/certs"
 default['nginx']['ssl_folder_source'] = "nginx_ssl"
@@ -139,6 +141,7 @@ default['nginx']['config'] = [
   "    if ($request_uri ~ \" \") {",
   "        return 444;",
   "    }",
+  node['nginx']['additional_locations'],
   "    location / {",
   "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
   "        proxy_redirect off;",
@@ -221,6 +224,7 @@ default['nginx']['nossl_config'] = [
   "    if ($request_uri ~ \" \") {",
   "        return 444;",
   "    }",
+  node['nginx']['additional_locations'],
   "    location / {",
   "        proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;",
   "        proxy_redirect off;",
