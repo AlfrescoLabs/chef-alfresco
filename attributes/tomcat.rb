@@ -4,7 +4,7 @@ default['tomcat']['sysconfig_template_source'] = 'tomcat/sysconfig.erb'
 # Tomcat default[s of single instance configuration
 default["tomcat"]["files_cookbook"] = "alfresco"
 default["tomcat"]["deploy_manager_apps"] = false
-default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
+default["tomcat"]["jvm_memory"] = "-Xmx1500M"
 
 default["tomcat"]["maxHttpHeaderSize"] = "1048576"
 
@@ -66,8 +66,8 @@ default['tomcat']['instance_templates'] = [{
 # -XX:+PrintGCTimeStamps"
 # -verbose:gc"
 
-default['tomcat']['java_options_hash']['generic_memory'] = "-XX:MaxPermSize=512m -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=128m"
-default['tomcat']['java_options_hash']['gc'] = "-XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
+default['tomcat']['java_options_hash']['generic_memory'] = ""
+default['tomcat']['java_options_hash']['gc'] = "-XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
 default['tomcat']['java_options_hash']['network'] = "-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 # -Dhazelcast.jmx=true causes alfresco.war to take 10 minutes to start
 default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/etc/tomcat/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/etc/tomcat/jmxremote.password"
