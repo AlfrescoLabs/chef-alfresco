@@ -1,7 +1,5 @@
 # Chef community cookbook attributes
 default['nginx']['upstream_repository'] = "http://nginx.org/packages/mainline/centos/#{node['platform_version'].to_i}/$basearch/"
-default['nginx']['disable_nginx_init'] = false
-default['nginx']['service_actions'] = [:enable,:start]
 default['nginx']['conf_template'] = 'nginx/nginx.conf.erb'
 default['nginx']['conf_cookbook'] = 'alfresco'
 

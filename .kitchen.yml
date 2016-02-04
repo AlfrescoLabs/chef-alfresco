@@ -26,6 +26,7 @@ suites:
     run_list:
       # - recipe[alfresco::nginx]
       - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-testing",
