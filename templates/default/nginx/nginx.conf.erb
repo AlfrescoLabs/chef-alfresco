@@ -10,7 +10,13 @@ events {
 
 http {
   <% node['nginx']['http'].each do |param_name,param_value| -%>
-    <%= param_name %> <%= param_value %>;
+    <% if param_name == "error_pages" -%>
+      <% param_value.each do |param_item| -%>
+  error_page <%= param_item %>;
+      <% end -%>
+    <% else -%>
+  <%= param_name %> <%= param_value %>;
+    <% end -%>
   <% end -%>
 
   <% node['nginx']['server'].each do |server_name,server| -%>
@@ -21,18 +27,28 @@ http {
         <%= param_name %> <%= param_value %>;
       <% end -%>
     <% end -%>
-    # Mitigation for nginx security advisory (CVE-2013-4547)
-    if ($request_uri ~ \" \") {
-      return 444;
-    }
+
     <% if server['locations'] -%>
       <% server['locations'].each do |location_name,location| -%>
+        <% if server_name == "proxy" and location_name == "/" -%>
+      # Mitigation for nginx security advisory (CVE-2013-4547)
+      if ($request_uri ~ " ") {
+        return 444;
+      }
+        <% end -%>
       location <%= location_name %> {
         <% location.each do |param_name,param_value| -%>
-          <%= param_name %> <%= param_value %>;
+          <% if param_name == "proxy_set_headers" -%>
+            <% param_value.each do |param_item| -%>
+        proxy_set_header <%= param_item %>;
+            <% end -%>
+          <% else -%>
+        <%= param_name %> <%= param_value %>;
+          <% end -%>
         <% end -%>
       }
       <% end -%>
     <% end -%>
   }
+  <% end -%>
 }

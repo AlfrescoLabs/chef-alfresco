@@ -15,7 +15,7 @@ default['nginx']['log_level'] = "info"
 
 # Nginx configurations (used by nginx.cfg.erb)
 default['nginx']['general']['user'] = "nobody"
-default['nginx']['general']['worker_process'] = 2
+default['nginx']['general']['worker_processes'] = 2
 default['nginx']['events']['worker_connections'] = 1024
 
 default['nginx']['http']['include'] = "mime.types"
@@ -68,56 +68,54 @@ default['nginx']['server']['status']['locations']['/nginx_status']['deny'] = "al
 default['nginx']['server']['proxy']['listen'] = node['nginx']['port']
 default['nginx']['server']['proxy']['server_name'] = node['nginx']['proxy_hostname']
 
-default['nginx']['server']['error']['locations']['^~ /var/www/html/errors/']['internal'] = true
-default['nginx']['server']['error']['locations']['^~ /var/www/html/errors/']['root'] = node['alfresco']['errorpages']['error_folder']
+default['nginx']['server']['proxy']['locations']['^~ /var/www/html/errors/']['internal'] = ""
+default['nginx']['server']['proxy']['locations']['^~ /var/www/html/errors/']['root'] = node['alfresco']['errorpages']['error_folder']
 
-default['nginx']['server']['error']['locations']['/']['proxy_next_upstream'] = "error timeout invalid_header http_500 http_502 http_503 http_504"
-default['nginx']['server']['error']['locations']['/']['proxy_redirect'] = "off"
-default['nginx']['server']['error']['locations']['/']['proxy_http_version'] = "1.1"
-default['nginx']['server']['error']['locations']['/']['proxy_set_headers'] = [
+default['nginx']['server']['proxy']['locations']['/']['proxy_next_upstream'] = "error timeout invalid_header http_500 http_502 http_503 http_504"
+default['nginx']['server']['proxy']['locations']['/']['proxy_redirect'] = "off"
+default['nginx']['server']['proxy']['locations']['/']['proxy_http_version'] = "1.1"
+default['nginx']['server']['proxy']['locations']['/']['proxy_set_headers'] = [
   "Host $host",
   "X-Real-IP $remote_addr",
   "X-Forwarded-For $proxy_add_x_forwarded_for",
   "X-Forwarded-Proto $scheme"
 ]
-default['nginx']['server']['error']['locations']['/']['proxy_pass'] =  "#{node['alfresco']['internal_protocol']}://#{node['nginx']['proxy_hostname']}:#{node['nginx']['proxy_port']}"
+default['nginx']['server']['proxy']['locations']['/']['proxy_pass'] =  "#{node['alfresco']['internal_protocol']}://#{node['nginx']['proxy_hostname']}:#{node['nginx']['proxy_port']}"
 # Set files larger than 1M to stream rather than cache
-default['nginx']['server']['error']['locations']['/']['proxy_max_temp_file_size'] = "1M"
+default['nginx']['server']['proxy']['locations']['/']['proxy_max_temp_file_size'] = "1M"
 
 # SSL configurations
-default['nginx']['ssl_enabled'] = true
+default['nginx']['use_nossl_config'] = false
 default['nginx']['ssl_folder'] = node['alfresco']['certs']['ssl_folder']
 default['nginx']['ssl_filename'] = node['alfresco']['certs']['filename']
 default['nginx']['ssl_folder_source'] = "nginx_ssl"
 default['nginx']['ssl_folder_cookbook'] = "alfresco"
 
-default['nginx']['server']['proxy']['listen'] = "#{node['nginx']['ssl_port']} ssl http2"
+default['nginx']['ssl_server_redirect']['listen'] = node['nginx']['port']
+default['nginx']['ssl_server_redirect']['server_name'] = node['nginx']['public_hostname']
+default['nginx']['ssl_server_redirect']['add_header'] = "Strict-Transport-Security \"max-age=31536000; includeSubdomains;\""
+default['nginx']['ssl_server_redirect']['return'] = "301 https://$server_name$request_uri"
 
-default['nginx']['server']['redirect']['listen'] = node['nginx']['port']
-default['nginx']['server']['redirect']['server_name'] = node['nginx']['public_hostname']
-default['nginx']['server']['redirect']['add_header'] = "Strict-Transport-Security \"max-age=31536000; includeSubdomains;\""
-default['nginx']['server']['redirect']['return'] = "301 https://$server_name$request_uri"
-
-default['nginx']['server']['proxy']['add_header'] = "Strict-Transport-Security \"max-age=31536000; includeSubdomains;\""
-default['nginx']['server']['proxy']['ssl'] = "on"
-default['nginx']['server']['proxy']['ssl_certificate'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.nginxcrt"
-default['nginx']['server']['proxy']['ssl_certificate_key'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.key"
-default['nginx']['server']['proxy']['ssl_trusted_certificate'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.chain"
+default['nginx']['ssl_server_proxy']['add_header'] = "Strict-Transport-Security \"max-age=31536000; includeSubdomains;\""
+default['nginx']['ssl_server_proxy']['ssl'] = "on"
+default['nginx']['ssl_server_proxy']['ssl_certificate'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.nginxcrt"
+default['nginx']['ssl_server_proxy']['ssl_certificate_key'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.key"
+default['nginx']['ssl_server_proxy']['ssl_trusted_certificate'] = "#{node['nginx']['ssl_folder']}/#{node['nginx']['ssl_filename']}.chain"
 
 # Enable ocsp stapling - http://en.wikipedia.org/wiki/OCSP_stapling
-default['nginx']['server']['proxy']['ssl_stapling'] = "on"
-default['nginx']['server']['proxy']['ssl_stapling_verify'] = "on"
-default['nginx']['server']['proxy']['ssl_protocols'] = "TLSv1 TLSv1.1 TLSv1.2"
+default['nginx']['ssl_server_proxy']['ssl_stapling'] = "on"
+default['nginx']['ssl_server_proxy']['ssl_stapling_verify'] = "on"
+default['nginx']['ssl_server_proxy']['ssl_protocols'] = "TLSv1 TLSv1.1 TLSv1.2"
 
-default['nginx']['server']['proxy']['ssl_dhparam'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.dhparam"
+default['nginx']['ssl_server_proxy']['ssl_dhparam'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.dhparam"
 
 # Use Intermediate Cipher Compatibility
 # https://wiki.mozilla.org/Security/Server_Side_TLS#Intermediate_compatibility_.28default.29
-default['nginx']['server']['proxy']['ssl_prefer_server_ciphers'] = "on"
-default['nginx']['server']['proxy']['ssl_ciphers'] = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA"
+default['nginx']['ssl_server_proxy']['ssl_prefer_server_ciphers'] = "on"
+default['nginx']['ssl_server_proxy']['ssl_ciphers'] = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:AES128-GCM-SHA256:AES256-GCM-SHA384:AES128-SHA256:AES256-SHA256:AES128-SHA:AES256-SHA:AES:CAMELLIA:DES-CBC3-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA:!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA"
 
 # SSL Cache configuration
-default['nginx']['server']['proxy']['ssl_session_cache'] = "shared:SSL:25m"
-default['nginx']['server']['proxy']['ssl_session_timeout'] = "10m"
-default['nginx']['server']['proxy']['ssl_buffer_size'] = "1400"
-default['nginx']['server']['proxy']['ssl_session_tickets'] = "off"
+default['nginx']['ssl_server_proxy']['ssl_session_cache'] = "shared:SSL:25m"
+default['nginx']['ssl_server_proxy']['ssl_session_timeout'] = "10m"
+default['nginx']['ssl_server_proxy']['ssl_buffer_size'] = "1400"
+default['nginx']['ssl_server_proxy']['ssl_session_tickets'] = "off"
