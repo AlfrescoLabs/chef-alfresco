@@ -15,8 +15,8 @@ file "/etc/nginx/conf.d/default.conf" do
   action :delete
 end
 
-if node['nginx']['logging_json_enabled']
-  node.default['nginx']['logging'] = node['nginx']['logging_json']
+if node['nginx']['json_logging_enabled']
+  node.default['nginx']['http']['log_format'] = node['nginx']['json_log_format']
 end
 
 include_recipe 'alfresco::_certs'

@@ -24,11 +24,21 @@ platforms:
 suites:
   - name: ci
     run_list:
+      # - recipe[alfresco::nginx]
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-testing",
+      "commons" : {
+        "databags_to_files" : {
+          "databags" : {
+            "ssl" : {
+              "local" : {}
+            }
+          }
+        }
+      },
       "alfresco" : {
         "ssl_enabled" : false,
         # TODO - should disable only dhparam

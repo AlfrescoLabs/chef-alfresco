@@ -13,6 +13,10 @@ default['nginx']['public_hostname'] = node['alfresco']['public_hostname']
 default['nginx']['proxy_hostname'] = node['alfresco']['internal_hostname']
 default['nginx']['log_level'] = "info"
 
+# JSON logging
+default['nginx']['json_logging_enabled'] = false
+default['nginx']['json_log_format'] = "main '{ \"@timestamp\": \"$time_iso8601\", \"@fields\": { \"remote_addr\": \"$remote_addr\", \"remote_user\": \"$remote_user\", \"x_forwarded_for\": \"$http_x_forwarded_for\", \"proxy_protocol_addr\": \"$proxy_protocol_addr\", \"body_bytes_sent\": \"$body_bytes_sent\", \"request_time\": \"$request_time\", \"body_bytes_sent\":\"$body_bytes_sent\", \"bytes_sent\":\"$bytes_sent\", \"status\": \"$status\", \"request\": \"$request\", \"request_method\": \"$request_method\", \"http_cookie\": \"$http_cookie\", \"http_referrer\": \"$http_referer\", \"http_user_agent\": \"$http_user_agent\" } }'; "
+
 # Nginx configurations (used by nginx.cfg.erb)
 default['nginx']['general']['user'] = "nobody"
 default['nginx']['general']['worker_processes'] = 2
