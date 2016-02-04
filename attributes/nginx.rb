@@ -92,8 +92,6 @@ default['nginx']['server']['proxy']['locations']['/']['proxy_max_temp_file_size'
 default['nginx']['use_nossl_config'] = false
 default['nginx']['ssl_folder'] = node['alfresco']['certs']['ssl_folder']
 default['nginx']['ssl_filename'] = node['alfresco']['certs']['filename']
-default['nginx']['ssl_folder_source'] = "nginx_ssl"
-default['nginx']['ssl_folder_cookbook'] = "alfresco"
 
 default['nginx']['ssl_server_redirect']['listen'] = node['nginx']['port']
 default['nginx']['ssl_server_redirect']['server_name'] = node['nginx']['public_hostname']
