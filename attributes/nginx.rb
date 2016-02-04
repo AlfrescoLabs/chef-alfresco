@@ -71,8 +71,6 @@ default['nginx']['server']['proxy']['server_name'] = node['nginx']['proxy_hostna
 default['nginx']['server']['error']['locations']['^~ /var/www/html/errors/']['internal'] = true
 default['nginx']['server']['error']['locations']['^~ /var/www/html/errors/']['root'] = node['alfresco']['errorpages']['error_folder']
 
-default['nginx']['server']['error']['locations']['~ ^/(alfresco/s/enterprise/admin/admin-supporttools|alfresco/s/enterprise/admin/admin-outboundemail|alfresco/s/enterprise/admin/admin-clustering)']['deny'] = "all"
-
 default['nginx']['server']['error']['locations']['/']['proxy_next_upstream'] = "error timeout invalid_header http_500 http_502 http_503 http_504"
 default['nginx']['server']['error']['locations']['/']['proxy_redirect'] = "off"
 default['nginx']['server']['error']['locations']['/']['proxy_http_version'] = "1.1"
