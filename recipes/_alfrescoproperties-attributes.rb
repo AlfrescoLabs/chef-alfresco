@@ -21,14 +21,14 @@ end
 node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
 
 mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
-mailsmtp_databag_items = node["alfresco"]["mailsmtp_databag_items"]
+mailsmtp_databag_item = node["alfresco"]["mailsmtp_databag_item"]
 
 begin
   db_item = data_bag_item(mailsmtp_databag,mailsmtp_databag_item)
   node.default['alfresco']['properties']['mail.username'] = db_item['username']
   node.default['alfresco']['properties']['mail.password'] = db_item['password']
 rescue
-  Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_items}")
+  Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_item}")
 end
 
 node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
