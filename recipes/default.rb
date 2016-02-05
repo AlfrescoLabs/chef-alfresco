@@ -130,8 +130,19 @@ end
 
 include_recipe "artifact-deployer::default"
 
-if apply_amps
-  include_recipe "alfresco::apply-amps"
+apply_amps 'apply alfresco and share amps' do
+  bin_folder node['alfresco']['bin']
+  alfresco_webapps "#{node['installer']['directory']}/tomcat/webapps"
+  share_webapps "#{node['installer']['directory']}/tomcat/webapps"
+  amps_folder node['alfresco']['amps_folder']
+  amps_share_folder node['alfresco']['amps_share_folder']
+  tomcat_folder "#{node['installer']['directory']}/tomcat"
+  share_amps node['amps']['share']
+  alfresco_amps node['amps']['alfresco']
+  unixUser node['alfresco']['user']
+  unixGroup node['tomcat']['group']
+  only_if { apply_amps }
+  only_if { node['amps'] }
 end
 
 # This must go after Alfresco installation
