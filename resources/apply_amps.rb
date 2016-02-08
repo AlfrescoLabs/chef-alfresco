@@ -2,15 +2,15 @@
   resource_name :apply_amps
 
   property :resource_title, String, name_property: true
-  property :amps_folder, String, required: true
-  property :amps_share_folder, String, required: true
-  property :installation_folder, String, default: lazy { node['installer']['directory'] }
+  property :amps_folder, String, default: lazy { node['alfresco']['amps_folder'] }
+  property :amps_share_folder, String, default: lazy { node['alfresco']['amps_share_folder'] }
   property :share_amps, default: lazy { node['amps']['share'] }
-  property :alfresco_amps, default: lazy { node['amps']['alfresco'] }
-  property :bin_folder, String, required: true
-  property :alfresco_webapps, String, required: true
-  property :share_webapps, String, required: true
-  property :tomcat_folder, String, required: true
+  property :alfresco_amps, default: lazy { node['amps']['repo'] }
+  property :bin_folder, String, default: lazy { node['alfresco']['bin'] }
+  property :alfresco_webapps, String, default: lazy {node['artifacts']['alfresco']['destination']}
+  property :share_webapps, String, default: lazy {node['artifacts']['share']['destination']}
+  property :alfresco_root, String, required: true
+  property :share_root, String, required: true
   property :windowsUser, String
   property :windowsGroup, String
   property :unixUser, String
@@ -61,11 +61,6 @@
       user unixUser
       only_if { node['platform_family'] != 'windows' }
       only_if { ::File.exist?("#{bin_folder}/setenv.sh") }
-    end
-
-    maven_setup 'setup maven' do
-      maven_home node['maven']['m2_home']
-      only_if { node['commons']['install_maven'] }
     end
 
     artifact 'download alfresco artifacts' do
@@ -123,32 +118,44 @@
 
     case node['platform_family']
     when 'windows'
-      batch 'Cleanup webapps and temporary files' do
+      batch 'Cleanup alfresco webapps and temporary files' do
         code <<-EOH
             rmdir /q /s "#{alfresco_webapps}/alfresco"
-            rmdir /q /s "#{share_webapps}/share"
-            rmdir /q /s "#{tomcat_folder}/logs"
-            md "#{tomcat_folder}/logs"
-            rmdir /q /s "#{tomcat_folder}/temp"
-            md "#{tomcat_folder}/temp"
-            rmdir /q /s "#{tomcat_folder}/work"
-            md "#{tomcat_folder}/work"
+            rmdir /q /s "#{alfresco_root}/logs"
+            md "#{alfresco_root}/logs"
+            rmdir /q /s "#{alfresco_root}/temp"
+            md "#{alfresco_root}/temp"
+            rmdir /q /s "#{alfresco_root}/work"
+            md "#{alfresco_root}/work"
             EOH
-        only_if { install_new_share_amps || install_new_alfresco_amps }
+        only_if { install_new_alfresco_amps }
+      end
+      batch 'Cleanup share webapps and temporary files' do
+        code <<-EOH
+            rmdir /q /s "#{share_webapps}/share"
+            rmdir /q /s "#{share_root}/logs"
+            md "#{share_root}/logs"
+            rmdir /q /s "#{share_root}/temp"
+            md "#{share_root}/temp"
+            rmdir /q /s "#{share_root}/work"
+            md "#{share_root}/work"
+            EOH
+        only_if { install_new_share_amps }
       end
     else
-      execute 'Cleanup share/alfresco webapps and temporary files' do
-        command "rm -rf #{alfresco_webapps}/alfresco; rm -rf #{share_webapps}/share"
+      execute 'Cleanup alfresco webapps and temporary files' do
+        command "rm -rf #{alfresco_webapps}/alfresco; rm -rf #{alfresco_root}/logs/*; rm -rf #{alfresco_root}/temp/*; rm -rf #{alfresco_root}/work/*"
         cwd bin_folder
         user unixUser
-        only_if { install_new_share_amps || install_new_alfresco_amps }
+        only_if { install_new_alfresco_amps }
       end
 
-      execute 'Cleanup tomcat temporary files' do
-        command "rm -rf #{tomcat_folder}/logs/*; rm -rf #{tomcat_folder}/temp/*; rm -rf #{tomcat_folder}/work/*"
+      execute 'Cleanup share webapps and temporary files' do
+        command "rm -rf #{share_webapps}/share; rm -rf #{share_root}/logs/*; rm -rf #{share_root}/temp/*; rm -rf #{share_root}/work/*"
         cwd bin_folder
         user unixUser
-        only_if { install_new_share_amps || install_new_alfresco_amps }
+        only_if { install_new_share_amps }
       end
+
     end
   end

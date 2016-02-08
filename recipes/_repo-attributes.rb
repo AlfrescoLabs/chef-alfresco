@@ -7,19 +7,17 @@ node.default["alfresco"]["truststore_file"] = "#{node['alfresco']['properties'][
 node.default["alfresco"]["truststore_password"] = "kT9X6oe68t"
 node.default["alfresco"]["truststore_type"] = "JCEKS"
 
-node.default['artifacts']['json-logging-repo-amp']['groupId'] = "org.alfresco.devops"
-node.default['artifacts']['json-logging-repo-amp']['artifactId'] = "alfresco-json-logging-amp"
-node.default['artifacts']['json-logging-repo-amp']['version'] = "0.5"
-node.default['artifacts']['json-logging-repo-amp']['type'] = "amp"
-node.default['artifacts']['json-logging-repo-amp']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['json-logging-repo-amp']['owner'] = node['alfresco']['user']
+node.default['amps']['repo']['json-logging-amp']['groupId'] = "org.alfresco.devops"
+node.default['amps']['repo']['json-logging-amp']['artifactId'] = "alfresco-json-logging-amp"
+node.default['amps']['repo']['json-logging-amp']['version'] = "0.5"
+node.default['amps']['repo']['json-logging-amp']['type'] = "amp"
+node.default['amps']['repo']['json-logging-amp']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['json-logging-share-amp']['groupId'] = "org.alfresco.devops"
-node.default['artifacts']['json-logging-share-amp']['artifactId'] = "alfresco-json-logging-amp"
-node.default['artifacts']['json-logging-share-amp']['version'] = "0.5"
-node.default['artifacts']['json-logging-share-amp']['type'] = "amp"
-node.default['artifacts']['json-logging-share-amp']['destination'] = node['alfresco']['amps_share_folder']
-node.default['artifacts']['json-logging-share-amp']['owner'] = node['alfresco']['user']
+node.default['amps']['share']['json-logging-amp']['groupId'] = "org.alfresco.devops"
+node.default['amps']['share']['json-logging-amp']['artifactId'] = "alfresco-json-logging-amp"
+node.default['amps']['share']['json-logging-amp']['version'] = "0.5"
+node.default['amps']['share']['json-logging-amp']['type'] = "amp"
+node.default['amps']['share']['json-logging-amp']['owner'] = node['alfresco']['user']
 
 node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
 node.default['artifacts']['mysql']['groupId'] = "mysql"

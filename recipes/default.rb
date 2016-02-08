@@ -21,13 +21,13 @@ include_recipe "alfresco::_analytics-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
-apply_amps = false
+apply_amps = true
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
 
 # Install/configure awscli, as it's used by haproxy ec2 discovery
-include_recipe "artifact-deployer::awscli"
+awscli_setup 'install and configure awscli'
 
 # [old implementation]
 # Change artifactIds for alfresco and share WARs, if
@@ -128,17 +128,16 @@ if node['alfresco']['components'].include? 'haproxy'
   include_recipe "alfresco::haproxy"
 end
 
-include_recipe "artifact-deployer::default"
+maven_setup 'setup maven' do
+  maven_home node['maven']['m2_home']
+  only_if {node['artifact-deployer']['install_maven']}
+end
+
+artifact 'deploy artifacts'
 
 apply_amps 'apply alfresco and share amps' do
-  bin_folder node['alfresco']['bin']
-  alfresco_webapps "#{node['installer']['directory']}/tomcat/webapps"
-  share_webapps "#{node['installer']['directory']}/tomcat/webapps"
-  amps_folder node['alfresco']['amps_folder']
-  amps_share_folder node['alfresco']['amps_share_folder']
-  tomcat_folder "#{node['installer']['directory']}/tomcat"
-  share_amps node['amps']['share']
-  alfresco_amps node['amps']['alfresco']
+  alfresco_root "#{node['alfresco']['home']}/alfresco"
+  share_root "#{node['alfresco']['home']}/share"
   unixUser node['alfresco']['user']
   unixGroup node['tomcat']['group']
   only_if { apply_amps }

@@ -78,7 +78,8 @@ suites:
         "public_portssl" : "80",
         "log.json.enabled" : false,
         "jmxremote_databag" : "credentials",
-        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        'components': ['rm','googledocs']
       },
       "artifact-deployer" : {
         "maven" : {
