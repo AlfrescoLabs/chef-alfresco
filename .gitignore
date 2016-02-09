@@ -1,7 +1,6 @@
 # General ignores
 Gemfile.lock
 tmp/
-Berksfile.lock
 berks-cookbooks
 .DS_Store
 nohup.out

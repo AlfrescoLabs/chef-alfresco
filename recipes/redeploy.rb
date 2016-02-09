@@ -15,27 +15,8 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
-# haproxy.cfg updates
-host = node['alfresco']['default_hostname']
-
-# DEPRECATED in favour of haproxy::default
-#
-# haproxy_cfg_source = node['haproxy']['cfg_source']
-# haproxy_cfg_cookbook = node['haproxy']['cfg_cookbook']
-# template '/etc/haproxy/haproxy.cfg' do
-#   source haproxy_cfg_source
-#   cookbook haproxy_cfg_cookbook
-#   notifies :restart, 'service[haproxy]'
-# end
-include_recipe 'haproxy::default'
-
-# Set haproxy.cfg custom template
-# TODO - fix it upstream and send PR
-haproxy_cfg_source = node['haproxy']['conf_template_source']
-haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
-r = resources(template: "#{node['haproxy']['conf_dir']}/haproxy.cfg")
-r.source(haproxy_cfg_source)
-r.cookbook(haproxy_cfg_cookbook)
+# Handle certs creation
+include_recipe "alfresco::_certs"
 
 # alfresco-global.properties updates
 replace_property_map = node['alfresco']['properties']
@@ -67,16 +48,14 @@ if append_property_map
   end
 end
 
-# DEPRECATED in favour of nginx::commons_conf
-#
-# nginx_cfg_source = node['nginx']['cfg_source']
-# nginx_cfg_cookbook = node['nginx']['cfg_cookbook']
-# template '/etc/nginx/nginx.conf' do
-#   source nginx_cfg_source
-#   cookbook nginx_cfg_cookbook
-#   notifies :restart, 'service[nginx]'
-# end
+# Patch nginx configurations, making sure the service runs
+node.set['nginx']['service_actions'] = [:enable,:start]
 include_recipe 'nginx::commons_conf'
+
+# Needed by nginx::commons_conf
+service 'nginx' do
+  action node['nginx']['service_actions']
+end
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
@@ -102,16 +81,14 @@ end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
 file_append '/etc/tomcat/tomcat.conf' do
-  line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{host}\""
+  line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
-%w( tomcat tomcat-alfresco tomcat-share tomcat-solr ).each do |service_name|
-  service service_name do
-    action :nothing
+restart_services = node['alfresco']['restart_services']
+if restart_services
+  restart_services.each do |service_name|
+    service service_name do
+      action :nothing
+    end
   end
-end
-
-# Needed by nginx::commons_conf
-service 'nginx' do
-  action :nothing
 end

@@ -1,18 +1,21 @@
 source 'https://rubygems.org'
 
+# Used by Travis
+
 gem 'foodcritic'
 gem 'minitest'
 gem 'rake'
-gem 'berkshelf'
+gem 'rubocop'
 gem 'chefspec'
 
-# Not avail. on ChefDK
-# group :development do
-#   # gem 'stove', '=3.2.5'
-#   gem 'stove'
-# end
+gem 'berkshelf', '~> 4.0' # Comes with ChefDK 0.9.0
 
-group :integration do
-  gem 'test-kitchen'
-  gem 'kitchen-vagrant'
+group :docker do
+  gem 'test-kitchen', '~> 1.4'
+  gem 'kitchen-docker', '~> 2.1.0'
+end
+
+group :vagrant do
+  gem 'vagrant-wrapper', '~> 2.0'
+  gem 'kitchen-vagrant', '~> 0.18'
 end

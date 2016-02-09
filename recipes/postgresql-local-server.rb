@@ -7,7 +7,6 @@ node.default['postgresql']['users'] = [
       "username"=> db_user,
       "password"=> db_pass,
       "superuser"=> true,
-      "replication"=> false,
       "createdb"=> true,
       "createrole"=> false,
       "inherit"=> true,

@@ -3,7 +3,6 @@ node.default['artifacts']['analytics-repo']['enabled'] = true
 node.default['artifacts']['analytics-share']['enabled'] = true
 node.default['artifacts']['alfresco-pentaho']['enabled'] = true
 
-license_installer_path = node['analytics']['license_installer_path']
 license_root_path = node['analytics']['license_root_path']
 
 analytics_license_source = node['analytics']['analytics_license_source']

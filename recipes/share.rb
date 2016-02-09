@@ -1,5 +1,6 @@
-node.default['artifacts']['share']['enabled']           = true
-node.default['artifacts']['sharedclasses']['enabled']   = true
+node.default['artifacts']['share']['enabled'] = true
+node.default['artifacts']['sharedclasses']['enabled'] = true
+node.default['artifacts']['hazelcast-cloud']['enabled'] = true
 
 shared_folder     = node['alfresco']['shared']
 
@@ -21,7 +22,18 @@ template "share-config-custom.xml" do
   source      "share-config-custom.xml.erb"
   owner       node['alfresco']['user']
   group       node['tomcat']['group']
+  # TODO
+  # cookbook
+  # source
   mode        "0664"
   #TODO - not working; for now, we run it all the time
   only_if     { node['alfresco']['generate.share.config.custom'] == true }
+end
+
+template "share-cluster-application-context.xml" do
+  path        "#{shared_folder}/classes/alfresco/web-extension/share-cluster-application-context.xml"
+  source      "share-cluster-application-context.xml.erb"
+  owner       node['alfresco']['user']
+  group       node['tomcat']['group']
+  mode        "0664"
 end

@@ -1,53 +1,73 @@
 haproxy_cfg_source = node['haproxy']['conf_template_source']
 haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
-error_file_cookbook = node['haproxy']['error_file_cookbook']
-error_file_source = node['haproxy']['error_file_source']
-error_folder = node['haproxy']['error_folder']
+enable_rsyslog_server = node['haproxy']['enable_rsyslog_server']
+rsyslog_bind = node['haproxy']['rsyslog_bind']
 
-directory error_folder do
-  action :create
-  recursive true
+include_recipe 'alfresco::_certs'
+include_recipe 'alfresco::_errorpages'
+
+if node['haproxy']['enable_ssl_header']
+  node.default['haproxy']['frontends']['external']['headers'] = [node['haproxy']['ssl_header']]
+  node.default['haproxy']['backends']['share']['secure_entries'] =  node['haproxy']['secure_entries']
 end
 
-%w( 400 403 404 408 500 502 503 504 ).each do |error_code|
-  template "#{error_folder}/#{error_code}.http" do
-    cookbook error_file_cookbook
-    source "#{error_file_source}/#{error_code}.http.erb"
+# Install haproxy discovery
+install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
+if install_haproxy_discovery
+  template node['haproxy']['ec2']['discovery_chef_erb'] do
+    source 'haproxy/haproxy-discovery.cron.erb'
+  end
+  template node['haproxy']['ec2']['discovery_chef_json'] do
+    source 'haproxy/haproxy-discovery.json.erb'
   end
 end
 
-# TODO - SSL Logic is not tested; we need to come up with a common strategy for SSL
-ssl_pem_crt_file = node['haproxy']['ssl_pem_crt_file']
-ssl_pem_crt_databag = node['haproxy']['ssl_pem_crt_databag']
-ssl_pem_crt_databag_item = node['haproxy']['ssl_pem_crt_databag_item']
-
-directory File.dirname(ssl_pem_crt_file) do
-  action :create
-  recursive true
-end
-
-begin
-  ssl_pem_crt = data_bag_item(ssl_pem_crt_databag,ssl_pem_crt_databag_item)
-  file ssl_pem_crt_file do
-    action :create
-    content ssl_pem_crt['pem']
-  end
-rescue
-  execute "create-fake-haproxy.pem" do
-    command "openssl req \
-      -new -newkey rsa:4096 \
-      -days 365 -nodes \
-      -subj \"/C=US/ST=this-certificate/L=is/O=used/CN=by-haproxy\" \
-      -keyout #{ssl_pem_crt_file} \
-      -out /tmp/csr-haproxy.pem"
-    not_if "test -f #{ssl_pem_crt_file}"
-  end
+if node['haproxy']['logging_json_enabled']
+  node.default['haproxy']['logformat'] = node['haproxy']['json_logformat']
 end
 
 include_recipe 'haproxy::default'
+include_recipe 'alfresco::haproxy-config'
 
-# Set haproxy.cfg custom template
-# TODO - fix it upstream and send PR
-r = resources(template: "#{node['haproxy']['conf_dir']}/haproxy.cfg")
-r.source(haproxy_cfg_source)
-r.cookbook(haproxy_cfg_cookbook)
+
+# TODO - rsyslog stuff should go somewhere else (not sure where)
+
+# Haproxy rsyslog configuration
+directory "/var/log/haproxy" do
+  action :create
+  owner "haproxy"
+  group "haproxy"
+end
+template "/etc/rsyslog.d/haproxy.conf" do
+  source "rsyslog/haproxy.conf.erb"
+  only_if { node['haproxy']['enable_local_logging'] }
+end
+
+# TODO - this block can be contributed to a lib cookbook, somewhere
+# Make sure Rsyslog is configured to receive Haproxy logs
+if enable_rsyslog_server and File.exist?('/etc/rsyslog.conf')
+  lines_to_append = [
+    ["$ModLoad imudp",nil],
+    ["$UDPServerAddress #{rsyslog_bind}","$UDPServerAddress"],
+    ["$UDPServerRun 514","$UDPServerRun"]
+  ]
+
+  lines_to_append.each do |line|
+    new_line = line[0]
+    line_match = line[1]
+
+    if line_match == nil
+      line_match = new_line
+    end
+    replace_or_add "rsyslog-conf-#{line}" do
+      path "/etc/rsyslog.conf"
+      pattern line_match
+      line new_line
+      notifies :restart, 'service[rsyslog]', :delayed
+    end
+  end
+
+  service 'rsyslog' do
+    action :nothing
+  end
+end

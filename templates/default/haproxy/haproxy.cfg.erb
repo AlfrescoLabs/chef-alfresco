@@ -4,80 +4,96 @@
 <% node['haproxy']['general_config'].each do |line| -%>
 <%= line %>
 <% end -%>
+# Log format
+<%= node['haproxy']['logformat'] %>
 
 # Frontends
 
 <% if node['haproxy']['frontends'] -%>
   <% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
-# <%= frontendName %> frontend
+# START frontend <%= frontendName %>
 frontend <%= frontendName %>
     <% if frontend['entries'] -%>
       <% frontend['entries'].each do |entry| -%>
 <%= entry %>
       <% end -%>
     <% end -%>
-
-  <% end -%>
-<% end -%>
-
+    <% if frontend['headers'] -%>
+      <% frontend['headers'].each do |header| -%>
+<%= header %>
+      <% end -%>
+    <% end -%>
 # Backend ACLs
-<% node['haproxy']['backends'].each do |backendName,backend| -%>
-  <% if backend['acls'] -%>
-    <% backend['acls'].each do |acl| -%>
+    <% if frontend['acls'] -%>
+      <% frontend['acls'].each do |backendName,acls| -%>
+        <% if acls -%>
+          <% acls.each do |acl| -%>
 acl is_<%= backendName %> <%= acl %>
+          <% end -%>
+        <% end -%>
+      <% end -%>
     <% end -%>
-  <% end -%>
-<% end -%>
-
-# Other ACLs
-<% if node['haproxy']['acls'] -%>
-  <% node['haproxy']['acls'].each do |acl| -%>
+# Free formed ACLs
+    <% if frontend['acl_lines'] -%>
+      <% frontend['acl_lines'].each do |acl| -%>
 acl <%= acl %>
-  <% end -%>
-<% end -%>
-
-# Other Configurations
-<% if node['haproxy']['other_config'] -%>
-  <% node['haproxy']['other_config'].each do |other_config| -%>
-<%= other_config %>
-  <% end -%>
-<% end -%>
-
-# Redirects
-<% if node['haproxy']['redirects'] -%>
-  <% node['haproxy']['redirects'].each do |redirect| -%>
-<%= redirect %>
-  <% end -%>
-<% end -%>
-
-# Use backends
-<% if node['haproxy']['backends'] -%>
-  <% node['haproxy']['backends'].each do |backendName,backend| -%>
-    <% if backend['acls'] -%>
-use_backend <%= backendName %> if is_<%= backendName %>
+      <% end -%>
     <% end -%>
-  <% end -%>
-<% end -%>
-
+# Other Configurations
+    <% if frontend['other_config'] -%>
+      <% frontend['other_config'].each do |other_config| -%>
+<%= other_config %>
+      <% end -%>
+    <% end -%>
+# Redirects
+    <% if frontend['redirects'] -%>
+      <% frontend['redirects'].each do |redirect| -%>
+<%= redirect %>
+      <% end -%>
+    <% end -%>
+# Use backends
+    <% if frontend['acls'] -%>
+      <% frontend['acls'].each do |backendName,acls| -%>
+use_backend <%= backendName %> if is_<%= backendName %>
+      <% end -%>
+    <% end -%>
 # Default Backend
 default_backend <%= node['haproxy']['default_backend'] %>
+# END frontend <%= frontendName %>
 
-# Backends list
+  <% end -%>
+<% end -%>
 
-<% if node['haproxy']['backends'] -%>
-  <% node['haproxy']['backends'].each do |backendName,backend| -%>
-# <%= backendName %> backend
-backend <%= backendName %>
-    <% if backend['entries'] -%>
-      <% backend['entries'].each do |entry| -%>
+# Backends
+
+<% if @haproxy_backends -%>
+  <% @haproxy_backends.each do |roleName,role| -%>
+# START <%= roleName %> backend
+backend <%= roleName %>
+    <% if role['entries'] -%>
+      <% role['entries'].each do |entry| -%>
 <%= entry %>
       <% end -%>
     <% end -%>
-    <% if backend['nodes'] -%>
-      <% backend['nodes'].each do |nodeHost,nodeIp| -%>
-server <%= nodeHost %> <%= nodeIp %>:<%= backend['port'] %> check inter 5000
+    <% if role['balanced'] -%>
+balance leastconn
+cookie JSESSIONID prefix
+    <% end -%>
+    <% if role['secure_entries'] -%>
+      <% role['secure_entries'].each do |secure_entry| -%>
+<%= secure_entry %>
       <% end -%>
     <% end -%>
+
+    <% if role['ordered_az'] -%>
+      <% role['ordered_az'].each do |az| -%>
+        <% az['id'].each do |instanceName,instance| -%>
+# Instance <%= instanceName %>, az <%= instance['az'] %>
+server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instance['options'] %>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+# END <%= roleName %> backend
 
   <% end -%>
 <% end -%>

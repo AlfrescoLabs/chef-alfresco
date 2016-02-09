@@ -1,14 +1,17 @@
 chef-alfresco
 ---
+<img align="left" src="chef-alfresco-logo.png" alt="Chef Alfresco Logo" title="Chef Alfresco Logo"/>
 
 [![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg)](https://travis-ci.org/Alfresco/chef-alfresco)
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
-It is tested on Centos 6.5 and 7, though it should work also on Ubuntu 12 and 14 (feel free to open issues)
+It is tested on Centos 7.x and Ubuntu 14.04 (soon on Centos 6.7)
 
 To know more about attribute definition and overriding, check [CHEF-ATTRIBUTES.md](CHEF-ATTRIBUTES.md)
 To get a list of packaged installed, their sources and versions, check [PACKAGES.md](PACKAGES.md)
+
+[Graph of cookbooks dependencies](http://berksgraph.tolleiv.de/grph?1453651870699#2016-01-24-6ead5d913f1442303236b555f017a1afebc4a4ec.js)
 
 Local test (run)
 ---
@@ -22,12 +25,14 @@ Local test (run)
 
 #### Command
 ```
-kitchen converge
+kitchen converge community
 ```
-It takes roughly 40 minutes for a full default configuration.
+It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
-- [http://localhost:8800/share](http://localhost:8800/share) (nginx)
+The only fully functional HTTP endpoint is by default [http://localhost:8800](https://localhost:8800)
+
+You can also access internal ports for debugging purposes (though you need to open them manually using Virtualbox, or uncommenting some entries in [Vagrantfile.erb](Vagrantfile.erb))
 - [http://localhost:9000](http://localhost:9000) (haproxy)
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
@@ -35,10 +40,10 @@ It takes roughly 40 minutes for a full default configuration.
 - [http://localhost:8060/activiti](http://localhost:8060/activiti) (activiti)
 
 If you use analytics and/or media-management you can also access:
-- [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
+- (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
 - [http://localhost:61616](http://localhost:61616) (activemq)
 
-Access to the admin console is via http://localhost:9000/alfresco/ and then Alfresco Administration Console.
+Access to the admin console is via (https://localhost:8843/alfresco/)[https://localhost:8843/alfresco/] and then Alfresco Administration Console.
 
 #### Tweaking
 Please [review CPU/memory configurations](Vagrantfile.erb) of chef-alfresco and adapt them to your workstation specs; hereby the default values:
@@ -49,8 +54,16 @@ c.vm.provider "virtualbox" do |v|
 end
 ```
 
-#### Waiting for `kitchen converge`
-1. First time you run it will take roughly 50 minutes
+#### Guest Addition error
+
+If you have issues installing the VM Guest Additions, run the following command
+
+```
+sudo ln -s /usr/include/ /lib/modules/3.10.0-123.el7.x86_64/build/
+```
+
+#### Waiting for `kitchen converge
+1. First time you run it will take roughly 40 minutes
 2. Second (or next) time you run a `kitchen converge` (without a previous `kitchen destroy`), it will take roughly 4 minutes
 
 #### Caching (WIP)
@@ -86,8 +99,11 @@ The most important configurations of chef-alfresco can be found in [attributes/d
 
 ```
 # Alfresco components that are not enabled by default:
+# analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
+# media - Alfresco media-management; enterprise-only
 # rsyslog - Remote logging
+# logstash-forwarder - Remote logging
 #
 # Default Alfresco components
 #
@@ -104,22 +120,23 @@ default['alfresco']['generate.share.config.custom'] = true
 # key/value attributes
 default['alfresco']['generate.repo.log4j.properties'] = true
 
-# Alfresco version; you can use Enterprise versions, ie. '5.0.1'
-default['alfresco']['version'] = "5.0.d"
+# Alfresco version; you can use Enterprise versions, ie. '5.0.2' and edition (to "enterprise")
+default['alfresco']['version'] = "5.1-b-EA"
+default['alfresco']['edition'] = "community"
+# default['alfresco']['version'] = "5.0.2"
+# default['alfresco']['edition'] = "enterprise"
 ```
 
 Using Alfresco Enterprise
 ---
-As mentioned above, you can use an Enterprise version to override `node['alfresco']['version']` attribute; however, you still need to configure access to Alfresco private repository using your customer credentials (same login as https://artifacts.alfresco.com); create file `test/integration/data_bags/maven_repos/private.json`:
+In order to configure access to Alfresco private repository, you need to use your customer credentials (same login as https://artifacts.alfresco.com); just set the following variables and kitchen command:
+```
+export NEXUS_USERNAME=myuser
+export NEXUS_PASSWORD=mypwd
+kitchen converge enterprise
+```
 
-```
-{
-  "id":"private",
-  "url": "https://artifacts.alfresco.com/nexus/content/groups/private",
-  "username":"<customer_username>",
-  "password":"<customer_password>"
-}
-```
+Alternatively, you can use databags, check [other.json.example](test/integration/data_bags/maven_repos/other.json.example)
 
 Using custom Maven repository
 ---
@@ -158,13 +175,13 @@ Installs and configures a local instance MySQL 5.6 Community Server, creates a d
     "repo_hosts" : "%",
     "root_user": "root",
     "server_root_password" : "ilikerandompasswords"
-  }
+  },
   "properties" : {
     "db.prefix": "mysql",
     "db.dbname" : "alfresco",
     "db.host": "localhost",
-    "db.port" : "3306"
-    "db.username" : "alfresco"
+    "db.port" : "3306",
+    "db.username" : "alfresco",
     "db.password" : "alfresco"
   }
 }
@@ -228,10 +245,7 @@ Generates repo-log4j.properties depending on attribute values:
 ```
 "alfresco": {
   "repo-log4j": {
-    "log4j.rootLogger"                                : "error, Console, File",
-    "log4j.appender.Console"                          : "org.apache.log4j.ConsoleAppender",
-    "log4j.appender.Console.layout"                   : "org.apache.log4j.PatternLayout",
-    "log4j.appender.Console.layout.ConversionPattern" : "%d{ISO8601} %x %-5p [%c{3}] [%t] %m%n",
+    "log4j.rootLogger"                                : "error, File",
     "log4j.appender.File"                             : "org.apache.log4j.DailyRollingFileAppender",
     "log4j.appender.File.Append"                      : "true",
     "log4j.appender.File.DatePattern"                 : "'.'yyyy-MM-dd",
@@ -351,6 +365,8 @@ Installs Alfresco Googledocs, using [Alfresco Googledocs 3.0.2 repo and share AM
 
 HAproxy is installed as OS package (using [haproxy community cookbook](https://github.com/hw-cookbooks/haproxy)) and configured using attributes defined in [haproxy.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_haproxy-attributes.rb)
 
+This component will also install Rsyslog server, used to dump haproxy logs into /var/log/haproxy/haproxy/log
+
 #### nginx
 
 Nginx is installed as OS package (using [nginx community cookbook](https://github.com/miketheman/nginx)) and configured using attributes defined in [nginx.rb attribute file](https://github.com/maoo/chef-alfresco/blob/master/recipes/_nginx-attributes.rb)
@@ -358,6 +374,10 @@ Nginx is installed as OS package (using [nginx community cookbook](https://githu
 #### rsyslog
 
 Configures and runs an rsyslog standalone installation, which logs locally by default; you can set `node['rsyslog']['server_ip']` to configure the remote server to send logs to; for more info check the [rsyslog community cookbook](https://github.com/opscode-cookbooks/rsyslog)
+
+#### logstash-forwarder
+
+Configures and runs an logstash-forwarder to ship logs to a remote logstash server; you can set `node['logstash-forwarder']['logstash_servers']` to configure the remote server to send logs to; for more info check the [logstash community cookbook](https://github.com/elastic/logstash-forwarder)
 
 Roadmap
 ---

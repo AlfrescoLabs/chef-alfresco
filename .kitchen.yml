@@ -1,82 +1,67 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
 
-driver_plugin: vagrant
-use_vagrant_berkshelf_plugin: true
 driver:
-  vagrantfile_erb: Vagrantfile.erb
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
 
 provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-7.0
-    driver:
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.0_chef-provisionerless.box
+  - name: centos-7.2
     driver_config:
-      require_chef_omnibus: 12.3.0
+      network:
+      - ["private_network", {ip: "192.168.33.23"}]
+
+    driver:
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
+    # driver_config:
+    #   require_chef_omnibus: 12.4.1
 
 suites:
-  - name: checklist
+  - name: ci
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
     attributes: {
-      "name": "img-basic-test",
-      "hostname": "alfresco-allinone-test",
-      "nginx" : {
-        "proxy_set_header_port" : "8800"
-      },
-      "logging" : {
-        "log4j.rootLogger" : "info, Console, File"
-      },
+      "name": "chef-alfresco-testing",
+      "hostname": "chef-alfresco-testing",
       "alfresco" : {
-        "properties" : {
-           "aos.port" : "8800",
-           "ftp.enabled" : true,
-           "hybridworkflow.enabled" : true,
-           "sync.mode" : "ON_PREMISE",
-           "system.serverMode" : "PRODUCTION",
-           "system.workflow.engine.jbpm.enabled" : true,
-           "system.workflow.engine.jbpm.definitions.visible" : true,
-           "replication.enabled" : true,
-           "transferservice.receiver.enabled" : true,
-           "notification.email.siteinvite": true,
-           "mail.host" : "localhost",
-           "mail.port" : 2626,
-           "mail.transport.protocol" : "imap",
-           "mail.username" : "admin",
-           "mail.password" : "admin"
-           "mail.smtp.auth" : true,
-           "email.inbound.enabled" : true,
-           "email.server.enabled" : true,
-           "imap.server.enabled" : true,
-           "imap.server.host" : "localhost",
-           "imap.server.imaps.enabled" : true,
-           "email.server.port" : 2525,
-           "email.server.domain" : "localdomain",
-           "email.inbound.unknownUser" : "unknown",
-           "email.server.allowed.senders" : "sender@localdomain",
-           "alfresco.rmi.services.port" : "1234",
-           "alfresco.rmi.services.host" : "localhost",
-           "monitor.rmi.service.port" : "2345",
-           "avm.rmi.service.port" : "3456",
-           "avmsync.rmi.service.port" : "4567",
-           "attribute.rmi.service.port" : "5678",
-           "authentication.rmi.service.port" : "6789",
-           "repo.rmi.service.port" : "7890",
-           "action.rmi.service.port" : "8901",
-           "deployment.rmi.service.port" : "9012"
-        },
-        "version" : "5.0.1.2"
+        "ssl_enabled" : false,
+        # TODO - should disable only dhparam
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "log.json.enabled" : false,
+        "mailsmtp_databag" : "credentials",
+        "mailsmtp_databag_item" : "outbound-email",
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "artifact-deployer" : {
         "maven" : {
-          "timeout" : 1500
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
         }
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
-  - name: chef-alfresco
+  # TODO make it default
+  - name: community
     run_list:
       - recipe[alfresco::default]
     data_bags_path: "test/integration/data_bags"
@@ -84,16 +69,67 @@ suites:
       "name": "img-basic-test",
       "hostname": "alfresco-allinone-test",
       "nginx" : {
-        "proxy_set_header_port" : "8800"
+        "proxy_host_header" : "$host:8800",
+        "use_nossl_config" : true
       },
       "alfresco" : {
-        "properties" : {
-           "aos.port" : "8800"
-        }
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "artifact-deployer" : {
         "maven" : {
           "timeout" : 1500
         }
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
+      }
+    }
+
+  - name: enterprise
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "img-basic-test",
+      "hostname": "alfresco-allinone-enterprise-test",
+      "nginx" : {
+        "proxy_host_header" : "$host:8800",
+        "logging_json_enabled" : false,
+        "use_nossl_config" : true
+      },
+      "alfresco" : {
+        "version" : "5.0.2.5",
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "logging_json_enabled" : false,
+        "enable_ssl_header" : false
       }
     }

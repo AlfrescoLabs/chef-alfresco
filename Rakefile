@@ -1,7 +1,8 @@
+
 #!/usr/bin/env rake
 
 require 'foodcritic'
-require 'rake'
+require 'rspec/core/rake_task'
 
 desc "Runs knife cookbook test"
 task :knife do
@@ -14,21 +15,11 @@ task :foodcritic do
   sh "bundle exec foodcritic -f any ."
 end
 
-desc "Package Berkshelf distro"
-task :dist do
-  sh "rm -rf Berksfile.lock *.tar.gz; bundle exec berks package chef-alfresco.tar.gz"
-end
-
-desc "Updates cookbook version in metadata.rb"
-task :update_version, [:releaseversion] do |t,args|
-  version = args[:releaseversion]
-  sh "sed 's/version \".*\"/version \"#{version}\"/' metadata.rb > metadata.rb.tmp ; rm -f metadata.rb ; mv metadata.rb.tmp metadata.rb"
-end
-
-desc "Deploy dist into Nexus artifact"
-task :deploy, [:releaseversion] do |t,args|
-  version = args[:releaseversion]
-  sh "mvn deploy:deploy-file -Dfile=chef-alfresco.tar.gz -DrepositoryId=alfresco-private-repository -Durl=https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots -DgroupId=org.alfresco.devops -DartifactId=chef-alfresco -Dversion=#{version}-SNAPSHOT -Dpackaging=tar.gz"
+desc "Runs rspec tests in test/unit folder"
+task :unit do
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.pattern = "test/unit/**/*_spec.rb"
+  end
 end
 
 task :integration do
@@ -40,4 +31,4 @@ task :integration do
   end
 end
 
-task :default => [:foodcritic, :knife, :dist]
+task :default => [:foodcritic, :knife, :unit]

@@ -1,3 +1,6 @@
+#General
+default['alfresco']['system.serverMode'] = 'PRODUCTION'
+
 #Database
 default['alfresco']['mysql_version'] = '5.6'
 default['alfresco']['properties']['db.driver'] = 'org.gjt.mm.mysql.Driver'
@@ -9,6 +12,13 @@ default['alfresco']['properties']['db.port'] = '3306'
 default['alfresco']['properties']['db.dbname'] = 'alfresco'
 default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
 default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}"
+node.set['alfresco']['properties']['db.pool.initial'] = 30
+node.set['alfresco']['properties']['db.pool.max'] = 500
+node.set['alfresco']['properties']['db.pool.min'] = 0
+node.set['alfresco']['properties']['db.pool.evict.interval'] = 900000
+node.set['alfresco']['properties']['db.pool.evict.idle.min'] = 1800000
+node.set['alfresco']['properties']['db.pool.evict.num.tests'] = -2
+node.set['alfresco']['properties']['db.pool.evict.validate'] = true
 
 #JMX
 default['alfresco']['properties']['alfresco.rmi.services.host'] = '0.0.0.0'
@@ -23,8 +33,8 @@ default['alfresco']['properties']['opencmis.servletpath.value'] = ''
 default['alfresco']['properties']['opencmis.server.override'] = true
 
 # Paths
-default['alfresco']['properties']['share.context'] = '/share'
-default['alfresco']['properties']['alfresco.context'] = '/alfresco'
+default['alfresco']['properties']['share.context'] = 'share'
+default['alfresco']['properties']['alfresco.context'] = 'alfresco'
 
 #Search Config
 default['alfresco']['properties']['index.subsystem.name'] = 'solr4'
@@ -34,8 +44,6 @@ default['alfresco']['properties']['solr.secureComms'] = 'none'
 default['alfresco']['properties']['mail.protocol'] = 'smtp'
 default['alfresco']['properties']['mail.host'] = '0.0.0.0'
 default['alfresco']['properties']['mail.port'] = '25'
-default['alfresco']['properties']['mail.username'] = 'anonymous'
-default['alfresco']['properties']['mail.password'] = ''
 default['alfresco']['properties']['mail.encoding'] = 'UTF-8'
 default['alfresco']['properties']['mail.from.enabled'] = false
 default['alfresco']['properties']['mail.smtp.auth'] = false
@@ -43,9 +51,7 @@ default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
 # AOS
-default['alfresco']['properties']['aos.port'] = "80"
 default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
-
 
 #Cluster
 default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescocluster'
@@ -56,7 +62,7 @@ default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = f
 #Transformations
 default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
 default['alfresco']['properties']['ooo.enabled'] = false
-default['alfresco']['properties']['jodconverter.officeHome'] = '/usr/lib64/libreoffice'
+default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice4.2/'
 default['alfresco']['properties']['jodconverter.portNumbers'] = '8101,8102'
 default['alfresco']['properties']['jodconverter.enabled'] = true
 default['alfresco']['properties']['img.root'] = '/usr'
@@ -83,3 +89,6 @@ default['alfresco']['properties']['cifs.tcpipSMB.port'] = '1445'
 default['alfresco']['properties']['cifs.netBIOSSMB.namePort'] = '1137'
 default['alfresco']['properties']['cifs.netBIOSSMB.datagramPort'] = '1138'
 default['alfresco']['properties']['cifs.netBIOSSMB.sessionPort'] = '1139'
+
+# Replication
+default['alfresco']['properties']['replication.enabled'] = true

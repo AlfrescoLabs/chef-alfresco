@@ -1,0 +1,47 @@
+---
+driver:
+  name: docker
+  privileged: true
+
+platforms:
+- name: centos-70
+  driver_config:
+    # TODO - we should be able to use official centos7 images
+    image: milcom/centos7-systemd
+    privileged: true
+
+suites:
+  - name: ci
+    run_list:
+      - recipe[alfresco::default]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-testing",
+      "hostname": "chef-alfresco-docker-testing",
+      "alfresco" : {
+        "public_protocol" : "http",
+        "mailsmtp_databag" : "credentials",
+        "mailsmtp_databag_item" : "outbound-email",
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "local"
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "private" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+    }
