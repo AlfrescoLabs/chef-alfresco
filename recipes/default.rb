@@ -100,6 +100,10 @@ if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
 end
 
+if node['alfresco']['components'].include? 'activiti'
+  include_recipe "alfresco::activiti"
+end
+
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat-instance-config"
 end

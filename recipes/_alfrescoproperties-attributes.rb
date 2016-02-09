@@ -46,6 +46,7 @@ elsif node['alfresco']['components'].include? "tomcat" and node['tomcat']['run_b
   node.default['alfresco']['properties']['solr.port'] = node['alfresco']['solr_tomcat_instance']['port']
   node.default['alfresco']['properties']['alfresco.port'] = node['alfresco']['repo_tomcat_instance']['port']
   node.default['alfresco']['properties']['share.port'] = node['alfresco']['share_tomcat_instance']['port']
+  node.default['alfresco']['properties']['activiti.port'] = node['alfresco']['activiti_tomcat_instance']['port']
 else
   node.default['alfresco']['properties']['solr.port'] = node['alfresco']['default_port']
   node.default['alfresco']['properties']['alfresco.port'] = node['alfresco']['default_port']

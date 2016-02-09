@@ -6,7 +6,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit', 'activiti']
 
 default['alfresco']['default_hostname'] = "localhost"
 default['alfresco']['default_port'] = "8081"
@@ -83,5 +83,5 @@ default['alfresco']['db']['root_user'] = "root"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
+default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr', 'tomcat-activiti']
 default['alfresco']['restart_action']   = [:enable, :restart]
