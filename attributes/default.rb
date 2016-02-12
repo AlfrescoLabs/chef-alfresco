@@ -122,5 +122,5 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
-default['alfresco']['restart_action']   = [:enable, :restart]
+default['alfresco']['restart_services'] = ['alfresco','share','solr']
+default['alfresco']['restart_action']   = :restart
