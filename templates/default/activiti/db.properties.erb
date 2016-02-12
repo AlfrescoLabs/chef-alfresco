@@ -1,5 +1,5 @@
-db=<%= default['activiti']['properties']['db.name']%>
-jdbc.driver=<%= default['activiti']['properties']['db.driver'] %>
-jdbc.url=<%= default['activiti']['properties']['db.url'] %>
-jdbc.username= <%= default['alfresco']['properties']['db.username'] %>
-jdbc.password= <%= default['alfresco']['properties']['db.password'] %>
+db=
+jdbc.driver=<%= node['activiti']['properties']['db.driver'] %>
+jdbc.url=<%= node['activiti']['properties']['db.url'] %>
+jdbc.username= <%= node['alfresco']['properties']['db.username'] %>
+jdbc.password= <%= node['alfresco']['properties']['db.password'] %>
