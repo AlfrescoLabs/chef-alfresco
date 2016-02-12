@@ -11,9 +11,9 @@ node.default['artifacts']['analytics']['unzip'] = true
 node.default['artifacts']['analytics']['type'] = "zip"
 node.default['artifacts']['analytics']['owner'] = node['alfresco']['user']
 
-node.default['amps']['repo']['analytics']['path'] = "#{node['artifacts']['analytics']['destination']}/amps/alfresco-analytics-repo-1.0.amp"
-node.default['amps']['repo']['analytics']['owner'] = node['alfresco']['user']
-node.default['amps']['repo']['analytics']['type'] = "amp"
+node.default['amps']['repo']['analytics-repo']['path'] = "#{node['artifacts']['analytics']['destination']}/amps/alfresco-analytics-repo-1.0.amp"
+node.default['amps']['repo']['analytics-repo']['owner'] = node['alfresco']['user']
+node.default['amps']['repo']['analytics-repo']['type'] = "amp"
 
 node.default['amps']['share']['analytics']['path'] = "#{node['artifacts']['analytics']['destination']}/amps/alfresco-analytics-share-1.0.amp"
 node.default['amps']['share']['analytics']['owner'] = node['alfresco']['user']

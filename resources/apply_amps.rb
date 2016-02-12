@@ -7,8 +7,8 @@
   property :share_amps, default: lazy { node['amps']['share'] }
   property :alfresco_amps, default: lazy { node['amps']['repo'] }
   property :bin_folder, String, default: lazy { node['alfresco']['bin'] }
-  property :alfresco_webapps, String, default: lazy {node['artifacts']['alfresco']['destination']}
-  property :share_webapps, String, default: lazy {node['artifacts']['share']['destination']}
+  property :alfresco_webapps, String, default: lazy { node['artifacts']['alfresco']['destination'] }
+  property :share_webapps, String, default: lazy { node['artifacts']['share']['destination'] }
   property :alfresco_root, String, required: true
   property :share_root, String, required: true
   property :windowsUser, String
@@ -78,18 +78,24 @@
     ruby_block 'Check installed amp versions' do
       block do
         if alfresco_amps
-          current_amp_version = `java -jar #{bin_folder}/alfresco-mmt.jar list #{alfresco_webapps}/alfresco.war | grep Version | awk '{ print $3 }'`
+          get_current_amp_version = Mixlib::ShellOut.new("java -jar #{bin_folder}/alfresco-mmt.jar list #{alfresco_webapps}/alfresco.war | grep Version | awk '{ print $3 }'")
+          current_amp_version = get_current_amp_version.run_command.stdout
           alfresco_amps.each do |new_amp, _values|
-            new_amp_version = `unzip -c #{amps_folder}/#{new_amp}.amp module.properties | grep module.version | awk -F "=" '{ print $2}'`
+            get_new_amp_version = Mixlib::ShellOut.new("unzip -c #{amps_folder}/#{new_amp}.amp module.properties | grep module.version | awk -F \"=\" '{ print $2}'")
+            new_amp_version = get_new_amp_version.run_command.stdout
             install_new_alfresco_amps true unless current_amp_version.strip.include? new_amp_version.strip
+            break if install_new_alfresco_amps
           end
         end
 
         if share_amps
-          current_amp_version = `java -jar #{bin_folder}/alfresco-mmt.jar list #{share_webapps}/share.war | grep Version | awk '{ print $3 }'`
+          get_current_amp_version = Mixlib::ShellOut.new("java -jar #{bin_folder}/alfresco-mmt.jar list #{share_webapps}/share.war | grep Version | awk '{ print $3 }'")
+          current_amp_version = get_current_amp_version.run_command.stdout
           share_amps.each do |new_amp, _values|
-            new_amp_version = `unzip -c #{amps_share_folder}/#{new_amp}.amp module.properties | grep module.version | awk -F "=" '{ print $2}'`
+            get_new_amp_version = Mixlib::ShellOut.new("unzip -c #{amps_share_folder}/#{new_amp}.amp module.properties | grep module.version | awk -F \"=\" '{ print $2}'")
+            new_amp_version = get_new_amp_version.run_command.stdout
             install_new_share_amps true unless current_amp_version.strip.include? new_amp_version.strip
+            break if install_new_share_amps
           end
         end
       end

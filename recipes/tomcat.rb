@@ -98,6 +98,7 @@ apache_tomcat 'tomcat' do
       apache_tomcat_service node['tomcat']['base_instance'] do
         java_home node['java']['java_home']
         restart_on_update false
+        action [:enable, :stop]
       end
     end
   end
@@ -164,6 +165,7 @@ apache_tomcat 'tomcat' do
       apache_tomcat_service name do
         java_home node['java']['java_home']
         restart_on_update false
+        action [:enable, :stop]
       end
     end
   end

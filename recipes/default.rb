@@ -47,7 +47,7 @@ unless node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['editi
 end
 
 if node['alfresco']['version'].start_with?("5.1")
-  node.default['artifacts']['share-services']['enabled'] = true
+  node.default['amps']['repo']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end
 
@@ -181,8 +181,8 @@ restart_services  = node['alfresco']['restart_services']
 restart_action    = node['alfresco']['restart_action']
 if alfresco_start and node['alfresco']['components'].include? 'tomcat'
   restart_services.each do |service_name|
-    service service_name  do
-      action    restart_action
+    log "Restarting #{service_name} service" do
+      notifies restart_action, "apache_tomcat_service[#{service_name}]"
     end
   end
 end
