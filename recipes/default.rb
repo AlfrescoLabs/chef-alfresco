@@ -10,6 +10,7 @@ node.override["tomcat"]["base_version"] = 7
 include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
+include_recipe "alfresco::_activiti-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
 include_recipe "alfresco::_repo-attributes"
 include_recipe "alfresco::_share-attributes"
@@ -113,9 +114,6 @@ if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
 end
 
-if node['alfresco']['components'].include? 'activiti'
-  include_recipe "alfresco::activiti"
-end
 
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe 'alfresco::haproxy'
@@ -154,6 +152,11 @@ if node['alfresco']['components'].include? 'logstash-forwarder'
   include_recipe "alfresco::logstash-forwarder"
 end
 
+
+if node['alfresco']['components'].include? 'activiti'
+  include_recipe "alfresco::activiti"
+end
+
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
@@ -166,6 +169,8 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
     command "/usr/local/bin/nossl-patch.sh"
   end
 end
+
+
 
 # Restarting services, if enabled
 alfresco_start    = node["alfresco"]["start_service"]

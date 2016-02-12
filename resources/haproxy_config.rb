@@ -17,7 +17,7 @@ action :run do
 
   # Define HaProxy local backends
   node['alfresco']['components'].each do |component|
-    if ['share','solr','repo'].include? component
+    if ['share','solr','repo','activiti'].include? component
       component = 'alfresco' if component == 'repo'
       id = "local_#{component}_backend"
 
