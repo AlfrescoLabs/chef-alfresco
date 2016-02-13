@@ -68,6 +68,11 @@ node.default['alfresco']['properties']['share.protocol'] = node['alfresco']['pub
 node.default['alfresco']['properties']['opencmis.server.host'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['opencmis.server.protocol'] = node['alfresco']['public_protocol']
 
+# Activiti
+node.default['alfresco']['properties']['activiti.host'] = node['alfresco']['public_hostname']
+node.default['alfresco']['properties']['activiti.port'] = node['alfresco']['public_portssl']
+node.default['alfresco']['properties']['activiti.protocol'] = node['alfresco']['public_protocol']
+
 # AOS
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['public_protocol']
 node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['public_hostname']

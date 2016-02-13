@@ -78,6 +78,7 @@ default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib
 default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
@@ -102,3 +103,14 @@ default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
 default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-solr/gc.log -Dlogfilename=/var/log/tomcat-solr/solr.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-solr/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-solr/"
+
+
+default['alfresco']['activiti_tomcat_instance']['port'] = 8060
+default['alfresco']['activiti_tomcat_instance']['shutdown_port'] = 8035
+default['alfresco']['activiti_tomcat_instance']['jmx_port'] = 40030
+default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.3
+activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
+default['alfresco']['activiti_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"
+default['alfresco']['activiti_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-activiti/gc.log -Dlogfilename=/var/log/tomcat-activiti/activiti.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-activiti/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-activiti/"
+
+

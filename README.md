@@ -37,6 +37,7 @@ You can also access internal ports for debugging purposes (though you need to op
 - [http://localhost:8070/alfresco](http://localhost:8070/alfresco) (tomcat-alfresco)
 - [http://localhost:8081/share](http://localhost:8081/share) (tomcat-share)
 - [http://localhost:8090/solr](http://localhost:8090/solr) (tomcat-solr)
+- [http://localhost:8060/activiti](http://localhost:8060/activiti) (activiti)
 
 If you use analytics and/or media-management you can also access:
 - (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
