@@ -1,3 +1,54 @@
-<% node['nginx']['config'].each do |line| -%>
-<%= line %>
+<% node['nginx']['general'].each do |param_name,param_value| -%>
+  <%= param_name %> <%= param_value %>;
 <% end -%>
+
+events {
+  <% node['nginx']['events'].each do |param_name,param_value| -%>
+    <%= param_name %> <%= param_value %>;
+  <% end -%>
+}
+
+http {
+  <% node['nginx']['http'].each do |param_name,param_value| -%>
+    <% if param_name == "error_pages" -%>
+      <% param_value.each do |param_item| -%>
+  error_page <%= param_item %>;
+      <% end -%>
+    <% else -%>
+  <%= param_name %> <%= param_value %>;
+    <% end -%>
+  <% end -%>
+
+  <% node['nginx']['server'].each do |server_name,server| -%>
+  # Defining <%= server_name %>
+  server {
+    <% server.each do |param_name,param_value| -%>
+      <% unless param_name == "locations" -%>
+        <%= param_name %> <%= param_value %>;
+      <% end -%>
+    <% end -%>
+
+    <% if server['locations'] -%>
+      <% server['locations'].each do |location_name,location| -%>
+        <% if server_name == "proxy" and location_name == "/" -%>
+      # Mitigation for nginx security advisory (CVE-2013-4547)
+      if ($request_uri ~ " ") {
+        return 444;
+      }
+        <% end -%>
+      location <%= location_name %> {
+        <% location.each do |param_name,param_value| -%>
+          <% if param_name == "proxy_set_headers" -%>
+            <% param_value.each do |param_item| -%>
+        proxy_set_header <%= param_item %>;
+            <% end -%>
+          <% else -%>
+        <%= param_name %> <%= param_value %>;
+          <% end -%>
+        <% end -%>
+      }
+      <% end -%>
+    <% end -%>
+  }
+  <% end -%>
+}

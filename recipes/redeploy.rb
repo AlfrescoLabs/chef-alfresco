@@ -49,13 +49,7 @@ if append_property_map
 end
 
 # Patch nginx configurations, making sure the service runs
-node.set['nginx']['service_actions'] = [:enable,:start]
-include_recipe 'nginx::commons_conf'
-
-# Needed by nginx::commons_conf
-service 'nginx' do
-  action node['nginx']['service_actions']
-end
+include_recipe 'alfresco::nginx-conf'
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
