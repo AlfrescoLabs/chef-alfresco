@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit', 'activiti']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
@@ -122,5 +122,5 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['alfresco','share','solr']
+default['alfresco']['restart_services'] = ['alfresco','share','solr', 'activiti']
 default['alfresco']['restart_action']   = :restart

@@ -105,4 +105,8 @@ else
     end
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
+  if alfresco_components.include? 'activiti'
+    node.default['alfresco']['activiti_tomcat_instance']['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    node.default['tomcat']['instances']['activiti'] = node['alfresco']['activiti_tomcat_instance']
+  end
 end

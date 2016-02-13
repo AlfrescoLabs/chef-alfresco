@@ -39,7 +39,7 @@ default['tomcat']['sysconfig_template_source'] = 'tomcat/sysconfig.erb'
 
 default["tomcat"]["files_cookbook"] = "alfresco"
 default["tomcat"]["deploy_manager_apps"] = false
-default["tomcat"]["jvm_memory"] = "-Xmx1500M -XX:MaxPermSize=256M"
+default["tomcat"]["jvm_memory"] = "-Xmx1500M"
 
 default["tomcat"]["maxHttpHeaderSize"] = "1048576"
 
@@ -101,8 +101,8 @@ default['tomcat']['instance_templates'] = [{
 # -XX:+PrintGCTimeStamps"
 # -verbose:gc"
 
-default['tomcat']['java_options_hash']['generic_memory'] = "-XX:MaxPermSize=512m -XX:CodeCacheMinimumFreeSpace=8m -XX:ReservedCodeCacheSize=128m"
-default['tomcat']['java_options_hash']['gc'] = "-XX:+UseCompressedOops -XX:+UseParallelOldGC -XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
+default['tomcat']['java_options_hash']['generic_memory'] = "-XX:+UseCompressedOops"
+default['tomcat']['java_options_hash']['gc'] = "-XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
 default['tomcat']['java_options_hash']['network'] = "-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 # -Dhazelcast.jmx=true causes alfresco.war to take 10 minutes to start
 default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/usr/share/tomcat/conf/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/usr/share/tomcat/conf/jmxremote.password"
@@ -113,6 +113,7 @@ default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib
 default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
@@ -134,3 +135,13 @@ default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40020
 default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
+default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-solr/gc.log -Dlogfilename=/var/log/tomcat-solr/solr.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-solr/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-solr/"
+
+
+default['alfresco']['activiti_tomcat_instance']['port'] = 8060
+default['alfresco']['activiti_tomcat_instance']['shutdown_port'] = 8035
+default['alfresco']['activiti_tomcat_instance']['jmx_port'] = 40030
+default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.3
+activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
+default['alfresco']['activiti_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"
+default['alfresco']['activiti_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-activiti/gc.log -Dlogfilename=/var/log/tomcat-activiti/activiti.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-activiti/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-activiti/"

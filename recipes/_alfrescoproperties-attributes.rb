@@ -22,14 +22,14 @@ end
 node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
 
 mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
-mailsmtp_databag_items = node["alfresco"]["mailsmtp_databag_items"]
+mailsmtp_databag_item = node["alfresco"]["mailsmtp_databag_item"]
 
 begin
   db_item = data_bag_item(mailsmtp_databag,mailsmtp_databag_item)
   node.default['alfresco']['properties']['mail.username'] = db_item['username']
   node.default['alfresco']['properties']['mail.password'] = db_item['password']
 rescue
-  Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_items}")
+  Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_item}")
 end
 
 node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
@@ -68,6 +68,11 @@ node.default['alfresco']['properties']['share.protocol'] = node['alfresco']['pub
 # OpenCMIS
 node.default['alfresco']['properties']['opencmis.server.host'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['opencmis.server.protocol'] = node['alfresco']['public_protocol']
+
+# Activiti
+node.default['alfresco']['properties']['activiti.host'] = node['alfresco']['public_hostname']
+node.default['alfresco']['properties']['activiti.port'] = node['alfresco']['public_portssl']
+node.default['alfresco']['properties']['activiti.protocol'] = node['alfresco']['public_protocol']
 
 # AOS
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['public_protocol']

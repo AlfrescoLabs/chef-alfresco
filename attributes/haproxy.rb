@@ -87,6 +87,7 @@ default['haproxy']['frontends']['external']['redirects'] = [
 default['haproxy']['frontends']['external']['acl_lines'] = [
   "is_root path_reg ^$|^/$",
   "alfresco_path path_reg ^/alfresco/.*",
+  "activiti_path path_reg ^/activiti/.*",
   "robots path_reg ^/robots.txt$",
   "solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
   "activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
@@ -98,6 +99,7 @@ default['haproxy']['frontends']['external']['other_config'] = [
   # "http-request deny if alfresco_path",
   "http-request deny if robots",
   "http-request deny if solr_path",
+  "http-request deny if activiti_path",
   "http-request deny if activity_path",
   "http-request deny if webinf"
 ]
@@ -188,6 +190,11 @@ default['haproxy']['backends']['roles']['share']['port'] = 8081
 default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
 default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['roles']['solr']['port'] = 8090
+
+# Activiti Haproxy configuration
+default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
+default['haproxy']['backends']['roles']['activiti']['entries'] = ["option httpchk GET /activiti","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['activiti']['port'] = 8060
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
