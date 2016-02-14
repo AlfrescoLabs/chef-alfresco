@@ -14,5 +14,5 @@ node.default['artifacts']['activiti']['unzip'] = true
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['activiti']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['activiti']['destination'] = "#{node['alfresco']['home']}-activiti/webapps"
+  node.default['artifacts']['activiti']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
 end
