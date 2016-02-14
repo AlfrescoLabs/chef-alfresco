@@ -104,6 +104,9 @@ apache_tomcat 'tomcat' do
   end
 
   node['tomcat']['instances'].each do |name, attrs|
+    logs_path = attrs['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
+    cache_path = attrs['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
+
     apache_tomcat_instance name do
       setenv_options do
         config(
@@ -137,8 +140,8 @@ apache_tomcat 'tomcat' do
         owner 'root'
         group 'root'
         mode '0755'
-        variables(tomcat_log_path: "#{node['alfresco']['home']}/#{name}/logs",
-                  tomcat_cache_path: "#{node['alfresco']['home']}/#{name}/temp")
+        variables(tomcat_log_path: logs_path,
+                  tomcat_cache_path: cache_path)
       end
 
       apache_tomcat_config 'context' do

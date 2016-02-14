@@ -17,7 +17,7 @@ mysql_database db_database do
 end
 
 
-template "#{node['alfresco']['home']}-activiti/webapps/activiti/WEB-INF/classes/db.properties" do
+template "#{node['alfresco']['home']}/activiti/webapps/activiti/WEB-INF/classes/db.properties" do
   source 'activiti/db.properties.erb'
   owner node['alfresco']['user']
   mode '0644'
