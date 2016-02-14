@@ -129,7 +129,7 @@ end
 
 maven_setup 'setup maven' do
   maven_home node['maven']['m2_home']
-  only_if {node['artifact-deployer']['install_maven']}
+  only_if {node['alfresco']['install_maven']}
 end
 
 artifact 'deploy artifacts'

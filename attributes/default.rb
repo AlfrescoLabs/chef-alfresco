@@ -74,7 +74,8 @@ default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'alfresco'
 
 # Using Alfresco Nexus public by default (in case databags aren't in place)
-default['artifact-deployer']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
+default['alfresco']['install_maven'] = true
+default['commons']['maven']['repositories']['public']['url'] = "https://artifacts.alfresco.com/nexus/content/groups/public"
 
 #Mysql defaults
 default['mysql']['update_gcc'] = true
