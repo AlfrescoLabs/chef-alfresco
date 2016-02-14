@@ -13,6 +13,9 @@ end
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery
+  # Install/configure awscli, as it's used by haproxy ec2 discovery
+  awscli_setup 'install and configure awscli'
+
   template node['haproxy']['ec2']['discovery_chef_erb'] do
     source 'haproxy/haproxy-discovery.cron.erb'
   end

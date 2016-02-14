@@ -29,7 +29,7 @@ suites:
           "ssl_databag_item" : "local"
         }
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {

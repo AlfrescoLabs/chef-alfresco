@@ -1,2 +1,2 @@
-node.default['artifacts']['rm']['enabled'] = true
-node.default['artifacts']['rm-share']['enabled'] = true
+node.default['amps']['repo']['rm-repo']['enabled'] = true
+node.default['amps']['share']['rm-share']['enabled'] = true

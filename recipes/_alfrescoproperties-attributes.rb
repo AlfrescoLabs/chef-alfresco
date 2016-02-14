@@ -10,8 +10,8 @@ node.default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['public_
 
 # Use JSON with log4j, if enabled
 if node['alfresco']['log.json.enabled']
-  node.default['artifacts']['json-logging-repo-amp']['enabled'] = true
-  node.default['artifacts']['json-logging-share-amp']['enabled'] = true
+  node.default['amps']['repo']['json-logging-amp-repo']['enabled'] = true
+  node.default['amps']['share']['json-logging-amp']['enabled'] = true
   node.default['logging']['log4j.appender.File.layout'] = "net.logstash.log4j.JSONEventLayoutV1"
   node.default['logging']['log4j.appender.File.File'] = "${logfilename}.json"
   node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/usr/share/tomcat/alfresco/logs/alfresco.log.json']
@@ -32,12 +32,11 @@ rescue
   Chef::Log.warn("Error fetching databag #{mailsmtp_databag}, item #{mailsmtp_databag_item}")
 end
 
-node.default['artifacts']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
-node.default['artifacts']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
-node.default['artifacts']['alfresco-s3-connector']['version'] = "1.3.0.2"
-node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
-node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
-node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
+node.default['amps']['repo']['alfresco-s3-connector']['groupId'] = "org.alfresco.integrations"
+node.default['amps']['repo']['alfresco-s3-connector']['artifactId'] = "alfresco-s3-connector"
+node.default['amps']['repo']['alfresco-s3-connector']['version'] = "1.3.0.2"
+node.default['amps']['repo']['alfresco-s3-connector']['type'] = "amp"
+node.default['amps']['repo']['alfresco-s3-connector']['owner'] = "tomcat"
 
 # HTTP default pool size
 node.default['alfresco']['properties']['httpclient.max-connections'] = "20"

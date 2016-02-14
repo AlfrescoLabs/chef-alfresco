@@ -51,7 +51,7 @@ suites:
         "jmxremote_databag" : "credentials",
         "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {
@@ -91,7 +91,7 @@ suites:
         "jmxremote_databag" : "credentials",
         "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500
         }
@@ -124,7 +124,7 @@ suites:
         "jmxremote_databag" : "credentials",
         "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {
