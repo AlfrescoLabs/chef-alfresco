@@ -27,6 +27,10 @@ if node['alfresco']['generate.repo.log4j.properties'] == true
   node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
 end
 
+if node['activiti']['generate.db.properties'] == true
+  node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti']['properties']
+end
+
 directory "alfresco-rootdir" do
   path root_folder
   owner user
@@ -71,8 +75,18 @@ file "alfresco-global-empty" do
   only_if { generate_alfresco_global == true }
 end
 
+
+file "#{shared_folder}/classes/db.properties" do
+  content ""
+  owner user
+  group group
+  mode '0644'
+end
+
 file_replace_line "#{config_folder}/catalina.properties" do
   replace "shared.loader="
   with "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
+
+

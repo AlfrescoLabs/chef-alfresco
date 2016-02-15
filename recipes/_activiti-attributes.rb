@@ -1,3 +1,7 @@
+node.default['activiti']['properties']['jdbc.username'] = node['alfresco']['properties']['db.username']
+node.default['activiti']['properties']['jdbc.password'] = node['alfresco']['properties']['db.password']
+
+
 node.default['activiti']['groupId'] = 'org.activiti'
 node.default['activiti']['artifactId'] = "activiti-webapp-explorer2"
 node.default['activiti']['version'] = '5.14'
