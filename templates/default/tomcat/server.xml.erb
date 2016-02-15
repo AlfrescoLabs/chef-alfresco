@@ -74,6 +74,8 @@
          Define a non-SSL HTTP/1.1 Connector on port <%= node["tomcat"]["port"] %>
     -->
 
+
+    <!-- SET THIS IN CONNECTOR WHEN FIXING APR - protocol="org.apache.coyote.http11.Http11AprProtocol" -->
     <% if @port -%>
       <Connector port="<%= @port %>"
         <% if @max_threads -%>

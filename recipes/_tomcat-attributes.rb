@@ -1,7 +1,51 @@
+# Base instance tomcat attributes
+
+node.default['tomcat']['base_version'] = 7
+node.default['tomcat']['base_instance'] = "tomcat#{node['tomcat']['base_version']}"
+node.default['tomcat']['packages'] = ["tomcat#{node['tomcat']['base_version']}"]
+node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['base_version']}-admin"]
+
+case node['platform_family']
+
+when 'rhel', 'fedora'
+  node.default['tomcat']['base_instance'] = 'tomcat'
+  node.default['tomcat']['user'] = 'tomcat'
+  node.default['tomcat']['group'] = 'tomcat'
+  node.default['tomcat']['home'] = '/usr/share/tomcat'
+  node.default['tomcat']['config_dir'] = "#{node['tomcat']['home']}/conf"
+  node.default['tomcat']['webapp_dir'] = "#{node['tomcat']['home']}/webapps"
+when 'debian'
+  node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
+when 'smartos'
+  node.default['tomcat']['user'] = 'tomcat'
+  node.default['tomcat']['group'] = 'tomcat'
+  node.default['tomcat']['home'] = '/opt/local/share/tomcat'
+  node.default['tomcat']['base'] = '/opt/local/share/tomcat'
+  node.default['tomcat']['config_dir'] = '/opt/local/share/tomcat/conf'
+  node.default['tomcat']['webapp_dir'] = '/opt/local/share/tomcat/webapps'
+  node.default['tomcat']['keytool'] = '/opt/local/bin/keytool'
+  node.default['tomcat']['packages'] = ['apache-tomcat']
+  node.default['tomcat']['deploy_manager_packages'] = []
+else
+  node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
+  node.default['tomcat']['lib_dir'] = "#{node['tomcat']['home']}/lib"
+  node.default['tomcat']['endorsed_dir'] = "#{node['tomcat']['lib_dir']}/endorsed"
+end
+
 # Using catalina-jmx
-node.default['artifacts']['catalina-jmx']['groupId'] = "org.apache.tomcat"
-node.default['artifacts']['catalina-jmx']['artifactId'] = "tomcat-catalina-jmx-remote"
-node.default['artifacts']['catalina-jmx']['version'] = "7.0.54"
+node.default['artifacts']['catalina-jmx']['groupId'] = 'org.apache.tomcat'
+node.default['artifacts']['catalina-jmx']['artifactId'] = 'tomcat-catalina-jmx-remote'
+node.default['artifacts']['catalina-jmx']['version'] = '7.0.54'
 node.default['artifacts']['catalina-jmx']['type'] = 'jar'
 node.default['artifacts']['catalina-jmx']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
@@ -9,21 +53,21 @@ node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
 node.default['tomcat']['jvm_route'] = "alfresco-#{node['alfresco']['public_hostname']}"
 
 node.default['tomcat']['global_templates'] = [{
-  "dest" => "#{node['alfresco']['home']}/conf",
-  "filename" => "jmxremote.access",
-  "owner" => "tomcat"
-},{
-  "dest" => "#{node['alfresco']['home']}/conf",
-  "filename" => "jmxremote.password",
-  "owner" => "tomcat"
-},{
-  "dest" => "#{node['alfresco']['home']}-alfresco/lib/org/apache/catalina/util",
-  "filename" => "ServerInfo.properties",
-  "owner" => "tomcat"
-},{
-  "dest" => "/etc/security/limits.d",
-  "filename" => "tomcat_limits.conf",
-  "owner" => "tomcat"
+  'dest' => "#{node['alfresco']['home']}/conf",
+  'filename' => 'jmxremote.access',
+  'owner' => 'tomcat'
+}, {
+  'dest' => "#{node['alfresco']['home']}/conf",
+  'filename' => 'jmxremote.password',
+  'owner' => 'tomcat'
+}, {
+  'dest' => "#{node['alfresco']['home']}/alfresco/lib/org/apache/catalina/util",
+  'filename' => 'ServerInfo.properties',
+  'owner' => 'tomcat'
+}, {
+  'dest' => '/etc/security/limits.d',
+  'filename' => 'tomcat_limits.conf',
+  'owner' => 'tomcat'
 }]
 
 # Setting JAVA_OPTS
@@ -31,28 +75,55 @@ alfresco_components = node['alfresco']['components']
 if node['tomcat']['run_base_instance']
   node.default['alfresco']['restart_services'] = ['tomcat']
   if alfresco_components.include? 'solr'
-    node.default["tomcat"]["java_options"]['rmi_and_solr'] = "-Dalfresco.home=#{node['alfresco']['home']} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
+    node.default['tomcat']['java_options']['rmi_and_solr'] = "-Dalfresco.home=#{node['alfresco']['home']} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
   end
 else
-  if alfresco_components.include? "repo"
-    node.default["alfresco"]["repo_tomcat_instance"]['java_options']['rmi_and_alfhome'] = "-Dalfresco.home=#{node['alfresco']['home']}-alfresco -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+  if alfresco_components.include? 'repo'
+    name = "repo"
+    instance_home = "#{node['alfresco']['home']}/alfresco"
+    logs_path = node['alfresco']["#{name}_tomcat_instance"]['logs_path'] || "#{node['alfresco']['home']}/alfresco/logs"
+    cache_path = node['alfresco']["#{name}_tomcat_instance"]['cache_path'] || "#{node['alfresco']['home']}/alfresco/temp"
+    node.default['alfresco']['repo_tomcat_instance']['java_options']['rmi_and_alfhome'] = "-Dalfresco.home=#{instance_home} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    node.default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/alfresco.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{node['tomcat']['cache_root_folder']}/tomcat-alfresco,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=/usr/share/tomcat-alfresco/temp"
+      node.default['alfresco']['repo_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=#{cache_path},disableall"
     end
     node.default['tomcat']['instances']['alfresco'] = node['alfresco']['repo_tomcat_instance']
   end
   if alfresco_components.include? 'share'
-    node.default["alfresco"]["share_tomcat_instance"]['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    name = "share"
+    instance_home = "#{node['alfresco']['home']}/share"
+    logs_path = node['alfresco']["#{name}_tomcat_instance"]['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
+    cache_path = node['alfresco']["#{name}_tomcat_instance"]['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
+    node.default['alfresco']['share_tomcat_instance']['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    node.default['alfresco']['share_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/share.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{node['tomcat']['cache_root_folder']}/tomcat-share,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=/usr/share/tomcat-share/temp,disableall"
+      node.default['alfresco']['share_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=share,tmpdir=#{cache_path},disableall"
     end
     node.default['tomcat']['instances']['share'] = node['alfresco']['share_tomcat_instance']
   end
   if alfresco_components.include? 'solr'
-    node.default["alfresco"]["solr_tomcat_instance"]['java_options']['rmi_and_solr'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}  -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
+    name = "solr"
+    instance_home = "#{node['alfresco']['home']}/solr"
+    logs_path = node['alfresco']["#{name}_tomcat_instance"]['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
+    cache_path = node['alfresco']["#{name}_tomcat_instance"]['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
+    node.default['alfresco']['solr_tomcat_instance']['java_options']['rmi_and_solr'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']}  -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
+    node.default['alfresco']['solr_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{instance_home}/gc.log -Dlogfilename=#{logs_path}/solr.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{node['tomcat']['cache_root_folder']}/tomcat-solr,telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr,tmpdir=/usr/share/tomcat-solr/temp"
+      node.default['alfresco']['solr_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=solr,tmpdir=#{cache_path},disableall"
     end
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
+  end
+  if alfresco_components.include? 'activiti'
+    name = "activiti"
+    instance_home = "#{node['alfresco']['home']}/activiti"
+    logs_path = node['alfresco']["#{name}_tomcat_instance"]['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
+    cache_path = node['alfresco']["#{name}_tomcat_instance"]['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
+    node.default['alfresco']['activiti_tomcat_instance']['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    node.default['alfresco']['activiti_tomcat_instance']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/activiti.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
+    if alfresco_components.include? 'yourkit'
+      node.default['alfresco']['activiti_tomcat_instance']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=activiti,tmpdir=#{cache_path},disableall"
+    end
+    node.default['tomcat']['instances']['activiti'] = node['alfresco']['activiti_tomcat_instance']
   end
 end

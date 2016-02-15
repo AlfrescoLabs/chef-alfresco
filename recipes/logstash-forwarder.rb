@@ -1,9 +1,9 @@
 if node['alfresco']['log.json.enabled']
-  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/usr/share/tomcat/alfresco/logs/alfresco.log.json']
   node.default['logstash-forwarder']['items']['alfresco-repo']['type'] = 'json'
-  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log.json']
+  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/usr/share/tomcat/alfresco/logs/alfresco.log.json']
   node.default['logstash-forwarder']['items']['alfresco-share']['type'] = 'json'
-  node.default['logstash-forwarder']['items']['solr-catalina']['paths'] = ['/var/log/tomcat-solr/solr.log.json']
+  node.default['logstash-forwarder']['items']['solr-catalina']['paths'] = ['/usr/share/tomcat/solr/logs/solr.log.json']
   node.default['logstash-forwarder']['items']['solr-catalina']['type'] = 'json'
 end
 

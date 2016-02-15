@@ -1,15 +1,15 @@
 # Setting Tomcat version
 # Needs to be done before invoking "tomcat::_attributes"
 # TODO - try using node.default or node.set
-node.override["tomcat"]["base_version"] = 7
+# node.override["tomcat"]["base_version"] = 7
 
 # Invoke attribute recipes; if defined as attributes/*.rb files,
 # The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
 # would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
 #
-include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
+include_recipe "alfresco::_activiti-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
 include_recipe "alfresco::_repo-attributes"
 include_recipe "alfresco::_share-attributes"
@@ -22,13 +22,10 @@ include_recipe "alfresco::_analytics-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
-apply_amps = false
+apply_amps = true
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
-
-# Install/configure awscli, as it's used by haproxy ec2 discovery
-include_recipe "artifact-deployer::awscli"
 
 # [old implementation]
 # Change artifactIds for alfresco and share WARs, if
@@ -48,7 +45,7 @@ unless node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['editi
 end
 
 if node['alfresco']['version'].start_with?("5.1")
-  node.default['artifacts']['share-services']['enabled'] = true
+  node.default['amps']['repo']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end
 
@@ -69,6 +66,9 @@ end
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end
+
+
+##############
 
 if node['alfresco']['components'].include? 'nginx'
   include_recipe "alfresco::nginx"
@@ -113,6 +113,7 @@ if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
 end
 
+
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe 'alfresco::haproxy'
 end
@@ -126,10 +127,20 @@ if node['alfresco']['components'].include? 'haproxy'
   include_recipe "alfresco::haproxy"
 end
 
-include_recipe "artifact-deployer::default"
+maven_setup 'setup maven' do
+  maven_home node['maven']['m2_home']
+  only_if {node['alfresco']['install_maven']}
+end
 
-if apply_amps
-  include_recipe "alfresco::apply-amps"
+artifact 'deploy artifacts'
+
+apply_amps 'apply alfresco and share amps' do
+  alfresco_root "#{node['alfresco']['home']}/alfresco"
+  share_root "#{node['alfresco']['home']}/share"
+  unixUser node['alfresco']['user']
+  unixGroup node['tomcat']['group']
+  only_if { apply_amps }
+  only_if { node['amps'] }
 end
 
 # This must go after Alfresco installation
@@ -150,6 +161,11 @@ if node['alfresco']['components'].include? 'logstash-forwarder'
   include_recipe "alfresco::logstash-forwarder"
 end
 
+
+if node['alfresco']['components'].include? 'activiti'
+  include_recipe "alfresco::activiti"
+end
+
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
@@ -163,14 +179,16 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
+
+
 # Restarting services, if enabled
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']
 restart_action    = node['alfresco']['restart_action']
 if alfresco_start and node['alfresco']['components'].include? 'tomcat'
   restart_services.each do |service_name|
-    service service_name  do
-      action    restart_action
+    log "Restarting #{service_name} service" do
+      notifies restart_action, "apache_tomcat_service[#{service_name}]"
     end
   end
 end

@@ -2,7 +2,7 @@
 # The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
 # would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
 #
-include_recipe "tomcat::_attributes"
+# include_recipe "tomcat::_attributes"
 include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
@@ -32,7 +32,7 @@ if replace_property_map
       replace   "#{propName}="
       with      "#{propName}=#{propValue}"
       not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
-      notifies  :restart, "service[#{tomcat_service_name}]", :delayed
+      # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
     end
   end
 end
@@ -43,19 +43,13 @@ if append_property_map
     file_append "#{propName}-on-#{file_to_patch}" do
       path      file_to_patch
       line      "#{propName}=#{propValue}"
-      notifies  :restart, "service[#{tomcat_service_name}]", :delayed
+      # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
     end
   end
 end
 
 # Patch nginx configurations, making sure the service runs
-node.set['nginx']['service_actions'] = [:enable,:start]
-include_recipe 'nginx::commons_conf'
-
-# Needed by nginx::commons_conf
-service 'nginx' do
-  action node['nginx']['service_actions']
-end
+include_recipe 'alfresco::nginx-conf'
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
@@ -68,7 +62,7 @@ file_replace_line 'share-config-origin' do
   replace   "<origin>"
   with      "<origin>#{node['alfresco']['shareproperties']['origin']}</origin>"
   not_if    "cat #{share_config} | grep '<origin>#{node['alfresco']['shareproperties']['origin']}</origin>'"
-  notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+  # notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
 end
 
 file_replace_line 'share-config-referer' do
@@ -76,11 +70,11 @@ file_replace_line 'share-config-referer' do
   replace   "<referer>"
   with      "<referer>#{node['alfresco']['shareproperties']['referer']}</referer>"
   not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
-  notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+  # notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
 end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
-file_append '/etc/tomcat/tomcat.conf' do
+file_append '/usr/share/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 

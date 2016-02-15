@@ -8,13 +8,12 @@ version "0.6.21"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
-depends "tomcat"
+depends "apache_tomcat"
 depends "maven"
 depends "commons"
 
 # Community cookbooks
 depends "activemq", ">= 1.3.3"
-depends "artifact-deployer", ">= 0.8.16"
 depends 'build-essential', ">= 2.2.3"
 depends "database", ">= 4.0.6"
 depends "ffmpeg", ">= 0.4.4"

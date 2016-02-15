@@ -1,2 +1,2 @@
-node.default['artifacts']['googledocs-repo']['enabled'] = true
-node.default['artifacts']['googledocs-share']['enabled'] = true
+node.default['amps']['repo']['googledocs-repo']['enabled'] = true
+node.default['amps']['share']['googledocs']['enabled'] = true

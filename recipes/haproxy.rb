@@ -1,5 +1,4 @@
-haproxy_cfg_source = node['haproxy']['conf_template_source']
-haproxy_cfg_cookbook = node['haproxy']['conf_cookbook']
+
 enable_rsyslog_server = node['haproxy']['enable_rsyslog_server']
 rsyslog_bind = node['haproxy']['rsyslog_bind']
 
@@ -14,6 +13,9 @@ end
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery
+  # Install/configure awscli, as it's used by haproxy ec2 discovery
+  awscli_setup 'install and configure awscli'
+
   template node['haproxy']['ec2']['discovery_chef_erb'] do
     source 'haproxy/haproxy-discovery.cron.erb'
   end
