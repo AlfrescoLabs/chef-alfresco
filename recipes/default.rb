@@ -9,7 +9,6 @@
 #
 include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
-include_recipe "alfresco::_activiti-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
 include_recipe "alfresco::_repo-attributes"
 include_recipe "alfresco::_share-attributes"
@@ -19,6 +18,7 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
+include_recipe "alfresco::_activiti-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
