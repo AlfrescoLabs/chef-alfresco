@@ -41,6 +41,8 @@ mysql_connection_info = {
 
 mysql_database db_database do
   connection mysql_connection_info
+  collation "utf8_general_ci"
+  encoding "utf8"
   action :create
 end
 
