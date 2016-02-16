@@ -33,7 +33,6 @@ default['tomcat']['certificate_dn'] = 'cn=localhost'
 default['tomcat']['loglevel'] = 'INFO'
 default['tomcat']['tomcat_auth'] = 'true'
 default['tomcat']['instances'] = {}
-default['tomcat']['run_base_instance'] = true
 default['tomcat']['keytool'] = 'keytool'
 
 default['tomcat']['sysconfig_template_cookbook'] = 'alfresco'
