@@ -6,3 +6,5 @@ default['elasticsearch']['override_config']['node.name'] = "localhost"
 default['elasticsearch']['override_config']['network.host'] = "0.0.0.0"
 default['elasticsearch']['override_config']['node.master'] = true
 default['elasticsearch']['override_config']['node.data'] = true
+
+default['elasticsearch']['allocated_memory'] = "400m"

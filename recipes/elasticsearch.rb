@@ -27,7 +27,11 @@ elasticsearch_install 'elasticsearch' do
   action :install
 end
 
-elasticsearch_configure 'elasticsearch'
+elasticsearch_configure 'elasticsearch' do
+  java_home "/usr/lib/jvm/java"
+  allocated_memory node['elasticsearch']['allocated_memory']
+end
+
 elasticsearch_service 'elasticsearch'
 
 es_override_config.each do |conf_name,conf_value|
