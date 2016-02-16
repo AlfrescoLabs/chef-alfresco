@@ -1,5 +1,5 @@
-node.default['activiti']['properties']['jdbc.username'] = node['alfresco']['properties']['db.username']
-node.default['activiti']['properties']['jdbc.password'] = node['alfresco']['properties']['db.password']
+node.default['activiti']['community']['properties']['jdbc.username'] = node['alfresco']['properties']['db.username']
+node.default['activiti']['community']['properties']['jdbc.password'] = node['alfresco']['properties']['db.password']
 
 
 node.default['activiti']['groupId'] = 'org.activiti'

@@ -28,7 +28,8 @@ if node['alfresco']['generate.repo.log4j.properties'] == true
 end
 
 if node['activiti']['generate.db.properties'] == true
-  node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti']['properties']
+  edition = node['activiti']['edition']
+  node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti'][ edition ]['properties']
 end
 
 directory "alfresco-rootdir" do
