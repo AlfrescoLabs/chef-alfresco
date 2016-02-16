@@ -1,5 +1,5 @@
-default['elasticsearch']['version'] = '1.4.4'
-default['elasticsearch']['checksum'] = 'a3158d474e68520664debaea304be22327fc7ee1f410e0bfd940747b413e8586'
+default['elasticsearch']['version'] = '1.7.3'
+default['elasticsearch']['checksum'] = 'af517611493374cfb2daa8897ae17e63e2efea4d0377d316baa351c1776a2bca'
 
 default['elasticsearch']['override_config']['cluster.name'] = "elasticsearch"
 default['elasticsearch']['override_config']['node.name'] = "localhost"
