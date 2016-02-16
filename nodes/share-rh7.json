@@ -21,6 +21,7 @@
       "use_nossl_config" : true
     },
     "alfresco" : {
+        "use_libreoffice_os_repo" : true,
         "skip_certificate_creation" : true,
         "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",

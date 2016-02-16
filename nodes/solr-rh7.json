@@ -18,6 +18,7 @@
       }
     },
     "alfresco" : {
+        "use_libreoffice_os_repo" : true,
         "skip_certificate_creation" : true,
         "rmi_server_hostname" : "localhost",
         "public_hostname" : "@@FQDN@@",
@@ -63,7 +64,7 @@
       "ec2_tags" : {
         "haproxy_backends" : "solr",
         "jvm_route" : "@@JVM_ROUTE@@",
-        "status" : "complete"    
+        "status" : "complete"
       }
     },
     "artifacts" : {
