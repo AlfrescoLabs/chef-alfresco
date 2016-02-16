@@ -16,7 +16,7 @@ default['tomcat']['shutdown_port'] = 8005
 default['tomcat']['catalina_options'] = ''
 default['tomcat']['open_files_limit'] = 16000
 default['tomcat']['processes_limit'] = 65000
-default['tomcat']['java_options'] = '-Xmx128M -Djava.awt.headless=true'
+default['tomcat']['java_options']['memory'] = "-Xmx#{(node['memory']['total'].to_i * 0.6).floor / 1024}m -Djava.awt.headless=true"
 default['tomcat']['use_security_manager'] = false
 default['tomcat']['authbind'] = 'no'
 default['tomcat']['deploy_manager_apps'] = true
