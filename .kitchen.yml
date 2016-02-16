@@ -26,6 +26,8 @@ suites:
     run_list:
       # - recipe[alfresco::nginx]
       - recipe[alfresco::default]
+      # TODO - move it into activiti recipe, if edition == enterprise
+      - recipe[alfresco::elasticsearch]
       - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
     attributes: {
