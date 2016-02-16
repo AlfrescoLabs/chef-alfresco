@@ -39,9 +39,12 @@ mysql_connection_info = {
     :password => mysql_root_password
 }
 
+
 db_databases.each do | db_database |
   mysql_database db_database do
     connection mysql_connection_info
+    collation "utf8_general_ci"
+    encoding "utf8"
     action :create
   end
 end
