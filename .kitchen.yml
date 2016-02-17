@@ -24,6 +24,7 @@ platforms:
 suites:
   - name: ci
     run_list:
+      - recipe[alfresco::supervisor]
       # - recipe[alfresco::nginx]
       - recipe[alfresco::default]
       # TODO - move it into activiti recipe, if edition == enterprise
