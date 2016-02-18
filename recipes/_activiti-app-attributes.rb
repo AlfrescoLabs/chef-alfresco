@@ -44,10 +44,11 @@ node.default['artifacts']['activiti-ldap']['type'] = "war"
 node.default['artifacts']['activiti-ldap']['owner'] = node['alfresco']['user']
 node.default['artifacts']['activiti-ldap']['unzip'] = false
 
-
-# Share WAR destination
+# Activiti WAR destination
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['activiti-app']['destination'] = node['tomcat']['webapp_dir']
+  node.default['artifacts']['activiti-ldap']['destination'] = node['tomcat']['webapp_dir']
 else
   node.default['artifacts']['activiti-app']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
+  node.default['artifacts']['activiti-ldap']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
 end
