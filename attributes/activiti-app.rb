@@ -106,6 +106,9 @@ default['activiti-app']['enterprise']['properties']['validator.editor.dmn.expres
 default['activiti-app']['enterprise']['properties']['editor.form.javascript.disable'] = false
 default['activiti-app']['enterprise']['properties']['security.http.bypassSSL'] = true
 
+# For now we don't define an elastic-search server. I will define it in the next task
+default['activiti-app']['enterprise']['properties']['elastic-search.server.type'] = "none"
+
 # The maximum file upload limit for trial users, in bytes (eg. 10485760 = 10MB)
 default['activiti-app']['enterprise']['properties']['quota.trial.maxFileUploadSize'] = 10485760
 default['activiti-app']['enterprise']['properties']['quota.trial.maxRuntimeApps'] = 5
