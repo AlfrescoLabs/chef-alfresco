@@ -123,5 +123,5 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['alfresco','share','solr', 'activiti-app']
+default['alfresco']['restart_services'] = ['alfresco','share','solr', 'activiti']
 default['alfresco']['restart_action']   = :restart

@@ -138,9 +138,9 @@ default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
 
-default['alfresco']['activiti-app_tomcat_instance']['port'] = 8060
-default['alfresco']['activiti-app_tomcat_instance']['shutdown_port'] = 8035
-default['alfresco']['activiti-app_tomcat_instance']['jmx_port'] = 40030
-default['alfresco']['activiti-app_tomcat_instance']['xmx_ratio'] = 0.3
-activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti-app_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
-default['alfresco']['activiti-app_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"
+default['alfresco']['activiti_tomcat_instance']['port'] = 8060
+default['alfresco']['activiti_tomcat_instance']['shutdown_port'] = 8035
+default['alfresco']['activiti_tomcat_instance']['jmx_port'] = 40030
+default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.3
+activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
+default['alfresco']['activiti_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"

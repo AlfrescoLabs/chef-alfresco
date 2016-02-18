@@ -115,15 +115,15 @@ else
     node.default['tomcat']['instances']['solr'] = node['alfresco']['solr_tomcat_instance']
   end
   if alfresco_components.include? 'activiti-app'
-    name = "activiti-app"
-    instance_home = "#{node['alfresco']['home']}/activiti-app"
+    name = "activiti"
+    instance_home = "#{node['alfresco']['home']}/activiti"
     logs_path = node['alfresco']["#{name}_tomcat_instance"]['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
     cache_path = node['alfresco']["#{name}_tomcat_instance"]['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
-    node.default['alfresco']["#{name}_tomcat_instance"]['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
-    node.default['alfresco']["#{name}_tomcat_instance"]['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/activiti.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
+    node.default['alfresco']["activiti_tomcat_instance"]['java_options']['rmi'] = "-Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}"
+    node.default['alfresco']["activiti_tomcat_instance"]['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{instance_home}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/activiti.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
     if alfresco_components.include? 'yourkit'
-      node.default['alfresco']["#{name}_tomcat_instance"]['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=activiti,tmpdir=#{cache_path},disableall"
+      node.default['alfresco']["activiti_tomcat_instance"]['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=activiti,tmpdir=#{cache_path},disableall"
     end
-    node.default['tomcat']['instances']["#{name}"] = node['alfresco']["#{name}_tomcat_instance"]
+    node.default['tomcat']['instances']["activiti"] = node['alfresco']["activiti_tomcat_instance"]
   end
 end

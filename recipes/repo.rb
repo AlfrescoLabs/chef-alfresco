@@ -88,7 +88,7 @@ file "#{shared_folder}/classes/db.properties" do
 end
 
 
-file "#{node['alfresco']['home']}/activiti-app/lib/activiti-app.properties" do
+file "#{node['alfresco']['home']}/activiti/lib/activiti-app.properties" do
   content ""
   owner user
   group group

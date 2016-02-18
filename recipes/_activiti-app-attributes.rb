@@ -6,7 +6,7 @@ node.default['activiti-app'][ edition ]['properties']['jdbc.password'] = node['a
 
 node.default['artifacts']['activiticlasses']['unzip'] = false
 node.default['artifacts']['activiticlasses']['filtering_mode'] = "append"
-node.default['artifacts']['activiticlasses']['destination'] = "#{node['alfresco']['home']}/activiti-app"
+node.default['artifacts']['activiticlasses']['destination'] = "#{node['alfresco']['home']}/activiti"
 node.default['artifacts']['activiticlasses']['destinationName'] = "lib"
 node.default['artifacts']['activiticlasses']['owner'] = node['alfresco']['user']
 
@@ -37,5 +37,5 @@ node.default['artifacts']['activiti-app']['unzip'] = node['activiti-app'][ editi
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['activiti-app']['destination'] = node['tomcat']['webapp_dir']
 else
-  node.default['artifacts']['activiti-app']['destination'] = "#{node['alfresco']['home']}/activiti-app/webapps"
+  node.default['artifacts']['activiti-app']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
 end
