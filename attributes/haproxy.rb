@@ -81,7 +81,7 @@ default['haproxy']['frontends']['internal']['entries'] = [
 ]
 
 default['haproxy']['frontends']['external']['redirects'] = [
-  "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti !is_activiti",
+  "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti !is_activiti-app",
   "redirect location /share/ if is_root"
 ]
 default['haproxy']['frontends']['external']['acl_lines'] = [
@@ -188,10 +188,10 @@ default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GE
 default['haproxy']['backends']['roles']['solr']['port'] = 8090
 
 # Activiti Haproxy configuration
-default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
-default['haproxy']['frontends']['external']['acls']['activiti'] = ['path_beg /activiti']
-default['haproxy']['backends']['roles']['activiti']['entries'] = ["option httpchk GET /activiti","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['roles']['activiti']['port'] = 8060
+default['haproxy']['frontends']['internal']['acls']['activiti-app'] = ['path_beg /activiti-app']
+default['haproxy']['frontends']['external']['acls']['activiti-app'] = ['path_beg /activiti-app']
+default['haproxy']['backends']['roles']['activiti-app']['entries'] = ["option httpchk GET /activiti-app","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+default['haproxy']['backends']['roles']['activiti-app']['port'] = 8060
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]
