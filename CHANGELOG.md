@@ -1,5 +1,12 @@
 # Change Log
 
+## [v0.6.22](https://github.com/Alfresco/chef-alfresco/tree/v0.6.22) (2016-02-18)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.21...v0.6.22)
+
+**Merged pull requests:**
+
+- Add client\_max\_body\_size [\#45](https://github.com/Alfresco/chef-alfresco/pull/45) ([steverigby](https://github.com/steverigby))
+
 ## [v0.6.21](https://github.com/Alfresco/chef-alfresco/tree/v0.6.21) (2016-02-16)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.20...v0.6.21)
 
