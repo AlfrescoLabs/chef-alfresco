@@ -59,6 +59,11 @@ suites:
               "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "internal" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }
           }
         }
