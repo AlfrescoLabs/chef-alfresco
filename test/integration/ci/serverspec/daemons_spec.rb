@@ -64,7 +64,7 @@ describe "Alfresco daemons" do
   end
 
   it 'Has a running Activiti application' do
-    expect(activitiConnection.get('/activiti/').body).to include('Activiti')
+    expect(activitiConnection.get('/activiti-app/').body).to include('Activiti')
   end
 
   it 'Has a running Haproxy service wrapping all Alfresco public applications' do
@@ -88,7 +88,7 @@ describe "Alfresco daemons" do
   end
 
  it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
-    expect(nginxConnection.get('/activiti/').body).to include('Activiti')
+    expect(nginxConnection.get('/activiti-app/').body).to include('Activiti')
   end
 
   # TODO - uncomment this!
