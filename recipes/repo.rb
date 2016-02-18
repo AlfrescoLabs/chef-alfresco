@@ -27,9 +27,12 @@ if node['alfresco']['generate.repo.log4j.properties'] == true
   node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
 end
 
-if node['activiti']['generate.db.properties'] == true
-  edition = node['activiti']['edition']
-  node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti'][ edition ]['properties']
+if node['activiti-app']['generate.properties'] == true
+  if node['activiti-app']['edition'] == "community"
+    node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti-app']["community"]['properties']
+  else
+    node.default['artifacts']['activiticlasses']['properties']['activiti-app.properties'] = node['activiti-app']["enterprise"]['properties']
+  end
 end
 
 directory "alfresco-rootdir" do
@@ -76,12 +79,21 @@ file "alfresco-global-empty" do
   only_if { generate_alfresco_global == true }
 end
 
-
 file "#{shared_folder}/classes/db.properties" do
   content ""
   owner user
   group group
   mode '0644'
+  only_if { node['activiti-app']['edition'] == "community" }
+end
+
+
+file "#{node['alfresco']['home']}/activiti-app/lib/activiti-app.properties" do
+  content ""
+  owner user
+  group group
+  mode '0644'
+  only_if { node['activiti-app']['edition'] == "enterprise" }
 end
 
 file_replace_line "#{config_folder}/catalina.properties" do
