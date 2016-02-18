@@ -18,7 +18,8 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
-include_recipe "alfresco::_activiti-attributes"
+include_recipe "alfresco::_activiti-app-attributes"
+
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
@@ -162,8 +163,11 @@ if node['alfresco']['components'].include? 'logstash-forwarder'
 end
 
 
-if node['alfresco']['components'].include? 'activiti'
-  node.default['artifacts']['activiti']['enabled'] = true
+if node['alfresco']['components'].include? 'activiti-app'
+  node.default['artifacts']['activiti-app']['enabled'] = true
+  if node['activiti-app']['edition'] == "enterprise"
+    node.default['artifacts']['activiticlasses']['enabled'] = true
+  end
   include_recipe "alfresco::activiti"
 end
 
