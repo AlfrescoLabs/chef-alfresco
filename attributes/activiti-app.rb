@@ -37,7 +37,7 @@ default['activiti-app']['enterprise']['properties']['datasource.max-idle-time-ex
 
 default['activiti-app']['enterprise']['properties']['activiti.process-definitions.cache.max'] = 128
 default['activiti-app']['enterprise']['properties']['rest.variables.allow.serializable'] = false
-default['activiti-app']['enterprise']['properties']['security.asposeKey'] = "YourAsposeKey"
+default['activiti-app']['enterprise']['properties']['security.asposeKey'] = "YourAsposeKey "
 default['activiti-app']['enterprise']['properties']['metrics.console.reporter.enabled'] = false
 default['activiti-app']['enterprise']['properties']['event.generation.enabled'] = true
 default['activiti-app']['enterprise']['properties']['event.processing.enabled'] = true
@@ -127,8 +127,8 @@ default['activiti-app']['enterprise']['properties']['quota.trial.maxTotalContent
 # default['activiti-app']['enterprise']['properties']['email.host'] = "smtp.sendgrid.net"
 # default['activiti-app']['enterprise']['properties']['email.port'] = 25
 # default['activiti-app']['enterprise']['properties']['email.useCredentials'] = true
-# default['activiti-app']['enterprise']['properties']['email.username'] = "activiti_DP_Aug15"
-# default['activiti-app']['enterprise']['properties']['email.password'] = "nUCYujSlcnRu8L"
+# default['activiti-app']['enterprise']['properties']['email.username'] = "YourEmailUsername"
+# default['activiti-app']['enterprise']['properties']['email.password'] = "YourSendGridPassword"
 # default['activiti-app']['enterprise']['properties']['email.from.default'] = "no-reply@activiti.alfresco.com"
 # default['activiti-app']['enterprise']['properties']['email.from.default.name'] = "Activiti"
 # default['activiti-app']['enterprise']['properties']['email.feedback.default'] = "activiti@alfresco.com"
