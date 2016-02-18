@@ -19,8 +19,8 @@ node.default['activiti-app']["community"]['owner'] = node['alfresco']['user']
 node.default['activiti-app']["community"]['unzip'] = true
 
 node.default['activiti-app']['enterprise']['groupId'] = "com.activiti"
-node.default['activiti-app']['enterprise']['artifactId'] = "activiti-app"
-node.default['activiti-app']['enterprise']['version'] = "1.4.1"
+node.default['activiti-app']['enterprise']['artifactId'] = "activiti-engine"
+node.default['activiti-app']['enterprise']['version'] = "5.20.0.0-SNAPSHOT"
 node.default['activiti-app']['enterprise']['type'] = "war"
 node.default['activiti-app']['enterprise']['owner'] = node['alfresco']['user']
 node.default['activiti-app']['enterprise']['unzip'] = false
