@@ -20,8 +20,8 @@ default['activiti-app']['enterprise']['properties']['server.onpremise'] = true
 default['activiti-app']['enterprise']['properties']['server.contexroot'] = "/activiti-app"
 default['activiti-app']['enterprise']['properties']['user.trial.durationInDays'] = 60
 default['activiti-app']['enterprise']['properties']['security.rememberme.key'] = "thissecuretestkey"
-default['activiti-app']['enterprise']['properties']['security.useraccount.credentialsIVSpec'] = "j8kdO2hejA9lKmm6"
-default['activiti-app']['enterprise']['properties']['security.useraccount.credentialsSecretSpec'] = "9FGl73ngxcOoJvmL"
+default['activiti-app']['enterprise']['properties']['security.useraccount.credentialsIVSpec'] = "YourCredentialsIVSpec"
+default['activiti-app']['enterprise']['properties']['security.useraccount.credentialsSecretSpec'] = "YourCredentialsSecretsSpec"
 default['activiti-app']['enterprise']['properties']['hibernate.dialect'] = "org.hibernate.dialect.MySQLDialect"
 default['activiti-app']['enterprise']['properties']['datasource.driver'] = default['activiti-app']['properties']['db.driver']
 default['activiti-app']['enterprise']['properties']['datasource.url'] = "jdbc:#{node['activiti-app']['properties']['db.prefix']}://#{node['activiti-app']['properties']['db.host']}:#{node['activiti-app']['properties']['db.port']}/#{node['activiti-app']['properties']['db.dbname']}?#{node['activiti-app']['properties']['db.params']}"
@@ -37,7 +37,7 @@ default['activiti-app']['enterprise']['properties']['datasource.max-idle-time-ex
 
 default['activiti-app']['enterprise']['properties']['activiti.process-definitions.cache.max'] = 128
 default['activiti-app']['enterprise']['properties']['rest.variables.allow.serializable'] = false
-default['activiti-app']['enterprise']['properties']['security.asposeKey'] = "OMRE0aMxouti2Cb7asnLrbAVkn32WMe3RTbDH44p8hUtjbaFC+V/MedBApNCa+b8"
+default['activiti-app']['enterprise']['properties']['security.asposeKey'] = "YourAsposeKey"
 default['activiti-app']['enterprise']['properties']['metrics.console.reporter.enabled'] = false
 default['activiti-app']['enterprise']['properties']['event.generation.enabled'] = true
 default['activiti-app']['enterprise']['properties']['event.processing.enabled'] = true
