@@ -16,7 +16,7 @@ default['tomcat']['shutdown_port'] = 8005
 default['tomcat']['catalina_options'] = ''
 default['tomcat']['open_files_limit'] = 16000
 default['tomcat']['processes_limit'] = 65000
-default['tomcat']['java_options'] = '-Xmx128M -Djava.awt.headless=true'
+default['tomcat']['java_options']['memory'] = "-Xmx#{(node['memory']['total'].to_i * 0.6).floor / 1024}m -Djava.awt.headless=true"
 default['tomcat']['use_security_manager'] = false
 default['tomcat']['authbind'] = 'no'
 default['tomcat']['deploy_manager_apps'] = true
@@ -33,7 +33,6 @@ default['tomcat']['certificate_dn'] = 'cn=localhost'
 default['tomcat']['loglevel'] = 'INFO'
 default['tomcat']['tomcat_auth'] = 'true'
 default['tomcat']['instances'] = {}
-default['tomcat']['run_base_instance'] = true
 default['tomcat']['keytool'] = 'keytool'
 
 default['tomcat']['sysconfig_template_cookbook'] = 'alfresco'
@@ -120,27 +119,27 @@ default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
 default['alfresco']['repo_tomcat_instance']['jmx_port'] = 40000
-default['alfresco']['repo_tomcat_instance']['xmx_ratio'] = 0.42
+default['alfresco']['repo_tomcat_instance']['xmx_ratio'] = 0.3
 alfresco_memory = "#{(node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{alfresco_memory}"
 
 default['alfresco']['share_tomcat_instance']['port'] = 8081
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
 default['alfresco']['share_tomcat_instance']['jmx_port'] = 40010
-default['alfresco']['share_tomcat_instance']['xmx_ratio'] = 0.28
+default['alfresco']['share_tomcat_instance']['xmx_ratio'] = 0.15
 share_memory = "#{(node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['share_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{share_memory}"
 
 default['alfresco']['solr_tomcat_instance']['port'] = 8090
 default['alfresco']['solr_tomcat_instance']['shutdown_port'] = 8025
 default['alfresco']['solr_tomcat_instance']['jmx_port'] = 40020
-default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.3
+default['alfresco']['solr_tomcat_instance']['xmx_ratio'] = 0.1
 solr_memory = "#{(node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['solr_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{solr_memory}"
 
 default['alfresco']['activiti_tomcat_instance']['port'] = 8060
 default['alfresco']['activiti_tomcat_instance']['shutdown_port'] = 8035
 default['alfresco']['activiti_tomcat_instance']['jmx_port'] = 40030
-default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.3
+default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.1
 activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['activiti_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"
