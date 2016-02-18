@@ -1,4 +1,4 @@
-db_databases   = ['activiti', 'alfresco'].map { |product| node[product]["properties"]["db.dbname"] }
+db_databases   = ['activiti-app', 'alfresco'].map { |product| node[product]["properties"]["db.dbname"] }
 db_host       = node['alfresco']['properties']['db.host']
 db_port       = node['alfresco']['properties']['db.port']
 db_user       = node['alfresco']['properties']['db.username']
