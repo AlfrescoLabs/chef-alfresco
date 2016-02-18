@@ -10,6 +10,7 @@ node.default['artifacts']['activiticlasses']['destination'] = "#{node['alfresco'
 node.default['artifacts']['activiticlasses']['destinationName'] = "lib"
 node.default['artifacts']['activiticlasses']['owner'] = node['alfresco']['user']
 
+#activiti app configuration
 
 node.default['activiti-app']["community"]['groupId'] = "org.activiti"
 node.default['activiti-app']["community"]['artifactId'] = "activiti-webapp-explorer2"
@@ -25,12 +26,23 @@ node.default['activiti-app']['enterprise']['type'] = "war"
 node.default['activiti-app']['enterprise']['owner'] = node['alfresco']['user']
 node.default['activiti-app']['enterprise']['unzip'] = false
 
+
+
 node.default['artifacts']['activiti-app']['groupId'] = node['activiti-app'][ edition ]['groupId']
 node.default['artifacts']['activiti-app']['artifactId'] = node['activiti-app'][ edition ]['artifactId']
 node.default['artifacts']['activiti-app']['version'] = node['activiti-app'][ edition ]['version']
 node.default['artifacts']['activiti-app']['type'] = node['activiti-app'][ edition ]['type']
 node.default['artifacts']['activiti-app']['owner'] = node['activiti-app'][ edition ]['owner']
 node.default['artifacts']['activiti-app']['unzip'] = node['activiti-app'][ edition ]['unzip']
+
+
+# activiti LDAP configuration
+node.default['artifacts']['activiti-ldap']['groupId'] = "com.activiti"
+node.default['artifacts']['activiti-ldap']['artifactId'] = "activiti-ldap"
+node.default['artifacts']['activiti-ldap']['version'] = "5.20.0.0-SNAPSHOT"
+node.default['artifacts']['activiti-ldap']['type'] = "war"
+node.default['artifacts']['activiti-ldap']['owner'] = node['alfresco']['user']
+node.default['artifacts']['activiti-ldap']['unzip'] = false
 
 
 # Share WAR destination

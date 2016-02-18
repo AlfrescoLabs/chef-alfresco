@@ -166,6 +166,7 @@ end
 if node['alfresco']['components'].include? 'activiti-app'
   node.default['artifacts']['activiti-app']['enabled'] = true
   if node['activiti-app']['edition'] == "enterprise"
+    node.default['artifacts']['activiti-ldap']['enabled'] = true
     node.default['artifacts']['activiticlasses']['enabled'] = true
   end
   include_recipe "alfresco::activiti"
