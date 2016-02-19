@@ -165,11 +165,11 @@ apache_tomcat 'tomcat' do
         action :create
       end
 
-      apache_tomcat_service name do
-        java_home node['java']['java_home']
-        restart_on_update false
-        action [:enable, :stop]
-      end
+#      apache_tomcat_service name do
+#        java_home node['java']['java_home']
+#        restart_on_update false
+#        action [:enable, :stop]
+#      end
 
       # Add LimitNOFILE=16000 into tomcat systemd and restart services
       # TODO - add #{processes_limit} to systemd file
