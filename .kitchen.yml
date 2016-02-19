@@ -41,6 +41,7 @@ suites:
         }
       },
       "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','activiti','mysql','rm','googledocs','yourkit'],
         "ssl_enabled" : false,
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,

@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit', 'activiti']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
