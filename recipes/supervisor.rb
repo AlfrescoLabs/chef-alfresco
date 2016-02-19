@@ -8,8 +8,8 @@ supervisor_service 'tomcat-alfresco' do
   command '/usr/share/tomcat/bin/catalina.sh run'
 #  stdout_logfile 'syslog'
 #  stderr_logfile 'syslog'
-  environment
-    "JAVA_HOME" => node['java']['java_home'],
+  environment "JAVA_HOME" => node['java']['java_home'],
     "CATALINA_HOME" => "/usr/share/tomcat/alfresco",
     "CATALINA_BASE" => "/usr/share/tomcat/alfresco"
+
 end
