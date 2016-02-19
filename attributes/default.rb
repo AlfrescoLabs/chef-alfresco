@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit', 'activiti']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
@@ -23,6 +23,7 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 default['alfresco']['ssl_enabled'] = true
 
 default['alfresco']['rmi_server_hostname'] = "localhost"
+default['alfresco']['use_libreoffice_os_repo'] = false
 
 default['alfresco']['enable_tarpit'] = true
 

@@ -2,27 +2,43 @@
 include_recipe "build-essential::default"
 include_recipe "imagemagick::default"
 
-libre_office_name = node['alfresco']['libre_office_name']
-libre_office_tar_name = node['alfresco']['libre_office_tar_name']
-libre_office_tar_url = node['alfresco']['libre_office_tar_url']
+if node['alfresco']['use_libreoffice_os_repo']
+  if node['platform'] == 'redhat'
+    yum_repos = [
+      'rhui-REGION-rhel-server-extras',
+      'rhui-REGION-rhel-server-optional',
+      'rhui-REGION-rhel-server-source-optional'
+    ]
+    yum_repos.each do |repo|
+      execute "enable-yum-repo-#{repo}" do
+        command "yum-config-manager --enable #{repo}"
+      end
+    end
+  end
+  include_recipe "libreoffice::default"
+else
+  libre_office_name = node['alfresco']['libre_office_name']
+  libre_office_tar_name = node['alfresco']['libre_office_tar_name']
+  libre_office_tar_url = node['alfresco']['libre_office_tar_url']
 
-remote_file "#{Chef::Config[:file_cache_path]}/#{libre_office_tar_name}" do
-  source libre_office_tar_url
-  owner 'root'
-  group 'root'
-end
+  remote_file "#{Chef::Config[:file_cache_path]}/#{libre_office_tar_name}" do
+    source libre_office_tar_url
+    owner 'root'
+    group 'root'
+  end
 
-execute 'unpack-libreoffice' do
-  cwd Chef::Config[:file_cache_path]
-  command "tar -xf #{libre_office_tar_name}"
-  creates "#{Chef::Config[:file_cache_path]}/#{libre_office_name}"
-  not_if "test -d #{Chef::Config[:file_cache_path]}/#{libre_office_name}"
-end
+  execute 'unpack-libreoffice' do
+    cwd Chef::Config[:file_cache_path]
+    command "tar -xf #{libre_office_tar_name}"
+    creates "#{Chef::Config[:file_cache_path]}/#{libre_office_name}"
+    not_if "test -d #{Chef::Config[:file_cache_path]}/#{libre_office_name}"
+  end
 
-execute 'install-libreoffice' do
-  cwd Chef::Config[:file_cache_path]
-  command "yum -y localinstall #{Chef::Config[:file_cache_path]}/#{libre_office_name}/RPMS/*.rpm"
-  not_if "yum list installed | grep libreoffice"
+  execute 'install-libreoffice' do
+    cwd Chef::Config[:file_cache_path]
+    command "yum -y localinstall #{Chef::Config[:file_cache_path]}/#{libre_office_name}/RPMS/*.rpm"
+    not_if "yum list installed | grep libreoffice"
+  end
 end
 
 if node['platform_family'] == "ubuntu"

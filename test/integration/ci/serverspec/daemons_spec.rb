@@ -63,9 +63,9 @@ describe "Alfresco daemons" do
     expect(solrConnection.get('/solr4/').body).to include('Apache SOLR')
   end
 
-  it 'Has a running Activiti application' do
-    expect(activitiConnection.get('/activiti/').body).to include('Activiti')
-  end
+  # it 'Has a running Activiti application' do
+  #   expect(activitiConnection.get('/activiti/').body).to include('Activiti')
+  # end
 
   it 'Has a running Haproxy service wrapping all Alfresco public applications' do
     expect(haproxyConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
@@ -87,9 +87,9 @@ describe "Alfresco daemons" do
     expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
   end
 
- it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
-    expect(nginxConnection.get('/activiti/').body).to include('Activiti')
-  end
+ # it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
+ #    expect(nginxConnection.get('/activiti/').body).to include('Activiti')
+ #  end
 
   # TODO - uncomment this!
   # it 'Has an HTTP redirect' do
