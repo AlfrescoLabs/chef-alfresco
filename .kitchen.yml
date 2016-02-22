@@ -107,6 +107,7 @@ suites:
   - name: enterprise
     run_list:
       - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "img-basic-test",
