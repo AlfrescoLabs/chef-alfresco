@@ -4,6 +4,21 @@ content_services_log_path = node['media']['content_services_log_path']
 content_services_config_path = node['media']['content_services_config_path']
 content_services_user = node['media']['content_services_user']
 
+# Fixing temporary downtime of atrpms,
+# used for libmp3lame0 package
+
+# TODO - switch to http://repo.enetres.net/
+# Read more on  http://vicendominguez.blogspot.nl/2015/09/atrpms-is-dead-and-i-need-ffmpeg-for.html
+
+# node.set['yum']['atrpms']['baseurl'] = "https://www.mirrorservice.org/sites/dl.atrpms.net/el$releasever-$basearch/atrpms/stable"
+# node.set['yum']['atrpms']['gpgcheck'] = false
+
+# Doesn't work, we set yum repo manually
+# include_recipe 'yum-atrpms::default'
+template '/etc/yum.repos.d/atrpms.repo' do
+  source 'yum/atrpms.repo.erb'
+end
+
 user content_services_user do
   action :create
   shell "/sbin/nologin"
