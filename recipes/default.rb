@@ -163,7 +163,6 @@ end
 
 
 if node['alfresco']['components'].include? 'activiti'
-  node.default['artifacts']['activiti']['enabled'] = true
   include_recipe "alfresco::activiti"
 end
 
