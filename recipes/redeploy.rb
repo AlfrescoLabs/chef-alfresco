@@ -31,7 +31,8 @@ if replace_property_map
       path      file_to_patch
       replace   "#{propName}="
       with      "#{propName}=#{propValue}"
-      not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
+      # not_if not working
+      # not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
       # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
     end
   end
