@@ -78,6 +78,21 @@ file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
+# Patching sysconfig file with XMX values
+memory = {}
+memory['alfresco'] = ((node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024).to_s
+memory['share'] = ((node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio'] ).floor / 1024).to_s
+memory['solr'] = ((node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio'] ).floor / 1024).to_s
+memory['activiti'] = ((node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024).to_s
+
+memory.each do |instance_name,xmx|
+ sed_command = "sed -i -E \"s/(.+Xmx)([0-9]*)(m+)/\\1"+xmx+"\\3/\" /etc/sysconfig/tomcat-#{instance_name}"
+ execute "patch-tomcat-sysconfig" do
+   command sed_command
+   only_if "ls /etc/sysconfig/tomcat-#{instance_name}"
+ end
+end
+
 restart_services = node['alfresco']['restart_services']
 if restart_services
   restart_services.each do |service_name|
