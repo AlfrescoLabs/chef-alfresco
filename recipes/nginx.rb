@@ -11,6 +11,11 @@ include_recipe 'alfresco::_errorpages'
 include_recipe 'nginx::repo'
 include_recipe 'nginx::default'
 
+execute "selinux-command-httpd" do
+    command "semanage permissive -a httpd_t"
+    not_if "semanage permissive -l | grep httpd_t"
+end
+
 execute "selinux-command-nginx" do
     command "semanage port -a -t http_port_t -p tcp 2100"
     not_if "semanage port -l | grep 2100"
