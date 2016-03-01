@@ -27,6 +27,24 @@ if node['haproxy']['logging_json_enabled']
 end
 
 include_recipe 'haproxy::default'
+
+selinux_commands = {}
+selinux_commands["semanage fcontext -a -t haproxy_var_run_t \"/var/www/html/errors(/.*)\?\" ; restorecon -Rv /var/www/html/errors;"]  = "ls -lZ /var/www/html/errors | grep haproxy_var_run_t"
+selinux_commands["semanage fcontext -a -t haproxy_var_run_t \"/var/run/haproxy\\.stat.*\" ; restorecon -Rv /var/run/haproxy.stat;"] = "ls -lZ /var/run/haproxy.stat | grep haproxy_var_run_t"
+selinux_commands["semanage port -m -t http_port_t -p tcp 9001"] = "semanage port -l | grep http_port_t | grep 9001"
+selinux_commands["semanage port -m -t http_port_t -p tcp 1936"] = "semanage port -l | grep http_port_t | grep 1936"
+selinux_commands["semanage permissive -a haproxy_t"] = "semanage permissive -l | grep haproxy_t"
+
+
+# TODO - make it a custom resource
+selinux_commands.each do |command,not_if|
+  execute "selinux-command-#{command}" do
+      command command
+      only_if "getenforce | grep -i enforcing"
+      not_if not_if
+  end
+end
+
 include_recipe 'alfresco::haproxy-config'
 
 
