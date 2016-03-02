@@ -31,6 +31,17 @@ end
 
 include_recipe 'tomcat::default'
 
+selinux_commands["semanage permissive -a tomcat_t"] = "semanage permissive -l | grep tomcat_t"
+
+# TODO - make it a custom resource
+selinux_commands.each do |command,not_if|
+  execute "selinux-command-#{command}" do
+      command command
+      only_if "getenforce | grep -i enforcing"
+      not_if not_if
+  end
+end
+
 # This file defines an old log location (catalina.out)
 # As such, we disable it
 file "/etc/logrotate.d/tomcat" do
