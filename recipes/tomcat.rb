@@ -31,6 +31,7 @@ end
 
 include_recipe 'tomcat::default'
 
+selinux_commands = {}
 selinux_commands["semanage permissive -a tomcat_t"] = "semanage permissive -l | grep tomcat_t"
 
 # TODO - make it a custom resource
