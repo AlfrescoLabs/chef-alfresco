@@ -20,7 +20,7 @@ platforms:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
 
 suites:
-  - name: default
+  - name: community
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -35,8 +35,7 @@ suites:
         "use_nossl_config" : true
       }
     }
-
-  - name: ent
+  - name: enterprise
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -46,7 +45,7 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.1",
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','aos'],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos"],
         "edition" : "enterprise",
         "ssl_enabled" : false
       },

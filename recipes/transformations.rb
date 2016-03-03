@@ -73,11 +73,6 @@ end
 imagemagick_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_name']}"
 imagemagick_libs_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_libs_name']}"
 
-remote_file imagemagick_libs_path do
-  source node['alfresco']['imagemagick_libs_url']
-  only_if { node['alfresco']['install_imagemagick'] }
-end
-
 # Imagemagick OS repo installation
 if node['alfresco']['install_imagemagick'] and node['alfresco']['use_imagemagick_os_repo']
   include_recipe "imagemagick::default"
@@ -102,11 +97,17 @@ packages.each do |package|
   end
 end
 
+remote_file imagemagick_libs_path do
+  source node['alfresco']['imagemagick_libs_url']
+  only_if { node['alfresco']['install_imagemagick'] }
+end
+
 rpm_package imagemagick_libs_path do
   action :install
   only_if { node['alfresco']['install_imagemagick'] }
   not_if { node['alfresco']['use_imagemagick_os_repo'] }
 end
+
 remote_file imagemagick_path do
   source node['alfresco']['imagemagick_url']
   only_if { node['alfresco']['install_imagemagick'] }
