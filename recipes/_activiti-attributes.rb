@@ -10,8 +10,4 @@ node.default['artifacts']['activiti']['owner'] = node['alfresco']['user']
 node.default['artifacts']['activiti']['unzip'] = true
 
 # Share WAR destination
-if node['tomcat']['run_base_instance']
-  node.default['artifacts']['activiti']['destination'] = node['tomcat']['webapp_dir']
-else
-  node.default['artifacts']['activiti']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
-end
+node.default['artifacts']['activiti']['destination'] = "#{node['alfresco']['home']}#{"/activiti" unless node['tomcat']['run_single_instance']}/webapps"

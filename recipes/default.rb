@@ -19,6 +19,7 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
+include_recipe "alfresco::_logstash-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
@@ -135,8 +136,8 @@ end
 artifact 'deploy artifacts'
 
 apply_amps 'apply alfresco and share amps' do
-  alfresco_root "#{node['alfresco']['home']}/alfresco"
-  share_root "#{node['alfresco']['home']}/share"
+  alfresco_root "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"
+  share_root "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"
   unixUser node['alfresco']['user']
   unixGroup node['tomcat']['group']
   only_if { apply_amps }
@@ -169,9 +170,10 @@ end
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
+
 if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable.web.xml.nossl.patch']
-  cookbook_file "/usr/local/bin/nossl-patch.sh" do
-    source "nossl-patch.sh"
+  template "/usr/local/bin/nossl-patch.sh" do
+    source "nossl-patch.erb"
     mode "0755"
   end
   execute "run-nossl-patch.sh" do
@@ -179,16 +181,28 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-
-
-# Restarting services, if enabled
-alfresco_start    = node["alfresco"]["start_service"]
-restart_services  = node['alfresco']['restart_services']
-restart_action    = node['alfresco']['restart_action']
-if alfresco_start and node['alfresco']['components'].include? 'tomcat'
-  restart_services.each do |service_name|
-    log "Restarting #{service_name} service" do
-      notifies restart_action, "apache_tomcat_service[#{service_name}]"
+#Service configuration
+#Restarting services, if enabled
+if node['tomcat']['run_single_instance']
+  node.default['alfresco']['restart_services'] = ['alfresco']
+  alfresco_start    = node["alfresco"]["start_service"]
+  restart_services  = node['alfresco']['restart_services']
+  restart_action    = node['alfresco']['restart_action']
+  if alfresco_start and node['alfresco']['components'].include? 'tomcat'
+    log "Restarting alfresco service" do
+      notifies restart_action, "apache_tomcat_service[alfresco]"
+    end
+  end
+else
+  node.default['alfresco']['restart_services'] = ['alfresco','share','solr']
+  alfresco_start    = node["alfresco"]["start_service"]
+  restart_services  = node['alfresco']['restart_services']
+  restart_action    = node['alfresco']['restart_action']
+  if alfresco_start and node['alfresco']['components'].include? 'tomcat'
+    restart_services.each do |service_name|
+      log "Restarting #{service_name} service" do
+        notifies restart_action, "apache_tomcat_service[#{service_name}]"
+      end
     end
   end
 end

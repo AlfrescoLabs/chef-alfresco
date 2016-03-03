@@ -53,7 +53,7 @@ include_recipe 'alfresco::nginx-conf'
 
 # Update share-config-custom.xml
 tomcat_share_service_name = 'tomcat-share'
-if node['tomcat']['run_base_instance']
+if node['tomcat']['run_single_instance']
   tomcat_share_service_name = tomcat_service_name
 end
 
@@ -74,7 +74,7 @@ file_replace_line 'share-config-referer' do
 end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
-file_append '/usr/share/tomcat/tomcat.conf' do
+file_append "#{node['alfresco']['home']}/tomcat.conf" do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 

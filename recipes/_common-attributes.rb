@@ -1,3 +1,9 @@
+if node['tomcat']['run_single_instance']
+  node.default['alfresco']['home'] = "/usr/share/tomcat-single"
+else
+  node.default['alfresco']['home'] = "/usr/share/tomcat-multi"
+end
+
 # Alfresco dir root (used in _alfrescoproperties-attributes.rb and below)
 node.default['alfresco']['properties']['dir.root'] = "#{node['alfresco']['home']}/alf_data"
 

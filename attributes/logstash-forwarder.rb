@@ -1,16 +1,11 @@
-default['logstash-forwarder']['items']['alfresco-repo-catalina']['paths'] = ['/usr/share/tomcat/alfresco/logs/catalina.out.*']
+
 default['logstash-forwarder']['items']['alfresco-repo-catalina']['type'] = 'catalina'
-default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/usr/share/tomcat/alfresco/logs/alfresco.log']
 default['logstash-forwarder']['items']['alfresco-repo']['type'] = 'json'
 
-default['logstash-forwarder']['items']['alfresco-share-catalina']['paths'] = ['/usr/share/tomcat/share/logs/catalina.out.*']
 default['logstash-forwarder']['items']['alfresco-share-catalina']['type'] = 'catalina'
-default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/usr/share/tomcat/share/logs/share.log']
 default['logstash-forwarder']['items']['alfresco-share']['type'] = 'json'
 
-default['logstash-forwarder']['items']['alfresco-solr-catalina']['paths'] = ['/usr/share/tomcat/solr/logs/catalina.out.*']
 default['logstash-forwarder']['items']['alfresco-solr-catalina']['type'] = 'catalina'
-default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/usr/share/tomcat/solr/logs/solr.log']
 default['logstash-forwarder']['items']['alfresco-solr']['type'] = 'json'
 
 # Optional, to be enabled only if needed

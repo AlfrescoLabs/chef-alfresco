@@ -1,48 +1,50 @@
 # Base instance tomcat attributes
 
 node.default['tomcat']['base_version'] = 7
-node.default['tomcat']['base_instance'] = "tomcat#{node['tomcat']['base_version']}"
-node.default['tomcat']['packages'] = ["tomcat#{node['tomcat']['base_version']}"]
-node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['base_version']}-admin"]
+# node.default['tomcat']['packages'] = ["tomcat#{node['tomcat']['base_version']}"]
+# node.default['tomcat']['deploy_manager_packages'] = ["tomcat#{node['tomcat']['base_version']}-admin"]
 
-case node['platform_family']
-
-when 'rhel', 'fedora'
-  node.default['tomcat']['base_instance'] = 'tomcat'
+# case node['platform_family']
+#
+# when 'rhel', 'fedora'
+  node.default['tomcat']['single_instance'] = 'alfresco'
   node.default['tomcat']['user'] = 'tomcat'
   node.default['tomcat']['group'] = 'tomcat'
-  node.default['tomcat']['home'] = '/usr/share/tomcat'
+  node.default['tomcat']['home'] = '/usr/share/tomcat-single'
   node.default['tomcat']['config_dir'] = "#{node['tomcat']['home']}/conf"
   node.default['tomcat']['webapp_dir'] = "#{node['tomcat']['home']}/webapps"
-when 'debian'
-  node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
-when 'smartos'
-  node.default['tomcat']['user'] = 'tomcat'
-  node.default['tomcat']['group'] = 'tomcat'
-  node.default['tomcat']['home'] = '/opt/local/share/tomcat'
-  node.default['tomcat']['base'] = '/opt/local/share/tomcat'
-  node.default['tomcat']['config_dir'] = '/opt/local/share/tomcat/conf'
-  node.default['tomcat']['webapp_dir'] = '/opt/local/share/tomcat/webapps'
-  node.default['tomcat']['keytool'] = '/opt/local/bin/keytool'
-  node.default['tomcat']['packages'] = ['apache-tomcat']
-  node.default['tomcat']['deploy_manager_packages'] = []
-else
-  node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
-  node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
-  node.default['tomcat']['lib_dir'] = "#{node['tomcat']['home']}/lib"
-  node.default['tomcat']['endorsed_dir'] = "#{node['tomcat']['lib_dir']}/endorsed"
-end
+# when 'debian'
+#   node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
+# when 'smartos'
+#   node.default['tomcat']['user'] = 'tomcat'
+#   node.default['tomcat']['group'] = 'tomcat'
+#   node.default['tomcat']['home'] = '/opt/local/share/tomcat'
+#   node.default['tomcat']['base'] = '/opt/local/share/tomcat'
+#   node.default['tomcat']['config_dir'] = '/opt/local/share/tomcat/conf'
+#   node.default['tomcat']['webapp_dir'] = '/opt/local/share/tomcat/webapps'
+#   node.default['tomcat']['keytool'] = '/opt/local/bin/keytool'
+#   node.default['tomcat']['packages'] = ['apache-tomcat']
+#   node.default['tomcat']['deploy_manager_packages'] = []
+# else
+#   node.default['tomcat']['user'] = "tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['group'] = "tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['home'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['base'] = "/var/lib/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['config_dir'] = "/usr/share/tomcat#{node['tomcat']['base_version']}"
+#   node.default['tomcat']['webapp_dir'] = "/var/lib/tomcat#{node['tomcat']['base_version']}/webapps"
+#   node.default['tomcat']['lib_dir'] = "#{node['tomcat']['home']}/lib"
+#   node.default['tomcat']['endorsed_dir'] = "#{node['tomcat']['lib_dir']}/endorsed"
+# end
 
 # Using catalina-jmx
+node.default['tomcat']['jmxremote.access.file'] = "#{node['alfresco']['home']}/conf/jmxremote.access"
+node.default['tomcat']['jmxremote.password.file'] = "#{node['alfresco']['home']}/conf/jmxremote.password"
+
 node.default['artifacts']['catalina-jmx']['groupId'] = 'org.apache.tomcat'
 node.default['artifacts']['catalina-jmx']['artifactId'] = 'tomcat-catalina-jmx-remote'
 node.default['artifacts']['catalina-jmx']['version'] = '7.0.54'
@@ -61,7 +63,7 @@ node.default['tomcat']['global_templates'] = [{
   'filename' => 'jmxremote.password',
   'owner' => 'tomcat'
 }, {
-  'dest' => "#{node['alfresco']['home']}/alfresco/lib/org/apache/catalina/util",
+  'dest' => "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}/lib/org/apache/catalina/util",
   'filename' => 'ServerInfo.properties',
   'owner' => 'tomcat'
 }, {
@@ -71,9 +73,15 @@ node.default['tomcat']['global_templates'] = [{
 }]
 
 # Setting JAVA_OPTS
+node.default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=#{node['alfresco']['home']}/conf/jmxremote.access -Dcom.sun.management.jmxremote.password.file=#{node['alfresco']['home']}/conf/jmxremote.password"
+
+node.default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+node.default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+node.default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+node.default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
+
 alfresco_components = node['alfresco']['components']
-if node['tomcat']['run_base_instance']
-  node.default['alfresco']['restart_services'] = ['tomcat']
+if node['tomcat']['run_single_instance']
   if alfresco_components.include? 'solr'
     node.default['tomcat']['java_options']['rmi_and_solr'] = "-Dalfresco.home=#{node['alfresco']['home']} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
   end
