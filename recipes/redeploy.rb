@@ -30,14 +30,21 @@ tomcat_service_name = 'tomcat-alfresco'
 
 if replace_property_map
   replace_property_map.each do |propName, propValue|
-    file_replace_line "#{propName}-on-#{file_to_patch}" do
-      path      file_to_patch
-      replace   "#{propName}="
-      with      "#{propName}=#{propValue}"
-      # not_if not working
-      # not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
-      # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
+
+    replace_or_add "#{propName}-on-#{file_to_patch}" do
+      path file_to_patch
+      pattern "#{propName}="
+      line "#{propName}=#{propValue}"
     end
+
+    # file_replace_line "#{propName}-on-#{file_to_patch}" do
+    #   path      file_to_patch
+    #   replace   "#{propName}="
+    #   with      "#{propName}=#{propValue}"
+    #   # not_if not working
+    #   # not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
+    #   # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
+    # end
   end
 end
 
