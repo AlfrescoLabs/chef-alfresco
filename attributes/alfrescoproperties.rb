@@ -73,6 +73,9 @@ default['alfresco']['properties']['img.gslib'] = '${img.dyn}'
 default['alfresco']['properties']['img.coders'] = '${img.dyn}/ImageMagick-6.7.8/modules-Q16/coders'
 default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/config'
 
+# Enable smart folders
+default['alfresco']['properties']['smart.folders.enabled'] = true
+
 #FTP
 default['alfresco']['properties']['ftp.enabled'] = false
 
