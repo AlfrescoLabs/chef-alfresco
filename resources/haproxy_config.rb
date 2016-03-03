@@ -51,7 +51,8 @@ action :run do
 
   # Duplicate alfresco backend into aos_vti, root and alfresco_api
   haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
-  haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
+  # haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
+
   # TODO - WIP
   # haproxy_backends['alfresco_api']['az'] = haproxy_backends['alfresco']['az']
   # haproxy_backends['webdav']['az'] = haproxy_backends['alfresco']['az']

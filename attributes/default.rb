@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit','aos']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
@@ -89,10 +89,19 @@ default["java"]["jdk_version"] = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u72-b15/jdk-8u72-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = 'f45932f9a3a9c38e47a60504d21449f8'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f8fa2e'
 
 #3rd-party defaults
+default['alfresco']['imagemagick_version'] = "6.9.3-6"
+default['alfresco']['use_imagemagick_os_repo'] = false
+
+default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
+default['alfresco']['imagemagick_libs_url'] = "http://www.imagemagick.org/download/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
+
+default['alfresco']['imagemagick_name'] = "ImageMagick-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
+default['alfresco']['imagemagick_url'] = "http://www.imagemagick.org/download/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_name']}"
+
 default['alfresco']['libreoffice_version'] = "4.2.5.2"
 default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
 default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office_name']}.tar.gz"
@@ -100,6 +109,7 @@ default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentf
 
 default['alfresco']['install_fonts'] = false
 default['alfresco']['install_swftools'] = true
+default['alfresco']['install_imagemagick'] = true
 
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = "tv-fonts chkfontpath pagul-fonts\*"

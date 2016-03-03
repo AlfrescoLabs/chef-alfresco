@@ -81,7 +81,7 @@ default['haproxy']['frontends']['internal']['entries'] = [
 ]
 
 default['haproxy']['frontends']['external']['redirects'] = [
-  "redirect location /share/ if !is_share !is_alfresco !is_aos_root !is_aos_vti",
+  "redirect location /share/ if !is_share !is_alfresco !is_aos_vti",
   "redirect location /share/ if is_root"
 ]
 default['haproxy']['frontends']['external']['acl_lines'] = [
@@ -205,10 +205,6 @@ default['haproxy']['backends']['roles']['alfresco']['port'] = 8070
 default['haproxy']['frontends']['external']['acls']['aos_vti'] = ["path_reg ^/_vti_inf.html$","path_reg ^/_vti_bin/.*"]
 default['haproxy']['backends']['roles']['aos_vti']['entries'] = ["option httpchk GET /_vti_inf.html","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
 default['haproxy']['backends']['roles']['aos_vti']['port'] = 8070
-
-default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
-default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
-default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
 
 # TODO - WIP
 # default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]

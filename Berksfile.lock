@@ -4,7 +4,7 @@ DEPENDENCIES
     metadata: true
   commons
     git: https://github.com/Alfresco/chef-commons.git
-    revision: 3919b9d2223599c4fa1477795e79972035206622
+    revision: d4ff9f8afd40e1006d2f6fb8867f116bc3556789
   file
     git: https://github.com/jenssegers/chef-file.git
     revision: 050c5554efcc024d9a058908280bfb05037f9848
@@ -32,7 +32,6 @@ GRAPH
     ffmpeg (>= 0.4.4)
     file (>= 0.0.0)
     haproxy (>= 1.6.6)
-    imagemagick (>= 0.2.3)
     java (>= 1.31.0)
     libreoffice (>= 0.0.2)
     line (>= 0.6.2)
@@ -92,7 +91,6 @@ GRAPH
   haproxy (1.6.7)
     build-essential (>= 0.0.0)
     cpu (>= 0.2.0)
-  imagemagick (0.2.3)
   java (1.39.0)
     apt (>= 0.0.0)
   libreoffice (0.0.2)
