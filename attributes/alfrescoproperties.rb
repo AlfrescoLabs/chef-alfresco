@@ -78,6 +78,7 @@ default['alfresco']['properties']['ftp.enabled'] = false
 
 #IMAP
 default['alfresco']['properties']['imap.server.enabled'] = false
+default['alfresco']['properties']['imap.server.imap.enabled'] = false
 default['alfresco']['properties']['imap.server.port'] = '1143'
 default['alfresco']['properties']['imap.server.host'] = '0.0.0.0'
 
