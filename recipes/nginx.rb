@@ -14,12 +14,14 @@ include_recipe 'nginx::default'
 execute "selinux-command-httpd" do
     command "semanage permissive -a httpd_t"
     not_if "semanage permissive -l | grep httpd_t"
+    only_if "which semanage"
 end
 
 execute "selinux-command-nginx" do
     command "semanage port -a -t http_port_t -p tcp 2100"
     not_if "semanage port -l | grep 2100"
     only_if "getenforce | grep -i enforcing"
+    only_if "which semanage"
 end
 
 r = resources(service: 'nginx')
