@@ -94,7 +94,7 @@ default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f
 
 #3rd-party defaults
 default['alfresco']['imagemagick_version'] = "6.9.3-7"
-default['alfresco']['use_imagemagick_os_repo'] = false
+default['alfresco']['use_imagemagick_os_repo'] = true
 
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
 default['alfresco']['imagemagick_libs_url'] = "http://www.imagemagick.org/download/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
