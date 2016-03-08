@@ -182,13 +182,13 @@ end
 
 
 # Restarting services, if enabled
-alfresco_start    = node["alfresco"]["start_service"]
-restart_services  = node['alfresco']['restart_services']
-restart_action    = node['alfresco']['restart_action']
-if alfresco_start and node['alfresco']['components'].include? 'tomcat'
-  restart_services.each do |service_name|
-    log "Restarting #{service_name} service" do
-      notifies restart_action, "apache_tomcat_service[#{service_name}]"
-    end
-  end
-end
+# alfresco_start    = node["alfresco"]["start_service"]
+# restart_services  = node['alfresco']['restart_services']
+# restart_action    = node['alfresco']['restart_action']
+# if alfresco_start and node['alfresco']['components'].include? 'tomcat'
+#   restart_services.each do |service_name|
+#     log "Restarting #{service_name} service" do
+#       notifies restart_action, "apache_tomcat_service[#{service_name}]"
+#     end
+#   end
+# end

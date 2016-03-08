@@ -12,7 +12,13 @@ end
 # Patch nginx configurations, making sure the service runs
 include_recipe 'nginx::commons_conf'
 
-service_actions = [:enable, :start]
-service 'nginx' do
-  action service_actions
-end
+r = resources(template: 'nginx.conf')
+r.notifies(:nothing, 'service[nginx]', :delayed)
+
+r = resources(template: "#{node['nginx']['dir']}/sites-available/default")
+r.notifies(:nothing, 'service[nginx]', :delayed)
+
+#service_actions = [:enable, :start]
+#service 'nginx' do
+  #action service_actions
+#end

@@ -30,6 +30,7 @@ depends "nginx", ">= 2.7.6"
 depends "openssl", ">= 4.0.0"
 depends "postgresql", ">= 3.4.18"
 depends 'rsyslog', ">= 1.15.0"
+depends 'supervisor', '>= 0.4.12'
 depends "swftools", ">= 0.2.4"
 depends 'yum-epel'
 depends 'yum-repoforge', ">= 0.5.1"
