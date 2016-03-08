@@ -18,6 +18,7 @@ default['nginx']['json_log_format'] = "main '{ \"@timestamp\": \"$time_iso8601\"
 # Nginx configurations (used by nginx.cfg.erb)
 default['nginx']['general']['user'] = "nobody"
 default['nginx']['general']['worker_processes'] = 2
+default['nginx']['general']['daemon'] = "off"
 default['nginx']['events']['worker_connections'] = 1024
 
 default['nginx']['http']['include'] = "mime.types"
