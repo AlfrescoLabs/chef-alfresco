@@ -78,11 +78,14 @@ file_append '/usr/share/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
-restart_services = node['alfresco']['restart_services']
-if restart_services
-  restart_services.each do |service_name|
-    service service_name do
-      action :nothing
-    end
-  end
-end
+node.set['supervisor']['start'] = true
+include_recipe 'alfresco::supervisor'
+
+# restart_services = node['alfresco']['restart_services']
+# if restart_services
+#   restart_services.each do |service_name|
+#     service service_name do
+#       action :nothing
+#     end
+#   end
+# end
