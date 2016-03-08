@@ -1,6 +1,11 @@
-language: ruby
-
 rvm:
-  - 2.1.4
+- 2.2
 
-bundler_args: --without integration development
+sudo: true
+
+before_script:
+- source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.4.0/scripts/start_docker.sh)
+
+script:
+# Run test-kitchen with docker driver, for example:
+- KITCHEN_LOCAL_YAML=.kitchen.docker.yml bundle exec kitchen test
