@@ -36,20 +36,18 @@ tomcat_instances.each do |server_name|
     end
 end
 
-if node['alfresco']['components'].include? 'haproxy'
-  supervisor_service "haproxy" do
-    action actions
-    user node['supervisor']['haproxy']['user']
-    autorestart true
-    command node['supervisor']['haproxy']['command']
-  end
+supervisor_service "haproxy" do
+  action actions
+  user node['supervisor']['haproxy']['user']
+  autorestart true
+  command node['supervisor']['haproxy']['command']
+  only_if { node['alfresco']['components'].include? 'haproxy' }
 end
 
-if node['alfresco']['components'].include? 'nginx'
-  supervisor_service "nginx" do
-    action actions
-    user node['supervisor']['nginx']['user']
-    autorestart true
-    command node['supervisor']['nginx']['command']
-  end
+supervisor_service "nginx" do
+  action actions
+  user node['supervisor']['nginx']['user']
+  autorestart true
+  command node['supervisor']['nginx']['command']
+  only_if { node['alfresco']['components'].include? 'nginx' }
 end
