@@ -1,5 +1,4 @@
 default['supervisor']['inet_port']='localhost:11001'
-default['supervisor']['tomcat']['instances']=['alfresco','share','solr','activiti']
 
 default['supervisor']['tomcat']['user'] = "tomcat"
 default['supervisor']['tomcat']['command'] = "#{node['alfresco']['home']}/bin/catalina.sh run"
