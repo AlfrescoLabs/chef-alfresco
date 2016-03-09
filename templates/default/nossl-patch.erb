@@ -10,6 +10,6 @@ zip -r alfresco.war * >> /var/log/messages
 chown tomcat:tomcat alfresco.war >> /var/log/messages
 service tomcat-alfresco stop >> /var/log/messages
 sleep 5
-rm -rf <%= node['artifacts']['alfresco']['destination'] %>/* >> /var/log/messages
+rm -rf <%= node['artifacts']['alfresco']['destination'] %>/alfresc* >> /var/log/messages
 mv -f alfresco.war <%= node['artifacts']['alfresco']['destination'] %>/ >> /var/log/messages
 cd .. ; rm -rf alfresco-war-temp >> /var/log/messages

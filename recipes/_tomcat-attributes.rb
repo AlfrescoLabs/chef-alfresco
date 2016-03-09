@@ -82,8 +82,14 @@ node.default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tom
 
 alfresco_components = node['alfresco']['components']
 if node['tomcat']['run_single_instance']
+  logs_path = "#{node['alfresco']['home']}/logs"
+  cache_path = "#{node['alfresco']['home']}/temp"
+  node.default['tomcat']['java_options']['log_paths'] = "-Djava.util.logging.config.file=#{node['alfresco']['home']}/conf/logging.properties -Dlog4j.configuration=alfresco/log4j.properties -Xloggc:#{logs_path}/gc.log -Dlogfilename=#{logs_path}/alfresco.log -XX:ErrorFile=#{logs_path}/jvm_crash%p.log -XX:HeapDumpPath=#{logs_path}/"
   if alfresco_components.include? 'solr'
     node.default['tomcat']['java_options']['rmi_and_solr'] = "-Dalfresco.home=#{node['alfresco']['home']} -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']} -Dsolr.solr.home=#{node['alfresco']['solr']['home']} -Dsolr.solr.model.dir=#{node['alfresco']['solr']['alfresco_models']} -Dsolr.solr.content.dir=#{node['alfresco']['solr']['contentstore.path']}"
+  end
+  if alfresco_components.include? 'yourkit'
+    node.default['tomcat']['java_options']['yourkit'] = "-agentpath:/usr/local/lib64/libyjpagent.so=dir=#{cache_path},telemetrylimit=1,builtinprobes=none,onexit=snapshot,sessionname=repo,tmpdir=#{cache_path},disableall"
   end
 else
   if alfresco_components.include? 'repo'

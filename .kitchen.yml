@@ -24,7 +24,7 @@ platforms:
 suites:
   - name: ci
     run_list:
-      # - recipe[alfresco::nginx]
+      - recipe[alfresco::nginx]
       - recipe[alfresco::default]
       # TODO - move it into activiti recipe, if edition == enterprise
       - recipe[alfresco::elasticsearch]
@@ -43,8 +43,6 @@ suites:
         }
       },
       "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','activiti','mysql','rm','googledocs','yourkit'],
-        "restart_services" : ['alfresco'],
         "ssl_enabled" : false,
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,
@@ -73,10 +71,7 @@ suites:
       "haproxy" : {
         "bind_ip" : "0.0.0.0",
         "enable_ssl_header" : false
-      },
-      'tomcat' : {
-        'run_single_instance' : true
-        }
+      }
     }
   # TODO make it default
   - name: community
