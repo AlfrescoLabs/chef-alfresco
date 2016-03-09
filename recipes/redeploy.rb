@@ -23,7 +23,6 @@ replace_property_map = node['alfresco']['properties']
 # TODO - reuse existing attributes
 file_to_patch = "#{node['alfresco']['home']}/shared/classes/alfresco-global.properties"
 share_config = "#{node['alfresco']['home']}/shared/classes/alfresco/web-extension/share-config-custom.xml"
-tomcat_service_name = 'tomcat-alfresco'
 
 if replace_property_map
   replace_property_map.each do |propName, propValue|
@@ -48,12 +47,6 @@ end
 
 # Patch nginx configurations, making sure the service runs
 include_recipe 'alfresco::nginx-conf'
-
-# Update share-config-custom.xml
-tomcat_share_service_name = 'tomcat-share'
-if node['tomcat']['run_single_instance']
-  tomcat_share_service_name = tomcat_service_name
-end
 
 file_replace_line 'share-config-origin' do
   path      share_config

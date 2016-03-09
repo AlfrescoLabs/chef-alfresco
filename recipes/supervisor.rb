@@ -33,7 +33,7 @@ tomcat_instances.each do |server_name|
     environment "JAVA_HOME" => node['java']['java_home'],
       "CATALINA_HOME" => node['alfresco']['home'],
       "CATALINA_BASE" => "#{node['alfresco']['home']}/#{server_name}"
-    end
+  end
 end
 
 supervisor_service "haproxy" do
