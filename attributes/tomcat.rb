@@ -59,11 +59,8 @@ default["tomcat"]["use_security_manager"] = false
 # default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr abrt}
 default['tomcat']['additional_tomcat_packages'] = %w{tomcat-native apr}
 
-default['tomcat']['jmxremote.access.file'] = '/usr/share/tomcat/conf/jmxremote.access'
-default['tomcat']['jmxremote.password.file'] = '/usr/share/tomcat/conf/jmxremote.password'
-
 # Use multi-homed tomcat installation
-default['tomcat']['run_base_instance'] = false
+default['tomcat']['run_single_instance'] = false
 
 # Context.xml settings
 default['tomcat']['swallow_output'] = true
@@ -106,15 +103,10 @@ default['tomcat']['java_options_hash']['generic_memory'] = "-XX:+UseCompressedOo
 default['tomcat']['java_options_hash']['gc'] = "-XX:+DisableExplicitGC  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -verbose:gc"
 default['tomcat']['java_options_hash']['network'] = "-Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true -Dsun.net.inetaddr.ttl=0 -Dsun.net.inetaddr.negative.ttl=0 -Dsun.security.ssl.allowUnsafeRenegotiation=true"
 # -Dhazelcast.jmx=true causes alfresco.war to take 10 minutes to start
-default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=true  -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.access.file=/usr/share/tomcat/conf/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/usr/share/tomcat/conf/jmxremote.password"
 default['tomcat']['java_options_hash']['logging'] = " -Dhazelcast.logging.type=log4j"
 default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib64 -Djava.awt.headless=true"
 
 # Tomcat multi-homed settings
-default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
-default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
-default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
-default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005

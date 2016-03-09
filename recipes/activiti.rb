@@ -19,11 +19,7 @@ if node['alfresco']['components'].include? 'mysql'
   end
 end
 
-db_properties_path = "#{node['alfresco']['home']}/activiti/webapps/activiti/WEB-INF/classes/db.properties"
-
-if node['tomcat']['run_base_instance']
-  db_properties_path = "#{node['alfresco']['home']}/webapps/activiti/WEB-INF/classes/db.properties"
-end
+db_properties_path = "#{node['alfresco']['home']}#{"/activiti" unless node['tomcat']['run_single_instance']}/webapps/activiti/WEB-INF/classes/db.properties"
 
 template db_properties_path do
   source 'activiti/db.properties.erb'

@@ -24,7 +24,7 @@ platforms:
 suites:
   - name: ci
     run_list:
-      # - recipe[alfresco::nginx]
+      - recipe[alfresco::nginx]
       - recipe[alfresco::default]
       - recipe[alfresco::elasticsearch]
       - recipe[alfresco::redeploy]
@@ -43,8 +43,6 @@ suites:
         }
       },
       "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','activiti','mysql','rm','googledocs','yourkit'],
-        "restart_services" : ['alfresco','share','solr','activiti'],
         "ssl_enabled" : false,
         # TODO - should disable only dhparam
         "skip_certificate_creation" : true,

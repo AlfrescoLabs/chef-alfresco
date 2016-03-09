@@ -32,8 +32,4 @@ else
 end
 
 # Solr WAR destination
-if node['tomcat']['run_base_instance']
-  node.default['artifacts']['solr4']['destination'] = node['tomcat']['webapp_dir']
-else
-  node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}/solr/webapps"
-end
+node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}#{"/solr" unless node['tomcat']['run_single_instance']}/webapps"

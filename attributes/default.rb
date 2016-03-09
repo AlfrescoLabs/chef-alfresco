@@ -44,8 +44,6 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.1.c-EA"
 default['alfresco']['edition'] = "community"
-
-default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
 
 default['alfresco']['skip_certificate_creation'] = true
@@ -126,5 +124,4 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['alfresco','share','solr']
 default['alfresco']['restart_action']   = :restart

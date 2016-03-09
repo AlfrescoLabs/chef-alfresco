@@ -61,7 +61,7 @@ action :run do
   # 2. Current AZ
   # 3. Others
   #
-  haproxy_backends.each do |roleName,role|
+  haproxy_backends.each do |_roleName,role|
     if role['az']
       ordered_role = []
       ordered_role << role['az']['local'] if role['az']['local']
@@ -81,12 +81,12 @@ action :run do
   # 2. Otherwise, all server items of the given role, except the first,
   # will be listed as backup
   #
-  haproxy_backends.each do |roleName,role|
+  haproxy_backends.each do |_roleName,role|
     if role['ordered_az']
       balanced = role['balanced']
       options = "check inter 5000"
       role['ordered_az'].each_with_index do |az,index|
-        az['id'].each do |instanceName,instance|
+        az['id'].each do |_instanceName,instance|
           if balanced
             options = "cookie #{instance['jvm_route']} check inter 5000"
           elsif index > 0
@@ -102,7 +102,6 @@ action :run do
     source node['haproxy']['conf_template_source']
     cookbook node['haproxy']['conf_cookbook']
     variables ({:haproxy_backends => haproxy_backends })
-    #notifies :restart, 'service[haproxy]', :delayed
   end
 
   service 'haproxy' do
