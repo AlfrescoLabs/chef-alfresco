@@ -180,29 +180,3 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
     command "/usr/local/bin/nossl-patch.sh"
   end
 end
-
-#Service configuration
-#Restarting services, if enabled
-if node['tomcat']['run_single_instance']
-  node.default['alfresco']['restart_services'] = ['alfresco']
-  alfresco_start    = node["alfresco"]["start_service"]
-  restart_services  = node['alfresco']['restart_services']
-  restart_action    = node['alfresco']['restart_action']
-  if alfresco_start and node['alfresco']['components'].include? 'tomcat'
-    log "Restarting alfresco service" do
-      notifies restart_action, "apache_tomcat_service[alfresco]"
-    end
-  end
-else
-  node.default['alfresco']['restart_services'] = ['alfresco','share','solr']
-  alfresco_start    = node["alfresco"]["start_service"]
-  restart_services  = node['alfresco']['restart_services']
-  restart_action    = node['alfresco']['restart_action']
-  if alfresco_start and node['alfresco']['components'].include? 'tomcat'
-    restart_services.each do |service_name|
-      log "Restarting #{service_name} service" do
-        notifies restart_action, "apache_tomcat_service[#{service_name}]"
-      end
-    end
-  end
-end

@@ -95,12 +95,6 @@ apache_tomcat install_name do
         source node['tomcat']['context_template_source']
         cookbook node['tomcat']['context_template_cookbook']
       end
-
-      apache_tomcat_service node['tomcat']['base_instance'] do
-        java_home node['java']['java_home']
-        restart_on_update false
-        action [:enable, :stop]
-      end
     end
 
   else
@@ -168,22 +162,18 @@ apache_tomcat install_name do
         action :create
       end
 
-      apache_tomcat_service name do
-        java_home node['java']['java_home']
-        restart_on_update false
-        action [:enable, :stop]
-      end
-
       # Add LimitNOFILE=16000 into tomcat systemd and restart services
+      # TODO - make it working with supervisor
       # TODO - add #{processes_limit} to systemd file
       # TODO - Add it to apache_tomcat cookbook (apache_tomcat_service LWRP)
-      open_files_limit = node['tomcat']['open_files_limit']
-      # processes_limit = node['tomcat']['processes_limit'] -unused
-      execute "extend-open-files-limit-for-#{name}" do
-        command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
-        action :run
-        not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
-      end
+      # open_files_limit = node['tomcat']['open_files_limit']
+      # processes_limit = node['tomcat']['processes_limit']
+      # execute "extend-open-files-limit-for-#{name}" do
+      #   command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
+      #   action :run
+      #   not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
+      # end
+
     end
 
     template "Creating logging.properties file" do

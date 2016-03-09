@@ -26,9 +26,9 @@ suites:
     run_list:
       - recipe[alfresco::nginx]
       - recipe[alfresco::default]
-      # TODO - move it into activiti recipe, if edition == enterprise
       - recipe[alfresco::elasticsearch]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco::supervisor]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-testing",
@@ -106,7 +106,10 @@ suites:
 
   - name: enterprise
     run_list:
-      - recipe[alfresco::default]
+        - recipe[alfresco::default]
+        - recipe[alfresco::elasticsearch]
+        - recipe[alfresco::redeploy]
+        # - recipe[alfresco::supervisor]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "img-basic-test",
