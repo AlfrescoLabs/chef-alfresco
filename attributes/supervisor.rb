@@ -1,3 +1,5 @@
+default['supervisor']['systemd_service_enabled'] = true
+
 default['supervisor']['inet_port']='localhost:11001'
 
 default['supervisor']['tomcat']['user'] = "tomcat"
