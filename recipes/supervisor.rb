@@ -1,5 +1,10 @@
 include_recipe 'supervisor::default'
 
+unless node['supervisor']['systemd_service_enabled']
+  r = resources(:service "supervisord")
+  r.action(:nothing)
+end
+
 tomcat_instances = []
 if node['tomcat']['run_single_instance']
   tomcat_instances << "alfresco"
