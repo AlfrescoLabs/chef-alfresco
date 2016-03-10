@@ -4,9 +4,7 @@ node.default['artifacts']['hazelcast-cloud']['enabled'] = true
 
 shared_folder     = node['alfresco']['shared']
 
-if node['alfresco']['patch.share.config.custom'] == true
-  node.default['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties']
-end
+node.default['artifacts']['sharedclasses']['terms']['alfresco/web-extension/share-config-custom.xml'] = node['alfresco']['properties'] if node['alfresco']['patch.share.config.custom']
 
 #TODO - make it generic using File.dirName(share_log4j_path)
 directory "web-extension" do

@@ -28,7 +28,6 @@ suites:
       - recipe[alfresco::default]
       - recipe[alfresco::elasticsearch]
       - recipe[alfresco::redeploy]
-      - recipe[alfresco::supervisor]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-testing",
@@ -109,7 +108,6 @@ suites:
         - recipe[alfresco::default]
         - recipe[alfresco::elasticsearch]
         - recipe[alfresco::redeploy]
-        # - recipe[alfresco::supervisor]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "img-basic-test",
