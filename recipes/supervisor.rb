@@ -1,29 +1,17 @@
 include_recipe 'supervisor::default'
 
-unless node['supervisor']['systemd_service_enabled']
-  r = resources(:service "supervisord")
-  r.action(:nothing)
-end
-
 tomcat_instances = []
-if node['alfresco']['components'].include? "repo"
+if node['tomcat']['run_single_instance']
   tomcat_instances << "alfresco"
-end
-if node['alfresco']['components'].include? "share"
-  tomcat_instances << "share"
-end
-if node['alfresco']['components'].include? "solr"
-  tomcat_instances << "solr"
-end
-if node['alfresco']['components'].include? "activiti"
-  tomcat_instances << "activiti"
+else
+  tomcat_instances << "alfresco" if node['alfresco']['components'].include? "repo"
+  tomcat_instances << "share" if node['alfresco']['components'].include? "share"
+  tomcat_instances << "solr" if node['alfresco']['components'].include? "solr"
+  tomcat_instances << "activiti" if node['alfresco']['components'].include? "activiti"
 end
 
 actions = [:disable , :stop]
-
-if node['supervisor']['start']
-  actions = [:enable , :start]
-end
+actions = [:enable , :start] if node['supervisor']['start']
 
 tomcat_instances.each do |server_name|
   supervisor_service "tomcat-#{server_name}" do
@@ -37,10 +25,10 @@ tomcat_instances.each do |server_name|
     #TODO experiment with indentation & attributes
     environment "JAVA_HOME" => node['java']['java_home'],
       "CATALINA_HOME" => node['alfresco']['home'],
-      "CATALINA_BASE" => "#{node['alfresco']['home']}/#{server_name}"
+      "CATALINA_BASE" => "#{node['alfresco']['home']}#{"/#{server_name}" unless node['tomcat']['run_single_instance']}"
   end
 end
-
+node.default['artifacts']['activiti']['destination'] = "#{node['alfresco']['home']}#{"/activiti" unless node['tomcat']['run_single_instance']}/webapps"
 supervisor_service "haproxy" do
   action actions
   user node['supervisor']['haproxy']['user']
