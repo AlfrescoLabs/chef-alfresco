@@ -1,7 +1,7 @@
 include_recipe 'supervisor::default'
 
 unless node['supervisor']['systemd_service_enabled']
-  r = resources(:service "supervisord")
+  r = resources(:service "supervisor")
   r.action(:nothing)
 end
 
