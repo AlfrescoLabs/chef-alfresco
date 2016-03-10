@@ -1,8 +1,7 @@
 source "https://api.berkshelf.com"
 
 # cookbook 'tomcat', git:'https://github.com/maoo/tomcat.git', tag: "v11.17.3"
-# cookbook 'apache_tomcat', git:'https://gitlab.com/maoo/chef-apache_tomcat.git'
-cookbook 'apache_tomcat', git:'https://gitlab.com/maoo/chef-apache_tomcat.git', branch: 'TAA-586'
+cookbook 'apache_tomcat', git:'https://gitlab.com/maoo/chef-apache_tomcat.git'
 
 # cookbook 'tomcat', path: '../tomcat'
 
