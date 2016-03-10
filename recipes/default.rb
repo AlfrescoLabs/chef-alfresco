@@ -138,4 +138,4 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-include_recipe 'alfresco::supervisor'
+# include_recipe 'alfresco::supervisor'

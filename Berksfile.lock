@@ -5,7 +5,6 @@ DEPENDENCIES
   apache_tomcat
     git: https://gitlab.com/maoo/chef-apache_tomcat.git
     revision: 1dfd0bf00734071584e80f60355539c8093c950c
-    branch: TAA-586
   commons
     git: https://github.com/Alfresco/chef-commons.git
     revision: 76e73bfd6a7bac871576d9fbf191d3bcc2678661
