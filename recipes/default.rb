@@ -138,4 +138,5 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-# include_recipe 'alfresco::supervisor'
+node.set['supervisor']['start'] = false
+include_recipe 'alfresco::supervisor'

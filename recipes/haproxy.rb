@@ -27,6 +27,10 @@ end
 node.default['haproxy']['logformat'] = node['haproxy']['json_logformat'] if node['haproxy']['logging_json_enabled']
 
 include_recipe 'haproxy::default'
+
+r = resources(service: 'haproxy')
+r.action([:disable, :stop])
+
 include_recipe 'alfresco::haproxy-config'
 
 # TODO - rsyslog stuff should go somewhere else (not sure where)
