@@ -21,72 +21,66 @@ include_recipe "commons::hosts"
 # Handle certs creation
 include_recipe "alfresco::_certs"
 
-# alfresco-global.properties updates
-replace_property_map = node['alfresco']['properties']
-# TODO - reuse existing attributes
-file_to_patch = "#{node['alfresco']['home']}/shared/classes/alfresco-global.properties"
-share_config = "#{node['alfresco']['home']}/shared/classes/alfresco/web-extension/share-config-custom.xml"
-tomcat_service_name = 'tomcat-alfresco'
+restart_tomcat_services = []
 
-if replace_property_map
-  replace_property_map.each do |propName, propValue|
+if node['alfresco']['components'].include? 'repo'
+  restart_tomcat_services << "tomcat-alfresco"
+  # alfresco-global.properties updates
+  replace_property_map = node['alfresco']['properties']
+  # TODO - reuse existing attributes
+  file_to_patch = "#{node['alfresco']['home']}/shared/classes/alfresco-global.properties"
+  share_config = "#{node['alfresco']['home']}/shared/classes/alfresco/web-extension/share-config-custom.xml"
 
-    replace_or_add "#{propName}-on-#{file_to_patch}" do
-      path file_to_patch
-      pattern "#{propName}="
-      line "#{propName}=#{propValue}"
+  if replace_property_map
+    replace_property_map.each do |propName, propValue|
+      replace_or_add "#{propName}-on-#{file_to_patch}" do
+        path file_to_patch
+        pattern "#{propName}="
+        line "#{propName}=#{propValue}"
+      end
     end
-
-    # file_replace_line "#{propName}-on-#{file_to_patch}" do
-    #   path      file_to_patch
-    #   replace   "#{propName}="
-    #   with      "#{propName}=#{propValue}"
-    #   # not_if not working
-    #   # not_if   "grep '#{propName}=#{propValue}' #{file_to_patch}"
-    #   # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
-    # end
   end
-end
 
-append_property_map = node['alfresco']['append_properties']
-if append_property_map
-  append_property_map.each do |propName, propValue|
-    file_append "#{propName}-on-#{file_to_patch}" do
-      path      file_to_patch
-      line      "#{propName}=#{propValue}"
-      # notifies  :restart, "service[#{tomcat_service_name}]", :delayed
+  append_property_map = node['alfresco']['append_properties']
+  if append_property_map
+    append_property_map.each do |propName, propValue|
+      file_append "#{propName}-on-#{file_to_patch}" do
+        path file_to_patch
+        line "#{propName}=#{propValue}"
+      end
     end
   end
 end
 
 # Patch nginx configurations, making sure the service runs
-include_recipe 'alfresco::nginx-conf'
+include_recipe 'alfresco::nginx-conf' if node['alfresco']['components'].include? 'nginx'
 
-# Update share-config-custom.xml
-tomcat_share_service_name = 'tomcat-share'
-if node['tomcat']['run_base_instance']
-  tomcat_share_service_name = tomcat_service_name
+if node['alfresco']['components'].include? 'share'
+  restart_tomcat_services << "tomcat-share"
+  # Update share-config-custom.xml
+  file_replace_line 'share-config-origin' do
+    path      share_config
+    replace   "<origin>"
+    with      "<origin>#{node['alfresco']['shareproperties']['origin']}</origin>"
+    not_if    "cat #{share_config} | grep '<origin>#{node['alfresco']['shareproperties']['origin']}</origin>'"
+  end
+
+  file_replace_line 'share-config-referer' do
+    path      share_config
+    replace   "<referer>"
+    with      "<referer>#{node['alfresco']['shareproperties']['referer']}</referer>"
+    not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
+  end
 end
 
-file_replace_line 'share-config-origin' do
-  path      share_config
-  replace   "<origin>"
-  with      "<origin>#{node['alfresco']['shareproperties']['origin']}</origin>"
-  not_if    "cat #{share_config} | grep '<origin>#{node['alfresco']['shareproperties']['origin']}</origin>'"
-  # notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
-end
-
-file_replace_line 'share-config-referer' do
-  path      share_config
-  replace   "<referer>"
-  with      "<referer>#{node['alfresco']['shareproperties']['referer']}</referer>"
-  not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
-  # notifies  :restart, "service[#{tomcat_share_service_name}]", :delayed
+if node['alfresco']['components'].include? 'solr'
+  restart_tomcat_services << "tomcat-solr"
 end
 
 # TODO - why this is here and not into _tomcat-attributes.rb ?
 file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
+  only_if "ls /etc/tomcat/tomcat.conf"
 end
 
 # Patching sysconfig file with XMX values
@@ -104,11 +98,8 @@ memory.each do |instance_name,xmx|
  end
 end
 
-restart_services = node['alfresco']['restart_services']
-if restart_services
-  restart_services.each do |service_name|
-    service service_name do
-      action :restart
-    end
+restart_tomcat_services.each do |service_name|
+  service service_name do
+    action :restart
   end
 end

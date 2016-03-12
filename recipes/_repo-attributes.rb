@@ -21,14 +21,16 @@ node.default['artifacts']['json-logging-share-amp']['type'] = "amp"
 node.default['artifacts']['json-logging-share-amp']['destination'] = node['alfresco']['amps_share_folder']
 node.default['artifacts']['json-logging-share-amp']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
-node.default['artifacts']['mysql']['groupId'] = "mysql"
-node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
-node.default['artifacts']['mysql']['version'] = "5.1.37"
-node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared_lib']
-node.default['artifacts']['mysql']['owner'] = node['alfresco']['user']
+if node['alfresco']['components'].include? 'repo'
+  node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
+  node.default['artifacts']['mysql']['groupId'] = "mysql"
+  node.default['artifacts']['mysql']['artifactId'] = "mysql-connector-java"
+  node.default['artifacts']['mysql']['version'] = "5.1.37"
+  node.default['artifacts']['mysql']['destination'] = node['alfresco']['shared_lib']
+  node.default['artifacts']['mysql']['owner'] = node['alfresco']['user']
+end
 
-node.default['artifacts']['psql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'psql'
+node.default['artifacts']['psql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'psql' and node['alfresco']['components'].include? 'repo'
 node.default['artifacts']['psql']['groupId'] = "org.postgresql"
 node.default['artifacts']['psql']['artifactId'] = "postgresql"
 node.default['artifacts']['psql']['version'] = "9.2-1004-jdbc4"
@@ -109,5 +111,3 @@ if node['tomcat']['run_base_instance']
 else
   node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}-alfresco/webapps"
 end
-
-
