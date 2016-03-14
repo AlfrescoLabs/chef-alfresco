@@ -24,13 +24,14 @@ if install_haproxy_discovery
   end
 end
 
-if node['haproxy']['logging_json_enabled']
-  node.default['haproxy']['logformat'] = node['haproxy']['json_logformat']
-end
+node.default['haproxy']['logformat'] = node['haproxy']['json_logformat'] if node['haproxy']['logging_json_enabled']
 
 include_recipe 'haproxy::default'
-include_recipe 'alfresco::haproxy-config'
 
+r = resources(service: 'haproxy')
+r.action([:disable, :stop])
+
+include_recipe 'alfresco::haproxy-config'
 
 # TODO - rsyslog stuff should go somewhere else (not sure where)
 

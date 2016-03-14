@@ -19,7 +19,8 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 include_recipe "alfresco::_activiti-app-attributes"
-
+include_recipe "alfresco::_logstash-attributes"
+include_recipe "alfresco::_supervisor-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
@@ -59,46 +60,23 @@ elsif node['alfresco']['components'].include? 'mysql'
 end
 
 include_recipe 'java::default'
-
-if node['alfresco']['components'].include? 'yourkit'
-  include_recipe "alfresco::yourkit"
-end
-
-if node['alfresco']['components'].include? 'tomcat'
-  include_recipe "alfresco::tomcat"
-end
-
+include_recipe "alfresco::yourkit" if node['alfresco']['components'].include? 'yourkit'
+include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
 
 ##############
 
-if node['alfresco']['components'].include? 'nginx'
-  include_recipe "alfresco::nginx"
-end
-
-if node['alfresco']['components'].include? 'transform'
-  include_recipe "alfresco::transformations"
-end
-
-if node['alfresco']['components'].include? 'aos'
-  include_recipe "alfresco::aos"
-end
-
-if node['alfresco']['components'].include? 'googledocs'
-  include_recipe "alfresco::googledocs"
-end
-
-if node['alfresco']['components'].include? 'rm'
-  include_recipe "alfresco::rm"
-end
+include_recipe "alfresco::nginx" if node['alfresco']['components'].include? 'nginx'
+include_recipe "alfresco::transformations" if node['alfresco']['components'].include? 'transform'
+include_recipe "alfresco::aos" if node['alfresco']['components'].include? 'aos'
+include_recipe "alfresco::googledocs" if node['alfresco']['components'].include? 'googledocs'
+include_recipe "alfresco::rm" if node['alfresco']['components'].include? 'rm'
 
 if node['media']['install.content.services']
   include_recipe 'alfresco::media-content-services'
   install_activemq = true
 end
 
-if node['alfresco']['components'].include? 'media'
-  include_recipe 'alfresco::media-alfresco'
-end
+include_recipe 'alfresco::media-alfresco' if node['alfresco']['components'].include? 'media'
 
 if node['alfresco']['components'].include? 'repo'
   apply_amps = true
@@ -110,18 +88,9 @@ if node['alfresco']['components'].include? 'share'
   include_recipe "alfresco::share"
 end
 
-if node['alfresco']['components'].include? 'solr'
-  include_recipe "alfresco::solr"
-end
-
-
-if node['alfresco']['components'].include? 'haproxy'
-  include_recipe 'alfresco::haproxy'
-end
-
-if node['alfresco']['components'].include? 'tomcat'
-  include_recipe "alfresco::tomcat-instance-config"
-end
+include_recipe "alfresco::solr" if node['alfresco']['components'].include? 'solr'
+include_recipe 'alfresco::haproxy' if node['alfresco']['components'].include? 'haproxy'
+include_recipe "alfresco::tomcat-instance-config" if node['alfresco']['components'].include? 'tomcat'
 
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe "openssl::default"
@@ -136,8 +105,8 @@ end
 artifact 'deploy artifacts'
 
 apply_amps 'apply alfresco and share amps' do
-  alfresco_root "#{node['alfresco']['home']}/alfresco"
-  share_root "#{node['alfresco']['home']}/share"
+  alfresco_root "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"
+  share_root "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"
   unixUser node['alfresco']['user']
   unixGroup node['tomcat']['group']
   only_if { apply_amps }
@@ -150,19 +119,10 @@ if node['alfresco']['components'].include? 'analytics'
   install_activemq = true
 end
 
-if install_activemq
-  include_recipe 'activemq::default'
-end
 
-if node['alfresco']['components'].include? 'rsyslog'
-  include_recipe "rsyslog::default"
-end
-
-if node['alfresco']['components'].include? 'logstash-forwarder'
-  include_recipe "alfresco::logstash-forwarder"
-end
-
-
+include_recipe 'activemq::default' if install_activemq
+include_recipe "rsyslog::default" if node['alfresco']['components'].include? 'rsyslog'
+include_recipe "alfresco::logstash-forwarder" if node['alfresco']['components'].include? 'logstash-forwarder'
 if node['alfresco']['components'].include? 'activiti-app'
   node.default['artifacts']['activiti-app']['enabled'] = true
   if node['activiti-app']['edition'] == "enterprise"
@@ -175,9 +135,10 @@ end
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
+
 if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable.web.xml.nossl.patch']
-  cookbook_file "/usr/local/bin/nossl-patch.sh" do
-    source "nossl-patch.sh"
+  template "/usr/local/bin/nossl-patch.sh" do
+    source "nossl-patch.erb"
     mode "0755"
   end
   execute "run-nossl-patch.sh" do
@@ -185,16 +146,5 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-
-
-# Restarting services, if enabled
-alfresco_start    = node["alfresco"]["start_service"]
-restart_services  = node['alfresco']['restart_services']
-restart_action    = node['alfresco']['restart_action']
-if alfresco_start and node['alfresco']['components'].include? 'tomcat'
-  restart_services.each do |service_name|
-    log "Restarting #{service_name} service" do
-      notifies restart_action, "apache_tomcat_service[#{service_name}]"
-    end
-  end
-end
+node.set['supervisor']['start'] = false
+include_recipe 'alfresco::supervisor'

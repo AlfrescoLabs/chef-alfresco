@@ -36,7 +36,13 @@ directory '/etc/cron.d' do
   action :create
 end
 
-apache_tomcat 'tomcat' do
+if node['tomcat']['run_single_instance']
+  install_name = 'tomcat-single'
+else
+  install_name = 'tomcat-multi'
+end
+
+apache_tomcat install_name do
   url node['tomcat']['tar']['url']
   # Note: Checksum is SHA-256, not MD5 or SHA1. Generate using `shasum -a 256 /path/to/tomcat.tar.gz`
   checksum node['tomcat']['tar']['checksum']
@@ -46,15 +52,9 @@ apache_tomcat 'tomcat' do
   user node['tomcat']['user']
   group node['tomcat']['group']
 
-  template "#{node['alfresco']['home']}/conf/logging.properties" do
-    source 'tomcat/logging.properties.erb'
-    owner 'root'
-    group 'root'
-    mode '0644'
-  end
-
-  if node['tomcat']['run_base_instance']
-    apache_tomcat_instance node['tomcat']['base_instance'] do
+  if node['tomcat']['run_single_instance']
+    apache_tomcat_instance node['tomcat']['single_instance'] do
+      single_instance node['tomcat']['run_single_instance']
       setenv_options do
         config(
           [
@@ -75,33 +75,29 @@ apache_tomcat 'tomcat' do
         end
       end
 
-      template "/etc/cron.d/#{node['tomcat']['base_instance']}-cleaner.cron" do
+      template "/etc/cron.d/#{node['tomcat']['single_instance']}-cleaner.cron" do
         source 'tomcat/cleaner.cron.erb'
         owner 'root'
         group 'root'
         mode '0755'
-        variables(tomcat_log_path: "#{node['tomcat']['base_instance']}/logs",
-                  tomcat_cache_path: "#{node['tomcat']['base_instance']}/temp")
+        variables(tomcat_log_path: "#{node['alfresco']['home']}/logs",
+                  tomcat_cache_path: "#{node['alfresco']['home']}/temp")
       end
 
-      %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
-        link "#{node['alfresco']['home']}/conf/#{linked_file}" do
-          to "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
-        end
-      end
+      # %W(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
+      #   link "linking #{linked_file}" do
+      #     target_file "#{node['alfresco']['home']}/conf/#{linked_file}"
+      #     to "#{node['alfresco']['home']}/conf/#{linked_file}"
+      #   end
+      # end
 
       apache_tomcat_config 'context' do
         source node['tomcat']['context_template_source']
         cookbook node['tomcat']['context_template_cookbook']
       end
-
-      apache_tomcat_service node['tomcat']['base_instance'] do
-        java_home node['java']['java_home']
-        restart_on_update false
-        action [:enable, :stop]
-      end
     end
-  end
+
+  else
 
   node['tomcat']['instances'].each do |name, attrs|
     logs_path = attrs['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
@@ -149,8 +145,9 @@ apache_tomcat 'tomcat' do
         cookbook context_template_cookbook
       end
 
-      %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
-        link "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}" do
+      %W(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
+        link "linking #{linked_file}" do
+          target_file "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
           to "#{node['alfresco']['home']}/conf/#{linked_file}"
           owner node['tomcat']['user']
           group node['tomcat']['group']
@@ -165,22 +162,28 @@ apache_tomcat 'tomcat' do
         action :create
       end
 
-      apache_tomcat_service name do
-        java_home node['java']['java_home']
-        restart_on_update false
-        action [:enable, :stop]
-      end
-
       # Add LimitNOFILE=16000 into tomcat systemd and restart services
+      # TODO - make it working with supervisor
       # TODO - add #{processes_limit} to systemd file
       # TODO - Add it to apache_tomcat cookbook (apache_tomcat_service LWRP)
-      open_files_limit = node['tomcat']['open_files_limit']
-      processes_limit = node['tomcat']['processes_limit']
-      execute "extend-open-files-limit-for-#{name}" do
-        command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
-        action :run
-        not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
-      end
+      # open_files_limit = node['tomcat']['open_files_limit']
+      # processes_limit = node['tomcat']['processes_limit']
+      # execute "extend-open-files-limit-for-#{name}" do
+      #   command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
+      #   action :run
+      #   not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
+      # end
+
     end
+
+    template "Creating logging.properties file" do
+      path "#{node['alfresco']['home']}/conf/logging.properties"
+      source 'tomcat/logging.properties.erb'
+      owner 'root'
+      group 'root'
+      mode '0644'
+    end
+
+  end
   end
 end

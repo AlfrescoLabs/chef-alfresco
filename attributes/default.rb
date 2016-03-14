@@ -9,6 +9,7 @@
 #
 default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit','activiti-app']
 
+
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
 # default['alfresco']['s3_databag_item'] = ""
@@ -23,6 +24,7 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 default['alfresco']['ssl_enabled'] = true
 
 default['alfresco']['rmi_server_hostname'] = "localhost"
+default['alfresco']['use_libreoffice_os_repo'] = false
 
 default['alfresco']['enable_tarpit'] = true
 
@@ -43,8 +45,6 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 default['alfresco']['groupId'] = "org.alfresco"
 default['alfresco']['version'] = "5.1.c-EA"
 default['alfresco']['edition'] = "community"
-
-default['alfresco']['home'] = "/usr/share/tomcat"
 default['alfresco']['user'] = "tomcat"
 
 default['alfresco']['skip_certificate_creation'] = true
@@ -125,5 +125,4 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['alfresco','share','solr', 'activiti']
 default['alfresco']['restart_action']   = :restart

@@ -27,7 +27,7 @@ Local test (run)
 ```
 kitchen converge community
 ```
-It takes roughly 20 minutes for a full default configuration (with a fast laptop/connection)
+It takes roughly 30 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
 The only fully functional HTTP endpoint is by default [http://192.168.33.23/share](http://192.168.33.23/share)

@@ -15,7 +15,7 @@ require 'spec_helper'
 #
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
-services = ['tomcat-alfresco','tomcat-share','tomcat-solr','haproxy','nginx']
+services = ['supervisor']
 yumrepos = ['epel','nginx','rpmforge','rpmforge-extras','atrpms']
 
 # TODO - should be the FQDN, but still need to configure /etc/hosts to get this to work
@@ -87,7 +87,7 @@ describe "Alfresco daemons" do
     expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
   end
 
- it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
+  it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
     expect(nginxConnection.get('/activiti-app/').body).to include('Activiti')
   end
 

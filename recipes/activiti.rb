@@ -1,3 +1,4 @@
+
 #remove the db.properties file, as it will be used as default if another one is not provided
 # done only in the community edition
 

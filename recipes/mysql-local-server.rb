@@ -10,9 +10,7 @@ mysql_root_password = node['alfresco']['db']['server_root_password']
 mysql_version = node['alfresco']['mysql_version']
 mysql_update_gcc = node['mysql']['update_gcc']
 
-if mysql_update_gcc
-  include_recipe 'build-essential::default'
-end
+include_recipe 'build-essential::default' if mysql_update_gcc
 
 # Enforce mode and ownership of /tmp folder
 directory "/tmp" do

@@ -1,5 +1,24 @@
 # Change Log
 
+## [v0.6.22](https://github.com/Alfresco/chef-alfresco/tree/v0.6.22) (2016-02-18)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.21...v0.6.22)
+
+**Merged pull requests:**
+
+- Add client\_max\_body\_size [\#45](https://github.com/Alfresco/chef-alfresco/pull/45) ([steverigby](https://github.com/steverigby))
+
+## [v0.6.21](https://github.com/Alfresco/chef-alfresco/tree/v0.6.21) (2016-02-16)
+[Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.20...v0.6.21)
+
+**Closed issues:**
+
+- Transform apply-amps into a helper custom\_resource [\#28](https://github.com/Alfresco/chef-alfresco/issues/28)
+
+**Merged pull requests:**
+
+- Activiti integration - first part - community-edition [\#41](https://github.com/Alfresco/chef-alfresco/pull/41) ([enzor](https://github.com/enzor))
+- Nginx config [\#40](https://github.com/Alfresco/chef-alfresco/pull/40) ([maoo](https://github.com/maoo))
+
 ## [v0.6.20](https://github.com/Alfresco/chef-alfresco/tree/v0.6.20) (2016-02-02)
 [Full Changelog](https://github.com/Alfresco/chef-alfresco/compare/v0.6.19...v0.6.20)
 

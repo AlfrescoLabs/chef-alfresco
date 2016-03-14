@@ -5,14 +5,18 @@ unless node['nginx']['use_nossl_config']
   node.default['nginx']['server']['proxy'] = node['nginx']['server']['proxy'].merge(node['nginx']['ssl_server_proxy'])
 end
 
-if node['nginx']['json_logging_enabled']
-  node.default['nginx']['http']['log_format'] = node['nginx']['json_log_format']
-end
+node.default['nginx']['http']['log_format'] = node['nginx']['json_log_format'] if node['nginx']['json_logging_enabled']
 
 # Patch nginx configurations, making sure the service runs
 include_recipe 'nginx::commons_conf'
 
-service_actions = [:enable, :start]
-service 'nginx' do
-  action service_actions
-end
+r = resources(template: 'nginx.conf')
+r.notifies(:nothing, 'service[nginx]', :delayed)
+
+r = resources(template: "#{node['nginx']['dir']}/sites-available/default")
+r.notifies(:nothing, 'service[nginx]', :delayed)
+
+#service_actions = [:enable, :start]
+#service 'nginx' do
+  #action service_actions
+#end
