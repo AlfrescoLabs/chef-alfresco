@@ -11,7 +11,7 @@ platforms:
     run_command: /usr/sbin/init
 
 suites:
-  - name: default
+  - name: ci
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
