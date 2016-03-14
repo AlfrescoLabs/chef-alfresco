@@ -10,6 +10,11 @@ default['activiti-app']['properties']['db.dbname'] = 'activiti_modeler'
 default['activiti-app']['properties']['db.params'] = 'connectTimeout=240000&socketTimeout=240000&autoReconnect=true&characterEncoding=UTF-8'
 
 
+default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.authentication.enabled'] = true
+default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.synchronization.full.enabled'] = true
+default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.synchronization.differential.enabled'] = true
+default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.synchronization.timestampFormat'] = "yyyyMMddHHmmss%"
+
 #community edition conf
 default['activiti-app']['community']['properties']['jdbc.driver'] = node['activiti-app']['properties']['db.driver']
 default['activiti-app']['community']['properties']['jdbc.url'] = "jdbc:#{node['activiti-app']['properties']['db.prefix']}://#{node['activiti-app']['properties']['db.host']}:#{node['activiti-app']['properties']['db.port']}/#{node['activiti-app']['properties']['db.dbname']}?#{node['activiti-app']['properties']['db.params']}"
@@ -26,6 +31,7 @@ default['activiti-app']['enterprise']['properties']['hibernate.dialect'] = "org.
 default['activiti-app']['enterprise']['properties']['datasource.driver'] = default['activiti-app']['properties']['db.driver']
 default['activiti-app']['enterprise']['properties']['datasource.url'] = "jdbc:#{node['activiti-app']['properties']['db.prefix']}://#{node['activiti-app']['properties']['db.host']}:#{node['activiti-app']['properties']['db.port']}/#{node['activiti-app']['properties']['db.dbname']}?#{node['activiti-app']['properties']['db.params']}"
 # username and password are defined in the recipes/_activiti-attributes.rb because they use the alfresco ones
+
 default['activiti-app']['enterprise']['properties']['datasource.min-pool-size'] = 50
 default['activiti-app']['enterprise']['properties']['datasource.max-pool-size'] = 100
 default['activiti-app']['enterprise']['properties']['datasource.acquire-increment'] = 1
@@ -49,7 +55,7 @@ default['activiti-app']['enterprise']['properties']['event.processing.processed.
 default['activiti-app']['enterprise']['properties']['admin.email'] = "admin@app.activiti.com"
 default['activiti-app']['enterprise']['properties']['admin.passwordHash'] = "6e6ede972d13b9e22ef1135bbdae0a9ba2c41ff4b2e04ad66292643e69cbb48d6bc34dfa85bdd90b" #k1ngk0ng
 default['activiti-app']['enterprise']['properties']['admin.lastname'] = "Administrator"
-default['activiti-app']['enterprise']['properties']['admin.group'] = "Superusers"  
+default['activiti-app']['enterprise']['properties']['admin.group'] = "Superusers"
 default['activiti-app']['enterprise']['properties']['app.analytics.default.enabled'] = true
 default['activiti-app']['enterprise']['properties']['app.analytics.default.capabilities.group'] = "analytics-users"
 default['activiti-app']['enterprise']['properties']['app.kickstart.default.enabled'] = true
@@ -132,4 +138,3 @@ default['activiti-app']['enterprise']['properties']['quota.trial.maxTotalContent
 # default['activiti-app']['enterprise']['properties']['email.from.default'] = "no-reply@activiti.alfresco.com"
 # default['activiti-app']['enterprise']['properties']['email.from.default.name'] = "Activiti"
 # default['activiti-app']['enterprise']['properties']['email.feedback.default'] = "activiti@alfresco.com"
-

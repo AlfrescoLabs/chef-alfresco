@@ -63,7 +63,6 @@ include_recipe 'java::default'
 include_recipe "alfresco::yourkit" if node['alfresco']['components'].include? 'yourkit'
 include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
 
-##############
 
 include_recipe "alfresco::nginx" if node['alfresco']['components'].include? 'nginx'
 include_recipe "alfresco::transformations" if node['alfresco']['components'].include? 'transform'
@@ -104,6 +103,8 @@ end
 
 artifact 'deploy artifacts'
 
+
+
 apply_amps 'apply alfresco and share amps' do
   alfresco_root "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"
   share_root "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"
@@ -126,7 +127,6 @@ include_recipe "alfresco::logstash-forwarder" if node['alfresco']['components'].
 if node['alfresco']['components'].include? 'activiti-app'
   node.default['artifacts']['activiti-app']['enabled'] = true
   if node['activiti-app']['edition'] == "enterprise"
-    node.default['artifacts']['activiti-ldap']['enabled'] = true
     node.default['artifacts']['activiticlasses']['enabled'] = true
   end
   include_recipe "alfresco::activiti"

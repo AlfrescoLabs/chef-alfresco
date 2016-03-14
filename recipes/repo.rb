@@ -80,19 +80,19 @@ file "#{shared_folder}/classes/db.properties" do
   only_if { node['activiti-app']['edition'] == "community" }
 end
 
-
-file "#{node['alfresco']['home']}/activiti/lib/activiti-app.properties" do
-  content ""
-  owner user
-  group group
-  mode '0644'
-  only_if { node['activiti-app']['edition'] == "enterprise" }
+["activiti-app","activiti-ldap"].each do |activity_enterprise_conf|
+  file "#{node['alfresco']['home']}/activiti/lib/#{activity_enterprise_conf}.properties" do
+    content ""
+    owner user
+    group group
+    mode '0644'
+    only_if { node['activiti-app']['edition'] == "enterprise" }
+  end
 end
+
 
 file_replace_line "#{config_folder}/catalina.properties" do
   replace "shared.loader="
   with "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
-
-

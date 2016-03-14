@@ -10,6 +10,12 @@ node.default['artifacts']['activiticlasses']['destination'] = "#{node['alfresco'
 node.default['artifacts']['activiticlasses']['destinationName'] = "lib"
 node.default['artifacts']['activiticlasses']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['activiti-ldap-conf']['unzip'] = false
+node.default['artifacts']['activiti-ldap-conf']['filtering_mode'] = "append"
+node.default['artifacts']['activiti-ldap-conf']['destination'] = "#{node['alfresco']['home']}/activiti"
+node.default['artifacts']['activiti-ldap-conf']['destinationName'] = "lib"
+node.default['artifacts']['activiti-ldap-conf']['owner'] = node['alfresco']['user']
+
 #activiti app configuration
 
 node.default['activiti-app']["community"]['groupId'] = "org.activiti"
@@ -44,11 +50,39 @@ node.default['artifacts']['activiti-ldap']['type'] = "war"
 node.default['artifacts']['activiti-ldap']['owner'] = node['alfresco']['user']
 node.default['artifacts']['activiti-ldap']['unzip'] = false
 
+# activiti AMP configuration
+node.default['artifacts']['activiti-amp']['groupId'] = "com.activiti"
+node.default['artifacts']['activiti-amp']['artifactId'] = "alfresco-connector-repo"
+node.default['artifacts']['activiti-amp']['version'] = "1.5.0-SNAPSHOT"
+node.default['artifacts']['activiti-amp']['type'] = "amp"
+node.default['artifacts']['activiti-amp']['owner'] = node['alfresco']['user']
+node.default['artifacts']['activiti-amp']['unzip'] = false
+
+# activiti AMP configuration
+node.default['artifacts']['activiti-amp-share']['groupId'] = "com.activiti"
+node.default['artifacts']['activiti-amp-share']['artifactId'] = "alfresco-connector-share"
+node.default['artifacts']['activiti-amp-share']['version'] = "1.5.0-SNAPSHOT"
+node.default['artifacts']['activiti-amp-share']['type'] = "amp"
+node.default['artifacts']['activiti-amp-share']['owner'] = node['alfresco']['user']
+node.default['artifacts']['activiti-amp-share']['unzip'] = false
+
+# activiti AMP configuration
+node.default['artifacts']['activiti-ldap-demo-config']['groupId'] = "com.activiti"
+node.default['artifacts']['activiti-ldap-demo-config']['artifactId'] = "alfresco-ldap-demo-config"
+node.default['artifacts']['activiti-ldap-demo-config']['version'] = "1.5.0-SNAPSHOT"
+node.default['artifacts']['activiti-ldap-demo-config']['type'] = "amp"
+node.default['artifacts']['activiti-ldap-demo-config']['owner'] = node['alfresco']['user']
+node.default['artifacts']['activiti-ldap-demo-config']['unzip'] = false
+
+
 # Activiti WAR destination
 if node['tomcat']['run_base_instance']
   node.default['artifacts']['activiti-app']['destination'] = node['tomcat']['webapp_dir']
   node.default['artifacts']['activiti-ldap']['destination'] = node['tomcat']['webapp_dir']
 else
   node.default['artifacts']['activiti-app']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
-  node.default['artifacts']['activiti-ldap']['destination'] = "#{node['alfresco']['home']}/activiti/webapps"
+  node.default['artifacts']['activiti-ldap']['destination'] = "#{node['alfresco']['home']}/solr/webapps"
+  node.default['artifacts']['activiti-amp']['destination'] = "#{node['alfresco']['home']}/amps"
+  node.default['artifacts']['activiti-ldap-demo-config']['destination'] = "#{node['alfresco']['home']}/amps"
+  node.default['artifacts']['activiti-amp-share']['destination'] = "#{node['alfresco']['home']}/amps_share"
 end
