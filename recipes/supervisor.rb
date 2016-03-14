@@ -3,6 +3,10 @@ include_recipe 'supervisor::default'
 unless node['supervisor']['systemd_service_enabled']
   r = resources(service: "supervisor")
   r.action(:nothing)
+
+  execute 'start supervisord manually' do
+    command "supervisord -c /etc/supervisord.conf &"
+  end
 end
 
 tomcat_instances = []
