@@ -32,13 +32,14 @@ end
 # end
 
 desc 'Run integration tests with kitchen-docker'
-task :docker do
+task :docker, [:instance] do |_t, args|
+  args.with_defaults(instance: 'ci-centos-7.2')
   require 'kitchen'
   Kitchen.logger = Kitchen.default_file_logger
-  loader = Kitchen::Loader::YAML.new(local_config: '.kitchen.docker.yml')
-  instances = Kitchen::Config.new(loader: loader).instances do |instance|
-    instance.verify
-  end
+  loader = Kitchen::Loader::YAML.new(local_config_file: './.kitchen.docker.yml')
+  instances = Kitchen::Config.new(loader: loader).instances
+  # Travis CI Docker service does not support destroy:
+  instances.get(args.instance).verify
 end
 
 task :ci => [:foodcritic, :knife, :docker]
