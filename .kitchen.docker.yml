@@ -4,9 +4,9 @@ driver:
   privileged: true
 
 platforms:
-- name: centos-70
+- name: centos-7.2
   driver_config:
-    image: centos:7
+    image: centos:7.2
     privileged: true
     run_command: /usr/sbin/init
 
@@ -14,26 +14,30 @@ suites:
   - name: default
     run_list:
       - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-testing",
       "hostname": "chef-alfresco-docker-testing",
       "alfresco" : {
-        "public_protocol" : "http"
+        "ssl_enabled" : false,
+        "skip_certificate_creation" : true,
+        "public_protocol" : "http",
+        "public_portssl" : "80",
+        "log.json.enabled" : false,
+        "jmxremote_databag" : "credentials",
+        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"]
       },
       "commons" : {
         "maven" : {
-          "timeout" : 1500,
-          "repositories" : {
-            "private" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            }
-          }
+          "timeout" : 1500
         }
       },
       "nginx" : {
         "use_nossl_config" : true
+      },
+      "haproxy" : {
+        "bind_ip" : "0.0.0.0",
+        "enable_ssl_header" : false
       }
     }
