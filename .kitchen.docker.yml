@@ -6,7 +6,7 @@ driver:
 platforms:
 - name: centos-7.2
   driver_config:
-    image: centos:7.2
+    image: centos:7.2.1511
     privileged: true
     run_command: /usr/sbin/init
 
