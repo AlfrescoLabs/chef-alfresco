@@ -52,6 +52,7 @@ if node['alfresco']['version'].start_with?("5.1")
 end
 
 include_recipe "alfresco::package-repositories"
+include_recipe 'java::default'
 
 if node['alfresco']['components'].include? 'postgresql'
   include_recipe "alfresco::postgresql-local-server"
@@ -59,7 +60,6 @@ elsif node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql-local-server"
 end
 
-include_recipe 'java::default'
 include_recipe "alfresco::yourkit" if node['alfresco']['components'].include? 'yourkit'
 include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
 
