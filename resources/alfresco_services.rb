@@ -30,6 +30,15 @@ action :create do
     include_recipe 'supervisor::default'
   end
 
+  if start_services
+    log 'Starting default supervisor service' do
+      message "Starting default supervisor service"
+      level :warn
+      notifies :enable, 'service[supervisor]', :immediately
+      notifies :start, 'service[supervisor]', :immediately
+    end
+  end
+
   tomcat_instances = []
 
   if run_single_instance
