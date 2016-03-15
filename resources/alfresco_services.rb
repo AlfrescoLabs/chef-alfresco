@@ -28,12 +28,6 @@ action :create do
 
   if install
     include_recipe 'supervisor::default'
-    log 'Stopping default supervisor service' do
-      message "Stopping default supervisor service"
-      level :warn
-      notifies :stop, 'service[supervisor]', :immediately
-      notifies :disable, 'service[supervisor]', :immediately
-    end
   end
 
   tomcat_instances = []
@@ -80,6 +74,15 @@ action :create do
     autostart start_services
     command nginx_command
     only_if { components.include? 'nginx' }
+  end
+
+  if install
+    log 'Stopping default supervisor service' do
+      message "Stopping default supervisor service"
+      level :warn
+      notifies :stop, 'service[supervisor]', :immediately
+      notifies :disable, 'service[supervisor]', :immediately
+    end
   end
 
 end
