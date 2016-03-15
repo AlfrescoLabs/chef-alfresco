@@ -75,7 +75,7 @@ GRAPH
     maven (~> 1.2.0)
     python (>= 1.4.6)
     resolver (>= 1.2.0)
-  compat_resource (12.7.3)
+  compat_resource (12.8.0)
   cpu (0.2.0)
   database (4.0.9)
     postgresql (>= 1.0.0)

@@ -52,6 +52,7 @@ if node['alfresco']['version'].start_with?("5.1")
 end
 
 include_recipe "alfresco::package-repositories"
+include_recipe 'java::default'
 
 if node['alfresco']['components'].include? 'postgresql'
   include_recipe "alfresco::postgresql-local-server"
@@ -59,7 +60,6 @@ elsif node['alfresco']['components'].include? 'mysql'
   include_recipe "alfresco::mysql-local-server"
 end
 
-include_recipe 'java::default'
 include_recipe "alfresco::yourkit" if node['alfresco']['components'].include? 'yourkit'
 include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
 
@@ -88,7 +88,6 @@ if node['alfresco']['components'].include? 'share'
 end
 
 include_recipe "alfresco::solr" if node['alfresco']['components'].include? 'solr'
-include_recipe 'alfresco::haproxy' if node['alfresco']['components'].include? 'haproxy'
 include_recipe "alfresco::tomcat-instance-config" if node['alfresco']['components'].include? 'tomcat'
 
 if node['alfresco']['components'].include? 'haproxy'
@@ -146,5 +145,5 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-node.set['supervisor']['start'] = false
-include_recipe 'alfresco::supervisor'
+#node.set['supervisor']['start'] = false
+#include_recipe 'alfresco::supervisor'

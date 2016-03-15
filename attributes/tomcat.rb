@@ -135,3 +135,5 @@ default['alfresco']['activiti_tomcat_instance']['jmx_port'] = 40030
 default['alfresco']['activiti_tomcat_instance']['xmx_ratio'] = 0.1
 activiti_memory = "#{(node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['activiti_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{activiti_memory}"
+
+default['supervisor']['tomcat']['user'] = "tomcat"
