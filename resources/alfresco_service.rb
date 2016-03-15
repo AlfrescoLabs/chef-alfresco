@@ -36,13 +36,13 @@ action :create do
   environment new_resource.environment
 
   supervisor_service "#{service_name}" do
-        command new_resource.command
-        action new_resource.action
-        user new_resource.user
-        autorestart new_resource.autorestart
-        autostart new_resource.autostart
-        directory new_resource.directory
-        environment (new_resource.environment)
-    end
+    command new_resource.command
+    action new_resource.action
+    user new_resource.user
+    autorestart new_resource.autorestart
+    autostart new_resource.autostart
+    directory new_resource.directory
+    environment (new_resource.environment)
+  end
 
 end

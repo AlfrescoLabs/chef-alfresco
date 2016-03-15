@@ -136,6 +136,3 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
     command "/usr/local/bin/nossl-patch.sh"
   end
 end
-
-#node.set['supervisor']['start'] = false
-#include_recipe 'alfresco::supervisor'

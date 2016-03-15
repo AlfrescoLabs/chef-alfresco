@@ -74,18 +74,10 @@ if enable_rsyslog_server and File.exist?('/etc/rsyslog.conf')
     action :nothing
   end
 
-
-  log "show #{node['supervisor']['haproxy']['command']}" do
-    message "This is a message that will be added to the log."
-    level :info
-  end
-
   alfresco_service "haproxy" do
     action :create
     user node['supervisor']['haproxy']['user']
     command node['supervisor']['haproxy']['command']
-    #command node['supervisor']['haproxy']['command']
-    only_if { node['alfresco']['components'].include? 'haproxy' }
   end
 
 end

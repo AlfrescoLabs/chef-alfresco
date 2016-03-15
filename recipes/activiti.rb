@@ -31,10 +31,9 @@ environment = {"JAVA_HOME" => node['java']['java_home'],"CATALINA_HOME" => node[
 
 alfresco_service "tomcat-activiti" do
   action :create
-  user node['supervisor']['tomcat']['user']
+  user node['tomcat']['user']
   directory node['alfresco']['home']
-  command "node['supervisor']['tomcat']['command']"
+  command node['supervisor']['tomcat']['command']
   environment environment
-  only_if { node['alfresco']['components'].include? 'activiti'}
   not_if node['tomcat']['run_single_instance']
 end
