@@ -5,7 +5,7 @@ property :start_services, kind_of: [TrueClass, FalseClass], default: false
 property :install, kind_of: [TrueClass, FalseClass], default: true
 
 #Cookbook defaults
-property :run_single_instance, String, default: lazy { node['tomcat']['run_single_instance'] }
+property :run_single_instance, kind_of: [TrueClass, FalseClass], default: lazy { node['tomcat']['run_single_instance'] }
 property :components, default: lazy { node['alfresco']['components'] }
 property :alfresco_home, default: lazy { node['alfresco']['home'] }
 property :java_home, default: lazy { node['java']['java_home'] }
@@ -28,9 +28,14 @@ action :create do
 
   if install
     include_recipe 'supervisor::default'
+    r = resources(service: 'supervisor')
+    r.action([:disable, :stop])
+    execute 'Start supervisord manually' do
+      command "supervisord -c /etc/supervisord.conf --pidfile=/var/run/supervisord.pid &"
+    end
   end
 
-  execute 'start supervisord manually' do
+  execute 'Start supervisord manually' do
     command "supervisord -c /etc/supervisord.conf &"
     only_if { start_services }
   end
@@ -81,12 +86,8 @@ action :create do
     only_if { components.include? 'nginx' }
   end
 
-
-  log 'Stopping default supervisor service' do
-    message "Stopping default supervisor service"
-    level :warn
-    notifies :stop, 'service[supervisor]', :immediately
-    notifies :disable, 'service[supervisor]', :immediately
+  execute 'Stop supervisord manually' do
+    command "cat /var/run/supervisord.pid | xargs kill -9"
     only_if { install }
   end
 
