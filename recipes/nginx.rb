@@ -18,5 +18,4 @@ alfresco_service "nginx" do
   action :create
   user node['supervisor']['nginx']['user']
   command node['supervisor']['nginx']['command']
-  only_if { node['alfresco']['components'].include? 'nginx' }
 end
