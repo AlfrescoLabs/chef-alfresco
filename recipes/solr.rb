@@ -11,7 +11,7 @@ environment = {"JAVA_HOME" => node['java']['java_home'],"CATALINA_HOME" => node[
 
 alfresco_service "tomcat-solr" do
   action :create
-  user ['tomcat']['user']
+  user node['tomcat']['user']
   directory node['alfresco']['home']
   command node['supervisor']['tomcat']['command']
   environment environment
