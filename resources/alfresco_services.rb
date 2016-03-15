@@ -30,10 +30,9 @@ action :create do
     include_recipe 'supervisor::default'
   end
 
-  if start_services
-    execute 'start supervisord manually' do
-      command "supervisord -c /etc/supervisord.conf &"
-    end
+  execute 'start supervisord manually' do
+    command "supervisord -c /etc/supervisord.conf &"
+    only_if { start_services }
   end
 
   tomcat_instances = []
@@ -82,13 +81,13 @@ action :create do
     only_if { components.include? 'nginx' }
   end
 
-  if install
-    log 'Stopping default supervisor service' do
-      message "Stopping default supervisor service"
-      level :warn
-      notifies :stop, 'service[supervisor]', :immediately
-      notifies :disable, 'service[supervisor]', :immediately
-    end
+
+  log 'Stopping default supervisor service' do
+    message "Stopping default supervisor service"
+    level :warn
+    notifies :stop, 'service[supervisor]', :immediately
+    notifies :disable, 'service[supervisor]', :immediately
+    only_if { install }
   end
 
 end
