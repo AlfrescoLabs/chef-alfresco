@@ -14,6 +14,7 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
+#include_recipe "alfresco::_supervisor-attributes"
 
 # Handle certs creation
 include_recipe "alfresco::_certs"
@@ -67,5 +68,9 @@ file_append "#{node['alfresco']['home']}/tomcat.conf" do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
-node.set['supervisor']['start'] = true
-include_recipe 'alfresco::supervisor'
+#node.set['supervisor']['start'] = true
+#include_recipe 'alfresco::supervisor'
+
+service "supervisor" do
+  action [:enable , :start]
+end

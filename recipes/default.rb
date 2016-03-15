@@ -89,7 +89,6 @@ if node['alfresco']['components'].include? 'share'
 end
 
 include_recipe "alfresco::solr" if node['alfresco']['components'].include? 'solr'
-include_recipe 'alfresco::haproxy' if node['alfresco']['components'].include? 'haproxy'
 include_recipe "alfresco::tomcat-instance-config" if node['alfresco']['components'].include? 'tomcat'
 
 if node['alfresco']['components'].include? 'haproxy'
@@ -138,5 +137,5 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-node.set['supervisor']['start'] = false
-include_recipe 'alfresco::supervisor'
+#node.set['supervisor']['start'] = false
+#include_recipe 'alfresco::supervisor'
