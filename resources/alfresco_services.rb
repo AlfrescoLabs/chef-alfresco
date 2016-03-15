@@ -31,11 +31,8 @@ action :create do
   end
 
   if start_services
-    log 'Starting default supervisor service' do
-      message "Starting default supervisor service"
-      level :warn
-      notifies :enable, 'service[supervisor]', :immediately
-      notifies :start, 'service[supervisor]', :immediately
+    execute 'start supervisord manually' do
+      command "supervisord -c /etc/supervisord.conf &"
     end
   end
 
