@@ -26,10 +26,14 @@ end
 
 node.default['haproxy']['logformat'] = node['haproxy']['json_logformat'] if node['haproxy']['logging_json_enabled']
 
-include_recipe 'haproxy::default'
 
-r = resources(service: 'haproxy')
-r.action([:disable, :stop])
+include_recipe 'haproxy::default'
+log 'Stopping default haproxy service' do
+  message "Stopping default haproxy service"
+  level :warn
+  notifies :stop, 'service[haproxy]', :immediately
+  notifies :disable, 'service[haproxy]', :immediately
+end
 
 include_recipe 'alfresco::haproxy-config'
 
@@ -72,12 +76,6 @@ if enable_rsyslog_server and File.exist?('/etc/rsyslog.conf')
 
   service 'rsyslog' do
     action :nothing
-  end
-
-  alfresco_service "haproxy" do
-    action :create
-    user node['supervisor']['haproxy']['user']
-    command node['supervisor']['haproxy']['command']
   end
 
 end
