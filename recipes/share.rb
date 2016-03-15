@@ -35,14 +35,3 @@ template "share-cluster-application-context.xml" do
   group       node['tomcat']['group']
   mode        "0664"
 end
-
-environment = {"JAVA_HOME" => node['java']['java_home'],"CATALINA_HOME" => node['alfresco']['home'],"CATALINA_BASE" => "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"}
-
-alfresco_service "tomcat-share" do
-  action :create
-  user node['tomcat']['user']
-  directory node['alfresco']['home']
-  command node['supervisor']['tomcat']['command']
-  environment environment
-  not_if node['tomcat']['run_single_instance']
-end

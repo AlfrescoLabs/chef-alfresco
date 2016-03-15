@@ -14,8 +14,9 @@ include_recipe 'nginx::default'
 r = resources(service: 'nginx')
 r.action([:disable, :stop])
 
-alfresco_service "nginx" do
-  action :create
-  user node['supervisor']['nginx']['user']
-  command node['supervisor']['nginx']['command']
-end
+# log 'Stopping default nginx service' do
+#   message "Stopping default nginx service"
+#   level :warn
+#   notifies :disable, 'service[nginx]', :immediately
+#   notifies :stop, 'service[nginx]', :immediately
+# end

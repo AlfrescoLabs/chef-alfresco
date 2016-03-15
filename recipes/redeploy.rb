@@ -67,6 +67,7 @@ file_append "#{node['alfresco']['home']}/tomcat.conf" do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
 end
 
-# r = resources(service: "supervisor")
-# r.action(:enable)
-# r.action(:start)
+alfresco_services 'Starting the required services' do
+  start_services true
+  install false
+end

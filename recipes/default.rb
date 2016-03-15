@@ -144,3 +144,8 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
     command "/usr/local/bin/nossl-patch.sh"
   end
 end
+
+alfresco_services 'Creating the required services' do
+  start_services false
+  install true
+end

@@ -96,13 +96,3 @@ file_replace_line "#{config_folder}/catalina.properties" do
   with "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
-
-environment = {"JAVA_HOME" => node['java']['java_home'],"CATALINA_HOME" => node['alfresco']['home'],"CATALINA_BASE" => "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"}
-
-alfresco_service "tomcat-alfresco" do
-  action :create
-  user node['tomcat']['user']
-  directory node['alfresco']['home']
-  command node['supervisor']['tomcat']['command']
-  environment environment
-end
