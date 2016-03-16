@@ -2,13 +2,14 @@ resource_name :alfresco_services
 
 property :resource_name, String, name_property: true
 property :start_services, kind_of: [TrueClass, FalseClass], default: false
-property :install, kind_of: [TrueClass, FalseClass], default: true
 
 #Cookbook defaults
-property :run_single_instance, String, default: lazy { node['tomcat']['run_single_instance'] }
+property :run_single_instance, kind_of: [TrueClass, FalseClass], default: lazy { node['tomcat']['run_single_instance'] }
 property :components, default: lazy { node['alfresco']['components'] }
 property :alfresco_home, default: lazy { node['alfresco']['home'] }
 property :java_home, default: lazy { node['java']['java_home'] }
+property :supervisor_pidfile, String, default: lazy { node['supervisor']['pidfile'] }
+property :supervisor_conffile, String, default: lazy { node['supervisor']['conffile'] }
 
 #Tomcat instance defaults
 property :tomcat_user, default: lazy { node['tomcat']['user'] }
@@ -26,13 +27,12 @@ default_action :create
 
 action :create do
 
-  if install
-    include_recipe 'supervisor::default'
+  execute 'Stop supervisord manually' do
+    command "cat #{supervisor_pidfile} | xargs kill -9; rm -rf /var/run/supervisor*"
+    only_if { ::File.exist?(supervisor_pidfile) }
   end
-
-  execute 'start supervisord manually' do
-    command "supervisord -c /etc/supervisord.conf &"
-    only_if { start_services }
+  execute 'Start supervisord manually' do
+    command "supervisord -c /etc/supervisord.conf -j #{supervisor_pidfile} & sleep 3"
   end
 
   tomcat_instances = []
@@ -81,13 +81,10 @@ action :create do
     only_if { components.include? 'nginx' }
   end
 
-
-  log 'Stopping default supervisor service' do
-    message "Stopping default supervisor service"
-    level :warn
-    notifies :stop, 'service[supervisor]', :immediately
-    notifies :disable, 'service[supervisor]', :immediately
-    only_if { install }
+  execute 'Stop supervisord manually' do
+    command "cat #{supervisor_pidfile} | xargs kill -9"
+    not_if { start_services }
+    only_if { ::File.exist?(supervisor_pidfile) }
   end
 
 end
