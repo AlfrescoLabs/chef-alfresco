@@ -15,7 +15,7 @@ require 'spec_helper'
 #
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
-processes = ['supervisor']
+processes = ['supervisord']
 yumrepos = ['epel','nginx','rpmforge','rpmforge-extras','atrpms']
 
 # TODO - should be the FQDN, but still need to configure /etc/hosts to get this to work
@@ -45,9 +45,9 @@ describe "Alfresco daemons" do
   let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
   let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
-  processes.each do |process|
-    it "Has a running #{service} process" do
-      expect(process(process)).to be_running
+  processes.each do |process_name|
+    it "Has a running #{process_name} process" do
+      expect(process(process_name)).to be_running
     end
   end
 
