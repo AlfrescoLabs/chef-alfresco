@@ -69,5 +69,4 @@ end
 
 alfresco_services 'Starting the required services' do
   start_services true
-  install false
 end

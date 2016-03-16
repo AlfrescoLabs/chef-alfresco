@@ -145,7 +145,10 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
+include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
+include_recipe 'supervisor::default'
+r = resources(service: 'supervisor')
+r.action([:disable, :stop])
 alfresco_services 'Creating the required services' do
   start_services false
-  install true
 end
