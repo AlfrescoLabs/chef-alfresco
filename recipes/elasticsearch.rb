@@ -46,5 +46,5 @@ end
 # TODO - use supervisord and define
 # action [:disable,:stop]
 service 'elasticsearch' do
-  action [:disable,:stop]
+  action [:start]
 end
