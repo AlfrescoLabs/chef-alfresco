@@ -113,7 +113,16 @@ default['activiti-app']['enterprise']['properties']['editor.form.javascript.disa
 default['activiti-app']['enterprise']['properties']['security.http.bypassSSL'] = true
 
 # For now we don't define an elastic-search server. I will define it in the next task
-default['activiti-app']['enterprise']['properties']['elastic-search.server.type'] = "none"
+default['activiti-app']['enterprise']['properties']['elastic-search.server.type'] = "client"
+default['activiti-app']['enterprise']['properties']['elastic-search.cluster.name'] = "elasticsearch"
+default['activiti-app']['enterprise']['properties']['elastic-search.node.name'] = "localhost"
+default['activiti-app']['enterprise']['properties']['elastic-search.discovery.type'] = "unicast"
+default['activiti-app']['enterprise']['properties']['elastic-search.discovery.hosts'] = "0.0.0.0:9300,0.0.0.0:9301"
+default['activiti-app']['enterprise']['properties']['elastic-search.enable.http'] = false
+default['activiti-app']['enterprise']['properties']['elastic-search.tenant.index.name'] = "activiti"
+default['activiti-app']['enterprise']['properties']['elastic-search.tenant.index.prefix'] = "activiti_tenant_"
+
+
 
 # The maximum file upload limit for trial users, in bytes (eg. 10485760 = 10MB)
 default['activiti-app']['enterprise']['properties']['quota.trial.maxFileUploadSize'] = 10485760
