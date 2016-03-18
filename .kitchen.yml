@@ -14,7 +14,7 @@ platforms:
   - name: centos-7.2
     driver_config:
       network:
-      - ["private_network", {ip: "33.33.33.10"}]
+      - ["private_network", {ip: "192.168.33.23"}]
 
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
@@ -110,7 +110,6 @@ suites:
 
   - name: enterprise
     run_list:
-      - recipe[alfresco::nginx]
       - recipe[alfresco::default]
       - recipe[alfresco::elasticsearch]
       - recipe[alfresco::redeploy]
