@@ -150,11 +150,6 @@ suites:
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/activiti-enterprise-snapshots",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            },
-            "enterprise" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/activiti-enterprise-releases",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }
           }
         }
