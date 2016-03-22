@@ -15,6 +15,9 @@ group = node['tomcat']['group']
 alfresco_license_source = node['alfresco']['license_source']
 alfresco_license_cookbook = node['alfresco']['license_cookbook']
 
+activiti_license_source = node['activiti-app']['license_source']
+
+
 generate_alfresco_global = node['alfresco']['generate.global.properties']
 
 node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties'] if node['alfresco']['generate.global.properties']
@@ -45,7 +48,7 @@ directory "alfresco-extension" do
   recursive true
 end
 
-# Install license
+# Install Alfresco license
 remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   source alfresco_license_source
   cookbook alfresco_license_cookbook
@@ -56,6 +59,21 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   files_mode "0777"
   mode "0777"
   ignore_failure true
+end
+
+
+# Install Activiti license
+remote_directory "#{node['alfresco']['home']}/activiti/lib/" do
+  source activiti_license_source
+  cookbook alfresco_license_cookbook
+  owner user
+  group group
+  files_owner user
+  files_group group
+  files_mode "0777"
+  mode "0777"
+  ignore_failure true
+  only_if { node['activiti-app']['edition'] == "enterprise" }
 end
 
 file "#{shared_folder}/classes/alfresco/log4j.properties" do

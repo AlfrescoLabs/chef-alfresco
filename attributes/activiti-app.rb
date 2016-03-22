@@ -1,3 +1,5 @@
+
+
 # Database info
 default['activiti-app']['mysql_version'] = '5.6'
 default['activiti-app']['generate.properties'] = true
@@ -8,7 +10,7 @@ default['activiti-app']['properties']['db.host'] = '127.0.0.1'
 default['activiti-app']['properties']['db.port'] = '3306'
 default['activiti-app']['properties']['db.dbname'] = 'activiti_modeler'
 default['activiti-app']['properties']['db.params'] = 'connectTimeout=240000&socketTimeout=240000&autoReconnect=true&characterEncoding=UTF-8'
-
+default['activiti-app']['license_source'] = "activiti-license"
 
 default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.authentication.enabled'] = true
 default['artifacts']['activiti-ldap-conf']['properties']['activiti-ldap.properties']['ldap.synchronization.full.enabled'] = true
