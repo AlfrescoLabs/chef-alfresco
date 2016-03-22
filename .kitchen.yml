@@ -122,6 +122,7 @@ suites:
         "use_nossl_config" : true
       },
       "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit','activiti-app'],
         "version" : "5.0.2.5",
         "edition" : "enterprise",
         "ssl_enabled" : false,
