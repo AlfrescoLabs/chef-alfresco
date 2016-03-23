@@ -21,7 +21,7 @@ default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','rep
 
 # TODO - use this attribute for nossl and related attributes across chef-alfresco
 default['alfresco']['ssl_enabled'] = true
-
+default['alfresco']['db_ssl_enabled'] = false
 default['alfresco']['use_libreoffice_os_repo'] = false
 
 default['alfresco']['enable_tarpit'] = true
@@ -36,6 +36,7 @@ default['alfresco']['public_hostname'] = "localhost"
 default['alfresco']['public_port'] = "80"
 default['alfresco']['public_portssl'] = "443"
 default['alfresco']['public_protocol'] = "https"
+
 
 default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 
@@ -91,7 +92,6 @@ default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
 default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-linux-x64.tar.gz'
 default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f8fa2e'
-
 #3rd-party defaults
 default['alfresco']['imagemagick_version'] = "6.9.3-7"
 default['alfresco']['use_imagemagick_os_repo'] = true

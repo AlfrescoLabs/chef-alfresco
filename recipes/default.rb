@@ -62,6 +62,12 @@ elsif node['alfresco']['components'].include? 'mysql'
 end
 
 include_recipe 'java::default'
+if node['alfresco']['db_ssl_enabled'] == true
+  node.default['artifacts']['ssl-db-creds']['enabled'] = true
+  execute "import key to RDS keystore" do
+    command "keytool -import -alias RDSmysqlServerCACert -file /tmp/rds-combined-ca-bundle.pem -keystore #{node["alfresco"]["keystore_file"]}"
+  end
+end
 
 if node['alfresco']['components'].include? 'yourkit'
   include_recipe "alfresco::yourkit"

@@ -11,7 +11,8 @@ default['alfresco']['properties']['db.host'] = '127.0.0.1'
 default['alfresco']['properties']['db.port'] = '3306'
 default['alfresco']['properties']['db.dbname'] = 'alfresco'
 default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
-default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}"
+default['alfresco']['properties']['db.ssl_params'] = node['alfresco']['db_ssl_enabled'] == true ? '&useSSL=true&requireSSL=true' : ''
+default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}"
 node.set['alfresco']['properties']['db.pool.initial'] = 30
 node.set['alfresco']['properties']['db.pool.max'] = 500
 node.set['alfresco']['properties']['db.pool.min'] = 0
