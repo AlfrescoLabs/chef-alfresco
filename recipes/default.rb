@@ -138,7 +138,7 @@ end
 if node['alfresco']['db_ssl_enabled'] == true
   node.default['artifacts']['ssl-db-creds']['enabled'] = true
   execute "import key to RDS keystore" do
-    command "keytool -import -alias RDSmysqlServerCACert -file /tmp/rds-combined-ca-bundle.pem -keystore #{node["alfresco"]["keystore_file"]}"
+    command "keytool -import -alias RDSmysqlServerCACert -file #{node['artifacts']['ssl-db-creds']['destination']} -keystore #{node['alfresco']['keystore_file']}"
   end
 end
 
