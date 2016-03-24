@@ -38,6 +38,12 @@ node.default['artifacts']['alfresco-s3-connector']['type'] = "amp"
 node.default['artifacts']['alfresco-s3-connector']['owner'] = "tomcat"
 node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
 
+
+node.default['artifacts']['ssl-db-creds']['url'] = "http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem"
+node.default['artifacts']['ssl-db-creds']['destination'] = "/tmp/rds-combined-ca-bundle.pem"
+node.default['artifacts']['ssl-db-creds']['owner'] = "tomcat"
+node.default['artifacts']['ssl-db-creds']['enabled'] = false
+
 # HTTP default pool size
 node.default['alfresco']['properties']['httpclient.max-connections'] = "20"
 
