@@ -24,7 +24,7 @@ include_recipe "alfresco::_supervisor-attributes"
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
-apply_amps = true
+apply_amps = false
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
