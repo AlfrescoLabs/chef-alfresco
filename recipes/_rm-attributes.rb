@@ -13,7 +13,7 @@
 #node.default['artifacts']['rm-share']['type'] = "amp"
 
 node.default['artifacts']['alfresco-rm-community-repo']['groupId'] = "org.alfresco"
-node.default['artifacts']['alfresco-rm-community-repo']['artifactId'] = "alfresco-rm-community-share"
+node.default['artifacts']['alfresco-rm-community-repo']['artifactId'] = "alfresco-rm-community-repo"
 node.default['artifacts']['alfresco-rm-community-repo']['version'] = "2.4.a-EA"
 node.default['artifacts']['alfresco-rm-community-repo']['type'] = "amp"
 node.default['artifacts']['alfresco-rm-community-repo']['owner'] = node['alfresco']['user']
@@ -27,7 +27,7 @@ node.default['artifacts']['alfresco-rm-community-share']['owner'] = node['alfres
 node.default['artifacts']['alfresco-rm-community-share']['destination'] = node['alfresco']['amps_share_folder']
 
 node.default['artifacts']['alfresco-rm-enterprise-repo']['groupId'] = "org.alfresco"
-node.default['artifacts']['alfresco-rm-enterprise-repo']['artifactId'] = "alfresco-rm-enterprise-share"
+node.default['artifacts']['alfresco-rm-enterprise-repo']['artifactId'] = "alfresco-rm-enterprise-repo"
 node.default['artifacts']['alfresco-rm-enterprise-repo']['version'] = "2.4-EA-1"
 node.default['artifacts']['alfresco-rm-enterprise-repo']['type'] = "amp"
 node.default['artifacts']['alfresco-rm-enterprise-repo']['owner'] = node['alfresco']['user']
