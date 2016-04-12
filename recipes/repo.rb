@@ -15,10 +15,21 @@ group = node['tomcat']['group']
 alfresco_license_source = node['alfresco']['license_source']
 alfresco_license_cookbook = node['alfresco']['license_cookbook']
 
+activiti_license_source = node['activiti-app']['license_source']
+
+
 generate_alfresco_global = node['alfresco']['generate.global.properties']
 
 node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties'] if node['alfresco']['generate.global.properties']
 node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j'] if node['alfresco']['generate.repo.log4j.properties']
+
+if node['activiti-app']['generate.properties'] == true
+  if node['activiti-app']['edition'] == "community"
+    node.default['artifacts']['sharedclasses']['properties']['db.properties'] = node['activiti-app']["community"]['properties']
+  else
+    node.default['artifacts']['activiticlasses']['properties']['activiti-app.properties'] = node['activiti-app']["enterprise"]['properties']
+  end
+end
 
 directory "alfresco-rootdir" do
   path root_folder
@@ -37,7 +48,7 @@ directory "alfresco-extension" do
   recursive true
 end
 
-# Install license
+# Install Alfresco license
 remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   source alfresco_license_source
   cookbook alfresco_license_cookbook
@@ -48,6 +59,21 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   files_mode "0777"
   mode "0777"
   ignore_failure true
+end
+
+
+# Install Activiti license
+remote_directory "#{node['alfresco']['home']}/activiti/lib/" do
+  source activiti_license_source
+  cookbook alfresco_license_cookbook
+  owner user
+  group group
+  files_owner user
+  files_group group
+  files_mode "0777"
+  mode "0777"
+  ignore_failure true
+  only_if { node['activiti-app']['edition'] == "enterprise" }
 end
 
 file "#{shared_folder}/classes/alfresco/log4j.properties" do
@@ -63,6 +89,25 @@ file "alfresco-global-empty" do
   mode "0775"
   only_if { generate_alfresco_global == true }
 end
+
+file "#{shared_folder}/classes/db.properties" do
+  content ""
+  owner user
+  group group
+  mode '0644'
+  only_if { node['activiti-app']['edition'] == "community" }
+end
+
+["activiti-app","activiti-ldap"].each do |activity_enterprise_conf|
+  file "#{node['alfresco']['home']}/activiti/lib/#{activity_enterprise_conf}.properties" do
+    content ""
+    owner user
+    group group
+    mode '0644'
+    only_if { node['activiti-app']['edition'] == "enterprise" }
+  end
+end
+
 
 file_replace_line "#{config_folder}/catalina.properties" do
   replace "shared.loader="

@@ -28,9 +28,9 @@ default_action :create
 action :create do
 
   execute 'Stop supervisord manually' do
-    command "cat #{supervisor_pidfile} | xargs kill -9; rm -rf /var/run/supervisor*"
-    only_if { ::File.exist?(supervisor_pidfile) }
+    command "supervisorctl stop all"
   end
+  
   execute 'Start supervisord manually' do
     command "supervisord -c /etc/supervisord.conf -j #{supervisor_pidfile} & sleep 3"
   end
@@ -43,7 +43,7 @@ action :create do
     tomcat_instances << "alfresco" if components.include? "repo"
     tomcat_instances << "share" if components.include? "share"
     tomcat_instances << "solr" if components.include? "solr"
-    tomcat_instances << "activiti" if components.include? "activiti"
+    tomcat_instances << "activiti" if components.include? "activiti-app"
   end
 
   tomcat_instances.each do |server_name|

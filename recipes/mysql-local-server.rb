@@ -1,4 +1,4 @@
-db_database   = node['alfresco']['properties']['db.dbname']
+db_databases   = ['activiti-app', 'alfresco'].map { |product| node[product]["properties"]["db.dbname"] }
 db_host       = node['alfresco']['properties']['db.host']
 db_port       = node['alfresco']['properties']['db.port']
 db_user       = node['alfresco']['properties']['db.username']
@@ -37,12 +37,16 @@ mysql_connection_info = {
     :password => mysql_root_password
 }
 
-mysql_database db_database do
-  connection mysql_connection_info
-  collation "utf8_general_ci"
-  encoding "utf8"
-  action :create
+
+db_databases.each do | db_database |
+  mysql_database db_database do
+    connection mysql_connection_info
+    collation "utf8_general_ci"
+    encoding "utf8"
+    action :create
+  end
 end
+
 
 mysql_database_user db_user do
   connection mysql_connection_info

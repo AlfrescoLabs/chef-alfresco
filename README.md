@@ -131,6 +131,11 @@ kitchen converge enterprise
 
 Alternatively, you can use databags, check [other.json.example](test/integration/data_bags/maven_repos/other.json.example)
 
+For local testing, put your .lic file in files/default/(activiti|alfresco)-license/ folder; it will be ignored by chef/berkshelf and git
+
+For staging and production, please use a wrapping cookbook and define attribute
+ node['alfresco']['license_cookbook']
+
 Using custom Maven repository
 ---
 You can configure your own Maven repository:

@@ -92,3 +92,7 @@ default['alfresco']['properties']['cifs.netBIOSSMB.sessionPort'] = '1139'
 
 # Replication
 default['alfresco']['properties']['replication.enabled'] = true
+
+
+default['alfresco']['properties']['activiti.domain'] = 'http://33.33.33.10:8060'
+default['alfresco']['properties']['activiti.secret'] = 'activiti-secret'

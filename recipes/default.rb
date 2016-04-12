@@ -9,7 +9,6 @@
 #
 include_recipe "alfresco::_common-attributes"
 include_recipe "alfresco::_tomcat-attributes"
-include_recipe "alfresco::_activiti-attributes"
 include_recipe "alfresco::_alfrescoproperties-attributes"
 include_recipe "alfresco::_repo-attributes"
 include_recipe "alfresco::_share-attributes"
@@ -19,6 +18,7 @@ include_recipe "alfresco::_googledocs-attributes"
 include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
+include_recipe "alfresco::_activiti-app-attributes"
 include_recipe "alfresco::_logstash-attributes"
 include_recipe "alfresco::_supervisor-attributes"
 
@@ -63,7 +63,6 @@ end
 include_recipe "alfresco::yourkit" if node['alfresco']['components'].include? 'yourkit'
 include_recipe "alfresco::tomcat" if node['alfresco']['components'].include? 'tomcat'
 
-##############
 
 include_recipe "alfresco::nginx" if node['alfresco']['components'].include? 'nginx'
 include_recipe "alfresco::transformations" if node['alfresco']['components'].include? 'transform'
@@ -103,6 +102,8 @@ end
 
 artifact 'deploy artifacts'
 
+
+
 apply_amps 'apply alfresco and share amps' do
   alfresco_root "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"
   share_root "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"
@@ -118,10 +119,17 @@ if node['alfresco']['components'].include? 'analytics'
   install_activemq = true
 end
 
+
 include_recipe 'activemq::default' if install_activemq
 include_recipe "rsyslog::default" if node['alfresco']['components'].include? 'rsyslog'
 include_recipe "alfresco::logstash-forwarder" if node['alfresco']['components'].include? 'logstash-forwarder'
-include_recipe "alfresco::activiti" if node['alfresco']['components'].include? 'activiti'
+if node['alfresco']['components'].include? 'activiti-app'
+  node.default['artifacts']['activiti-app']['enabled'] = true
+  if node['activiti-app']['edition'] == "enterprise"
+    node.default['artifacts']['activiticlasses']['enabled'] = true
+  end
+  include_recipe "alfresco::activiti"
+end
 
 # TODO - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
