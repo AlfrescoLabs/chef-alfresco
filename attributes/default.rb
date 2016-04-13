@@ -93,7 +93,7 @@ default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-p
 default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f8fa2e'
 
 #3rd-party defaults
-default['alfresco']['imagemagick_version'] = "6.9.3-7"
+default['alfresco']['imagemagick_version'] = "6.9.3-8"
 default['alfresco']['use_imagemagick_os_repo'] = true
 
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
