@@ -90,8 +90,8 @@ default["java"]["jdk_version"] = "8"
 default["java"]["java_home"] = "/usr/lib/jvm/java"
 default["java"]["oracle"]['accept_oracle_download_terms']  = true
 
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f8fa2e'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '3f3d7d0cd70bfe0feab382ed4b0e45c0'
 #3rd-party defaults
 default['alfresco']['imagemagick_version'] = "6.9.3-8"
 default['alfresco']['use_imagemagick_os_repo'] = true
