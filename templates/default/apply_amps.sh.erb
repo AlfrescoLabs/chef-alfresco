@@ -42,13 +42,9 @@ rm -rf $SHARE_TOMCAT_WEBAPPS/share
 
 echo "Cleaning Tomcat . . ."
 # . $ALF_HOME/bin/clean_tomcat.sh
-rm -rf $CATALINA_BASE-share/logs/*
-rm -rf $CATALINA_BASE-share/temp/*
-rm -rf $CATALINA_BASE-share/work/*
-
-rm -rf $CATALINA_BASE-alfresco/logs/*
-rm -rf $CATALINA_BASE-alfresco/temp/*
-rm -rf $CATALINA_BASE-alfresco/work/*
+rm -rf $CATALINA_BASE-*/logs/*
+rm -rf $CATALINA_BASE-*/temp/*
+rm -rf $CATALINA_BASE-*/work/*
 
 #echo "Starting Tomcat again . . ."
 #service tomcat7 start
