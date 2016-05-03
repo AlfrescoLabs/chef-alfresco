@@ -27,7 +27,7 @@ default['alfresco']['use_libreoffice_os_repo'] = false
 default['alfresco']['enable_tarpit'] = true
 
 default['alfresco']['internal_hostname'] = "127.0.0.1"
-default['alfresco']['internal_port'] = "9000"
+default['alfresco']['internal_port'] = "9000i
 default['alfresco']['internal_secure_port'] = "9001"
 default['alfresco']['internal_portssl'] = "9443"
 default['alfresco']['internal_protocol'] = "http"
@@ -93,7 +93,7 @@ default["java"]["oracle"]['accept_oracle_download_terms']  = true
 default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz'
 default['java']['jdk']['8']['x86_64']['checksum'] = '3f3d7d0cd70bfe0feab382ed4b0e45c0'
 #3rd-party defaults
-default['alfresco']['imagemagick_version'] = "6.9.3-8"
+default['alfresco']['imagemagick_version'] = "6.9.3-9"
 default['alfresco']['use_imagemagick_os_repo'] = true
 
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
