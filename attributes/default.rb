@@ -27,7 +27,7 @@ default['alfresco']['use_libreoffice_os_repo'] = false
 default['alfresco']['enable_tarpit'] = true
 
 default['alfresco']['internal_hostname'] = "127.0.0.1"
-default['alfresco']['internal_port'] = "9000i
+default['alfresco']['internal_port'] = "9000"
 default['alfresco']['internal_secure_port'] = "9001"
 default['alfresco']['internal_portssl'] = "9443"
 default['alfresco']['internal_protocol'] = "http"
