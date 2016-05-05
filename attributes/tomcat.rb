@@ -1,7 +1,7 @@
 default['tomcat']['sysconfig_template_cookbook'] = 'alfresco'
 default['tomcat']['sysconfig_template_source'] = 'tomcat/sysconfig.erb'
 
-# Tomcat default[s of single instance configuration
+# Tomcat default's of single instance configuration
 default["tomcat"]["files_cookbook"] = "alfresco"
 default["tomcat"]["deploy_manager_apps"] = false
 default["tomcat"]["jvm_memory"] = "-Xmx1500M"
@@ -77,16 +77,11 @@ default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib
 ssl_db_conf = " -Djavax.net.ssl.keyStore=#{default['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{default['alfresco']['keystore_password']} -Djavax.net.ssl.trustStore=#{default['alfresco']['truststore_file']} -Djavax.net.ssl.trustStorePassword=#{default['alfresco']['truststore_password']}"
 
 # Tomcat multi-homed settings
-if node['alfresco']['db_ssl_enabled'] == true
-  default['alfresco']['repo_tomcat_instance']['java_options']['others'] = "#{default['alfresco']['repo_tomcat_instance']['java_options']['others']} #{ssl_db_conf}"
-end
 
 default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
-
-puts default['alfresco']['repo_tomcat_instance']['java_options']
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
@@ -95,6 +90,9 @@ default['alfresco']['repo_tomcat_instance']['xmx_ratio'] = 0.42
 alfresco_memory = "#{(node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{alfresco_memory}"
 default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-alfresco/gc.log -Dlogfilename=/var/log/tomcat-alfresco/alfresco.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-alfresco/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-alfresco/"
+if node['alfresco']['db_ssl_enabled'] == true
+  default['alfresco']['repo_tomcat_instance']['java_options']['others'] = "#{default['alfresco']['repo_tomcat_instance']['java_options']['others']} #{ssl_db_conf}"
+end
 
 default['alfresco']['share_tomcat_instance']['port'] = 8081
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
