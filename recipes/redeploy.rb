@@ -83,6 +83,28 @@ file_append '/etc/tomcat/tomcat.conf' do
   only_if "ls /etc/tomcat/tomcat.conf"
 end
 
+
+restart_tomcat_services.each do |service|
+  component = service.gsub("tomcat-","")
+  component = component == "alfresco" ? "repo" : component
+  template "/etc/sysconfig/#{service}" do
+    source "tomcat/sysconfig.erb"
+    variables ({
+      :user => "tomcat",
+      :home => "/usr/share/#{service}",
+      :base => "/usr/share/#{service}",
+      :java_options => node["alfresco"]["#{component}_tomcat_instance"]['java_options'],
+      :use_security_manager => false,
+      :tmp_dir => "/var/cache/#{service}/temp",
+      :catalina_options => "",
+      :endorsed_dir => "/usr/share/tomcat/lib/endorsed"
+    })
+    owner 'root'
+    group 'root'
+    mode '0644'
+  end
+end
+
 # Patching sysconfig file with XMX values
 memory = {}
 memory['alfresco'] = ((node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024).to_s
