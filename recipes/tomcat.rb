@@ -62,12 +62,12 @@ template "#{node['alfresco']['home']}/conf/context.xml" do
   group node['tomcat']['group']
 end
 
-if node['alfresco']['components'].include?("share") && !node["tomcat"]["memcached_nodes"].empty?
-  template "#{node['alfresco']['home']}/conf/Catalina/localhost/share.xml" do
-    source 'tomcat/share.xml.erb'
-    owner node['alfresco']['user']
-    owner node['tomcat']['group']
-  end
+
+template "#{node['alfresco']['home']}/conf/Catalina/localhost/share.xml" do
+  source 'tomcat/share.xml.erb'
+  owner node['alfresco']['user']
+  owner node['tomcat']['group']
+  only_if node['alfresco']['components'].include?("share") && !node["tomcat"]["memcached_nodes"].empty?
 end
 
 
