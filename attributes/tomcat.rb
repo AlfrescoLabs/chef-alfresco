@@ -17,6 +17,8 @@ default['tomcat']['restart_action'] = :nothing
 default["tomcat"]["deploy_manager_apps"] = false
 default["tomcat"]["use_security_manager"] = false
 
+default["tomcat"]["memcached_nodes"] = ""
+
 # https://github.com/abrt/abrt/wiki/ABRT-Project
 # http://tomcat.apache.org/download-native.cgi
 # http://tomcat.apache.org/tomcat-7.0-doc/apr.html
