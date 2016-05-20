@@ -6,6 +6,27 @@ node.default['artifacts']['catalina-jmx']['type'] = 'jar'
 node.default['artifacts']['catalina-jmx']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['memcached-session-manager']['groupId'] = "de.javakaffee.msm"
+node.default['artifacts']['memcached-session-manager']['artifactId'] = "memcached-session-manager"
+node.default['artifacts']['memcached-session-manager']['version'] = "1.9.2"
+node.default['artifacts']['memcached-session-manager']['type'] = 'jar'
+node.default['artifacts']['memcached-session-manager']['destination'] = "#{node['alfresco']['home']}/lib"
+node.default['artifacts']['memcached-session-manager']['owner'] = node['alfresco']['user']
+
+node.default['artifacts']['memcached-session-manager-tc7']['groupId'] = "de.javakaffee.msm"
+node.default['artifacts']['memcached-session-manager-tc7']['artifactId'] = "memcached-session-manager-tc7"
+node.default['artifacts']['memcached-session-manager-tc7']['version'] = "1.9.2"
+node.default['artifacts']['memcached-session-manager-tc7']['type'] = 'jar'
+node.default['artifacts']['memcached-session-manager-tc7']['destination'] = "#{node['alfresco']['home']}/lib"
+node.default['artifacts']['memcached-session-manager-tc7']['owner'] = node['alfresco']['user']
+
+node.default['artifacts']['spymemcached']['groupId'] = "net.spy"
+node.default['artifacts']['spymemcached']['artifactId'] = "spymemcached"
+node.default['artifacts']['spymemcached']['version'] = "2.11.1"
+node.default['artifacts']['spymemcached']['type'] = 'jar'
+node.default['artifacts']['spymemcached']['destination'] = "#{node['alfresco']['home']}/lib"
+node.default['artifacts']['spymemcached']['owner'] = node['alfresco']['user']
+
 node.default['tomcat']['jvm_route'] = "alfresco-#{node['alfresco']['public_hostname']}"
 
 node.default['tomcat']['global_templates'] = [{

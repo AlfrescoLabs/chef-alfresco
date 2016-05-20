@@ -5,6 +5,12 @@ node.default['artifacts']['alfresco-mmt']['enabled'] = true
 node.default['artifacts']['sharedclasses']['enabled'] = true
 node.default['artifacts']['catalina-jmx']['enabled'] = true
 
+if node['alfresco']['components'].include?("share") && !node["tomcat"]["memcached_nodes"].empty?
+  node.default['artifacts']['memcached-session-manager']['enabled'] = true
+  node.default['artifacts']['memcached-session-manager-tc7']['enabled'] = true
+  node.default['artifacts']['spymemcached']['enabled'] = true
+end
+
 context_template_cookbook = node['tomcat']['context_template_cookbook']
 context_template_source = node['tomcat']['context_template_source']
 
@@ -55,6 +61,15 @@ template "#{node['alfresco']['home']}/conf/context.xml" do
   owner node['alfresco']['user']
   group node['tomcat']['group']
 end
+
+
+template "#{node['alfresco']['home']}/conf/Catalina/localhost/share.xml" do
+  source 'tomcat/share.xml.erb'
+  owner node['alfresco']['user']
+  owner node['tomcat']['group']
+  only_if node['alfresco']['components'].include?("share") && !node["tomcat"]["memcached_nodes"].empty?
+end
+
 
 file_replace_line 'patch-tomcat-conf-javahome' do
   path      '/etc/tomcat/tomcat.conf'
