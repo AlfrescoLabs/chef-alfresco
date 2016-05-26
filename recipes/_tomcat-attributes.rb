@@ -71,7 +71,7 @@ node.default['artifacts']['asm']['type'] = 'jar'
 node.default['artifacts']['asm']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['asm']['owner'] = node['alfresco']['user']
 
-node.default['tomcat']['jvm_route'] = "alfresco-#{node['alfresco']['public_hostname']}"
+node.default['tomcat']['jvm_route'] = node['alfresco']['public_hostname']
 
 node.default['tomcat']['global_templates'] = [{
   "dest" => "#{node['alfresco']['home']}/conf",
