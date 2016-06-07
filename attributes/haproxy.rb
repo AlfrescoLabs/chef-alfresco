@@ -193,9 +193,11 @@ default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GE
 default['haproxy']['backends']['roles']['solr']['port'] = 8090
 
 # Activiti Haproxy configuration
-default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
-default['haproxy']['backends']['roles']['activiti']['entries'] = ["option httpchk GET /activiti","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['roles']['activiti']['port'] = 8060
+if node['alfresco']['components'].include?('activiti')
+  default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
+  default['haproxy']['backends']['roles']['activiti']['entries'] = ["option httpchk GET /activiti","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+  default['haproxy']['backends']['roles']['activiti']['port'] = 8060
+end
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ["path_beg /alfresco"]

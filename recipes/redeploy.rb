@@ -21,6 +21,11 @@ include_recipe "commons::hosts"
 # Handle certs creation
 include_recipe "alfresco::_certs"
 
+# Enabling encrypted communication to the DB (rds as of now)
+if node['alfresco']['db_ssl_enabled'] == true
+  include_recipe "alfresco::db-ssl"
+end
+
 restart_tomcat_services = []
 
 if node['alfresco']['components'].include? 'repo'

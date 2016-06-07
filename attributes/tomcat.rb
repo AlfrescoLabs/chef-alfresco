@@ -74,8 +74,6 @@ default['tomcat']['java_options_hash']['jmx'] = "-Dcom.sun.management.jmxremote=
 default['tomcat']['java_options_hash']['logging'] = " -Dhazelcast.logging.type=log4j"
 default['tomcat']['java_options_hash']['others'] = "-Djava.library.path=/usr/lib64 -Djava.awt.headless=true"
 
-ssl_db_conf = " -Djavax.net.ssl.keyStore=#{default['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{default['alfresco']['keystore_password']} -Djavax.net.ssl.trustStore=#{default['alfresco']['truststore_file']} -Djavax.net.ssl.trustStorePassword=#{default['alfresco']['truststore_password']}"
-
 # Tomcat multi-homed settings
 
 default['alfresco']['repo_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
@@ -90,9 +88,6 @@ default['alfresco']['repo_tomcat_instance']['xmx_ratio'] = 0.42
 alfresco_memory = "#{(node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio'] ).floor / 1024}m"
 default['alfresco']['repo_tomcat_instance']['java_options']['xmx_memory'] = "-Xmx#{alfresco_memory}"
 default['alfresco']['repo_tomcat_instance']['java_options']['log_paths'] = "-Xloggc:/var/log/tomcat-alfresco/gc.log -Dlogfilename=/var/log/tomcat-alfresco/alfresco.log -Dlog4j.configuration=alfresco/log4j.properties -XX:ErrorFile=/var/log/tomcat-alfresco/jvm_crash%p.log -XX:HeapDumpPath=/var/log/tomcat-alfresco/"
-if node['alfresco']['db_ssl_enabled'] == true
-  default['alfresco']['repo_tomcat_instance']['java_options']['others'] = "#{default['alfresco']['repo_tomcat_instance']['java_options']['others']} #{ssl_db_conf}"
-end
 
 default['alfresco']['share_tomcat_instance']['port'] = 8081
 default['alfresco']['share_tomcat_instance']['shutdown_port'] = 8015
