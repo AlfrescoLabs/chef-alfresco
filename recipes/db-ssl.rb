@@ -4,7 +4,7 @@ command <<-EOF
   cd /tmp;
   wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem;
   csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}';
-  if [ $(keytool -list -storepass #{node['alfresco']['truststore_password']} -storetype #{node['alfresco']['truststore_type']}  -keystore #{node['alfresco']['truststore_file']} |grep rds |wc -l) > 2 ]
+  if [ $(keytool -list -storepass #{node['alfresco']['truststore_password']} -storetype #{node['alfresco']['truststore_type']}  -keystore #{node['alfresco']['truststore_file']} |grep rds |wc -l) -ge 12 ]
    then echo "is OK"
   else
    for CERT in xx*; do ALIAS=$(openssl x509 -noout -text -in $CERT | perl -ne 'next unless /Subject:/; s/.*CN=//; print'); keytool -import -keystore #{node['alfresco']['truststore_file']}  -storepass #{node['alfresco']['truststore_password']} -storetype #{node['alfresco']['truststore_type']} -noprompt -alias "$ALIAS" -file $CERT; done
