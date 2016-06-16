@@ -62,7 +62,7 @@ default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = f
 
 #Transformations
 default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
-default['alfresco']['properties']['ooo.enabled'] = true
+default['alfresco']['properties']['ooo.enabled'] = false
 default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice4.2/'
 default['alfresco']['properties']['jodconverter.portNumbers'] = '8101'
 default['alfresco']['properties']['jodconverter.enabled'] = true
