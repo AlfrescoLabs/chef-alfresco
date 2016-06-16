@@ -29,7 +29,7 @@ apply_amps = false
 install_activemq = false
 
 # Install/configure awscli, as it's used by haproxy ec2 discovery
-include_recipe "artifact-deployer::awscli"
+#include_recipe "artifact-deployer::awscli"
 
 # [old implementation]
 # Change artifactIds for alfresco and share WARs, if
