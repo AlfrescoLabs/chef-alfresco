@@ -125,16 +125,6 @@ memory.each do |instance_name,xmx|
  end
 end
 
-if node['alfresco']['components'].include? 'solr'
-  ["archive","workspace"].each do |name|
-    sed_command = "sed -i -E \"s/alfresco.port\=9000/alfresco.port\=#{node['alfresco']['properties']['alfresco.port']}/g\" /usr/share/tomcat/alf_data/solrhome/#{name}-SpacesStore/conf/solrcore.properties"
-    execute "patch-solr-alfresco-port" do
-      command sed_command
-      user "root"
-    end
-  end
-end
-
 restart_tomcat_services.each do |service_name|
 
   # => As the system is being rebooted a lot of times, it may be nice to remove the app folder if needed
