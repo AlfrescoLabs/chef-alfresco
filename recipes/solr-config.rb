@@ -1,4 +1,5 @@
 node.default['artifacts']['solrhome']['enabled'] = true
+node.default['artifacts']['solrhome']['destination'] = node['alfresco']['properties']['dir.root']
 node.default['artifacts']['solr4']['enabled'] = true
 
 if node['alfresco']['generate.solr.core.config'] == true
