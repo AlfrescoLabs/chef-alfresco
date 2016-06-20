@@ -37,7 +37,7 @@ include_recipe "artifact-deployer::awscli"
 # enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 # [New implementation]
 if node['alfresco']['edition'] == 'enterprise'
-  node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
+  node.default['artifacts']['alfresco']['artifactId'] = "alfresco-enterprise"
   unless node['alfresco']['version'].start_with?("5.1")
     node.default['artifacts']['share']['artifactId'] = "share-enterprise"
   end
@@ -62,7 +62,6 @@ elsif node['alfresco']['components'].include? 'mysql'
 end
 
 include_recipe 'java::default'
-
 
 if node['alfresco']['components'].include? 'yourkit'
   include_recipe "alfresco::yourkit"
@@ -135,7 +134,7 @@ if apply_amps
   include_recipe "alfresco::apply-amps"
 end
 
-if node['alfresco']['db_ssl_enabled'] == true
+if node['alfresco']['db_ssl_enabled']
   node.default['artifacts']['ssl-db-creds']['enabled'] = true
   execute "import key to RDS keystore" do
     command "keytool -import -alias RDSmysqlServerCACert -file #{node['artifacts']['ssl-db-creds']['destination']} -keystore #{node['alfresco']['keystore_file']}"
