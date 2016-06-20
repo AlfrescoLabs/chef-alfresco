@@ -55,13 +55,13 @@ suites:
           "repositories" : {
             "internal" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+              "username" : "devops",
+              "password" : "9oP3CFqfHXrAWx"
             },
             "staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+              "username" : "devops",
+              "password" : "9oP3CFqfHXrAWx"
             }
           }
         }

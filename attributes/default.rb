@@ -82,16 +82,6 @@ default['artifact-deployer']['maven']['repositories']['public']['url'] = "https:
 #Mysql defaults
 default['mysql']['update_gcc'] = true
 
-# Java defaults
-default["java"]["default"] = true
-default["java"]["accept_license_agreement"] = true
-default["java"]["install_flavor"] = "oracle"
-default["java"]["jdk_version"] = "8"
-default["java"]["java_home"] = "/usr/lib/jvm/java"
-default["java"]["oracle"]['accept_oracle_download_terms']  = true
-
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '3f3d7d0cd70bfe0feab382ed4b0e45c0'
 #3rd-party defaults
 default['alfresco']['imagemagick_version'] = "6.9.4-9"
 default['alfresco']['use_imagemagick_os_repo'] = true

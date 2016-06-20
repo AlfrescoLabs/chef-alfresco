@@ -17,3 +17,5 @@ nohup.out
 
 # Alfresco license ignores
 **/*.lic
+
+.idea
