@@ -1,3 +1,7 @@
+if node['artifacts']['keystore']['enabled'] == true
+  node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+end
+
 # Tomcat Configuration for Alfresco keystore
 # TODO - these should be tomcat parent attribute, not alfresco
 node.default["alfresco"]["keystore_file"] = "#{node['alfresco']['properties']['dir.keystore']}/ssl.keystore"

@@ -1,4 +1,3 @@
-node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
 execute "import key to RDS keystore" do
   command <<-EOF
     cd /tmp;
@@ -13,5 +12,5 @@ execute "import key to RDS keystore" do
   ignore_failure true
 end
 
-ssl_db_conf = " -Djavax.net.ssl.keyStore=#{node.default['alfresco']['properties']['dir.keystore']}#{node['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{node['alfresco']['keystore_password']}"
+ssl_db_conf = " -Djavax.net.ssl.keyStore=#{node['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{node['alfresco']['keystore_password']}"
 node.default['alfresco']['repo_tomcat_instance']['java_options']['others'] = "#{node['alfresco']['repo_tomcat_instance']['java_options']['others']} #{ssl_db_conf}"
