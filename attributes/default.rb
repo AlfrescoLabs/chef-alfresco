@@ -83,7 +83,7 @@ default['artifact-deployer']['maven']['repositories']['public']['url'] = "https:
 default['mysql']['update_gcc'] = true
 
 #3rd-party defaults
-default['alfresco']['imagemagick_version'] = "6.9.4-10"
+default['alfresco']['imagemagick_version'] = "6.9.5-0"
 default['alfresco']['use_imagemagick_os_repo'] = true
 
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
