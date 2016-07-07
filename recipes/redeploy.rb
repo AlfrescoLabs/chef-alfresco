@@ -126,13 +126,6 @@ memory.each do |instance_name,xmx|
 end
 
 restart_tomcat_services.each do |service_name|
-
-  # => As the system is being rebooted a lot of times, it may be nice to remove the app folder if needed
-  directory "/usr/share/#{service_name}/webapps/#{service_name.split('-').last}" do
-    recursive true
-    action :delete
-  end
-
   service service_name do
     action :restart
   end
