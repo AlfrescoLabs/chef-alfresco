@@ -15,9 +15,28 @@ platforms:
     driver_config:
       network:
       - ["private_network", {ip: "192.168.33.23"}]
+      - ["forwarded_port", {guest: 8060, host: 8060, auto_correct: true}]
+      - ["forwarded_port", {guest: 8070, host: 8070, auto_correct: true}]
+      - ["forwarded_port", {guest: 8081, host: 8081, auto_correct: true}]
+      - ["forwarded_port", {guest: 8090, host: 8090, auto_correct: true}]
+      - ["forwarded_port", {guest: 8800, host: 8800, auto_correct: true}]
+      - ["forwarded_port", {guest: 9000, host: 9000, auto_correct: true}]
 
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
+
+  - name: ubuntu-14.04
+    driver_config:
+      network:
+      - ["private_network", {ip: "192.168.33.23"}]
+      - ["private_network", {ip: "192.168.33.23"}]
+      - ["forwarded_port", {guest: 8060, host: 8060, auto_correct: true}]
+      - ["forwarded_port", {guest: 8070, host: 8070, auto_correct: true}]
+      - ["forwarded_port", {guest: 8081, host: 8081, auto_correct: true}]
+      - ["forwarded_port", {guest: 8090, host: 8090, auto_correct: true}]
+      - ["forwarded_port", {guest: 8800, host: 8800, auto_correct: true}]
+      - ["forwarded_port", {guest: 9000, host: 9000, auto_correct: true}]
+    run_list: apt::default
 
 suites:
   - name: community

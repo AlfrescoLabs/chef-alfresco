@@ -1,4 +1,4 @@
-source "https://api.berkshelf.com"
+source "https://api.chef.io"
 
 cookbook 'tomcat', git:'https://github.com/maoo/tomcat.git', tag: "v11.17.3"
 # cookbook 'tomcat', path: '../tomcat'
