@@ -24,9 +24,17 @@ Local test (run)
 - Make sure that you have [SSH Keys configured in GitHub](https://help.github.com/articles/generating-ssh-keys/)
 
 #### Command
+
+To run the CentOS-7.2 version
 ```
-kitchen converge community
+kitchen converge community-centos
 ```
+
+To run the Ubuntu-14.04 version
+```
+kitchen converge community-ubuntu
+```
+
 It takes roughly 30 minutes for a full default configuration (with a fast laptop/connection)
 
 #### Access
@@ -43,10 +51,11 @@ If you use analytics and/or media-management you can also access:
 - (WIP) [http://localhost:8080/pentaho](http://localhost:8080/pentaho) (ba-server tomcat)
 - [http://localhost:61616](http://localhost:61616) (activemq)
 
-Access to the admin console is via (https://localhost:8843/alfresco/)[https://localhost:8843/alfresco/] and then Alfresco Administration Console.
+Access to the admin console is via [https://localhost:8843/alfresco/](https://localhost:8843/alfresco/) and then Alfresco Administration Console.
 
 #### Tweaking
 Please [review CPU/memory configurations](Vagrantfile.erb) of chef-alfresco and adapt them to your workstation specs; hereby the default values:
+
 ```
 c.vm.provider "virtualbox" do |v|
   v.memory = 4096

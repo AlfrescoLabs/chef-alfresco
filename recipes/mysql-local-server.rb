@@ -21,6 +21,12 @@ directory "/tmp" do
   mode 0777
 end
 
+if node['platform_family'] == "debian"
+  package 'libmysqlclient-dev' do
+    action :install
+  end
+end
+
 mysql2_chef_gem 'default' do
   client_version mysql_version
   action :install
