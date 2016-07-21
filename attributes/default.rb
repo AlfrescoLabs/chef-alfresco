@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit','aos']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
@@ -42,7 +42,7 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.1.0.1"
+default['alfresco']['version'] = "5.1.g"
 default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
