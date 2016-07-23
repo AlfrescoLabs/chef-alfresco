@@ -152,8 +152,6 @@ GRAPH
   runit (1.8.0)
     packagecloud (>= 0.0.0)
     yum-epel (>= 0.0.0)
-  seven_zip (2.0.1)
-    windows (>= 1.2.2)
   smf (2.2.8)
     rbac (>= 1.0.1)
   swftools (0.2.4)
