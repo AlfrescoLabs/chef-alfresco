@@ -11,11 +11,6 @@ provisioner:
 
 platforms:
   - name: centos-7
-    driver_config:
-      image: milcom/centos7-systemd
-      platform: centos
-      privileged: true
-      run_command: /usr/sbin/init
 
 
 suites:

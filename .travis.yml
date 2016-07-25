@@ -7,6 +7,6 @@ before_script:
   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.5.0/scripts/start_docker.sh)
 
 script:
-  - foodcritic .
+  - bundle exec rake foodcritic
   # Run test-kitchen with docker driver, for example:
-  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml bundle exec kitchen verify community
+  - travis_retry bundle exec rake docker_integration
