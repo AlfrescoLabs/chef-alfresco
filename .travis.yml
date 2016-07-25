@@ -1,17 +1,12 @@
-language: ruby
 rvm:
   - 2.2
 
-sudo: required
-services: docker
+sudo: true
 
-
-before_install: curl -L https://www.getchef.com/chef/install.sh | sudo bash -s -- -P chefdk -v 0.9.0
-install: chef exec bundle install
-
-before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
+before_script:
+  - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.5.0/scripts/start_docker.sh)
 
 script:
   - foodcritic .
   # Run test-kitchen with docker driver, for example:
-  - KITCHEN_LOCAL_YAML=.kitchen.yml bundle exec kitchen verify community
+  - KITCHEN_LOCAL_YAML=.kitchen.docker.yml bundle exec kitchen verify community
