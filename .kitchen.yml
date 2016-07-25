@@ -1,23 +1,22 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
-
 driver:
-  name: vagrant
-  customize:
-    memory: 4096
-    cpus: 2
+  name: docker
+  binary: docker
+  use_sudo: false
+  privileged: true
 
 provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos-7.2
+  - name: centos-7
     driver_config:
-      network:
-      - ["private_network", {ip: "192.168.33.23"}]
+      image: centos:7
+      platform: centos
+      privileged: true
+      run_command: /usr/sbin/init
 
-    driver:
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
 
 suites:
   - name: community
