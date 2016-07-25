@@ -1,3 +1,4 @@
+language: ruby
 rvm:
   - 2.2
 
@@ -9,6 +10,6 @@ before_script:
   - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.5.0/scripts/start_docker.sh)
 
 script:
-  foodcritic .
+  - foodcritic .
   # Run test-kitchen with docker driver, for example:
   - KITCHEN_LOCAL_YAML=.kitchen.yml bundle exec kitchen test community
