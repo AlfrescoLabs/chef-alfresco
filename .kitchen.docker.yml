@@ -33,38 +33,3 @@ suites:
         "use_nossl_config" : true
       }
     }
-  - name: enterprise
-    run_list:
-      - recipe[alfresco::default]
-      - recipe[alfresco::redeploy]
-    data_bags_path: "test/integration/data_bags"
-    attributes: {
-      "name": "chef-alfresco-enterprise",
-      "hostname": "alfresco-allinone-test",
-      "alfresco" : {
-        "version" : "5.1",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos"],
-        "edition" : "enterprise",
-        "ssl_enabled" : false
-      },
-      "artifact-deployer" : {
-        "maven" : {
-          "timeout" : 1500,
-          "repositories" : {
-            "internal" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            },
-            "staging" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            }
-          }
-        }
-      },
-      "nginx" : {
-        "use_nossl_config" : true
-      }
-    }
