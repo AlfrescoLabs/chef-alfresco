@@ -19,6 +19,9 @@ platforms:
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
 
+verifier:
+  name: inspec
+
 suites:
   - name: community
     run_list:
