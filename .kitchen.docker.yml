@@ -10,7 +10,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-  - name: centos7.1
+  - name: centos7.1.1503
     driver_config:
       run_command: /usr/sbin/init
       privileged: true
