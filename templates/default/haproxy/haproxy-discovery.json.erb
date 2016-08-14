@@ -3,6 +3,9 @@
     "tomcat" : {
       "jvm_route" : "<%= node['tomcat']['jvm_route'] %>"
     },
+    "alfresco": {
+       "components": <%= node['alfresco']['components'] %>
+    },
     "haproxy" : {
       "ec2" : {
         "discovery_enabled" : true
