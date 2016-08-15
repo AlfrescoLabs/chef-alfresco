@@ -18,6 +18,9 @@ platforms:
       run_command: /usr/sbin/init
 
 
+verifier:
+  name: inspec
+
 suites:
   - name: community
     run_list:
