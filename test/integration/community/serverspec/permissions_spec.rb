@@ -5,15 +5,45 @@ require 'spec_helper'
 describe "Alfresco folder permission" do
   describe file("/usr/share/tomcat-alfresco/webapps") do
     it { should be_owned_by 'root' }
-    it { should be_writable.by_user('root') }
-    it { should be_readable.by_user('root') }
-    it { should_not be_writable.by_user('tomcat') }
-    it { should be_readable.by_user('tomcat') }
+
+    it 'should be writable by root' do
+    	should be_writable.by_user('root')
+    end
+
+    it 'should be readable by root' do
+    	should be_readable.by_user('root')
+    end
+
+    it 'should not be writable by tomcat' do
+    	should_not be_writable.by_user('tomcat')
+    end
+
+    it 'should be readable by tomcat' do
+    	should be_readable.by_user('tomcat')
+    end
   end
 
-  describe file ()"/usr/share/something/jmxremote.password") do
-    it { should be_owned.by('tomcat') }
-    it { should be_writable.by('tomcat') }
-    it { should be_readable.by('tomcat') }
+  describe file ("/etc/tomcat/jmxremote.password") do
+    it { should be_owned_by 'tomcat' }
+
+    it "should be writable by the tomcat user" do
+    	should be_writable.by_user('tomcat')
+    end
+
+    it 'should be readable by the tomcat user' do
+    	should be_readable.by_user('tomcat')
+    end
+
+    it "should not be readable by anyone else (nginx as example)" do
+      should_not be_readable.by_user('nginx')
+    end
+
+    it "should not be writable by anyone else (nginx as example)" do
+      should_not be_writable.by_user('nginx')
+    end
+
+    it "should not be executable by anyone else (nginx as example)" do
+      should_not be_executable.by_user('nginx')
+    end
   end
 end
