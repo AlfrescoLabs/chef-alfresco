@@ -22,13 +22,37 @@ task :unit do
   end
 end
 
-task :integration do
-  begin
-    require 'kitchen/rake_tasks'
-    Kitchen::RakeTasks.new
-  rescue LoadError
-    puts ">>>>> Kitchen gem not loaded, omitting kitchen tasks" unless ENV['CI']
+namespace :integration do
+  # Gets a collection of instances.
+  #
+  # @param regexp [String] regular expression to match against instance names.
+  # @param config [Hash] configuration values for the `Kitchen::Config` class.
+  # @return [Collection<Instance>] all instances.
+  def kitchen_instances(regexp, config)
+    instances = Kitchen::Config.new(config).instances
+    return instances if regexp.nil? || regexp == 'all'
+    instances.get_all(Regexp.new(regexp))
+  end
+
+  # Runs a test kitchen action against some instances.
+  #
+  # @param action [String] kitchen action to run (defaults to `'test'`).
+  # @param regexp [String] regular expression to match against instance names.
+  # @param loader_config [Hash] loader configuration options.
+  # @return void
+  def run_kitchen(action, regexp, loader_config = {})
+    action = 'test' if action.nil?
+    require 'kitchen'
+    Kitchen.logger = Kitchen.default_file_logger
+    puts loader_config
+    config = { loader: Kitchen::Loader::YAML.new(loader_config) }
+    kitchen_instances(regexp, config).each { |i| i.send(action) }
+  end
+
+  desc 'Run integration tests with kitchen-docker'
+  task :docker, [:regexp, :action] do |_t, args|
+    run_kitchen(args.action, args.regexp, local_config: '.kitchen.docker.yml')
   end
 end
 
-task :default => [:foodcritic, :knife, :unit]
+task :default => [ :foodcritic, :knife, :unit ]

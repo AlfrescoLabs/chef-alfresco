@@ -1,40 +1,72 @@
+# When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
 driver:
   name: docker
+  binary: docker
+  use_sudo: false
   privileged: true
 
+provisioner:
+  name: chef_solo
+
+
 platforms:
-- name: centos-70
-  driver_config:
-    # TODO - we should be able to use official centos7 images
-    image: milcom/centos7-systemd
-    privileged: true
+  - name: centos-7
+    driver_config:
+      image: centos:7
+      platform: centos
+      privileged: true
+      run_command: /usr/sbin/init
+      forward:
+      - 80:80
+      - 8070:8070
+      - 8081:8081
+      - 8090:8090
+      - 9001:9001
+      - 9000:9000
+
 
 suites:
-  - name: ci
+  - name: community
     run_list:
       - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
     attributes: {
-      "name": "chef-alfresco-testing",
-      "hostname": "chef-alfresco-docker-testing",
+      "name": "chef-alfresco-community",
+      "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "public_protocol" : "http",
-        "mailsmtp_databag" : "credentials",
-        "mailsmtp_databag_item" : "outbound-email",
-        "jmxremote_databag" : "credentials",
-        "jmxremote_databag_items" : ["systemsmonitor", "systemscontrol"],
-        "certs" : {
-          "ssl_databag" : "ssl",
-          "ssl_databag_item" : "local"
-        }
+        "ssl_enabled" : false
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+    }
+  - name: enterprise
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-enterprise",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "version" : "5.1",
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos"],
+        "edition" : "enterprise",
+        "ssl_enabled" : false
       },
       "artifact-deployer" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {
-            "private" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/groups/private",
+            "internal" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }

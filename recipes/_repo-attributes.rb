@@ -78,7 +78,7 @@ node.default['artifacts']['alfresco']['artifactId'] = "alfresco"
 node.default['artifacts']['alfresco']['version'] = node['alfresco']['version']
 node.default['artifacts']['alfresco']['type'] = "war"
 
-node.default['artifacts']['alfresco']['owner'] = node['alfresco']['user']
+node.default['artifacts']['alfresco']['owner'] = "root"
 node.default['artifacts']['alfresco']['unzip'] = false
 
 # Alfresco MMT artifact
