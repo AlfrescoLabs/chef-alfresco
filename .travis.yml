@@ -9,4 +9,4 @@ before_script:
 script:
   - bundle exec rake
   # Run test-kitchen with docker driver, for example:
-  - bundle exec rake 'integration:docker[community,test]'
+  - bundle exec rake 'integration:travis[community,test]'

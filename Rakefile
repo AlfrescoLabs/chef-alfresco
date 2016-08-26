@@ -58,6 +58,11 @@ namespace :integration do
   task :docker, [:regexp, :action] do |_t, args|
     run_kitchen(args.action, args.regexp, local_config: '.kitchen.docker.yml')
   end
+
+  desc 'Run integration tests with kitchen-docker in travis'
+  task :travis, [:regexp, :action] do |_t, args|
+    run_kitchen(args.action, args.regexp, local_config: '.kitchen.travis.yml')
+  end
 end
 
 
