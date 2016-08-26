@@ -13,8 +13,9 @@ provisioner:
 platforms:
   - name: centos-7
     driver_config:
-      image: milcom/centos7-systemd
+      image: centos:7
       platform: centos
+      run_command: /usr/sbin/init
       privileged: true
       forward:
       - 80:80
