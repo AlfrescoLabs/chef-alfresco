@@ -174,8 +174,11 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
   execute "run-nossl-patch.sh" do
     command "/usr/local/bin/nossl-patch.sh"
+    user "root"
   end
 end
+
+
 
 
 
@@ -185,6 +188,16 @@ restart_services  = node['alfresco']['restart_services']
 restart_action    = node['alfresco']['restart_action']
 if alfresco_start and node['alfresco']['components'].include? 'tomcat'
   restart_services.each do |service_name|
+    # => Fix file permissions
+    ["/var/cache/#{service_name}","/var/log/#{service_name}"].each do |service|
+      directory(service) do
+        owner "tomcat"
+        group "tomcat"
+        mode '0750'
+        recursive true
+      end
+    end
+
     service service_name  do
       action    restart_action
     end

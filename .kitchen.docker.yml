@@ -7,14 +7,23 @@ driver:
   privileged: true
 
 provisioner:
-  name: chef_zero
+  name: chef_solo
+
 
 platforms:
-  - name: centos-7.1.1503
+  - name: centos-7
     driver_config:
-      run_command: /usr/sbin/init
+      image: centos:7
+      platform: centos
       privileged: true
-
+      run_command: /usr/sbin/init
+      forward:
+      - 80:80
+      - 8070:8070
+      - 8081:8081
+      - 8090:8090
+      - 9001:9001
+      - 9000:9000
 
 
 suites:
@@ -28,6 +37,41 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "ssl_enabled" : false
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+    }
+  - name: enterprise
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-enterprise",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "version" : "5.1",
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos"],
+        "edition" : "enterprise",
+        "ssl_enabled" : false
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "internal" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
       },
       "nginx" : {
         "use_nossl_config" : true

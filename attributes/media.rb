@@ -5,6 +5,7 @@ default['alfresco']['properties']['messaging.broker.url'] = "tcp://localhost:616
 default['artifacts']['media']['destination'] = '/opt'
 default['artifacts']['media']['unzip'] = true
 default['artifacts']['media']['type'] = "zip"
+default['artifacts']['media']['version'] = "1.0.0"
 
 default['media']['content_services_packages'] = %w( ImageMagick libogg libvorbis vorbis-tools libmp3lame0 libfaac0 faac faac-devel faad2 libfaad2 faad2-devel libtheora-devel libvorbis-devel libvpx-devel xvidcore xvidcore-devel x264 x264-devel ffmpeg ffmpeg-devel)
 
