@@ -7,7 +7,7 @@ gem 'minitest'
 gem 'rake'
 gem 'rubocop'
 gem 'chefspec'
-
+gem 'inspec'
 gem 'berkshelf', '~> 4.0' # Comes with ChefDK 0.9.0
 gem 'serverspec'
 
@@ -20,4 +20,5 @@ end
 group :vagrant do
   gem 'vagrant-wrapper', '~> 2.0'
   gem 'kitchen-vagrant', '~> 0.18'
+
 end

@@ -2,8 +2,7 @@
 ---
 driver:
   name: docker
-  binary: docker
-  use_sudo: false
+  use_sudo: true
   privileged: true
 
 provisioner:
@@ -15,8 +14,8 @@ platforms:
     driver_config:
       image: centos:7
       platform: centos
-      privileged: true
       run_command: /usr/sbin/init
+      privileged: true
       forward:
       - 80:80
       - 8070:8070

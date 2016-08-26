@@ -7,16 +7,23 @@ driver:
   privileged: true
 
 provisioner:
-  name: chef_zero
+  name: chef_solo
+
 
 platforms:
   - name: centos-7
     driver_config:
       image: centos:7
       platform: centos
-      privileged: true
       run_command: /usr/sbin/init
-
+      privileged: true
+      forward:
+      - 80:80
+      - 8070:8070
+      - 8081:8081
+      - 8090:8090
+      - 9001:9001
+      - 9000:9000
 
 
 suites:

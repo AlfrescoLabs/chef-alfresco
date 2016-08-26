@@ -1,6 +1,12 @@
-language: ruby
-
 rvm:
-  - 2.1.4
+  - 2.2
 
-bundler_args: --without integration development
+sudo: true
+
+before_script:
+  - source <(curl -sL https://raw.githubusercontent.com/zuazo/kitchen-in-travis/0.5.0/scripts/start_docker.sh)
+
+script:
+  - bundle exec rake
+  # Run test-kitchen with docker driver, for example:
+  - bundle exec rake 'integration:travis[community,test]'
