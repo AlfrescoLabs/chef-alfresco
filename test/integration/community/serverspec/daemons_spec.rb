@@ -36,6 +36,10 @@ end
 # end
 
 describe "Alfresco daemons" do
+
+  # Removing all the let *Connection tests, as they are classified as Validation testing, thus they don't have space in an integration test suite
+  # Keeping them as memento to create future validation testing
+
   # let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
   # let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
   # let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
@@ -52,6 +56,9 @@ describe "Alfresco daemons" do
     end
   end
 
+  # The following tests are all  Validation testing, thus they don't have space in an integration test suite
+  # Keeping them as memento to create future validation testing
+  
   # it 'Has a running Alfresco Repository application' do
   #   expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   # end
