@@ -36,15 +36,19 @@ end
 # end
 
 describe "Alfresco daemons" do
-  let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
-  let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
-  let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
-  let(:activitiConnection) { $activitiConnection ||= getFaradayConnection "http://localhost:8060" }
-  let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9001" }
-  let(:haproxyIntConnection) { $haproxyIntConnection ||= getFaradayConnection "http://localhost:9000" }
-  let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://localhost" }
-  let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
-  let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
+
+  # Removing all the let *Connection tests, as they are classified as Validation testing, thus they don't have space in an integration test suite
+  # Keeping them as memento to create future validation testing
+
+  # let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
+  # let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
+  # let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
+  # let(:activitiConnection) { $activitiConnection ||= getFaradayConnection "http://localhost:8060" }
+  # let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9001" }
+  # let(:haproxyIntConnection) { $haproxyIntConnection ||= getFaradayConnection "http://localhost:9000" }
+  # let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://localhost" }
+  # let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
+  # let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
   services.each do |service|
     it "Has a running #{service} service" do
@@ -52,41 +56,44 @@ describe "Alfresco daemons" do
     end
   end
 
-  it 'Has a running Alfresco Repository application' do
-    expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
-  end
-
-  it 'Has a running Alfresco Share application' do
-    expect(shareConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
-  end
-
-  it 'Has a running Alfresco Solr application' do
-    expect(solrConnection.get('/solr4/').body).to include('Apache SOLR')
-  end
+  # The following tests are all  Validation testing, thus they don't have space in an integration test suite
+  # Keeping them as memento to create future validation testing
+  
+  # it 'Has a running Alfresco Repository application' do
+  #   expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
+  # end
+  #
+  # it 'Has a running Alfresco Share application' do
+  #   expect(shareConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
+  # end
+  #
+  # it 'Has a running Alfresco Solr application' do
+  #   expect(solrConnection.get('/solr4/').body).to include('Apache SOLR')
+  # end
 
   # it 'Has a running Activiti application' do
   #   expect(activitiConnection.get('/activiti/').body).to include('Activiti')
   # end
 
-  it 'Has a running Haproxy service wrapping all Alfresco public applications' do
-    expect(haproxyConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
-    expect(haproxyConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
-  end
-
-  it 'Has a running Haproxy service wrapping all Alfresco internal applications' do
-    expect(haproxyIntConnection.get('/solr4/').body).to include('Apache SOLR')
-  end
-  # TODO - add vti and root here
-
-  it 'Has a running Nginx service wrapping alfresco/share Haproxy endpoints' do
-    expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
-    expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
-  end
-
-  it 'Has a running Nginx service wrapping alfresco/share Haproxy endpoints' do
-    expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
-    expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
-  end
+  # it 'Has a running Haproxy service wrapping all Alfresco public applications' do
+  #   expect(haproxyConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
+  #   expect(haproxyConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
+  # end
+  #
+  # it 'Has a running Haproxy service wrapping all Alfresco internal applications' do
+  #   expect(haproxyIntConnection.get('/solr4/').body).to include('Apache SOLR')
+  # end
+  # # TODO - add vti and root here
+  #
+  # it 'Has a running Nginx service wrapping alfresco/share Haproxy endpoints' do
+  #   expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
+  #   expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
+  # end
+  #
+  # it 'Has a running Nginx service wrapping alfresco/share Haproxy endpoints' do
+  #   expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
+  #   expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
+  # end
 
  # it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
  #    expect(nginxConnection.get('/activiti/').body).to include('Activiti')

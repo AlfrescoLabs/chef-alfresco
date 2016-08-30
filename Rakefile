@@ -22,6 +22,7 @@ task :unit do
   end
 end
 
+desc 'Run Test Kitchen integration tests'
 namespace :integration do
   # Gets a collection of instances.
   #
@@ -44,9 +45,13 @@ namespace :integration do
     action = 'test' if action.nil?
     require 'kitchen'
     Kitchen.logger = Kitchen.default_file_logger
-    puts loader_config
     config = { loader: Kitchen::Loader::YAML.new(loader_config) }
     kitchen_instances(regexp, config).each { |i| i.send(action) }
+  end
+
+  desc 'Run integration tests with kitchen-vagrant'
+  task :vagrant, [:regexp, :action] do |_t, args|
+    run_kitchen(args.action, args.regexp)
   end
 
   desc 'Run integration tests with kitchen-docker'
