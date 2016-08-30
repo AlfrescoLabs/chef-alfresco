@@ -13,6 +13,7 @@ To get a list of packaged installed, their sources and versions, check [PACKAGES
 
 [Graph of cookbooks dependencies](http://berksgraph.tolleiv.de/grph?1453651870699#2016-01-24-6ead5d913f1442303236b555f017a1afebc4a4ec.js)
 
+For a comprehensive documentation on how to use and test chef-alfresco, please visit our [Wiki](https://github.com/Alfresco/chef-alfresco/wiki)
 
 How to contribute
 ---
