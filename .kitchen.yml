@@ -30,6 +30,8 @@ suites:
       "name": "chef-alfresco-community",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs','yourkit'],
+        "version" : "5.1.g",
         "ssl_enabled" : false
       },
       "nginx" : {
@@ -45,8 +47,8 @@ suites:
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "version" : "5.1",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos"],
+        "version" : "5.1.1.1",
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
