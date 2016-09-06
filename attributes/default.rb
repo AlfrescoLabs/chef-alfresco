@@ -91,7 +91,7 @@ default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresc
 default['alfresco']['imagemagick_libs_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
 
 default['alfresco']['imagemagick_name'] = "ImageMagick-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
-default['alfresco']['imagemagick_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64//#{node['alfresco']['imagemagick_name']}"
+default['alfresco']['imagemagick_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_name']}"
 
 default['alfresco']['libreoffice_version'] = "4.2.5.2"
 default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
