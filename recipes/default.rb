@@ -21,9 +21,6 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
-# If there are no components that need artifact deployment,
-# don't invoke apply_amps
-apply_amps = false
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
@@ -101,12 +98,12 @@ if node['alfresco']['components'].include? 'media'
 end
 
 if node['alfresco']['components'].include? 'repo'
-  apply_amps = true
+  node['alfresco']['apply_amps'] = true
   include_recipe "alfresco::repo"
 end
 
 if node['alfresco']['components'].include? 'share'
-  apply_amps = true
+  node['alfresco']['apply_amps'] = true
   include_recipe "alfresco::share"
 end
 
@@ -130,7 +127,7 @@ end
 
 include_recipe "artifact-deployer::default"
 
-if apply_amps
+if node['alfresco']['apply_amps']
   include_recipe "alfresco::apply-amps"
 end
 
