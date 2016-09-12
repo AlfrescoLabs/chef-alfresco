@@ -21,6 +21,8 @@ node.set['alfresco']['properties']['db.pool.evict.idle.min'] = 1800000
 node.set['alfresco']['properties']['db.pool.evict.num.tests'] = -2
 node.set['alfresco']['properties']['db.pool.evict.validate'] = true
 
+default['alfresco']['apply_amps'] = false
+
 #JMX
 default['alfresco']['properties']['alfresco.rmi.services.host'] = '0.0.0.0'
 default['alfresco']['properties']['monitor.rmi.services.port']  = 50508

@@ -6,7 +6,7 @@ description      "Installs Alfresco Community and Enterprise Edition."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url ""
 source_url ""
-version "0.7.2"
+version "0.7.5"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
