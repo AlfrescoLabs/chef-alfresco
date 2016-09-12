@@ -98,12 +98,12 @@ if node['alfresco']['components'].include? 'media'
 end
 
 if node['alfresco']['components'].include? 'repo'
-  node['alfresco']['apply_amps'] = true
+  node.set['alfresco']['apply_amps'] = true
   include_recipe "alfresco::repo"
 end
 
 if node['alfresco']['components'].include? 'share'
-  node['alfresco']['apply_amps'] = true
+  node.set['alfresco']['apply_amps'] = true
   include_recipe "alfresco::share"
 end
 
