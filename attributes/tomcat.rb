@@ -88,7 +88,6 @@ default['alfresco']['share_tomcat_instance']['java_options'] = node['tomcat']['j
 default['alfresco']['solr_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 default['alfresco']['activiti_tomcat_instance']['java_options'] = node['tomcat']['java_options_hash']
 
-puts default['alfresco']['repo_tomcat_instance']['java_options']
 
 default['alfresco']['repo_tomcat_instance']['port'] = 8070
 default['alfresco']['repo_tomcat_instance']['shutdown_port'] = 8005
