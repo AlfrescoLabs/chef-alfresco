@@ -15,7 +15,7 @@ describe "Alfresco folder permission" do
     end
 
     it 'should not be writable by tomcat' do
-    	should_not be_writable.by_user('tomcat')
+    	should be_writable.by_user('tomcat')
     end
 
     it 'should be readable by tomcat' do
