@@ -14,12 +14,38 @@ describe "Alfresco folder permission" do
     	should be_readable.by_user('root')
     end
 
-    it 'should  be writable by tomcat' do
+    it 'should be writable by tomcat' do
     	should be_writable.by_user('tomcat')
     end
 
     it 'should be readable by tomcat' do
     	should be_readable.by_user('tomcat')
+    end
+  end
+
+  ['lib','classes'].each do |alfresco_configuration_folder|
+    describe file("/usr/share/tomcat-alfresco/webapps/alfresco/WEB-INF/#{alfresco_configuration_folder}") do
+      it { should be_owned_by 'root' }
+
+      it 'should be writable by root' do
+        should be_writable.by_user('root')
+      end
+
+      it 'should be readable by root' do
+        should be_readable.by_user('root')
+      end
+
+      it 'should not be writable by tomcat' do
+        should_not be_writable.by_user('tomcat')
+      end
+
+      it 'should be executable by tomcat' do
+        should be_executable.by_user('tomcat')
+      end
+
+      it 'should be readable by tomcat' do
+        should be_readable.by_user('tomcat')
+      end
     end
   end
 
@@ -46,6 +72,7 @@ describe "Alfresco folder permission" do
       should_not be_executable.by_user('nginx')
     end
   end
+  
   services.each do |service|
     describe file("/var/log/tomcat-#{service}") do
       it { should be_owned_by 'tomcat' }
