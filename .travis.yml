@@ -1,4 +1,4 @@
-rvm: 2.2
+rvm: 2.2.2
 
 sudo: required
 services: docker
