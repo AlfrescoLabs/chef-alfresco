@@ -175,10 +175,6 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-
-
-
-
 # Restarting services, if enabled
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']
@@ -188,8 +184,8 @@ if alfresco_start and node['alfresco']['components'].include? 'tomcat'
     # => Fix file permissions
     ["/var/cache/#{service_name}","/var/log/#{service_name}"].each do |service|
       directory(service) do
-        owner "tomcat"
-        group "tomcat"
+        owner 'tomcat'
+        group 'tomcat'
         mode '0750'
         recursive true
       end
