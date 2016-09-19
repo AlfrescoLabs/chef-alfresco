@@ -9,6 +9,6 @@ install: chef exec bundle install
 before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
 
 script:
-  - chef exec bundle exec rake
+  - chef exec bundle exec rake 'foodcritic'
   # Run test-kitchen with docker driver, for example:
   - chef exec bundle exec rake 'integration:docker[community,test]'
