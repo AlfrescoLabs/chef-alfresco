@@ -12,4 +12,3 @@ script:
   - chef exec bundle exec rake
   # Run test-kitchen with docker driver, for example:
   - chef exec bundle exec rake 'integration:docker[community,test]'
-g
