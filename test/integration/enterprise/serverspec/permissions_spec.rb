@@ -23,32 +23,33 @@ describe "Alfresco folder permission" do
     end
   end
 
-  ['lib','classes'].each do |alfresco_configuration_folder|
-    describe file("/usr/share/tomcat-alfresco/webapps/alfresco/WEB-INF/#{alfresco_configuration_folder}") do
-      it { should be_owned_by 'root' }
+  describe file("/usr/share/tomcat-alfresco/webapps/alfresco") do
+    it { should be_owned_by 'root' }
 
-      it 'should be writable by root' do
-        should be_writable.by_user('root')
-      end
+    it 'should be writable by root' do
+      should be_writable.by_user('root')
+    end
 
-      it 'should be readable by root' do
-        should be_readable.by_user('root')
-      end
+    it 'should be readable by root' do
+      should be_readable.by_user('root')
+    end
 
-      it 'should not be writable by tomcat' do
-        should_not be_writable.by_user('tomcat')
-      end
+    it 'should not be writable by tomcat' do
+      should_not be_writable.by_user('tomcat')
+    end
 
-      it 'should be executable by tomcat' do
-        should be_executable.by_user('tomcat')
-      end
+    it 'should be executable by tomcat' do
+      should be_executable.by_user('tomcat')
+    end
 
-      it 'should be readable by tomcat' do
-        should be_readable.by_user('tomcat')
-      end
+    it 'should be readable by tomcat' do
+      should be_readable.by_user('tomcat')
+    end
+    
+    it "should not be writable by anyone else (nginx as example)" do
+      should_not be_writable.by_user('nginx')
     end
   end
-
 
   describe file ("/etc/tomcat/jmxremote.password") do
     it { should be_owned_by 'tomcat' }

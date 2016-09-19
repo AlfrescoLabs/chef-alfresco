@@ -98,13 +98,11 @@ memory.each do |instance_name,xmx|
  end
 end
 
-["classes","lib"].each do |alfresco_configuration_folder|
-   directory("#{node['alfresco']['home']}-alfresco/webapps/alfresco/WEB-INF/#{alfresco_configuration_folder}") do
-     owner 'root'
-     group 'tomcat'
-     mode '0750'
-     recursive true
-   end
+ directory("#{node['alfresco']['home']}-alfresco/webapps/alfresco") do
+   owner 'root'
+   group 'tomcat'
+   mode '0750'
+   recursive true
  end
 
 restart_tomcat_services.each do |service_name|
