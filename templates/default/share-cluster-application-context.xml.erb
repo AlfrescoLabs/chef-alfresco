@@ -35,7 +35,23 @@ Hazelcast distributed messaging configuration - Share web-tier cluster config (3
             </hz:tcp-ip>
           <% end -%>
           <% if node['alfresco']['shareproperties']['hz_aws_enabled'] -%>
-            <hz:aws enabled="<%= node['alfresco']['shareproperties']['hz_aws_enabled'] %>" access-key="<%= node['alfresco']['shareproperties']['hz_aws_access_key'] %>" secret-key="<%= node['alfresco']['shareproperties']['hz_aws_secret_key'] %>" region="<%= node['alfresco']['shareproperties']['hz_aws_region'] %>" security-group-name="<%= node['alfresco']['shareproperties']['hz_aws_sg_name'] %>" tag-key="<%= node['alfresco']['shareproperties']['hz_aws_tag_key'] %>" tag-value="<%= node['alfresco']['shareproperties']['hz_aws_tag_value'] %>"/>
+            <hz:aws enabled="<%= node['alfresco']['shareproperties']['hz_aws_enabled'] %>"
+             access-key="<%= node['alfresco']['shareproperties']['hz_aws_access_key'] %>"
+             secret-key="<%= node['alfresco']['shareproperties']['hz_aws_secret_key'] %>"
+             <% if node['alfresco']['shareproperties']['hz_aws_region'] -%>
+             region="<%= node['alfresco']['shareproperties']['hz_aws_region'] %>"
+             <!-- Region will default to us-east-1 if not specified -->
+             <% end -%>
+             <% if node['alfresco']['shareproperties']['hz_aws_sg_name'] -%>
+             security-group-name="<%= node['alfresco']['shareproperties']['hz_aws_sg_name'] %>"
+             <% end -%>
+             <% if node['alfresco']['shareproperties']['hz_aws_tag_key'] -%>
+             tag-key="<%= node['alfresco']['shareproperties']['hz_aws_tag_key'] %>"
+             <% end -%>
+             <% if node['alfresco']['shareproperties']['hz_aws_tag_value'] -%>
+             tag-value="<%= node['alfresco']['shareproperties']['hz_aws_tag_value'] %>"
+             <% end -%>
+            />
           <% end -%>
         </hz:join>
         <% if node['alfresco']['shareproperties']['hz_interfaces_enabled'] -%>
