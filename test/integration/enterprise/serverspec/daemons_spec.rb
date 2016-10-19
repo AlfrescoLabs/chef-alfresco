@@ -17,11 +17,7 @@ require 'spec_helper'
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
 services = ['tomcat-alfresco','tomcat-share','tomcat-solr','haproxy','nginx']
-<<<<<<< HEAD:test/integration/ci/serverspec/daemons_spec.rb
-yumrepos = ['epel','nginx','atrpms']
-=======
 yumrepos = ['epel','nginx']
->>>>>>> develop:test/integration/enterprise/serverspec/daemons_spec.rb
 
 # TODO - should be the FQDN, but still need to configure /etc/hosts to get this to work
 # alfresco_host = "chef-alfresco-testing.alfresco.test"
@@ -62,7 +58,7 @@ describe "Alfresco daemons" do
 
   # The following tests are all  Validation testing, thus they don't have space in an integration test suite
   # Keeping them as memento to create future validation testing
-  
+
   # it 'Has a running Alfresco Repository application' do
   #   expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   # end
