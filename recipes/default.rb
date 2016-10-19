@@ -21,9 +21,6 @@ include_recipe "alfresco::_aos-attributes"
 include_recipe "alfresco::_media-attributes"
 include_recipe "alfresco::_analytics-attributes"
 
-# If there are no components that need artifact deployment,
-# don't invoke apply_amps
-apply_amps = false
 
 # If there is no media nor analytics, don't install activemq
 install_activemq = false
@@ -37,7 +34,7 @@ install_activemq = false
 # enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 # [New implementation]
 if node['alfresco']['edition'] == 'enterprise'
-  node.default['artifacts']['alfresco']['artifactId']    = "alfresco-enterprise"
+  node.default['artifacts']['alfresco']['artifactId'] = "alfresco-enterprise"
   unless node['alfresco']['version'].start_with?("5.1")
     node.default['artifacts']['share']['artifactId'] = "share-enterprise"
   end
@@ -62,7 +59,6 @@ elsif node['alfresco']['components'].include? 'mysql'
 end
 
 include_recipe 'java::default'
-
 
 if node['alfresco']['components'].include? 'yourkit'
   include_recipe "alfresco::yourkit"
@@ -102,12 +98,12 @@ if node['alfresco']['components'].include? 'media'
 end
 
 if node['alfresco']['components'].include? 'repo'
-  apply_amps = true
+  node.set['alfresco']['apply_amps'] = true
   include_recipe "alfresco::repo"
 end
 
 if node['alfresco']['components'].include? 'share'
-  apply_amps = true
+  node.set['alfresco']['apply_amps'] = true
   include_recipe "alfresco::share"
 end
 
@@ -131,7 +127,7 @@ end
 
 include_recipe "artifact-deployer::default"
 
-if apply_amps
+if node['alfresco']['apply_amps']
   include_recipe "alfresco::apply-amps"
 end
 
@@ -168,8 +164,11 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
   execute "run-nossl-patch.sh" do
     command "/usr/local/bin/nossl-patch.sh"
+    user "root"
   end
 end
+
+
 
 
 
@@ -179,6 +178,16 @@ restart_services  = node['alfresco']['restart_services']
 restart_action    = node['alfresco']['restart_action']
 if alfresco_start and node['alfresco']['components'].include? 'tomcat'
   restart_services.each do |service_name|
+    # => Fix file permissions
+    ["/var/cache/#{service_name}","/var/log/#{service_name}"].each do |service|
+      directory(service) do
+        owner "tomcat"
+        group "tomcat"
+        mode '0750'
+        recursive true
+      end
+    end
+
     service service_name  do
       action    restart_action
     end

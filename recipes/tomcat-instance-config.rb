@@ -10,6 +10,7 @@ if global_templates
       source "tomcat/#{global_template['filename']}.erb"
       owner global_template['owner']
       group global_template['owner']
+      mode 0700 # no reason why those config files should be readable from anyone except tomcat
     end
   end
 end

@@ -14,6 +14,11 @@ if node['alfresco']['use_libreoffice_os_repo']
       end
     end
   end
+  # Remove existing libreoffice installation
+  package "libreoffice" do
+    action :remove
+  end
+  # Install the version we specified in attributes
   include_recipe "libreoffice::default"
 else
   libre_office_name = node['alfresco']['libre_office_name']

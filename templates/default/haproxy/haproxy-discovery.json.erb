@@ -7,10 +7,11 @@
       "components": <%= node['alfresco']['components'] %>
     },
     "haproxy" : {
-      "ec2" : {
+      "logformat" : <%= node['haproxy']['logformat'].to_json %>,
+      "ec2": {
         "discovery_enabled" : true
       }
-    },
+     },
     "commons" : {
         "ec2_discovery" : <%= node['commons']['ec2_discovery'].to_json %>
     },

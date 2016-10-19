@@ -1,5 +1,6 @@
 # General ignores
 Gemfile.lock
+Berksfile.lock
 tmp/
 berks-cookbooks
 .DS_Store
@@ -17,3 +18,5 @@ nohup.out
 
 # Alfresco license ignores
 **/*.lic
+
+.idea

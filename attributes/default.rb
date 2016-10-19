@@ -7,7 +7,7 @@
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit','aos']
+default['alfresco']['components'] = ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','rm','googledocs','yourkit']
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
@@ -42,7 +42,7 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.1.c-EA"
+default['alfresco']['version'] = "5.1.g"
 default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
@@ -82,27 +82,18 @@ default['artifact-deployer']['maven']['repositories']['public']['url'] = "https:
 #Mysql defaults
 default['mysql']['update_gcc'] = true
 
-# Java defaults
-default["java"]["default"] = true
-default["java"]["accept_license_agreement"] = true
-default["java"]["install_flavor"] = "oracle"
-default["java"]["jdk_version"] = "8"
-default["java"]["java_home"] = "/usr/lib/jvm/java"
-default["java"]["oracle"]['accept_oracle_download_terms']  = true
-
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u74-b02/jdk-8u74-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '4928d67633c5e5b397315b5cf5f8fa2e'
 #3rd-party defaults
-default['alfresco']['imagemagick_version'] = "6.9.5-3"
+default['alfresco']['imagemagick_version'] = "6.9.5-9"
 default['alfresco']['use_imagemagick_os_repo'] = true
 
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
-default['alfresco']['imagemagick_libs_url'] = "http://www.imagemagick.org/download/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
+
+default['alfresco']['imagemagick_libs_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
 
 default['alfresco']['imagemagick_name'] = "ImageMagick-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
-default['alfresco']['imagemagick_url'] = "http://www.imagemagick.org/download/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_name']}"
+default['alfresco']['imagemagick_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_name']}"
 
-default['alfresco']['libreoffice_version'] = "4.2.5.2"
+default['alfresco']['libreoffice_version'] = "4.4.5.1"
 default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
 default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office_name']}.tar.gz"
 default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentfoundation.org/libreoffice/old/#{node['alfresco']['libreoffice_version']}/rpm/x86_64/#{node['alfresco']['libre_office_tar_name']}"

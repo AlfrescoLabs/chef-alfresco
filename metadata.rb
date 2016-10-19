@@ -6,7 +6,7 @@ description      "Installs Alfresco Community and Enterprise Edition."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url ""
 source_url ""
-version "0.6.27"
+version "0.7.7"
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends "file"
@@ -26,7 +26,7 @@ depends "java", ">= 1.31.0"
 depends "libreoffice", ">= 0.0.2"
 depends 'line', '>= 0.6.2'
 depends "logstash-forwarder", '>= 0.1.1'
-depends "mysql", "~> 7.2"
+depends 'mysql', '~> 7.2'
 depends 'mysql2_chef_gem', ">= 1.0.1"
 depends "nginx", ">= 2.7.6"
 depends "openssl", ">= 4.0.0"
