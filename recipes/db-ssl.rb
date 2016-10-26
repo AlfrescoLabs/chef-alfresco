@@ -9,6 +9,7 @@ end
 script 'split_certs' do
   interpreter "bash"
   code <<-EOH
+    cd /tmp
     csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}'
     EOH
   only_if { ::File.exists?('/tmp/rds-combined-ca-bundle.pem') }
