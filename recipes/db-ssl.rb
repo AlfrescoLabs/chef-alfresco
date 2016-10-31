@@ -1,4 +1,4 @@
-remote_file '/tmp/rds-combined-ca-bundle.pem' do
+remote_file "#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem" do
   source 'http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem'
   owner 'root'
   group 'root'
@@ -7,19 +7,19 @@ remote_file '/tmp/rds-combined-ca-bundle.pem' do
 end
 
 script 'split_certs' do
+  cwd #{Chef::Config[:file_cache_path]}
   interpreter "bash"
   code <<-EOH
-    cd /tmp
     csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}'
     EOH
-  only_if { ::File.exists?('/tmp/rds-combined-ca-bundle.pem') }
+  only_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem") }
 end
 
 truststore = node['alfresco']['truststore_file']
 truststore_pass = node['alfresco']['truststore_password']
 truststore_type = node['alfresco']['truststore_type']
 
-Dir["/tmp/xx*"].each do |cert|
+Dir["#{Chef::Config[:file_cache_path]}/xx*"].each do |cert|
   execute "import #{cert} to RDS keystore" do
     command <<-EOF
       ALIAS=$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')
