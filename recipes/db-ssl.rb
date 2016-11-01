@@ -1,15 +1,32 @@
-execute "import key to RDS keystore" do
-  command <<-EOF
-    cd /tmp;
-    wget http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem;
-    csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}';
-    if [ $(keytool -list -storepass #{node['alfresco']['truststore_password']} -storetype #{node['alfresco']['truststore_type']}  -keystore #{node['alfresco']['truststore_file']} |grep rds |wc -l) == 12 ]
-     then echo "is OK"
-    else
-     for CERT in xx*; do ALIAS=$(openssl x509 -noout -text -in $CERT | perl -ne 'next unless /Subject:/; s/.*CN=//; print'); keytool -import -keystore #{node['alfresco']['truststore_file']}  -storepass #{node['alfresco']['truststore_password']} -storetype #{node['alfresco']['truststore_type']} -noprompt -alias "$ALIAS" -file $CERT; done
-    fi
-    EOF
-  ignore_failure true
+remote_file "#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem" do
+  source 'http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem'
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create_if_missing
+end
+
+script 'split_certs' do
+  cwd #{Chef::Config[:file_cache_path]}
+  interpreter "bash"
+  code <<-EOH
+    csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}'
+    EOH
+  only_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem") }
+end
+
+truststore = node['alfresco']['truststore_file']
+truststore_pass = node['alfresco']['truststore_password']
+truststore_type = node['alfresco']['truststore_type']
+
+Dir["#{Chef::Config[:file_cache_path]}/xx*"].each do |cert|
+  execute "import #{cert} to RDS keystore" do
+    command <<-EOF
+      ALIAS=$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')
+      keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias "$ALIAS" -file #{cert}
+      EOF
+    not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -alias #{cert}"
+  end
 end
 
 ssl_db_conf = " -Djavax.net.ssl.keyStore=#{node['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{node['alfresco']['keystore_password']}"
