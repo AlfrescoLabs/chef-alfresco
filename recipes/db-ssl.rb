@@ -2,7 +2,7 @@ remote_file "#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem" do
   source 'http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem'
   owner 'root'
   group 'root'
-  mode '0755'  
+  mode '0755'
   action :create_if_missing
 end
 
@@ -25,7 +25,7 @@ Dir["#{Chef::Config[:file_cache_path]}/xx*"].each do |cert|
       ALIAS=$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')
       keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias "$ALIAS" -file #{cert}
       EOF
-    not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -alias #{cert}" 
+    not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -alias #{cert}"
   end
 end
 

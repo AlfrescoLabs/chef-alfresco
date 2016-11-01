@@ -1,3 +1,7 @@
+if node['artifacts']['keystore']['enabled'] == true
+  node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
+end
+
 # Tomcat Configuration for Alfresco keystore
 # TODO - these should be tomcat parent attribute, not alfresco
 node.default["alfresco"]["keystore_file"] = "#{node['alfresco']['properties']['dir.keystore']}/ssl.keystore"
@@ -6,6 +10,9 @@ node.default["alfresco"]["keystore_type"] = "JCEKS"
 node.default["alfresco"]["truststore_file"] = "#{node['alfresco']['properties']['dir.keystore']}/ssl.truststore"
 node.default["alfresco"]["truststore_password"] = "kT9X6oe68t"
 node.default["alfresco"]["truststore_type"] = "JCEKS"
+
+node.default['alfresco']['properties']['db.ssl_params'] = node['alfresco']['db_ssl_enabled'] == true ? "&useSSL=true&requireSSL=true&verifyServerCertificate=true&trustCertificateKeyStoreUrl=file://#{node['alfresco']['truststore_file']}&trustCertificateKeyStoreType=#{node['alfresco']['truststore_type']}&trustCertificateKeyStorePassword=#{node['alfresco']['truststore_password']}" : ''
+node.default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}"
 
 node.default['artifacts']['json-logging-repo-amp']['groupId'] = "org.alfresco.devops"
 node.default['artifacts']['json-logging-repo-amp']['artifactId'] = "alfresco-json-logging-amp"
