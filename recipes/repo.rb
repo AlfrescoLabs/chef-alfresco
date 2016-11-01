@@ -1,7 +1,7 @@
 node.default['artifacts']['alfresco']['enabled'] = true
 
 # Not needed on standard a installation, unless Solr SSL is enabled
-node.default['artifacts']['keystore']['enabled'] = true
+#node.default['artifacts']['keystore']['enabled'] = true
 
 if node['artifacts']['keystore']['enabled'] == true
   node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
