@@ -55,7 +55,10 @@ suites:
         "version" : "5.1.1.1",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
         "edition" : "enterprise",
-        "ssl_enabled" : false
+        "ssl_enabled" : false,
+        "keystore" : {
+          "enabled" : false
+        }
       },
       "artifact-deployer" : {
         "maven" : {
