@@ -25,7 +25,7 @@ Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
       ALIAS=$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')
       keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias "$ALIAS" -file #{cert}
       EOF
-    only_if { File.exists?("#{truststore}") }
+    only_if { File.exists?(#{truststore}) }
     not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
             -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\""
   end
