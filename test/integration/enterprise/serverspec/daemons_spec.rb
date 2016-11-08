@@ -58,7 +58,7 @@ describe "Alfresco daemons" do
 
   # The following tests are all  Validation testing, thus they don't have space in an integration test suite
   # Keeping them as memento to create future validation testing
-  
+
   # it 'Has a running Alfresco Repository application' do
   #   expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   # end
