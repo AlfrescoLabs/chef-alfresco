@@ -131,13 +131,6 @@ if node['alfresco']['apply_amps']
   include_recipe "alfresco::apply-amps"
 end
 
-if node['alfresco']['db_ssl_enabled']
-  node.default['artifacts']['ssl-db-creds']['enabled'] = true
-  execute "import key to RDS keystore" do
-    command "keytool -import -alias RDSmysqlServerCACert -file #{node['artifacts']['ssl-db-creds']['destination']} -keystore #{node['alfresco']['keystore_file']}"
-  end
-end
-
 # This must go after Alfresco installation
 if node['alfresco']['components'].include? 'analytics'
   include_recipe "alfresco::analytics"
