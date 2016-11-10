@@ -11,8 +11,8 @@ node.default['alfresco']['server_info'] = "Alfresco (#{node['alfresco']['public_
 if node['alfresco']['log.json.enabled']
   node.default['artifacts']['json-logging-repo-amp']['enabled'] = true
   node.default['artifacts']['json-logging-share-amp']['enabled'] = true
-  node.default['logging']['log4j.appender.File.layout'] = "net.logstash.log4j.JSONEventLayoutV1"
-  node.default['logging']['log4j.appender.File.File'] = "${logfilename}.json"
+  node.default['logging']['log4j.appender.File.layout'] = 'net.logstash.log4j.JSONEventLayoutV1'
+  node.default['logging']['log4j.appender.File.File'] = '${logfilename}.json'
   node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] = ['/var/log/tomcat-alfresco/alfresco.log.json']
   node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ['/var/log/tomcat-share/share.log.json']
   node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ['/var/log/tomcat-solr/solr.log.json']
@@ -20,8 +20,8 @@ end
 
 node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
 
-mailsmtp_databag = node["alfresco"]["mailsmtp_databag"]
-mailsmtp_databag_item = node["alfresco"]["mailsmtp_databag_item"]
+mailsmtp_databag = node['alfresco']['mailsmtp_databag']
+mailsmtp_databag_item = node['alfresco']['mailsmtp_databag_item']
 
 begin
   db_item = data_bag_item(mailsmtp_databag,mailsmtp_databag_item)
@@ -35,22 +35,19 @@ end
 node.default['artifacts']['alfresco-s3-connector']['destination'] = node['alfresco']['amps_folder']
 
 # ssl-db-creds
-node.default['artifacts']['ssl-db-creds']['url'] = "http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem"
-node.default['artifacts']['ssl-db-creds']['destination'] = "/tmp/rds-combined-ca-bundle.pem"
-node.default['artifacts']['ssl-db-creds']['owner'] = "tomcat"
+node.default['artifacts']['ssl-db-creds']['url'] = 'http://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem'
+node.default['artifacts']['ssl-db-creds']['destination'] = '/tmp/rds-combined-ca-bundle.pem'
+node.default['artifacts']['ssl-db-creds']['owner'] = 'tomcat'
 node.default['artifacts']['ssl-db-creds']['enabled'] = false
 
-# HTTP default pool size
-node.default['alfresco']['properties']['httpclient.max-connections'] = "20"
-
-#JMX host
+# JMX host
 node.default['alfresco']['properties']['hostname.public'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['hostname.private'] = node['alfresco']['internal_hostname']
 
-#Email
+# Email
 node.default['alfresco']['properties']['mail.from.default'] = "webmaster@#{node['alfresco']['public_hostname']}"
 
-#Search Config
+# Search Config
 node.default['alfresco']['properties']['solr.host'] = node['alfresco']['internal_hostname']
 node.default['alfresco']['properties']['solr.port'] = node['alfresco']['internal_port']
 node.default['alfresco']['properties']['solr.port.ssl'] = node['alfresco']['internal_portssl']
@@ -61,7 +58,12 @@ node.default['alfresco']['properties']['alfresco.port.ssl'] = node['alfresco']['
 node.default['alfresco']['properties']['alfresco.protocol'] = node['alfresco']['public_protocol']
 node.default['alfresco']['properties']['alfresco.port'] = node['alfresco']['public_portssl']
 
-#Share Public Endpoint
+# Contentstore settings
+node.default['alfresco']['properties']['dir.contentstore'] = 'c'
+node.default['alfresco']['properties']['dir.contentstore.deleted'] = 'd'
+node.default['alfresco']['properties']['system.content.caching.maxUsageMB'] = '10000'
+
+# Share Public Endpoint
 node.default['alfresco']['properties']['share.host'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['share.port'] = node['alfresco']['public_portssl']
 node.default['alfresco']['properties']['share.protocol'] = node['alfresco']['public_protocol']
@@ -78,4 +80,4 @@ node.default['alfresco']['properties']['activiti.protocol'] = node['alfresco']['
 # AOS
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['public_protocol']
 node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['public_hostname']
-node.default['alfresco']['properties']['aos.port'] = node['alfresco']['public_port']
+node.default['alfresco']['properties']['aos.port'] = node['alfresco']['public_portssl']
