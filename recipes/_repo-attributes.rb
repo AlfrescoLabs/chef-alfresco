@@ -60,7 +60,7 @@ begin
   node.default['alfresco']['properties']['s3service.https-only'] = true
   node.default['alfresco']['properties']['s3service.max-thread-count'] = '5'
   # defaulto to N.Virginia. Overridable at config time
-  node.default['alfresco']['properties']['s3service.s3-endpoint'] = 'us-east-1'
+  node.default['alfresco']['properties']['s3service.s3-endpoint'] = 's3-external-1.amazonaws.com'
   # Only relevant for s3
   node.default['alfresco']['properties']['httpclient.max-connections'] = '20'
 rescue
