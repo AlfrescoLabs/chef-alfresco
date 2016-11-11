@@ -127,3 +127,6 @@ default['alfresco']['db']['allowed_host'] = "%"
 default["alfresco"]["start_service"] = true
 default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
 default['alfresco']['restart_action']   = [:enable, :restart]
+
+# Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
+default['artifacts']['keystore']['enabled'] = false
