@@ -143,7 +143,7 @@
            Note: XML Schema validation will not work with Xerces 2.2.
        -->
       <Host name="localhost"  appBase="webapps"
-            unpackWARs="true" autoDeploy="false"
+            unpackWARs="true" autoDeploy="true"
             <% if node['tomcat']['base_version'].to_i < 7 -%>
             xmlValidation="false" xmlNamespaceAware="false"
             <% end -%>
