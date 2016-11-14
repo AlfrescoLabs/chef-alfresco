@@ -8,14 +8,14 @@ node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
 
 node.default['artifacts']['memcached-session-manager']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['memcached-session-manager']['artifactId'] = 'memcached-session-manager'
-node.default['artifacts']['memcached-session-manager']['version'] = '1.9.2'
+node.default['artifacts']['memcached-session-manager']['version'] = '1.9.3'
 node.default['artifacts']['memcached-session-manager']['type'] = 'jar'
 node.default['artifacts']['memcached-session-manager']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['memcached-session-manager']['owner'] = node['alfresco']['user']
 
 node.default['artifacts']['memcached-session-manager-tc7']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['memcached-session-manager-tc7']['artifactId'] = 'memcached-session-manager-tc7'
-node.default['artifacts']['memcached-session-manager-tc7']['version'] = '1.9.2'
+node.default['artifacts']['memcached-session-manager-tc7']['version'] = '1.9.3'
 node.default['artifacts']['memcached-session-manager-tc7']['type'] = 'jar'
 node.default['artifacts']['memcached-session-manager-tc7']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['memcached-session-manager-tc7']['owner'] = node['alfresco']['user']
@@ -29,7 +29,7 @@ node.default['artifacts']['spymemcached']['owner'] = node['alfresco']['user']
 
 node.default['artifacts']['msm-kryo-serializer']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['msm-kryo-serializer']['artifactId'] = 'msm-kryo-serializer'
-node.default['artifacts']['msm-kryo-serializer']['version'] = '1.9.2'
+node.default['artifacts']['msm-kryo-serializer']['version'] = '1.9.3'
 node.default['artifacts']['msm-kryo-serializer']['type'] = 'jar'
 node.default['artifacts']['msm-kryo-serializer']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['msm-kryo-serializer']['owner'] = node['alfresco']['user']
@@ -75,6 +75,11 @@ node.default['artifacts']['objenesis']['version'] = '2.4'
 node.default['artifacts']['objenesis']['type'] = 'jar'
 node.default['artifacts']['objenesis']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['objenesis']['owner'] = node['alfresco']['user']
+
+# attributes for share.xml.erb
+node.default['tomcat']['memcached']['sticky'] = true
+node.default['tomcat']['memcached']['sessionBackupAsync'] = true
+node.default['tomcat']['memcached']['copyCollectionsForSerialization'] = false
 
 node.default['tomcat']['jvm_route'] = node['alfresco']['public_hostname']
 

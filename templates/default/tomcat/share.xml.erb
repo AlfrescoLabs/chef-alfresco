@@ -5,8 +5,8 @@
       memcachedNodes="<%= node['tomcat']['memcached_nodes'] %>"
       requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$"
       transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"
-      sticky="true"
-      sessionBackupAsync="true"
-      copyCollectionsForSerialization="false"
+      sticky="<%= node['tomcat']['memcached'][sticky] %>"
+      sessionBackupAsync="<%= node['tomcat']['memcached']['sessionBackupAsync'] %>"
+      copyCollectionsForSerialization="<%= node['tomcat']['memcached']['copyCollectionsForSerialization'] %>"
     />
 </Context>
