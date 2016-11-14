@@ -3,7 +3,10 @@
 
     <Manager className="de.javakaffee.web.msm.MemcachedBackupSessionManager"
       memcachedNodes="<%= node['tomcat']['memcached_nodes'] %>"
-        requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$"
-        transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"
-        />
+      requestUriIgnorePattern=".*\.(ico|png|gif|jpg|css|js)$"
+      transcoderFactoryClass="de.javakaffee.web.msm.serializer.kryo.KryoTranscoderFactory"
+      sticky="true"
+      sessionBackupAsync="true"
+      copyCollectionsForSerialization="false"
+    />
 </Context>
