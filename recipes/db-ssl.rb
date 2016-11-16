@@ -21,15 +21,10 @@ truststore_type = node['alfresco']['truststore_type']
 
 Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
   execute "import #{cert} to RDS keystore" do
-    command <<-EOF
-      ALIAS=$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')
-      keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias "$ALIAS" -file #{cert}
-      EOF
-    only_if { ::File.exists?(truststore) }
-    not_if do
-      "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
-       -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\""
-    end
+    command "keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
+             -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert}"
+    not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
+             -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert}"
   end
 end
 
