@@ -6,6 +6,10 @@ node.default['artifacts']['catalina-jmx']['type'] = 'jar'
 node.default['artifacts']['catalina-jmx']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['catalina-jmx']['owner'] = node['alfresco']['user']
 
+# memcached specific jars
+# enable these jars IF the tomcat memcached_nodes attribute is set and is not empty
+using_memcached = !node['tomcat']['memcached_nodes'].empty?
+node.default['artifacts']['memcached-session-manager']['enabled'] = using_memcached
 node.default['artifacts']['memcached-session-manager']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['memcached-session-manager']['artifactId'] = 'memcached-session-manager'
 node.default['artifacts']['memcached-session-manager']['version'] = '1.9.3'
@@ -13,6 +17,7 @@ node.default['artifacts']['memcached-session-manager']['type'] = 'jar'
 node.default['artifacts']['memcached-session-manager']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['memcached-session-manager']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['memcached-session-manager-tc7']['enabled'] = using_memcached
 node.default['artifacts']['memcached-session-manager-tc7']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['memcached-session-manager-tc7']['artifactId'] = 'memcached-session-manager-tc7'
 node.default['artifacts']['memcached-session-manager-tc7']['version'] = '1.9.3'
@@ -20,6 +25,9 @@ node.default['artifacts']['memcached-session-manager-tc7']['type'] = 'jar'
 node.default['artifacts']['memcached-session-manager-tc7']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['memcached-session-manager-tc7']['owner'] = node['alfresco']['user']
 
+# enable spymemcached if the tomcat memcached_nodes attribute contains n1: and n2:
+needs_spymemcached = node['tomcat']['memcached_nodes'].include?('n1:') && node['tomcat']['memcached_nodes'].include?('n2:')
+node.default['artifacts']['spymemcached']['enabled'] = needs_spymemcached
 node.default['artifacts']['spymemcached']['groupId'] = 'net.spy'
 node.default['artifacts']['spymemcached']['artifactId'] = 'spymemcached'
 node.default['artifacts']['spymemcached']['version'] = '2.11.1'
@@ -27,6 +35,15 @@ node.default['artifacts']['spymemcached']['type'] = 'jar'
 node.default['artifacts']['spymemcached']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['spymemcached']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['elasticache-memcached']['enabled'] = !needs_spymemcached
+node.default['artifacts']['elasticache-memcached']['groupId'] = 'com.amazonaws'
+node.default['artifacts']['elasticache-memcached']['artifactId'] = 'elasticache-java-cluster-client'
+node.default['artifacts']['elasticache-memcached']['type'] = 'jar'
+node.default['artifacts']['elasticache-memcached']['version'] = '1.1.1'
+node.default['artifacts']['elasticache-memcached']['destination'] = "#{node['alfresco']['home']}/lib"
+node.default['artifacts']['elasticache-memcached']['owner'] = node['alfresco']['user']
+
+node.default['artifacts']['msm-kryo-serializer']['enabled'] = using_memcached
 node.default['artifacts']['msm-kryo-serializer']['groupId'] = 'de.javakaffee.msm'
 node.default['artifacts']['msm-kryo-serializer']['artifactId'] = 'msm-kryo-serializer'
 node.default['artifacts']['msm-kryo-serializer']['version'] = '1.9.3'
@@ -34,6 +51,7 @@ node.default['artifacts']['msm-kryo-serializer']['type'] = 'jar'
 node.default['artifacts']['msm-kryo-serializer']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['msm-kryo-serializer']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['kryo-serializers']['enabled'] = using_memcached
 node.default['artifacts']['kryo-serializers']['groupId'] = 'de.javakaffee'
 node.default['artifacts']['kryo-serializers']['artifactId'] = 'kryo-serializers'
 node.default['artifacts']['kryo-serializers']['version'] = '0.34'
@@ -41,6 +59,7 @@ node.default['artifacts']['kryo-serializers']['type'] = 'jar'
 node.default['artifacts']['kryo-serializers']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['kryo-serializers']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['kryo']['enabled'] = using_memcached
 node.default['artifacts']['kryo']['groupId'] = 'com.esotericsoftware'
 node.default['artifacts']['kryo']['artifactId'] = 'kryo'
 node.default['artifacts']['kryo']['version'] = '3.0.3'
@@ -48,6 +67,7 @@ node.default['artifacts']['kryo']['type'] = 'jar'
 node.default['artifacts']['kryo']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['kryo']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['minlog']['enabled'] = using_memcached
 node.default['artifacts']['minlog']['groupId'] = 'com.esotericsoftware'
 node.default['artifacts']['minlog']['artifactId'] = 'minlog'
 node.default['artifacts']['minlog']['version'] = '1.3.0'
@@ -55,6 +75,7 @@ node.default['artifacts']['minlog']['type'] = 'jar'
 node.default['artifacts']['minlog']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['minlog']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['reflectasm']['enabled'] = using_memcached
 node.default['artifacts']['reflectasm']['groupId'] = 'com.esotericsoftware'
 node.default['artifacts']['reflectasm']['artifactId'] = 'reflectasm'
 node.default['artifacts']['reflectasm']['version'] = '1.11.3'
@@ -62,6 +83,7 @@ node.default['artifacts']['reflectasm']['type'] = 'jar'
 node.default['artifacts']['reflectasm']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['reflectasm']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['asm']['enabled'] = using_memcached
 node.default['artifacts']['asm']['groupId'] = 'org.ow2.asm'
 node.default['artifacts']['asm']['artifactId'] = 'asm'
 node.default['artifacts']['asm']['version'] = '5.1'
@@ -69,6 +91,7 @@ node.default['artifacts']['asm']['type'] = 'jar'
 node.default['artifacts']['asm']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['asm']['owner'] = node['alfresco']['user']
 
+node.default['artifacts']['objenesis']['enabled'] = using_memcached
 node.default['artifacts']['objenesis']['groupId'] = 'org.objenesis'
 node.default['artifacts']['objenesis']['artifactId'] = 'objenesis'
 node.default['artifacts']['objenesis']['version'] = '2.4'
