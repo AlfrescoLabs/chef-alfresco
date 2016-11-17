@@ -27,7 +27,7 @@ node.default['artifacts']['memcached-session-manager-tc7']['owner'] = node['alfr
 
 # enable spymemcached if the tomcat memcached_nodes attribute contains n1: and n2:
 needs_spymemcached = node['tomcat']['memcached_nodes'].include?('n1:') && node['tomcat']['memcached_nodes'].include?('n2:')
-node.default['artifacts']['spymemcached']['enabled'] = needs_spymemcached
+node.default['artifacts']['spymemcached']['enabled'] = using_memcached && needs_spymemcached
 node.default['artifacts']['spymemcached']['groupId'] = 'net.spy'
 node.default['artifacts']['spymemcached']['artifactId'] = 'spymemcached'
 node.default['artifacts']['spymemcached']['version'] = '2.11.1'
@@ -35,7 +35,7 @@ node.default['artifacts']['spymemcached']['type'] = 'jar'
 node.default['artifacts']['spymemcached']['destination'] = "#{node['alfresco']['home']}/lib"
 node.default['artifacts']['spymemcached']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['elasticache-memcached']['enabled'] = !needs_spymemcached
+node.default['artifacts']['elasticache-memcached']['enabled'] = using_memcached && !needs_spymemcached
 node.default['artifacts']['elasticache-memcached']['groupId'] = 'com.amazonaws'
 node.default['artifacts']['elasticache-memcached']['artifactId'] = 'elasticache-java-cluster-client'
 node.default['artifacts']['elasticache-memcached']['type'] = 'jar'
