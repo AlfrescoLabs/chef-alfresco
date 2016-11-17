@@ -12,20 +12,22 @@ execute 'split_certs' do
     csplit -sz rds-combined-ca-bundle.pem '/-BEGIN CERTIFICATE-/' '{*}'
     EOF
   only_if { ::File.exists?("#{Chef::Config[:file_cache_path]}/rds-combined-ca-bundle.pem") }
-  not_if "ls -l #{Chef::Config[:file_cache_path]}/xx*"
 end
 
 truststore = node['alfresco']['truststore_file']
 truststore_pass = node['alfresco']['truststore_password']
 truststore_type = node['alfresco']['truststore_type']
 
-Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
-  execute "import #{cert} to RDS keystore" do
-    command "keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
-             -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert}"
-    not_if "keytool -list -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
-             -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert}"
+ruby_block "Import AWS RDS Certs" do
+  block do
+    Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
+      cmd = Chef::ShellOut.new(
+            %Q[ keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
+                -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
+            ).run_command
+    end
   end
+  action :run
 end
 
 ssl_db_conf = " -Djavax.net.ssl.keyStore=#{node['alfresco']['keystore_file']} -Djavax.net.ssl.keyStorePassword=#{node['alfresco']['keystore_password']}"
