@@ -2,13 +2,14 @@
 ---
 driver:
   name: docker
-  binary: docker
   use_sudo: false
-  privileged: true
 
 provisioner:
   name: chef_zero
 
+
+verifier:
+  name: inspec
 
 platforms:
   - name: centos-7
@@ -30,6 +31,10 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",

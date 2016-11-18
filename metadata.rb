@@ -1,6 +1,6 @@
 name             "alfresco"
-maintainer       "Maurizio Pillitu"
-maintainer_email ""
+maintainer       "Alfresco T&A"
+maintainer_email "enzo.rivello@alfresco.com"
 license          "Apache 2.0"
 description      "Installs Alfresco Community and Enterprise Edition."
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
@@ -13,6 +13,7 @@ depends "file"
 depends "tomcat"
 depends "maven"
 depends "commons"
+depends 'alfresco-webserver'
 
 # Community cookbooks
 depends "activemq", ">= 1.3.3"
@@ -28,7 +29,6 @@ depends 'line', '>= 0.6.2'
 depends "logstash-forwarder", '>= 0.1.1'
 depends 'mysql', '~> 7.2'
 depends 'mysql2_chef_gem', ">= 1.0.1"
-depends "nginx", ">= 2.7.6"
 depends "openssl", ">= 4.0.0"
 depends "postgresql", ">= 3.4.18"
 depends 'rsyslog', ">= 1.15.0"
