@@ -3,7 +3,6 @@ default['webserver']['apply_hardening'] = true
 default['webserver']['use_nossl_config'] = true
 default['webserver']['port'] = 80
 default['webserver']['port_ssl'] = 443
-default['webserver']['protocol'] = 'https'
 default['webserver']['hostname'] = 'localhost'
 default['webserver']['lb_hostname'] = '127.0.0.1'
 default['webserver']['lb_protocol'] = 'http'
