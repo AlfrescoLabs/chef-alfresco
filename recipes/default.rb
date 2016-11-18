@@ -69,7 +69,7 @@ if node['alfresco']['components'].include? 'tomcat'
 end
 
 if node['alfresco']['components'].include? 'nginx'
-  include_recipe "alfresco::nginx"
+  include_recipe "alfresco-webserver::nginx"
 end
 
 if node['alfresco']['components'].include? 'transform'
