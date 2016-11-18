@@ -11,7 +11,7 @@ provisioner:
   name: chef_zero
 
 verifier:
-  inspec
+  name: inspec
 
 platforms:
   - name: centos-7.2
