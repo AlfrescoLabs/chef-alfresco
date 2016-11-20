@@ -58,7 +58,7 @@ if node['alfresco']['components'].include? 'repo'
 end
 
 # Patch nginx configurations, making sure the service runs
-include_recipe 'alfresco-webserver::nginx-conf' if node['alfresco']['components'].include? 'nginx'
+include_recipe 'alfresco-webserver::start' if node['alfresco']['components'].include? 'nginx'
 
 if node['alfresco']['components'].include? 'share'
   restart_tomcat_services << "tomcat-share"
