@@ -4,17 +4,20 @@ maintainer_email 'enzo.rivello@alfresco.com'
 license          'Apache 2.0'
 description      'Installs Alfresco Community and Enterprise Edition.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-issues_url ''
-source_url ''
+issues_url       'https://github.com/Alfresco/chef-alfresco/issues'
+source_url       'https://github.com/Alfresco/chef-alfresco'
 version '0.7.11'
+
+supports 'centos', '>= 7.0'
+supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends 'file'
 depends 'tomcat'
 depends 'maven'
 depends 'commons'
-depends 'alfresco-webserver', '~> 0.7.2'
-depends 'nginx-hardening'
+depends 'alfresco-webserver', '~> 0.7.3'
+depends 'nginx-hardening', '~> 1.1.0'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
