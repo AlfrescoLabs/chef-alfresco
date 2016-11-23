@@ -26,7 +26,8 @@ node.default['artifacts']['memcached-session-manager-tc7']['destination'] = "#{n
 node.default['artifacts']['memcached-session-manager-tc7']['owner'] = node['alfresco']['user']
 
 # enable spymemcached if the tomcat memcached_nodes attribute contains n1: and n2:
-nodes = node['tomcat']['memcached_nodes'].split(',') if using_memcached
+nodes = using_memcached ? node['tomcat']['memcached_nodes'].split(',') : []
+
 node.default['artifacts']['spymemcached']['enabled'] = using_memcached && nodes.size > 1
 node.default['artifacts']['spymemcached']['groupId'] = 'net.spy'
 node.default['artifacts']['spymemcached']['artifactId'] = 'spymemcached'
