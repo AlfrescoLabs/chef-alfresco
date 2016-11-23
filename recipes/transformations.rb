@@ -27,8 +27,8 @@ else
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{libre_office_tar_name}" do
     source libre_office_tar_url
-    owner 'root'
-    group 'root'
+    owner node['libreoffice']['user']
+    group node['libreoffice']['user']
   end
 
   execute 'unpack-libreoffice' do
@@ -42,6 +42,10 @@ else
     cwd Chef::Config[:file_cache_path]
     command "yum -y localinstall #{Chef::Config[:file_cache_path]}/#{libre_office_name}/RPMS/*.rpm"
     not_if "yum list installed | grep libreoffice"
+  end
+
+  execute 'change-libreoffice-permissions' do
+    command "chown #{node['libreoffice']['user']}:#{node['libreoffice']['user']} -R #{node['alfresco']['properties']['jodconverter.officeHome']}"
   end
 end
 
@@ -127,4 +131,8 @@ end
 
 package "perl-Image-ExifTool" do
   action :install
+end
+
+if node['libreoffice']['initialise']
+  include_recipe 'alfresco::initialise_libreoffice'
 end
