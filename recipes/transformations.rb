@@ -132,7 +132,3 @@ end
 package "perl-Image-ExifTool" do
   action :install
 end
-
-if node['libreoffice']['initialise']
-  include_recipe 'alfresco::initialise_libreoffice'
-end
