@@ -5,12 +5,12 @@ execute 'start_libreoffice' do
   returns 81
   creates node['libreoffice']['command']['user_installation_path']
   only_if { node['alfresco']['components'].include?('transform') }
-  notifies :delete, 'directory[user_installation_path]', :immediately
+  not_if { Mixlib::ShellOut.new('pgrep -f soffice.bin').run_command.exitstatus == 0 }
+  notifies :delete, "directory[#{node['libreoffice']['command']['user_installation_path']}]", :immediately
   ignore_failure true
 end
 
-directory "user_installation_path" do
-  path node['libreoffice']['command']['user_installation_path']
+directory node['libreoffice']['command']['user_installation_path'] do
   recursive true
   action :nothing
   user node['libreoffice']['user']
