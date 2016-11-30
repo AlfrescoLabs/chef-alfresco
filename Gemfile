@@ -2,19 +2,20 @@ source 'https://rubygems.org'
 
 # Used by Travis
 
-gem 'foodcritic'
-gem 'minitest'
+gem 'inspec', '~>1.2.1'
+gem 'foodcritic', '~> 8.1.0'
+gem 'cookstyle', '~> 0.0.1'
+gem 'berkshelf', '~> 5.1.0'
+gem 'chefspec', '~> 5.3.0'
+gem 'rspec', '~> 3.5.0'
+gem 'simplecov', '~> 0.12.0'
+gem 'simplecov-rcov', '~> 0.2.3'
 gem 'rake'
-gem 'rubocop'
-gem 'chefspec'
-
-gem 'berkshelf', '~> 4.0' # Comes with ChefDK 0.9.0
-gem 'serverspec'
 
 group :docker do
   gem 'test-kitchen', '~> 1.4'
-  gem 'kitchen-docker', '~> 2.1.0'
-  gem 'kitchen-verifier-serverspec'
+  gem 'kitchen-docker', '~> 2.6.0'
+  gem 'kitchen-inspec', '~> 0.16.1'
 end
 
 group :vagrant do
