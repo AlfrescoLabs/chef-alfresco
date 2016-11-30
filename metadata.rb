@@ -6,7 +6,7 @@ description      'Installs Alfresco Community and Enterprise Edition.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url       'https://github.com/Alfresco/chef-alfresco/issues'
 source_url       'https://github.com/Alfresco/chef-alfresco'
-version '0.7.13'
+version '0.7.14'
 
 supports 'centos', '>= 7.0'
 supports 'redhat', '>= 7.0'
