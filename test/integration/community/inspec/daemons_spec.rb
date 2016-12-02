@@ -1,6 +1,3 @@
-require 'spec_helper'
-
-
 # TODO Checks
 #
 # Check (some) folder permissions (@toni?)
@@ -24,7 +21,7 @@ yumrepos = ['epel','nginx']
 alfresco_host = "localhost"
 
 yumrepos.each do |yumrepo|
-  describe yumrepo(yumrepo) do
+  describe yum.repo(yumrepo) do
     it { should exist }
   end
 end
@@ -58,7 +55,7 @@ describe "Alfresco daemons" do
 
   # The following tests are all  Validation testing, thus they don't have space in an integration test suite
   # Keeping them as memento to create future validation testing
-  
+
   # it 'Has a running Alfresco Repository application' do
   #   expect(repoConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   # end
