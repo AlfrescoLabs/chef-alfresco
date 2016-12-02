@@ -4,7 +4,7 @@ control "alfresco-02" do
 
   describe file("/opt/libreoffice4.4/") do
     it { should exist }
-    its('owner') { should eq 'root' }
+    it { should be_owned_by 'tomcat' }
   end
 
   describe command("cat /usr/share/tomcat/shared/classes/alfresco-global.properties") do
