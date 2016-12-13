@@ -102,7 +102,7 @@ action :run do
   template '/etc/haproxy/haproxy.cfg' do
     source node['haproxy']['conf_template_source']
     cookbook node['haproxy']['conf_cookbook']
-    variables ({:haproxy_backends => haproxy_backends.uniq })
+    variables ({:haproxy_backends => haproxy_backends })
     notifies :restart, 'service[haproxy]', :delayed
   end
 
