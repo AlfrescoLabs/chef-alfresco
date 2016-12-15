@@ -97,3 +97,8 @@ server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instanc
 
   <% end -%>
 <% end -%>
+
+<% if node['haproxy']['enable_ssl_header'] -%>
+# Changes to header responses
+<%= node['haproxy']['ssl_header'] %>
+<% end -%>
