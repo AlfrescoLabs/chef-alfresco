@@ -45,6 +45,10 @@ acl <%= acl %>
 <%= other_config %>
       <% end -%>
     <% end -%>
+    <% if node['haproxy']['enable_ssl_header'] -%>
+# Changes to header responses
+<%= node['haproxy']['ssl_header'] %>
+    <% end -%>
 # Redirects
     <% if frontend['redirects'] -%>
       <% frontend['redirects'].each do |redirect| -%>
@@ -98,7 +102,3 @@ server <%= instanceName %> <%= instance['ip'] %>:<%= role['port'] %> <%= instanc
   <% end -%>
 <% end -%>
 
-<% if node['haproxy']['enable_ssl_header'] -%>
-# Changes to header responses
-<%= node['haproxy']['ssl_header'] %>
-<% end -%>
