@@ -213,6 +213,8 @@ default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$
 default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
 default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
 
+default['haproxy']['redirect']['http_https']['enabled'] = false
+
 # TODO - WIP
 # default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]
 # default['haproxy']['backends']['roles']['alfresco_api']['entries'] = ["option httpchk GET /alfresco/api"]
