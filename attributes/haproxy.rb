@@ -81,8 +81,8 @@ default['haproxy']['default_config'] = [
 ]
 
 default['haproxy']['frontends']['internal']['entries'] = [
-  "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_port']}",
+  "mode http",
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
@@ -115,8 +115,8 @@ default['haproxy']['frontends']['external']['other_config'] = [
 ]
 
 default['haproxy']['frontends']['external']['entries'] = [
-  "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
+  "mode http",
   if node['haproxy']['redirect']['http_https']['enabled']
     "# Force HTTPS"
     "redirect scheme https if !{ ssl_fc }"

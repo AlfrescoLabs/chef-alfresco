@@ -7,7 +7,7 @@ global
     <% end -%>
 <% end -%>
 
-default
+defaults
 <% if node['haproxy']['default_config'] -%>
     <% node['haproxy']['default_config'].each do |line| -%>
     <%= line %>
@@ -67,11 +67,9 @@ frontend <%= frontendName %>
     use_backend <%= backendName %> if is_<%= backendName %>
       <% end -%>
     <% end -%>
-    <% if frontendName == 'external' -%> 
 
     # Default Backend
     default_backend <%= node['haproxy']['default_backend'] %>
-    <% end -%>
 
   <% end -%>
 <% end -%>
