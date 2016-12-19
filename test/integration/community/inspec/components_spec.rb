@@ -10,4 +10,10 @@ control "alfresco-02" do
   describe command("cat /usr/share/tomcat/shared/classes/alfresco-global.properties") do
     its(:stdout) { should include("jodconverter.officeHome=/opt/libreoffice4.4/") }
   end
+
+  describe file('/etc/haproxy/haproxy.cfg') do
+    it { should exist }
+    it { should be_file }
+    it { should contain /http-response set-header Strict-Transport-Security max-age=15768000;\ includeSubDomains;\ preload;/ }
+  end
 end
