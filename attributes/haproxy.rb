@@ -22,7 +22,7 @@ default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
 default['haproxy']['log_level'] = "info"
-default['haproxy']['redirect']['http_https']['enabled'] = false
+default['haproxy']['redirect']['http_https']['enabled'] = true
 default['haproxy']['enable_ssl_header'] = true
 default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
 
@@ -34,8 +34,6 @@ default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"time
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 default['haproxy']['general_config'] = [
-  "# -- global settings section --",
-  "global",
   "tune.ssl.default-dh-param 2048",
   # Logging should be handled with logstash-forwarder
   "log 127.0.0.1 local2 #{node['haproxy']['log_level']}",
@@ -44,23 +42,31 @@ default['haproxy']['general_config'] = [
   "user haproxy",
   "group haproxy",
   "tune.ssl.maxrecord 1419",
-  "spread-checks 5",
-  "# -- defaults settings section --",
-  "defaults",
+  "spread-checks 5"
+]
+
+default['haproxy']['default_config'] = [
   "mode http",
   "log global",
   "retries 3",
+  "",
   "# Options",
   "option httplog",
-node['haproxy']['logformat'],
+  if node['haproxy']['logging_json_enabled']
+    node['haproxy']['json_logformat']
+  else    
+    node['haproxy']['logformat']
+  end,
   "option dontlognull",
   "option forwardfor",
   "option http-server-close",
   "option redispatch",
+  "",
   "# Optimisations",
   "option tcp-smart-accept",
   "option tcp-smart-connect",
   "option contstats",
+  "",
   "# Timeouts",
   "timeout http-request 10s",
   "timeout queue 1m",
@@ -121,12 +127,15 @@ default['haproxy']['frontends']['external']['entries'] = [
   "capture request header Accept-Language len 64",
   "unique-id-format %{+X}o\\ %ci:%cp_%fi:%fp_%Ts_%rt:%pid",
   "unique-id-header X-Unique-ID",
+  "",
   "#---- ddos protection -----",
   "tcp-request inspect-delay 5s",
   "acl HAS_X_FORWARDED_FOR hdr_cnt(X-Forwarded-For) eq 1",
   "acl HAS_JSESSIONID hdr_sub(cookie) JSESSIONID",
+  "",
   "# Don't track if the request has a JSESSIONID cookie",
   "tcp-request content track-sc0 hdr_ip(X-Forwarded-For,-1) if HTTP HAS_X_FORWARDED_FOR !HAS_JSESSIONID",
+  "",
   "# Stick Table Definitions",
   "#  - conn_cur: count active connections",
   "#  - conn_rate(3s): average incoming connection rate over 3 seconds",
@@ -142,6 +151,7 @@ default['haproxy']['frontends']['external']['entries'] = [
   "# http-request tarpit if { sc0_http_err_rate() gt 5 }",
   "# TARPIT the connection if the client has passed the HTTP request rate (20 in 10s)",
   "# http-request tarpit if { sc0_http_req_rate() gt 20 }",
+  "",
   "acl FORBIDDEN_HDR hdr_cnt(host) gt 1",
   "acl FORBIDDEN_HDR hdr_cnt(content-length) gt 1",
   "acl FORBIDDEN_HDR hdr_val(content-length) lt 0",
