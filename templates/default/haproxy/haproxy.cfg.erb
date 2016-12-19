@@ -8,6 +8,14 @@
 <%= node['haproxy']['logformat'] %>
 
 # Frontends
+<% if node['haproxy']['redirect']['http_https']['enabled'] -%>
+# Front end for http to https redirect
+frontend http
+  bind node['haproxy']['bind_ip']}:node['alfresco']['internal_secure_port']
+  #bind *:80
+  mode http
+  redirect scheme https if !{ ssl_fc }
+<% end -%>
 
 <% if node['haproxy']['frontends'] -%>
   <% node['haproxy']['frontends'].each do |frontendName,frontend| -%>
@@ -62,15 +70,6 @@ default_backend <%= node['haproxy']['default_backend'] %>
 # END frontend <%= frontendName %>
 
   <% end -%>
-<% end -%>
-
-<% if node['haproxy']['redirect']['http_https']['enabled'] -%>
-# Front end for http to https redirect
-frontend http
-  bind node['haproxy']['bind_ip']}:node['alfresco']['internal_secure_port']
-  #bind *:80
-  mode http
-  redirect scheme https if !{ ssl_fc }
 <% end -%>
 
 <% if node['haproxy']['enable_ssl_header'] -%>
