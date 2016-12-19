@@ -22,6 +22,9 @@ default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
 default['haproxy']['log_level'] = "info"
+default['haproxy']['redirect']['http_https']['enabled'] = false
+default['haproxy']['enable_ssl_header'] = true
+default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
 
 #default['haproxy']['logging'] = "option httplog"
 default['haproxy']['logging_json_enabled'] = false
@@ -108,8 +111,10 @@ default['haproxy']['frontends']['external']['other_config'] = [
 default['haproxy']['frontends']['external']['entries'] = [
   "mode http",
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
-  # Force HTTPS
-  # "redirect scheme https if !{ ssl_fc }",
+  if node['haproxy']['redirect']['http_https']['enabled']
+    "# Force HTTPS"
+    "redirect scheme https if !{ ssl_fc }"
+  end,
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
@@ -147,11 +152,11 @@ default['haproxy']['frontends']['external']['entries'] = [
   "http-request tarpit if FORBIDDEN_HDR",
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
-  "#---- end ddos protection -----"
+  "#---- end ddos protection -----",
+  if node['haproxy']['enable_ssl_header']
+    node['haproxy']['ssl_header']
+  end,
 ]
-
-default['haproxy']['enable_ssl_header'] = true
-default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
 
 default['haproxy']['frontends']['external']['headers'] = []
 
@@ -212,8 +217,6 @@ default['haproxy']['backends']['roles']['aos_vti']['port'] = 8070
 default['haproxy']['frontends']['external']['acls']['aos_root'] = ["path_reg ^/$ method OPTIONS","path_reg ^/$ method PROPFIND"]
 default['haproxy']['backends']['roles']['aos_root']['entries'] = ["option httpchk GET /"]
 default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
-
-default['haproxy']['redirect']['http_https']['enabled'] = false
 
 # TODO - WIP
 # default['haproxy']['frontends']['external']['acls']['alfresco_api'] = ["path_beg /alfresco/api"]

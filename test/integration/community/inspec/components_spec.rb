@@ -14,6 +14,6 @@ control "alfresco-02" do
   describe file('/etc/haproxy/haproxy.cfg') do
     it { should exist }
     it { should be_file }
-    its('content') { should match ('http-response set-header Strict-Transport-Security max-age\=15768000\; includeSubDomains\; preload\;') }
+    its('content') { should include ("http-response set-header Strict-Transport-Security max-age=15768000; includeSubDomains; preload;") }
   end
 end
