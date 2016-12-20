@@ -32,6 +32,8 @@ default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"time
 
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
+haproxy_logging = node['haproxy']['logging_json_enabled'] ? node['haproxy']['json_logformat'] : node['haproxy']['logformat']
+
 default['haproxy']['general_config'] = [
   "tune.ssl.default-dh-param 2048",
   # Logging should be handled with logstash-forwarder
@@ -51,11 +53,7 @@ default['haproxy']['default_config'] = [
   "",
   "# Options",
   "option httplog",
-  if node['haproxy']['logging_json_enabled']
-    node['haproxy']['json_logformat']
-  else    
-    node['haproxy']['logformat']
-  end,
+  haproxy_logging,
   "option dontlognull",
   "option forwardfor",
   "option http-server-close",
@@ -158,9 +156,7 @@ default['haproxy']['frontends']['external']['entries'] = [
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
   "#---- end ddos protection -----",
-  if node['haproxy']['enable_ssl_header']
-    node['haproxy']['ssl_header']
-  end,
+  node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header']
 ]
 
 default['haproxy']['frontends']['external']['headers'] = []
