@@ -33,6 +33,7 @@ default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"time
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 haproxy_logging = node['haproxy']['logging_json_enabled'] ? node['haproxy']['json_logformat'] : node['haproxy']['logformat']
+hsts_header = node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header'] 
 
 default['haproxy']['general_config'] = [
   "tune.ssl.default-dh-param 2048",
@@ -156,7 +157,7 @@ default['haproxy']['frontends']['external']['entries'] = [
   "acl WEIRD_RANGE_HEADERS hdr_cnt(Range) gt 10",
   "http-request tarpit if WEIRD_RANGE_HEADERS",
   "#---- end ddos protection -----",
-  node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header']
+  hsts_header
 ]
 
 default['haproxy']['frontends']['external']['headers'] = []
