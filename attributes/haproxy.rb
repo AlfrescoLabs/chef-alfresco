@@ -22,7 +22,6 @@ default['haproxy']['stats_auth'] = "admin"
 default['haproxy']['stats_pwd'] = "changeme"
 
 default['haproxy']['log_level'] = "info"
-default['haproxy']['redirect']['http_https']['enabled'] = false
 default['haproxy']['enable_ssl_header'] = true
 default['haproxy']['ssl_header'] = "http-response set-header Strict-Transport-Security max-age=15768000;\\ includeSubDomains;\\ preload;"
 
@@ -117,10 +116,6 @@ default['haproxy']['frontends']['external']['other_config'] = [
 default['haproxy']['frontends']['external']['entries'] = [
   "bind #{node['haproxy']['bind_ip']}:#{node['alfresco']['internal_secure_port']}",
   "mode http",
-  if node['haproxy']['redirect']['http_https']['enabled']
-    "# Force HTTPS"
-    "redirect scheme https if !{ ssl_fc }"
-  end,
   "capture request header X-Forwarded-For len 64",
   "capture request header User-agent len 128",
   "capture request header Cookie len 64",
