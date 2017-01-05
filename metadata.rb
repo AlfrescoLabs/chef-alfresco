@@ -16,7 +16,7 @@ depends 'file'
 depends 'tomcat'
 depends 'maven'
 depends 'commons'
-depends 'alfresco-webserver', '~> 0.7.3'
+depends 'alfresco-webserver', '~> 0.7.4'
 depends 'nginx-hardening', '~> 1.1.0'
 
 # Community cookbooks
