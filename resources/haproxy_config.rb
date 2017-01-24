@@ -22,7 +22,7 @@ action :run do
       id = "local_#{component}_backend"
 
       # Make sure the hash structure is created
-      Ec2Discovery.setDeepAttribute(haproxy_backends,[component,'az','local','id',id],{})
+      Ec2Discovery.set_deep_attribute(haproxy_backends,[component,'az','local','id',id],{})
 
       haproxy_backends[component]['az']['local']['id'][id]['id'] = id
       haproxy_backends[component]['az']['local']['id'][id]['ip'] = "127.0.0.1"
@@ -44,7 +44,7 @@ action :run do
     # Run EC2 discovery
     ec2_discovery_output = Ec2Discovery.discover(node['commons']['ec2_discovery'])
 
-    current_az = Ec2Discovery.getCurrentAz()
+    current_az = Ec2Discovery.az_current
     # Merge local and EC2 configuration entries
     haproxy_backends = Chef::Mixin::DeepMerge.merge(haproxy_backends,ec2_discovery_output['haproxy_backends'])
   end
