@@ -1,6 +1,8 @@
-require 'spec_helper'
+control 'alfresco-03' do
+  impact 0.7
+  title 'RM existance checks'
+  desc 'Checks to be sure that RM has been downloaded correctly'
 
-describe "RM components" do
   describe file("/usr/share/tomcat/amps/alfresco-rm-enterprise-repo.amp") do
     it { should exist }
     it { should be_owned_by 'tomcat' }

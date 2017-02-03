@@ -53,6 +53,10 @@ suites:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
     attributes: {
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
