@@ -1,6 +1,3 @@
-require 'spec_helper'
-
-
 # TODO Checks
 #
 # Check (some) folder permissions (@toni?)
@@ -24,7 +21,7 @@ yumrepos = ['epel','nginx']
 alfresco_host = "localhost"
 
 yumrepos.each do |yumrepo|
-  describe yumrepo(yumrepo) do
+  describe yum.repo(yumrepo) do
     it { should exist }
   end
 end
