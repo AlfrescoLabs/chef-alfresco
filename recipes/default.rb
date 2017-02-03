@@ -33,19 +33,24 @@ include_recipe "artifact-deployer::awscli"
 # we're using an Enterprise version (ends with a digit)
 # enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 # [New implementation]
+
+alfresco_version = node['alfresco']['version'][0,3].to_f
+
 if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId'] = "alfresco-enterprise"
-  unless node['alfresco']['version'].start_with?("5.1")
+  if alfresco_version <= 5.0
     node.default['artifacts']['share']['artifactId'] = "share-enterprise"
+  else
+    node.default['artifacts']['share']['artifactId'] = "share"
   end
 end
 
 #Chef::Log.warn("this is my condition2 #{node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['edition'] == 'enterprise'}")
-unless node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['edition'] == 'enterprise'
+unless node['alfresco']['enable.web.xml.nossl.patch'] || node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['classifier'] = 'nossl'
 end
 
-if node['alfresco']['version'].start_with?("5.1") and node['alfresco']['components'].include? 'repo'
+if alfresco_version > 5.0 && node['alfresco']['components'].include?('repo')
   node.default['artifacts']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end

@@ -26,3 +26,8 @@ default['alfresco']['workspace-solrproperties']['alfresco.keepAliveTime'] = 120
 default['alfresco']['workspace-solrproperties']['alfresco.threadPriority'] = 5
 default['alfresco']['workspace-solrproperties']['alfresco.threadDaemon'] = true
 default['alfresco']['workspace-solrproperties']['alfresco.workQueueSize'] = -1
+
+if node['alfresco']['version'][0,3].to_f >= 5.2
+  default['alfresco']['workspace-solrproperties']['alfresco.postfilter'] = true
+  default['alfresco']['archive-solrproperties']['alfresco.postfilter'] = true
+end
