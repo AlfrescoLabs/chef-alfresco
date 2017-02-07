@@ -44,17 +44,42 @@ suites:
       "nginx" : {
         "use_nossl_config" : true
       }
-    }
+     }
+  - name: community-52
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-community-52",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs','yourkit'],
+        "version" : "5.2.d",
+        "ssl_enabled" : false
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+     }
   - name: enterprise
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
     data_bags_path: "test/integration/data_bags"
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
     attributes: {
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "version" : "5.1.1.1",
+        "version" : "5.1.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
         "edition" : "enterprise",
         "ssl_enabled" : false
@@ -79,4 +104,48 @@ suites:
       "nginx" : {
         "use_nossl_config" : true
       }
-    }
+     }
+  - name: enterprise-52
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    data_bags_path: "test/integration/data_bags"
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
+    attributes: {
+      "name": "chef-alfresco-enterprise-52",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "version" : "5.2-EA",
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
+        "edition" : "enterprise",
+        "ssl_enabled" : false
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "internal" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "internal-releases" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-releases",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+     }
