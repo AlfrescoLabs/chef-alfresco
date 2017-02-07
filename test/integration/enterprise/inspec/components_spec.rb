@@ -1,13 +1,10 @@
 control "alfresco-02" do
   impact 0.5
-  title "Libreoffice existence"
+  title "Libreoffice configuration in Alfresco"
+  desc "Checks Alfresco configuration for LibreOffice"
 
-  describe file("/opt/libreoffice4.4/") do
-    it { should exist }
-    it { should be_owned_by 'tomcat' }
+  describe file("/usr/share/tomcat/shared/classes/alfresco-global.properties") do
+    its('content') { should match("jodconverter.officeHome=/opt/libreoffice4.4/") }
   end
 
-  describe command("cat /usr/share/tomcat/shared/classes/alfresco-global.properties") do
-    its(:stdout) { should include("jodconverter.officeHome=/opt/libreoffice4.4/") }
-  end
 end
