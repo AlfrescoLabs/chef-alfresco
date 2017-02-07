@@ -9,6 +9,11 @@ task :knife do
   sh "bundle exec knife cookbook test cookbook -o ./ -a"
 end
 
+desc 'Runs ChefSpec tests'
+task :chefspec do
+  sh 'rspec'
+end
+
 desc "Runs foodcritic test"
 task :foodcritic do
   FoodCritic::Rake::LintTask.new
@@ -60,4 +65,4 @@ namespace :integration do
   end
 end
 
-task :default => [ :foodcritic, :knife, :unit ]
+task :default => [ :foodcritic, :knife, :unit, :chefspec ]
