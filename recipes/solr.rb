@@ -1,7 +1,6 @@
 node.default['artifacts']['solrhome']['enabled'] = true
 node.default['artifacts']['solr4']['enabled'] = true
 
-
 if alf_version_ge?('5.2')
   node.default['alfresco']['workspace-solrproperties']['alfresco.postfilter'] = true
   node.default['alfresco']['archive-solrproperties']['alfresco.postfilter'] = true

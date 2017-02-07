@@ -1,3 +1,4 @@
+# destination has to be set at recipe time since amp_folder path is calculated at recipe time
 node.default['artifacts']['alfresco-rm-enterprise-repo']['destination'] = node['alfresco']['amps_folder']
 node.default['artifacts']['alfresco-rm-enterprise-share']['destination'] = node['alfresco']['amps_share_folder']
 node.default['artifacts']['alfresco-rm-community-repo']['destination'] = node['alfresco']['amps_folder']

@@ -86,7 +86,6 @@ node.default['artifacts']['keystore']['unzip'] = true
 
 node.default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco']['artifactId'] = 'alfresco'
-Chef::Log.warn("Alfresco version: #{node['alfresco']['version']}")
 node.default['artifacts']['alfresco']['version'] = node['alfresco']['version']
 node.default['artifacts']['alfresco']['type'] = 'war'
 

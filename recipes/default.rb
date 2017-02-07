@@ -37,7 +37,7 @@ alfresco_version = node['alfresco']['version'][0,3].to_f
 
 if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId'] = "alfresco-enterprise"
-  if alfresco_version <= 5.0
+  if alf_version_le?('5.0')
     node.default['artifacts']['share']['artifactId'] = "share-enterprise"
   else
     node.default['artifacts']['share']['artifactId'] = "share"
@@ -49,7 +49,7 @@ unless node['alfresco']['enable.web.xml.nossl.patch'] || node['alfresco']['editi
   node.default['artifacts']['alfresco']['classifier'] = 'nossl'
 end
 
-if alfresco_version > 5.0 && node['alfresco']['components'].include?('repo')
+if alf_version_gt?('5.0') && node['alfresco']['components'].include?('repo')
   node.default['artifacts']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = "alfresco-server-root"
 end
