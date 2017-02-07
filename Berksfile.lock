@@ -5,6 +5,7 @@ DEPENDENCIES
   commons
     git: https://github.com/Alfresco/chef-commons.git
     revision: 2bf78daa6567fb27fe724e055909762641260765
+    tag: v0.5.5
   database
     git: https://github.com/enzor/database.git
     revision: 416897fdc662766025eaf2ace668a3f3c62850c3
@@ -84,7 +85,7 @@ GRAPH
   cpu (1.0.0)
   database (5.0.0)
     postgresql (>= 1.0.0)
-  dmg (3.0.0)
+  dmg (3.1.0)
   ffmpeg (0.4.4)
     build-essential (>= 0.0.0)
     git (>= 0.0.0)
@@ -92,7 +93,7 @@ GRAPH
     x264 (>= 0.0.0)
     yasm (>= 0.0.0)
   file (2.0.0)
-  git (5.0.1)
+  git (5.0.2)
     build-essential (>= 0.0.0)
     dmg (>= 0.0.0)
     yum-epel (>= 0.0.0)
@@ -101,7 +102,7 @@ GRAPH
     cpu (>= 0.2.0)
   homebrew (3.0.0)
   imagemagick (0.2.3)
-  java (1.45.0)
+  java (1.47.0)
     apt (>= 0.0.0)
     homebrew (>= 0.0.0)
     windows (>= 0.0.0)
@@ -115,7 +116,7 @@ GRAPH
   logstash-forwarder (0.2.4)
     apt (>= 0.0.0)
     yum (>= 0.0.0)
-  mariadb (0.3.3)
+  mariadb (1.0.1)
     apt (>= 0.0.0)
     yum (>= 0.0.0)
     yum-epel (>= 0.0.0)
@@ -141,7 +142,7 @@ GRAPH
     nginx (>= 2.0.0)
     openssl (>= 0.0.0)
   ohai (2.1.0)
-  openssl (6.0.0)
+  openssl (6.1.1)
   packagecloud (0.2.5)
   postgresql (6.0.1)
     build-essential (>= 2.0.0)
