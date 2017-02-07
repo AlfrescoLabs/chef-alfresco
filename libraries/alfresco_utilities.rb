@@ -57,6 +57,7 @@ module AlfrescoHelper
     return !alf_version_gt?(version)
   end
 
+  # get Alfresco version from node - using method for testing purpose
   def alf_version
     return node['alfresco']['version']
   end

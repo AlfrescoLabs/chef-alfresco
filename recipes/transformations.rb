@@ -1,6 +1,15 @@
 # TODO - build-essential shouldnt really be here. move it to default (or essentials.rb)
 include_recipe "build-essential::default"
 
+if alf_version_lt?('5.2')
+  node.default['alfresco']['libreoffice_version'] = '4.4.5.2'
+  node.default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice4.4/'
+end
+
+node.default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
+node.default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office_name']}.tar.gz"
+node.default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentfoundation.org/libreoffice/old/#{node['alfresco']['libreoffice_version']}/rpm/x86_64/#{node['alfresco']['libre_office_tar_name']}"
+
 if node['alfresco']['use_libreoffice_os_repo']
   if node['platform'] == 'redhat'
     yum_repos = [
