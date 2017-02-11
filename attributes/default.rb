@@ -42,7 +42,7 @@ default['alfresco']['rmi_server_hostname'] = node['alfresco']['public_hostname']
 
 # Alfresco version; you can use Enterprise versions, ie. '5.0.1'
 default['alfresco']['groupId'] = "org.alfresco"
-default['alfresco']['version'] = "5.1.g"
+default['alfresco']['version'] = "5.2.d"
 default['alfresco']['edition'] = "community"
 
 default['alfresco']['home'] = "/usr/share/tomcat"
@@ -93,10 +93,8 @@ default['alfresco']['imagemagick_libs_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/Ima
 default['alfresco']['imagemagick_name'] = "ImageMagick-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
 default['alfresco']['imagemagick_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_name']}"
 
-default['alfresco']['libreoffice_version'] = "4.4.5.2"
-default['alfresco']['libre_office_name'] = "LibreOffice_#{node['alfresco']['libreoffice_version']}_Linux_x86-64_rpm"
-default['alfresco']['libre_office_tar_name'] = "#{node['alfresco']['libre_office_name']}.tar.gz"
-default['alfresco']['libre_office_tar_url'] = "https://downloadarchive.documentfoundation.org/libreoffice/old/#{node['alfresco']['libreoffice_version']}/rpm/x86_64/#{node['alfresco']['libre_office_tar_name']}"
+# default libreoffice_version for Alfresco 5.2
+default['alfresco']['libreoffice_version'] = '5.2.1.2'
 
 default['alfresco']['install_fonts'] = false
 default['alfresco']['install_swftools'] = true
