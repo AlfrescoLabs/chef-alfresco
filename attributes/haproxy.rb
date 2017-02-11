@@ -1,6 +1,6 @@
 default['internal_lb']['engine'] = 'haproxy'
 default['internal_lb']['log_level'] = 'info'
-default['internal_lb']['enable_ssl_header'] = false
+default['internal_lb']['enable_ssl_header'] = true
 default['internal_lb']['hostname'] = '127.0.0.1'
 default['internal_lb']['port'] = '9000'
 default['internal_lb']['internal_secure_port'] = '9001'
