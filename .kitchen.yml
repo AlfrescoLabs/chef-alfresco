@@ -41,7 +41,7 @@ suites:
         "version" : "5.1.g",
         "ssl_enabled" : false
       },
-      "nginx" : {
+      "webserver" : {
         "use_nossl_config" : true
       }
     }

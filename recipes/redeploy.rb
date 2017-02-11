@@ -20,7 +20,7 @@ include_recipe "alfresco::_analytics-attributes"
 include_recipe "commons::hosts"
 
 # Handle certs creation
-include_recipe "alfresco::_certs"
+include_recipe "commons::certs"
 
 # Enabling encrypted communication to the DB (rds as of now)
 if node['alfresco']['db_ssl_enabled'] == true

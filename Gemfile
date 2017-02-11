@@ -14,7 +14,7 @@ gem 'rake'
 
 group :docker do
   gem 'test-kitchen', '~> 1.4'
-  gem 'kitchen-docker', '~> 2.6.0'
+  gem 'kitchen-docker', '2.6.0'
   gem 'kitchen-inspec', '~> 0.16.1'
 end
 

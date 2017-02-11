@@ -1,3 +1,4 @@
+require 'pry'
 # Setting Tomcat version
 # Needs to be done before invoking "tomcat::_attributes"
 # TODO - try using node.default or node.set
@@ -68,9 +69,11 @@ if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat"
 end
 
-if node['alfresco']['components'].include? 'nginx'
-  include_recipe "alfresco-webserver::default"
-end
+puts "-------------------------"
+puts node['alfresco']['components']
+puts "-------------------------"
+
+
 
 if node['alfresco']['components'].include? 'transform'
   include_recipe "alfresco::transformations"
@@ -111,18 +114,17 @@ if node['alfresco']['components'].include? 'solr'
   include_recipe "alfresco::solr"
 end
 
-
-if node['alfresco']['components'].include? 'haproxy'
-  include_recipe 'alfresco::haproxy'
-end
-
 if node['alfresco']['components'].include? 'tomcat'
   include_recipe "alfresco::tomcat-instance-config"
 end
 
+if node['alfresco']['components'].include? 'nginx'
+  include_recipe "alfresco-webserver::default"
+end
+
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe "openssl::default"
-  include_recipe "alfresco::haproxy"
+  include_recipe "alfresco-internal-lb::default"
 end
 
 include_recipe "artifact-deployer::default"
