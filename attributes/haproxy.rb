@@ -12,7 +12,6 @@ default['internal_lb']['certs']['databag_item'] = ''
 default['internal_lb']['certs']['skip_certificate_creation'] = true
 default['internal_lb']['error-pages']['folder'] = '/var/www/html/errors'
 default['internal_lb']['components'] = %w(repo share solr)
-default['internal_lb']['webserver']['ssl_port'] = '443'
 default['internal_lb']['share_port'] = 8081
 default['internal_lb']['solr_port'] = 8090
 default['internal_lb']['activiti_port'] = 8060
