@@ -20,6 +20,7 @@ platforms:
       privileged: true
       forward:
       - 80:80
+      - 443:443
       - 8070:8070
       - 8081:8081
       - 8090:8090
@@ -27,7 +28,7 @@ platforms:
       - 9000:9000
 
 suites:
-  - name: community
+  - name: community-edition
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -73,6 +74,10 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
     data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:

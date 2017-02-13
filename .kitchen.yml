@@ -24,7 +24,7 @@ platforms:
 
 
 suites:
-  - name: community
+  - name: community-edition
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -41,7 +41,7 @@ suites:
         "version" : "5.1.g",
         "ssl_enabled" : false
       },
-      "nginx" : {
+      "webserver" : {
         "use_nossl_config" : true
       }
      }

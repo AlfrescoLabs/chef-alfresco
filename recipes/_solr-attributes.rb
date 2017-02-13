@@ -24,8 +24,8 @@ node.default['alfresco']['archive-solrproperties']['alfresco.host'] = node['alfr
 node.default['alfresco']['archive-solrproperties']['alfresco.port.ssl'] = node['alfresco']['internal_portssl']
 
 if node['alfresco']['components'].include? 'haproxy'
-  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
-  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['alfresco']['internal_port']
+  node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['internal_lb']['port']
+  node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['internal_lb']['port']
 else
   node.default['alfresco']['workspace-solrproperties']['alfresco.port'] = node['haproxy']['backends']['roles']['alfresco']['port']
   node.default['alfresco']['archive-solrproperties']['alfresco.port'] = node['haproxy']['backends']['roles']['alfresco']['port']
