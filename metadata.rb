@@ -16,7 +16,7 @@ depends 'file'
 depends 'tomcat'
 depends 'maven'
 depends 'commons'
-depends 'alfresco-internal-lb'
+depends 'alfresco-internal-lb', '~> 0.3.2'
 depends 'alfresco-webserver', '~> 0.7.4'
 depends 'nginx-hardening', '~> 1.1.0'
 
