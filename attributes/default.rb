@@ -128,3 +128,14 @@ default['alfresco']['restart_action']   = [:enable, :restart]
 
 # Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
 default['artifacts']['keystore']['enabled'] = false
+
+# Generic Solr6 attributes
+default['solr6']['user'] = 'solr'
+default['solr6']['installation-path'] = '/opt'
+default['solr6']['dir_name'] = 'alfresco-search-services'
+default['solr6']['ssl.enaled'] = false
+default['solr6']['suggestion.enabled'] = false
+default['solr6']['camelCaseSearch.enabled'] = false
+default['solr6']['solr_env_dir'] = '/etc/default'
+default['solr6']['solr.baseurl'] = '/solr'
+######

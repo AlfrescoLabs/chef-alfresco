@@ -33,8 +33,6 @@ include_recipe "artifact-deployer::awscli"
 # enterprise = true if Float(node['alfresco']['version'].split('').last) or node['alfresco']['version'].end_with?("SNAPSHOT") rescue false
 # [New implementation]
 
-alfresco_version = node['alfresco']['version'][0,3].to_f
-
 if node['alfresco']['edition'] == 'enterprise'
   node.default['artifacts']['alfresco']['artifactId'] = "alfresco-enterprise"
   if alf_version_le?('5.0')
@@ -111,10 +109,13 @@ if node['alfresco']['components'].include? 'share'
   include_recipe "alfresco::share"
 end
 
-if node['alfresco']['components'].include? 'solr'
+if node['alfresco']['components'].include?('solr')
   include_recipe "alfresco::solr"
 end
 
+if node['alfresco']['components'].include?('solr6')
+  include_recipe "alfresco::solr6"
+end
 
 if node['alfresco']['components'].include? 'haproxy'
   include_recipe 'alfresco::haproxy'
@@ -130,6 +131,10 @@ if node['alfresco']['components'].include? 'haproxy'
 end
 
 include_recipe "artifact-deployer::default"
+
+if node['alfresco']['components'].include?('solr6')
+  include_recipe "alfresco::solr6-config"
+end
 
 if node['alfresco']['apply_amps']
   include_recipe "alfresco::apply-amps"
