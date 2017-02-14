@@ -133,7 +133,6 @@ default['artifacts']['keystore']['enabled'] = false
 default['solr6']['user'] = 'solr'
 default['solr6']['installation-path'] = '/opt'
 default['solr6']['dir_name'] = 'alfresco-search-services'
-default['solr6']['ssl.enaled'] = false
 default['solr6']['suggestion.enabled'] = false
 default['solr6']['camelCaseSearch.enabled'] = false
 default['solr6']['solr_env_dir'] = '/etc/default'

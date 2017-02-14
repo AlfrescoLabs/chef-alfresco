@@ -49,13 +49,6 @@ service 'solr' do
   supports :status => true, :restart => true, :start => true, :stop => true
 end
 
-# TODO create recipe to enable ssl
-if node['solr6']['ssl.enabled']
-  directory "#{solr_home}/keystore" do
-    action :create
-  end
-end
-
 directory solr_pid_dir do
   owner solr_user
   group solr_user
@@ -109,9 +102,6 @@ dirs_to_delete.each do |dir_to_delete|
     action :delete
   end
 end
-
-#chmod 0440 #{solr_home}/conf/shared.properties
-#chmod 0440 #{solr_home}/templates/rerank/conf/solrcore.properties
 
 execute 'change-solr6-permissions' do
   cwd alf_ss_path
