@@ -177,10 +177,6 @@ if node['alfresco']['components'].include? 'tomcat' and node['alfresco']['enable
   end
 end
 
-
-
-
-
 # Restarting services, if enabled
 alfresco_start    = node["alfresco"]["start_service"]
 restart_services  = node['alfresco']['restart_services']
@@ -194,11 +190,12 @@ if alfresco_start and node['alfresco']['components'].include? 'tomcat'
         group "tomcat"
         mode '0750'
         recursive true
+        only_if { service_name.start_with?('tomcat-')}
       end
     end
 
     service service_name  do
-      action    restart_action
+      action restart_action
     end
   end
 end

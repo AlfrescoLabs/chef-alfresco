@@ -34,7 +34,7 @@
 #   update-rc.d solr enable
 
 # Where you extracted the Solr distribution bundle
-SOLR_INSTALL_DIR="<%= node['solr6']['installation-path'] %>/<%= node['artifacts']['alfresco-search-services']['destinationName'] %>/solr"
+SOLR_INSTALL_DIR="<%= node['solr6']['installation-path'] %>/<%= node['artifacts']['alfresco-search-services']['artifactId'] %>/solr"
 
 if [ ! -d "$SOLR_INSTALL_DIR" ]; then
   echo "$SOLR_INSTALL_DIR not found! Please check the SOLR_INSTALL_DIR setting in your $0 script."
@@ -63,27 +63,37 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-CREATE_CORES_CMD="-a \"-Dcreate.alfresco.defaults=alfresco,archive\""
+run_command() {
+  echo "Running command -> $1"
+  if [ -n "$RUNAS" ]; then
+    su -c "SOLR_INCLUDE=\"$SOLR_ENV\" \"$SOLR_INSTALL_DIR/bin/solr\" $1" - "$RUNAS"
+  else
+    SOLR_INCLUDE="$SOLR_ENV" "$SOLR_INSTALL_DIR/bin/solr" "$1"
+  fi
+}
+
+start_command() {
+  if [ -d <%= node['solr6']['solr-in-sh']['SOLR_PID_DIR'] %>/data/alfresco ]; then
+    command = "start"
+  else
+    echo "Creating Alfresco cores"
+    command="start -a \"-Dcreate.alfresco.defaults=alfresco,archive\""
+  fi
+  run_command "$command"
+}
 
 case "$1" in
   start)
-    if [ -d <%= node['solr6']['solr-in-sh']['SOLR_PID_DIR'] %>/data/ContentStore ]; then
-    SOLR_CMD="$1"
-    else
-    echo "Creating Alfresco Cores"
-    SOLR_CMD="$1 $CREATE_CORES_CMD"
-    fi
+    start_command
     ;;
-  stop|restart|status)
-    SOLR_CMD="$1"
+  restart)
+    run_command "stop"
+    start_command
+    ;;
+  stop|status)
+    run_command "$1"
     ;;
   *)
     echo "Usage: $0 {start|stop|restart|status}"
     exit
 esac
-
-if [ -n "$RUNAS" ]; then
-  su -c "SOLR_INCLUDE=\"$SOLR_ENV\" \"$SOLR_INSTALL_DIR/bin/solr\" $SOLR_CMD" - "$RUNAS"
-else
-  SOLR_INCLUDE="$SOLR_ENV" "$SOLR_INSTALL_DIR/bin/solr" "$SOLR_CMD"
-fi

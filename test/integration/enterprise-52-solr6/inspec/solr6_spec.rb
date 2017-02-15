@@ -124,6 +124,45 @@ control "alfresco-09" do
     it { should_not be_writable.by_user('tomcat') }
   end
 
+  describe directory '/var/solr/data' do
+    it { should exist }
+    it { should be_directory }
+    its('owner') { should cmp 'solr' }
+    its('group') { should cmp 'solr' }
+    it { should be_readable.by_user('solr') }
+    it { should be_writable.by_user('solr') }
+    it { should be_executable.by_user('solr') }
+    it { should_not be_readable.by_user('tomcat') }
+    it { should_not be_executable.by_user('tomcat') }
+    it { should_not be_writable.by_user('tomcat') }
+  end
+
+  describe directory '/var/solr/data/archive' do
+    it { should exist }
+    it { should be_directory }
+    its('owner') { should cmp 'solr' }
+    its('group') { should cmp 'solr' }
+    it { should be_readable.by_user('solr') }
+    it { should be_writable.by_user('solr') }
+    it { should be_executable.by_user('solr') }
+    it { should_not be_readable.by_user('tomcat') }
+    it { should_not be_executable.by_user('tomcat') }
+    it { should_not be_writable.by_user('tomcat') }
+  end
+
+  describe directory '/var/solr/data/alfresco' do
+    it { should exist }
+    it { should be_directory }
+    its('owner') { should cmp 'solr' }
+    its('group') { should cmp 'solr' }
+    it { should be_readable.by_user('solr') }
+    it { should be_writable.by_user('solr') }
+    it { should be_executable.by_user('solr') }
+    it { should_not be_readable.by_user('tomcat') }
+    it { should_not be_executable.by_user('tomcat') }
+    it { should_not be_writable.by_user('tomcat') }
+  end
+
   describe command('service solr status') do
     its('stdout') { should match /Found 1 Solr nodes:/ }
     its('stdout') { should match /Solr process ([^\s]+) running on port 8090/ }

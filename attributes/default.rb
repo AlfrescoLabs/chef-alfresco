@@ -123,18 +123,12 @@ default['alfresco']['db']['allowed_host'] = "%"
 
 # Alfresco services configuration
 default["alfresco"]["start_service"] = true
-default['alfresco']['restart_services'] = ['tomcat-alfresco','tomcat-share','tomcat-solr']
+default['alfresco']['restart_services'] = []
+default['alfresco']['restart_services'].push('tomcat-solr') if node['alfresco']['components'].include?('solr')
+default['alfresco']['restart_services'].push('tomcat-alfresco') if node['alfresco']['components'].include?('repo')
+default['alfresco']['restart_services'].push('tomcat-share') if node['alfresco']['components'].include?('share')
+default['alfresco']['restart_services'].push('solr') if node['alfresco']['components'].include?('solr6')
 default['alfresco']['restart_action']   = [:enable, :restart]
 
 # Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
 default['artifacts']['keystore']['enabled'] = false
-
-# Generic Solr6 attributes
-default['solr6']['user'] = 'solr'
-default['solr6']['installation-path'] = '/opt'
-default['solr6']['dir_name'] = 'alfresco-search-services'
-default['solr6']['suggestion.enabled'] = false
-default['solr6']['camelCaseSearch.enabled'] = false
-default['solr6']['solr_env_dir'] = '/etc/default'
-default['solr6']['solr.baseurl'] = '/solr'
-######
