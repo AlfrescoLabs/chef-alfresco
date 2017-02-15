@@ -139,7 +139,7 @@ suites:
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "version" : "5.2-EA",
+        "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
         "edition" : "enterprise",
         "ssl_enabled" : false
@@ -160,6 +160,16 @@ suites:
             },
             "internal-releases" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-releases",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "alfresco-internal-staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "alfresco-staging-platform" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }
@@ -183,7 +193,7 @@ suites:
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "version" : "5.2-EA",
+        "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr6","mysql","aos","rm"],
         "edition" : "enterprise",
         "ssl_enabled" : false
@@ -204,6 +214,16 @@ suites:
             },
             "internal-releases" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-releases",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "alfresco-internal-staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "alfresco-staging-platform" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }

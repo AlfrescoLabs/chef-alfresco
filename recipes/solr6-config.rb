@@ -126,8 +126,8 @@ execute 'change-solr6-permissions' do
   find "./solr" -type f -print0 | xargs -0 chmod 0644
   chmod -R 00755 "./solr/bin"
   chown -R #{solr_user}: "#{solr_home}"
-  find "#{solr_home}" -type d -print0 | xargs -0 chmod 0755
-  find "#{solr_home}" -type f -print0 | xargs -0 chmod 0440
+  find "#{solr_pid_dir}" -type d -print0 | xargs -0 chmod 0755
+  find "#{solr_pid_dir}" -type f ! -regex ".*\.\(xml\|properties\|txt\|html\|csv\|keystore\|truststore\)" -print0 | xargs -0 chmod 0640
   chmod 00640 "#{log4j_props}"
   EOF
 end

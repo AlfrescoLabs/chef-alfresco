@@ -74,7 +74,7 @@ run_command() {
 
 start_command() {
   if [ -d <%= node['solr6']['solr-in-sh']['SOLR_PID_DIR'] %>/data/alfresco ]; then
-    command = "start"
+    command="start"
   else
     echo "Creating Alfresco cores"
     command="start -a \"-Dcreate.alfresco.defaults=alfresco,archive\""

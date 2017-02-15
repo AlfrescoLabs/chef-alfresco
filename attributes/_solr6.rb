@@ -10,11 +10,8 @@ default['artifacts']['alfresco-search-services']['groupId'] = 'org.alfresco'
 default['artifacts']['alfresco-search-services']['type'] = 'zip'
 default['artifacts']['alfresco-search-services']['owner'] = 'root'
 default['artifacts']['alfresco-search-services']['enabled'] = false
-if node['alfresco']['edition'] == 'community'
-  default['artifacts']['alfresco-search-services']['version'] = '1.0.b'
-else
-  default['artifacts']['alfresco-search-services']['version'] = '1.0.0-SNAPSHOT'
-end
+# at the moment we use same version for community and enterprise
+default['artifacts']['alfresco-search-services']['version'] = '1.0.0'
 default['artifacts']['alfresco-search-services']['unzip'] = true
 default['artifacts']['alfresco-search-services']['destination'] = node['solr6']['installation-path']
 default['artifacts']['alfresco-search-services']['artifactId'] = 'alfresco-search-services'
