@@ -4,6 +4,8 @@ default['solr6']['suggestion.enabled'] = false
 default['solr6']['camelCaseSearch.enabled'] = false
 default['solr6']['solr_env_dir'] = '/etc/default'
 default['solr6']['solr.baseurl'] = '/solr'
+default['solr6']['xmx_ratio'] = 0.3
+default['solr6']['ssl.enabled'] = false
 
 # Alfresco Search Service artifact to donwload
 default['artifacts']['alfresco-search-services']['groupId'] = 'org.alfresco'
