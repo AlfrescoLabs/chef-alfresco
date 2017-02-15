@@ -62,9 +62,7 @@ control "alfresco-09" do
     its('owner') { should cmp 'solr' }
     its('group') { should cmp 'solr' }
     it { should be_readable.by_user('solr') }
-    it { should_not be_writable.by_user('solr') }
     it { should_not be_executable.by_user('solr') }
-    it { should_not be_writable.by_user('tomcat') }
     it { should_not be_readable.by_user('tomcat') }
     its('content') { should match("solr.host=127.0.0.1") }
     its('content') { should match("solr.port=9000") }
@@ -77,9 +75,7 @@ control "alfresco-09" do
     its('owner') { should cmp 'solr' }
     its('group') { should cmp 'solr' }
     it { should be_readable.by_user('solr') }
-    it { should_not be_writable.by_user('solr') }
     it { should_not be_executable.by_user('solr') }
-    it { should_not be_writable.by_user('tomcat') }
     it { should_not be_readable.by_user('tomcat') }
     its('content') { should match("alfresco.port=9000") }
     its('content') { should match("alfresco.host=localhost") }
@@ -138,8 +134,7 @@ control "alfresco-09" do
     it { should be_readable.by_user('solr') }
     it { should be_writable.by_user('solr') }
     it { should be_executable.by_user('solr') }
-    it { should_not be_readable.by_user('tomcat') }
-    it { should_not be_executable.by_user('tomcat') }
+    it { should be_readable.by_user('tomcat') }
     it { should_not be_writable.by_user('tomcat') }
   end
 
@@ -151,8 +146,7 @@ control "alfresco-09" do
     it { should be_readable.by_user('solr') }
     it { should be_writable.by_user('solr') }
     it { should be_executable.by_user('solr') }
-    it { should_not be_readable.by_user('tomcat') }
-    it { should_not be_executable.by_user('tomcat') }
+    it { should be_readable.by_user('tomcat') }
     it { should_not be_writable.by_user('tomcat') }
   end
 
@@ -164,8 +158,6 @@ control "alfresco-09" do
     it { should be_readable.by_user('solr') }
     it { should be_writable.by_user('solr') }
     it { should be_executable.by_user('solr') }
-    it { should_not be_readable.by_user('tomcat') }
-    it { should_not be_executable.by_user('tomcat') }
-    it { should_not be_writable.by_user('tomcat') }
+    it { should be_readable.by_user('tomcat') }
   end
 end
