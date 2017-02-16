@@ -1,0 +1,7 @@
+<% if node['solr6']['log4j-properties'] %>
+  <% node['solr6']['log4j-properties'].each do |property_type, value| %>
+    <% if value %>
+<%= property_type %>=<%= value %>
+    <% end %>
+  <% end %>
+<% end %>

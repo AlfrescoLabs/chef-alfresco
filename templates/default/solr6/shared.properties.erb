@@ -1,0 +1,14 @@
+# Shared Properties file
+
+#Host details an external client would use to connect to Solr
+solr.host=<%= node['alfresco']['internal_hostname'] %>
+solr.port=<%= node['alfresco']['internal_port'] %>
+solr.baseurl=<%= node['solr6']['solr.baseurl'] %>
+
+<% if node['solr6']['shared-properties'] %>
+  <% node['solr6']['shared-properties'].each do |property_type, value| %>
+    <% value.each do |key,val| %>
+<%= property_type %>.<%= key %>=<%= val %>
+    <% end %>
+  <% end %>
+<% end %>
