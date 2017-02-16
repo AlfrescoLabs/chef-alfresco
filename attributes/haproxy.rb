@@ -33,7 +33,7 @@ default['haproxy']['json_logformat'] = "log-format  {\"type\":\"haproxy\",\"time
 default['haproxy']['ssl_chain_file'] = "#{node['alfresco']['certs']['ssl_folder']}/#{node['alfresco']['certs']['filename']}.chain"
 
 haproxy_logging = node['haproxy']['logging_json_enabled'] ? node['haproxy']['json_logformat'] : node['haproxy']['logformat']
-hsts_header = node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header'] 
+hsts_header = node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header']
 
 default['haproxy']['general_config'] = [
   "tune.ssl.default-dh-param 2048",
@@ -195,9 +195,18 @@ default['haproxy']['secure_entries'] = [
 default['haproxy']['backends']['roles']['share']['port'] = 8081
 
 # Solr Haproxy configuration
-default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
-default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
-default['haproxy']['backends']['roles']['solr']['port'] = 8090
+if node['alfresco']['components'].include?('solr')
+  default['haproxy']['frontends']['internal']['acls']['solr'] = ["path_beg /solr4"]
+  default['haproxy']['backends']['roles']['solr']['entries'] = ["option httpchk GET /solr4","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+  default['haproxy']['backends']['roles']['solr']['port'] = 8090
+end
+
+# Solr6 Haproxy configuration
+if node['alfresco']['components'].include?('solr6')
+  default['haproxy']['frontends']['internal']['acls']['solr6'] = ["path_beg /solr"]
+  default['haproxy']['backends']['roles']['solr6']['entries'] = ["option httpchk GET /solr","cookie JSESSIONID prefix","balance url_param JSESSIONID check_post"]
+  default['haproxy']['backends']['roles']['solr6']['port'] = 8090
+end
 
 # Activiti Haproxy configuration
 if node['alfresco']['components'].include?('activiti')
