@@ -27,7 +27,7 @@ platforms:
       - 9000:9000
 
 suites:
-  - name: community
+  - name: community-edition
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -69,7 +69,7 @@ suites:
         "use_nossl_config" : true
       }
      }
-  - name: community-52-solr6
+  - name: community-solr6-52
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -90,7 +90,7 @@ suites:
         "use_nossl_config" : true
       }
      }
-  - name: enterprise
+  - name: enterprise-edition
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -183,7 +183,7 @@ suites:
         "use_nossl_config" : true
       }
      }
-  - name: enterprise-52-solr6
+  - name: enterprise-solr6-52
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
@@ -229,7 +229,7 @@ suites:
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            }            
+            }
           }
         }
       },
