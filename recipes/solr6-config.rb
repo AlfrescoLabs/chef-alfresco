@@ -9,7 +9,7 @@ solr_pid_dir = node['solr6']['solr-in-sh']['SOLR_PID_DIR']
 log4j_props = node['solr6']['solr-in-sh']['LOG4J_PROPS']
 solr_user = node['solr6']['user']
 
-ruby_block "copy Solr File to parent folder" do
+ruby_block 'copy Solr File to parent folder' do
   block do
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/#{alf_ss_id}/*"), alf_ss_path)
   end
@@ -52,7 +52,7 @@ directory solr_env_dir do
 end
 
 template "#{solr_env_dir}/solr.in.sh" do
-  source "solr6/solr.in.sh.erb"
+  source 'solr6/solr.in.sh.erb'
   mode 00644
   owner 'root'
   group 'root'
@@ -88,7 +88,7 @@ directory solr_home do
 end
 
 # copying solrHome content to different location just if the old solrhome exists
-ruby_block "Copying solrhome into new location" do
+ruby_block 'Copying solrhome into new location' do
   block do
     FileUtils.rm_rf(Dir.glob("#{solr_home}/*"))
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/solrhome/*"), solr_home)
@@ -98,7 +98,7 @@ ruby_block "Copying solrhome into new location" do
 end
 
 template log4j_props do
-  source "solr6/log4j.properties.erb"
+  source 'solr6/log4j.properties.erb'
   mode 00640
   owner solr_user
   group solr_user
@@ -135,8 +135,8 @@ end
 
 # first start to create the Alfresco cores
 template '/etc/init.d/solr' do
-  source "solr6/solr.erb"
+  source 'solr6/solr.erb'
   mode 00744
   owner 'root'
-  notifies :enable, "service[solr]", :immediately
+  notifies :enable, 'service[solr]', :immediately
 end
