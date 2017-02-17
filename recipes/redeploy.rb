@@ -28,6 +28,8 @@ end
 
 restart_tomcat_services = []
 
+restart_tomcat_services << 'solr' if node['alfresco']['components'].include?('solr6')
+
 if node['alfresco']['components'].include? 'repo'
   restart_tomcat_services << "tomcat-alfresco"
   # alfresco-global.properties updates

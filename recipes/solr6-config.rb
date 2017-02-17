@@ -30,15 +30,12 @@ config_files = ["#{alf_ss_path}/solrhome/conf/shared.properties",
 # replacing configuration files
 config_files.each do |config_file|
 
-  file config_file do
-    action :delete
-  end
-
   filename = File.basename(config_file)
 
   template config_file do
     source "solr6/#{filename}.erb"
     mode 00440
+    action :create
   end
 end
 
@@ -117,6 +114,14 @@ dirs_to_delete.each do |dir_to_delete|
     recursive true
     action :delete
   end
+end
+
+cookbook_file "#{alf_ss_path}/solr/bin/solr" do
+  source 'solr6/solr'
+  owner 'root'
+  group 'root'
+  mode 00644
+  action :create
 end
 
 execute 'change-solr6-permissions' do
