@@ -1,30 +1,27 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
+
 driver:
-  name: docker
-  use_sudo: false
+  name: vagrant
+  customize:
+    memory: 4096
+    cpus: 2
 
 provisioner:
   name: chef_zero
-
 
 verifier:
   name: inspec
 
 platforms:
-  - name: centos-7
+  - name: centos-7.2
     driver_config:
-      image: centos:7
-      platform: centos
-      run_command: /usr/sbin/init
-      privileged: true
-      forward:
-      - 80:80
-      - 8070:8070
-      - 8081:8081
-      - 8090:8090
-      - 9001:9001
-      - 9000:9000
+      network:
+      - ["private_network", {ip: "192.168.33.23"}]
+
+    driver:
+      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
+
 
 suites:
   - name: community-edition
@@ -69,6 +66,27 @@ suites:
         "use_nossl_config" : true
       }
      }
+  - name: community-solr6-52
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-community-52",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs','yourkit'],
+        "version" : "5.2.d",
+        "ssl_enabled" : false
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+     }
   - name: enterprise-edition
     run_list:
       - recipe[alfresco::default]
@@ -83,7 +101,7 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.1.2",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm",'googledocs','yourkit'],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
@@ -96,7 +114,7 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "staging" : {
+            "internal-staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
@@ -135,7 +153,7 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "staging" : {
+            "internal-staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
@@ -145,13 +163,8 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "alfresco-internal-staging" : {
+            "staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/groups/staging",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            },
-            "alfresco-staging-platform" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }
@@ -189,7 +202,7 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "staging" : {
+            "internal-staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
@@ -199,13 +212,8 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "alfresco-internal-staging" : {
+            "staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/groups/staging",
-              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
-              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
-            },
-            "alfresco-staging-platform" : {
-              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             }

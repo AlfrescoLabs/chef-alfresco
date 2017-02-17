@@ -13,13 +13,13 @@ default['alfresco']['properties']['db.dbname'] = 'alfresco'
 default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
 default['alfresco']['properties']['db.ssl_params'] = node['alfresco']['db_ssl_enabled'] == true ? "&useSSL=true&requireSSL=true&verifyServerCertificate=true&trustCertificateKeyStoreUrl=file://#{node['alfresco']['truststore_file']}&trustCertificateKeyStoreType=#{node['alfresco']['truststore_type']}&trustCertificateKeyStorePassword=#{node['alfresco']['truststore_password']}" : ''
 default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}"
-node.set['alfresco']['properties']['db.pool.initial'] = 30
-node.set['alfresco']['properties']['db.pool.max'] = 500
-node.set['alfresco']['properties']['db.pool.min'] = 0
-node.set['alfresco']['properties']['db.pool.evict.interval'] = 900000
-node.set['alfresco']['properties']['db.pool.evict.idle.min'] = 1800000
-node.set['alfresco']['properties']['db.pool.evict.num.tests'] = -2
-node.set['alfresco']['properties']['db.pool.evict.validate'] = true
+default['alfresco']['properties']['db.pool.initial'] = 30
+default['alfresco']['properties']['db.pool.max'] = 500
+default['alfresco']['properties']['db.pool.min'] = 0
+default['alfresco']['properties']['db.pool.evict.interval'] = 900000
+default['alfresco']['properties']['db.pool.evict.idle.min'] = 1800000
+default['alfresco']['properties']['db.pool.evict.num.tests'] = -2
+default['alfresco']['properties']['db.pool.evict.validate'] = true
 
 default['alfresco']['apply_amps'] = false
 
@@ -40,7 +40,9 @@ default['alfresco']['properties']['share.context'] = 'share'
 default['alfresco']['properties']['alfresco.context'] = 'alfresco'
 
 #Search Config
-default['alfresco']['properties']['index.subsystem.name'] = 'solr4'
+default['alfresco']['properties']['index.subsystem.name'] = 'solr4' if node['alfresco']['components'].include?('solr')
+default['alfresco']['properties']['index.subsystem.name'] = 'solr6' if node['alfresco']['components'].include?('solr6')
+
 default['alfresco']['properties']['solr.secureComms'] = 'none'
 
 #Email

@@ -14,9 +14,6 @@ user node.default['solr6']['user'] do
   action :create
 end
 
-# Solr setting for Alfresco in alfresco-global.properties
-node.default['alfresco']['properties']['index.subsystem.name'] = 'solr6'
-
 # lsof needed by start script
 package 'lsof'
 

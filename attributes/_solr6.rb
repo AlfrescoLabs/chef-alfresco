@@ -17,3 +17,5 @@ default['artifacts']['alfresco-search-services']['version'] = '1.0.0'
 default['artifacts']['alfresco-search-services']['unzip'] = true
 default['artifacts']['alfresco-search-services']['destination'] = node['solr6']['installation-path']
 default['artifacts']['alfresco-search-services']['artifactId'] = 'alfresco-search-services'
+# increasing timeout from 10 to 20 minutes because of Solr size
+default['artifacts']['alfresco-search-services']['timeout'] = 1200
