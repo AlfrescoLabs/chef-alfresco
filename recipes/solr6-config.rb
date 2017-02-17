@@ -30,15 +30,12 @@ config_files = ["#{alf_ss_path}/solrhome/conf/shared.properties",
 # replacing configuration files
 config_files.each do |config_file|
 
-  file config_file do
-    action :delete
-  end
-
   filename = File.basename(config_file)
 
   template config_file do
     source "solr6/#{filename}.erb"
     mode 00440
+    action :create
   end
 end
 
