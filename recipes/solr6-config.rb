@@ -119,7 +119,7 @@ dirs_to_delete.each do |dir_to_delete|
   end
 end
 
-cookbook_file "#{alf_ss_path}/solr/bin" do
+cookbook_file "#{alf_ss_path}/solr/bin/solr" do
   source 'solr6/solr'
   owner 'root'
   group 'root'
