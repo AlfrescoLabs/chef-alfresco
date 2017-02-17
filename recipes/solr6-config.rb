@@ -119,6 +119,14 @@ dirs_to_delete.each do |dir_to_delete|
   end
 end
 
+cookbook_file "#{alf_ss_path}/solr/bin" do
+  source 'solr6/solr'
+  owner 'root'
+  group 'root'
+  mode 00644
+  action :create
+end
+
 execute 'change-solr6-permissions' do
   cwd alf_ss_path
   command <<-EOF

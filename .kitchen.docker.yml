@@ -1,27 +1,30 @@
 # When editing this file, remember that http://www.yamllint.com is your friend :-)
 ---
-
 driver:
-  name: vagrant
-  customize:
-    memory: 4096
-    cpus: 2
+  name: docker
+  use_sudo: false
 
 provisioner:
   name: chef_zero
+
 
 verifier:
   name: inspec
 
 platforms:
-  - name: centos-7.2
+  - name: centos-7
     driver_config:
-      network:
-      - ["private_network", {ip: "192.168.33.23"}]
-
-    driver:
-      box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
-
+      image: centos:7
+      platform: centos
+      run_command: /usr/sbin/init
+      privileged: true
+      forward:
+      - 80:80
+      - 8070:8070
+      - 8081:8081
+      - 8090:8090
+      - 9001:9001
+      - 9000:9000
 
 suites:
   - name: community-edition
@@ -66,27 +69,6 @@ suites:
         "use_nossl_config" : true
       }
      }
-  - name: community-solr6-52
-    run_list:
-      - recipe[alfresco::default]
-      - recipe[alfresco::redeploy]
-    verifier:
-      inspec_tests:
-        - name: nginx-hardening
-          git: https://github.com/Alfresco/tests-nginx-hardening
-    data_bags_path: "test/integration/data_bags"
-    attributes: {
-      "name": "chef-alfresco-community-52",
-      "hostname": "alfresco-allinone-test",
-      "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs','yourkit'],
-        "version" : "5.2.d",
-        "ssl_enabled" : false
-      },
-      "nginx" : {
-        "use_nossl_config" : true
-      }
-     }
   - name: enterprise-edition
     run_list:
       - recipe[alfresco::default]
@@ -101,7 +83,7 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.1.2",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm",'googledocs','yourkit'],
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
@@ -114,7 +96,7 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "internal-staging" : {
+            "staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
