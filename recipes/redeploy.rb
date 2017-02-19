@@ -28,8 +28,6 @@ end
 
 restart_tomcat_services = []
 
-restart_tomcat_services << 'solr' if node['alfresco']['components'].include?('solr6')
-
 if node['alfresco']['components'].include? 'repo'
   restart_tomcat_services << "tomcat-alfresco"
   # alfresco-global.properties updates
@@ -138,5 +136,20 @@ restart_tomcat_services.each do |service_name|
   service service_name do
     action :restart
   end
+end
 
+if node['alfresco']['components'].include?('solr6')
+  solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio'] ).floor / 1024}m"
+  node.default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
+
+  template "#{node['solr6']['solr_env_dir']}/solr.in.sh" do
+    source 'solr6/solr.in.sh.erb'
+    mode 00644
+    owner 'root'
+    group 'root'
+  end
+
+  service 'solr' do
+    action :restart
+  end
 end
