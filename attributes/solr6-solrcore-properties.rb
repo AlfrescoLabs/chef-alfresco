@@ -1,6 +1,6 @@
 default['solr6']['solrcore-properties']['enable.alfresco.tracking'] =  true
 default['solr6']['solrcore-properties']['alfresco.version'] = node['alfresco']['version']
-default['solr6']['solrcore-properties']['alfresco.host'] = node['alfresco']['public_hostname']
+default['solr6']['solrcore-properties']['alfresco.host'] = 'localhost'
 if node['alfresco']['components'].include? 'haproxy'
   default['solr6']['solrcore-properties']['alfresco.port'] = node['alfresco']['internal_port']
 else
