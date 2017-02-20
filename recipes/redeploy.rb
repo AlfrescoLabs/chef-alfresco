@@ -159,12 +159,12 @@ if node['alfresco']['components'].include?('solr6')
     template config_file do
       source "solr6/#{filename}.erb"
       action :create
-      only_if {Dir.exists?(File.dirname(config_file)}
+      only_if {Dir.exists?(File.dirname(config_file))}
     end
   end
 
   service 'solr' do
     action :restart
   end
-  
+
 end
