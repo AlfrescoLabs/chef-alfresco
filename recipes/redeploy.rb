@@ -142,14 +142,29 @@ if node['alfresco']['components'].include?('solr6')
   solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio'] ).floor / 1024}m"
   node.default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
 
-  template "#{node['solr6']['solr_env_dir']}/solr.in.sh" do
-    source 'solr6/solr.in.sh.erb'
-    mode 00644
-    owner 'root'
-    group 'root'
+  solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
+
+  config_files = ["#{solr_home}/conf/shared.properties",
+                  "#{solr_home}/alfresco/conf/solrcore.properties",
+                  "#{solr_home}/archive/conf/solrcore.properties",
+                  "#{solr_home}/templates/rerank/conf/solrcore.properties",
+                  "#{node['solr6']['solr_env_dir']}/solr.in.sh"
+  ]
+
+  # replacing configuration files
+  config_files.each do |config_file|
+
+    filename = File.basename(config_file)
+
+    template config_file do
+      source "solr6/#{filename}.erb"
+      action :create
+      only_if {Dir.exists?(File.dirname(config_file)}
+    end
   end
 
   service 'solr' do
     action :restart
   end
+  
 end
