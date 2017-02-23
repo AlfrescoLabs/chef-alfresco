@@ -1,7 +1,6 @@
 # rm 2.5/2.4 enterprise repo
 default['artifacts']['alfresco-rm-enterprise-repo']['groupId'] = 'org.alfresco'
 default['artifacts']['alfresco-rm-enterprise-repo']['artifactId'] = 'alfresco-rm-enterprise-repo'
-default['artifacts']['alfresco-rm-enterprise-repo']['version'] = '2.5.1'
 default['artifacts']['alfresco-rm-enterprise-repo']['type'] = 'amp'
 default['artifacts']['alfresco-rm-enterprise-repo']['owner'] = node['alfresco']['user']
 default['artifacts']['alfresco-rm-enterprise-repo']['enabled'] = false
@@ -9,7 +8,6 @@ default['artifacts']['alfresco-rm-enterprise-repo']['enabled'] = false
 # rm 2.5/2.4 enterprise share
 default['artifacts']['alfresco-rm-enterprise-share']['groupId'] = 'org.alfresco'
 default['artifacts']['alfresco-rm-enterprise-share']['artifactId'] = 'alfresco-rm-enterprise-share'
-default['artifacts']['alfresco-rm-enterprise-share']['version'] = '2.5.1'
 default['artifacts']['alfresco-rm-enterprise-share']['type'] = 'amp'
 default['artifacts']['alfresco-rm-enterprise-share']['owner'] = node['alfresco']['user']
 default['artifacts']['alfresco-rm-enterprise-share']['enabled'] = false
