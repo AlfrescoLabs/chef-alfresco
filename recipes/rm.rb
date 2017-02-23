@@ -28,9 +28,9 @@ if node['alfresco']['edition'] == 'enterprise'
     node.default['artifacts']['alfresco-rm-enterprise-repo']['version'] = '2.5.0.1'
   elsif alf_version_ge?('5.2.0')
     node.default['artifacts']['alfresco-rm-enterprise-share']['enabled'] = true
-    node.default['artifacts']['alfresco-rm-enterprise-share']['version'] = '2.5.1-SNAPSHOT'
+    node.default['artifacts']['alfresco-rm-enterprise-share']['version'] = '2.5.1'
     node.default['artifacts']['alfresco-rm-enterprise-repo']['enabled'] = true
-    node.default['artifacts']['alfresco-rm-enterprise-repo']['version'] = '2.5.1-SNAPSHOT'
+    node.default['artifacts']['alfresco-rm-enterprise-repo']['version'] = '2.5.1'
   end
 
 elsif node['alfresco']['edition'] == 'community'
