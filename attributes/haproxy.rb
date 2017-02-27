@@ -99,7 +99,8 @@ default['haproxy']['frontends']['external']['acl_lines'] = [
   "robots path_reg ^/robots.txt$",
   "solr_path path_reg ^/share/.*/proxy/alfresco/api/solr/.*",
   "activity_path path_reg ^/share/-default-/proxy/alfresco/api/.*",
-  "webinf path_reg ^/share/res/WEB-INF/.*"
+  "webinf path_reg ^/share/res/WEB-INF/.*",
+  "email_systeminfo path_reg ^/share/page/console/admin-console/wps-systeminfo"
 ]
 
 default['haproxy']['frontends']['external']['other_config'] = [
@@ -109,7 +110,8 @@ default['haproxy']['frontends']['external']['other_config'] = [
   "http-request deny if solr_path",
   "http-request deny if activiti_path",
   "http-request deny if activity_path",
-  "http-request deny if webinf"
+  "http-request deny if webinf",
+  "http-request deny if email_systeminfo"
 ]
 
 default['haproxy']['frontends']['external']['entries'] = [
