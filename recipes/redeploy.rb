@@ -28,8 +28,6 @@ end
 
 restart_tomcat_services = []
 
-restart_tomcat_services << 'solr' if node['alfresco']['components'].include?('solr6')
-
 if node['alfresco']['components'].include? 'repo'
   restart_tomcat_services << "tomcat-alfresco"
   # alfresco-global.properties updates
@@ -136,6 +134,37 @@ end
 
 restart_tomcat_services.each do |service_name|
   service service_name do
+    action :restart
+  end
+end
+
+if node['alfresco']['components'].include?('solr6')
+  solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio'] ).floor / 1024}m"
+  node.default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
+
+  solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
+
+  config_files = ["#{solr_home}/conf/shared.properties",
+                  "#{solr_home}/alfresco/conf/solrcore.properties",
+                  "#{solr_home}/archive/conf/solrcore.properties",
+                  "#{solr_home}/templates/rerank/conf/solrcore.properties",
+                  "#{node['solr6']['solr_env_dir']}/solr.in.sh",
+                  "#{node['solr6']['solr-in-sh']['SOLR_PID_DIR']}/solrcore.properties"
+  ]
+
+  # replacing configuration files
+  config_files.each do |config_file|
+
+    filename = File.basename(config_file)
+
+    template config_file do
+      source "solr6/#{filename}.erb"
+      action :create
+      only_if {Dir.exists?(File.dirname(config_file))}
+    end
+  end
+
+  service 'solr' do
     action :restart
   end
 
