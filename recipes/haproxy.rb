@@ -14,11 +14,11 @@ end
 # Install haproxy discovery
 install_haproxy_discovery = node['haproxy']['ec2']['install_haproxy_discovery']
 if install_haproxy_discovery
-  template node['haproxy']['ec2']['discovery_chef_erb'] do
-    source 'haproxy/haproxy-discovery.cron.erb'
+  template node['haproxy']['ec2']['discovery_chef_erb']['dest'] do
+    source node['haproxy']['ec2']['discovery_chef_erb']['source']
   end
-  template node['haproxy']['ec2']['discovery_chef_json'] do
-    source 'haproxy/haproxy-discovery.json.erb'
+  template node['haproxy']['ec2']['discovery_chef_json']['dest'] do
+    source node['haproxy']['ec2']['discovery_chef_json']['source']
   end
 end
 
