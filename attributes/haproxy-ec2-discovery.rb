@@ -1,8 +1,10 @@
 default['haproxy']['ec2']['discovery_enabled'] = false
 
 # TODO - are these needed?
-default['haproxy']['ec2']['discovery_chef_erb'] = "/etc/cron.d/haproxy-discovery.cron"
-default['haproxy']['ec2']['discovery_chef_json'] = "/etc/chef/haproxy-discovery.json"
+default['haproxy']['ec2']['discovery_chef_erb']['source'] = "haproxy/haproxy-discovery.cron.erb"
+default['haproxy']['ec2']['discovery_chef_erb']['dest'] = "/etc/cron.d/haproxy-discovery.cron"
+default['haproxy']['ec2']['discovery_chef_json']['source'] = "haproxy/haproxy-discovery.json.erb"
+default['haproxy']['ec2']['discovery_chef_json']['dest'] = "/etc/chef/haproxy-discovery.json"
 
 # Following attributes are only used to build haproxy-discovery.json
 #
