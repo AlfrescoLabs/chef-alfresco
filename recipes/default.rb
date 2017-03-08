@@ -34,15 +34,15 @@ include_recipe "artifact-deployer::awscli"
 # [New implementation]
 
 if node['alfresco']['edition'] == 'enterprise'
-  if alf_version_gt?('5.1')
-    node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-platform-enterprise'
-  else
-    node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-enterprise'
-  end
-  if alf_version_le?('5.0')
-    node.default['artifacts']['share']['artifactId'] = 'share-enterprise'
-  else
+  if alf_version_ge?('5.0')
     node.default['artifacts']['share']['artifactId'] = 'share'
+    if alf_version_ge?('5.1')
+      node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-platform-enterprise'
+    else
+      node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-enterprise'
+    end
+  else
+    node.default['artifacts']['share']['artifactId'] = 'share-enterprise'
   end
 end
 
