@@ -85,7 +85,12 @@ node.default['artifacts']['keystore']['owner'] = node['alfresco']['user']
 node.default['artifacts']['keystore']['unzip'] = true
 
 node.default['artifacts']['alfresco']['groupId'] = node['alfresco']['groupId']
-node.default['artifacts']['alfresco']['artifactId'] = 'alfresco'
+if alf_version_gt?('5.1')
+  node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-platform'
+else
+  node.default['artifacts']['alfresco']['artifactId'] = 'alfresco'
+end
+
 node.default['artifacts']['alfresco']['version'] = node['alfresco']['version']
 node.default['artifacts']['alfresco']['type'] = 'war'
 
