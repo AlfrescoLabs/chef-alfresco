@@ -89,11 +89,9 @@ end
 # copying solrHome content to different location just if the old solrhome exists
 ruby_block 'Copying solrhome into new location' do
   block do
-    # FileUtils.rm_rf(Dir.glob("#{solr_home}/*"))
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/solrhome/*"), solr_home)
   end
   only_if { Dir.exists?("#{alf_ss_path}/solrhome") }
-  # only_if { (Dir.entries("#{solr_home}") - %w{ . .. }).empty? }
   action :run
 end
 
