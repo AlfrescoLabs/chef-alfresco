@@ -9,6 +9,7 @@ solr_pid_dir = node['solr6']['solr-in-sh']['SOLR_PID_DIR']
 log4j_props = node['solr6']['solr-in-sh']['LOG4J_PROPS']
 solr_user = node['solr6']['user']
 
+# mv /opt/alfresco-search-services/alfresco-search-services/* /opt/alfresco-search-services
 ruby_block 'copy Solr File to parent folder' do
   block do
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/#{alf_ss_id}/*"), alf_ss_path)
@@ -18,6 +19,7 @@ ruby_block 'copy Solr File to parent folder' do
   action :run
 end
 
+# rm -rf /opt/alfresco-search-services/alfresco-search-services/
 directory "#{alf_ss_path}/#{alf_ss_id}" do
   recursive true
   action :nothing
@@ -87,10 +89,11 @@ end
 # copying solrHome content to different location just if the old solrhome exists
 ruby_block 'Copying solrhome into new location' do
   block do
-    FileUtils.rm_rf(Dir.glob("#{solr_home}/*"))
+    # FileUtils.rm_rf(Dir.glob("#{solr_home}/*"))
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/solrhome/*"), solr_home)
   end
   only_if { Dir.exists?("#{alf_ss_path}/solrhome") }
+  # only_if { (Dir.entries("#{solr_home}") - %w{ . .. }).empty? }
   action :run
 end
 
