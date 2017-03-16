@@ -27,6 +27,7 @@ control 'alfresco-06' do
     it { should_not be_executable.by_user('nginx') }
     it { should_not be_writable.by_user('nginx') }
   end
+  
   describe file('/usr/share/tomcat/shared/classes/alfresco/web-extension/share-cluster-application-context.xml') do
     it { should exist }
     it { should be_file }

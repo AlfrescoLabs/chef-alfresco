@@ -4,6 +4,7 @@ control 'alfresco-05' do
   title 'Checks for the Repo'
 
   describe directory('/usr/share/tomcat/alf_data') do
+    it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
     its('group') { should cmp 'tomcat' } 
@@ -14,6 +15,16 @@ control 'alfresco-05' do
     it { should be_readable.by_user('nginx') }
     it { should be_executable.by_user('nginx') }
   end
+
+  # Not needed on standard a installation, unless Solr SSL is enabled
+  # describe directory('/usr/share/tomcat/alf_data/keystore/alfresco/keystore') do
+  #   it { should exist }
+  #   it { should be_directory }
+  # end
+  # describe file('/usr/share/tomcat/alf_data/keystore/alfresco/keystore/ssl.keystore') do
+  #   it { should exist }
+  #   it { should be_file }
+  # end
 
   describe directory('/usr/share/tomcat/shared/classes/alfresco/extension') do
     it { should exist }
@@ -52,6 +63,7 @@ control 'alfresco-05' do
   services.each do |service|
     describe directory("/var/log/tomcat-#{service}/") do
       it { should exist }
+      it { should be_directory }
       its('owner') { should cmp 'tomcat' }
       its('group') { should cmp 'tomcat' }
       it { should be_readable.by_user('tomcat') }
