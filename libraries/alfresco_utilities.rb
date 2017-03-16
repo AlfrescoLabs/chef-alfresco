@@ -16,13 +16,9 @@ module AlfrescoHelper
       origin.ljust!(compare.length, '0')
     end
     origin.each_index do |element|
-      if origin[element] > compare[element]
-        true
-      elsif origin[element] == compare[element]
-        next
-      else
-        false
-      end
+      return true if origin[element] > compare[element]
+      next if origin[element] == compare[element]
+      return false
     end
     false
   end
@@ -37,13 +33,9 @@ module AlfrescoHelper
       origin.ljust!(compare.length, '0')
     end
     origin.each_index do |element|
-      if origin[element] > compare[element]
-        true
-      elsif origin[element] == compare[element]
-        next
-      else
-        false
-      end
+      return true if origin[element] > compare[element]
+      next if origin[element] == compare[element]
+      return false
     end
     true
   end
