@@ -28,7 +28,7 @@ task :unit do
 end
 
 desc 'Runs cookstyle'
-task :coookstyle do
+task :cookstyle do
   RSpec::Core::RakeTask.new(:unit) do |t|
     sh 'cookstyle'
   end
