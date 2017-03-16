@@ -1,4 +1,4 @@
-services = ['alfresco', 'share']
+services = %w(alfresco share)
 
 control 'alfresco-01' do
   impact 0.7

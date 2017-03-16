@@ -1,6 +1,6 @@
-control "alfresco-05" do
+control 'alfresco-05' do
   impact 0.5
-  title "Solr core properties"
+  title 'Solr core properties'
 
   describe file('/usr/share/tomcat/alf_data/solrhome/archive-SpacesStore/conf/solrcore.properties') do
     it { should exist }

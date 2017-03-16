@@ -12,16 +12,16 @@ directory yourkit_install_parent_path do
 end
 
 # Bzip2 is needed to uncompress yourkit
-package "bzip2" do
+package 'bzip2' do
   action :install
 end
 
-execute "uncompress-yourkit" do
+execute 'uncompress-yourkit' do
   command "tar jxf #{yourkit_package_path} -C #{yourkit_install_parent_path}"
   not_if { File.exist?(yourkit_install_path) }
 end
 
-execute "copy-libyjpagent.so-to-/usr/local/lib64" do
+execute 'copy-libyjpagent.so-to-/usr/local/lib64' do
   command "cp -f #{yourkit_install_path}/bin/linux-x86-64/libyjpagent.so /usr/local/lib64"
-  not_if { File.exist?("/usr/local/lib64/libyjpagent.so") }
+  not_if { File.exist?('/usr/local/lib64/libyjpagent.so') }
 end

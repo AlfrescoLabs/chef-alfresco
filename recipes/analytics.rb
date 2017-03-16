@@ -15,6 +15,6 @@ remote_directory license_root_path do
   cookbook analytics_license_cookbook
 end
 
-execute "install-license" do
+execute 'install-license' do
   command "./install_license.sh install #{license_paths}"
 end

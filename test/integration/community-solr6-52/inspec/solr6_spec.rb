@@ -1,6 +1,6 @@
-control "alfresco-09" do
+control 'alfresco-09' do
   impact 0.5
-  title "Solr6"
+  title 'Solr6'
 
   describe service('solr') do
     it { should be_installed }
@@ -8,7 +8,7 @@ control "alfresco-09" do
     # it { should be_running }
   end
 
-  describe directory("/opt/alfresco-search-services/") do
+  describe directory('/opt/alfresco-search-services/') do
     it { should exist }
     its('owner') { should cmp 'root' }
     its('group') { should cmp 'root' }
@@ -64,9 +64,9 @@ control "alfresco-09" do
     it { should be_readable.by_user('solr') }
     it { should_not be_executable.by_user('solr') }
     it { should_not be_readable.by_user('tomcat') }
-    its('content') { should match("solr.host=127.0.0.1") }
-    its('content') { should match("solr.port=9000") }
-    its('content') { should match("solr.baseurl=/solr") }
+    its('content') { should match('solr.host=127.0.0.1') }
+    its('content') { should match('solr.port=9000') }
+    its('content') { should match('solr.baseurl=/solr') }
   end
 
   describe file '/var/solr/data/templates/rerank/conf/solrcore.properties' do
@@ -77,8 +77,8 @@ control "alfresco-09" do
     it { should be_readable.by_user('solr') }
     it { should_not be_executable.by_user('solr') }
     it { should_not be_readable.by_user('tomcat') }
-    its('content') { should match("alfresco.port=9000") }
-    its('content') { should match("alfresco.host=localhost") }
+    its('content') { should match('alfresco.port=9000') }
+    its('content') { should match('alfresco.host=localhost') }
   end
 
   describe directory '/opt/alfresco-search-services/solr/bin' do
@@ -123,7 +123,7 @@ control "alfresco-09" do
   describe command('service solr status') do
     its('stdout') { should match /Found 1 Solr nodes:/ }
     its('stdout') { should match /Solr process ([^\s]+) running on port 8090/ }
-    its('stdout') { should match /\"solr_home\":\"\/var\/solr\/data\"/ }
+    its('stdout') { should match %r{\"solr_home\":\"\/var\/solr\/data\"} }
   end
 
   describe directory '/var/solr/data' do
@@ -161,7 +161,7 @@ control "alfresco-09" do
     it { should be_readable.by_user('tomcat') }
   end
 
-  describe file("/usr/share/tomcat/shared/classes/alfresco-global.properties") do
-    its('content') { should match("index.subsystem.name=solr6") }
+  describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
+    its('content') { should match('index.subsystem.name=solr6') }
   end
 end
