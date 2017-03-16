@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem 'inspec', '~>1.2.1'
 gem 'foodcritic', '~> 6.3.0'
-gem 'cookstyle', '~> 0.0.1'
+gem 'cookstyle', '~> 1.2.0'
 gem 'berkshelf', '~> 5.1.0'
 gem 'chefspec', '~> 5.3.0'
 gem 'rspec', '~> 3.5.0'
