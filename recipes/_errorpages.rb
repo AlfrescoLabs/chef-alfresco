@@ -7,9 +7,12 @@ directory error_folder do
   recursive true
 end
 
-%w( 400 403 404 408 500 502 503 504 ).each do |error_code|
-  template "#{error_folder}/#{error_code}.http" do
-    cookbook error_file_cookbook
-    source "#{error_file_source}/#{error_code}.http.erb"
+error_codes = node['haproxy']['error_codes']
+unless error_codes.nil? || error_codes.empty?
+  error_codes.each do |error_code|
+    template "#{error_folder}/#{error_code}.http" do
+      cookbook error_file_cookbook
+      source "#{error_file_source}/#{error_code}.http.erb"
+    end
   end
 end
