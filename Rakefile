@@ -29,9 +29,7 @@ end
 
 desc 'Runs cookstyle'
 task :cookstyle do
-  RSpec::Core::RakeTask.new(:unit) do |t|
-    sh 'cookstyle'
-  end
+  sh 'bundle exec cookstyle'
 end
 
 desc 'Run Test Kitchen integration tests'
