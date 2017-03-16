@@ -27,6 +27,13 @@ task :unit do
   end
 end
 
+desc 'Runs cookstyle'
+task :coookstyle do
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    sh 'cookstyle'
+  end
+end
+
 desc 'Run Test Kitchen integration tests'
 namespace :integration do
   # Gets a collection of instances.
@@ -65,4 +72,4 @@ namespace :integration do
   end
 end
 
-task default: [:foodcritic, :knife, :unit, :chefspec]
+task default: [ :foodcritic, :knife, :unit, :chefspec, :cookstyle ]
