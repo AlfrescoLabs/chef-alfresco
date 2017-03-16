@@ -70,4 +70,4 @@ namespace :integration do
   end
 end
 
-task default: [ :foodcritic, :knife, :unit, :chefspec, :cookstyle ]
+task default: [:foodcritic, :knife, :unit, :chefspec, :cookstyle]

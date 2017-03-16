@@ -28,12 +28,9 @@ node['tomcat']['instances'].each do |tomcat_instance_name, _|
       source "tomcat/#{instance_template['filename']}.erb"
       owner instance_template['owner']
       group instance_template['owner']
-      variables
-      (
-        {
-          tomcat_log_path: "/var/log/tomcat-#{tomcat_instance_name}",
-          tomcat_cache_path: "#{node['tomcat']['cache_root_folder']}/tomcat-#{tomcat_instance_name}",
-        }
+      variables(
+        tomcat_log_path: "/var/log/tomcat-#{tomcat_instance_name}",
+        tomcat_cache_path: "#{node['tomcat']['cache_root_folder']}/tomcat-#{tomcat_instance_name}"
       )
     end
   end

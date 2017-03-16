@@ -98,7 +98,7 @@ restart_tomcat_services.each do |service|
   component = component == 'alfresco' ? 'repo' : component
   template "/etc/sysconfig/#{service}" do
     source 'tomcat/sysconfig.erb'
-    variables ({
+    variables(
       user: 'tomcat',
       home: "/usr/share/#{service}",
       base: "/usr/share/#{service}",
@@ -106,8 +106,8 @@ restart_tomcat_services.each do |service|
       use_security_manager: false,
       tmp_dir: "/var/cache/#{service}/temp",
       catalina_options: '',
-      endorsed_dir: '/usr/share/tomcat/lib/endorsed',
-    })
+      endorsed_dir: '/usr/share/tomcat/lib/endorsed'
+    )
     owner 'root'
     group 'root'
     mode '0644'
