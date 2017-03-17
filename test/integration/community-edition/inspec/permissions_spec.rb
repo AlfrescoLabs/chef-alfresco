@@ -1,4 +1,4 @@
-services = %w(alfresco solr share)
+services = %(alfresco solr share)
 
 control 'alfresco-01' do
   impact 0.7
@@ -33,17 +33,6 @@ control 'alfresco-01' do
   end
 
   services.each do |service|
-    describe directory("/var/log/tomcat-#{service}/") do
-      it { should exist }
-      its('owner') { should cmp 'tomcat' }
-      its('group') { should cmp 'tomcat' }
-      it { should be_readable.by_user('tomcat') }
-      it { should be_writable.by_user('tomcat') }
-      it { should_not be_readable.by_user('nginx') }
-      it { should_not be_writable.by_user('nginx') }
-      it { should_not be_executable.by_user('nginx') }
-    end
-
     describe directory("/var/cache/tomcat-#{service}/") do
       it { should exist }
       its('owner') { should cmp 'tomcat' }

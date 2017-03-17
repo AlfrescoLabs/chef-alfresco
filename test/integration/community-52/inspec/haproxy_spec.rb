@@ -1,4 +1,4 @@
-control 'alfresco-04' do
+control 'alfresco-08' do
   impact 0.5
   title 'HA Proxy Configuration Check'
 

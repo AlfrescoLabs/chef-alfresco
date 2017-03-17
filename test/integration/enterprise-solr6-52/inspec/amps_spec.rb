@@ -1,4 +1,4 @@
-control 'alfresco-06' do
+control 'alfresco-05' do
   impact 0.5
   title 'Installed Amps'
 

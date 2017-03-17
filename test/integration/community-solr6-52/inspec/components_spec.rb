@@ -1,4 +1,4 @@
-control 'alfresco-04' do
+control 'alfresco-03' do
   impact 0.7
   title 'Libreoffice configuration in Alfresco'
   desc 'Checks Alfresco configuration for LibreOffice'
