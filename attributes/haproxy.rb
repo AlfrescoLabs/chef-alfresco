@@ -195,19 +195,19 @@ default['haproxy']['secure_entries'] = [
 default['haproxy']['backends']['roles']['share']['port'] = 8081
 
 # Solr Haproxy configuration
-default['haproxy']['frontends']['internal']['acls']['solr'] = ['ath_beg /solr4']
-default['haproxy']['backends']['roles']['solr']['entries'] = ['option httpchk GET /solr4', 'cookie JSESSIONID prefix","balance url_param JSESSIONID check_post']
+default['haproxy']['frontends']['internal']['acls']['solr'] = ['path_beg /solr4']
+default['haproxy']['backends']['roles']['solr']['entries'] = ['option httpchk GET /solr4', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
 default['haproxy']['backends']['roles']['solr']['port'] = 8090
 
 # Solr6 Haproxy configuration
 default['haproxy']['frontends']['internal']['acls']['solr6'] = ['path_beg /solr']
-default['haproxy']['backends']['roles']['solr6']['entries'] = ['option httpchk GET /solr', 'cookie JSESSIONID prefix","balance url_param JSESSIONID check_post']
+default['haproxy']['backends']['roles']['solr6']['entries'] = ['option httpchk GET /solr', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
 default['haproxy']['backends']['roles']['solr6']['port'] = 8090
 
 # Activiti Haproxy configuration
 if node['alfresco']['components'].include?('activiti')
   default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
-  default['haproxy']['backends']['roles']['activiti']['entries'] = ['option httpchk GET /activiti', 'cookie JSESSIONID prefix","balance url_param JSESSIONID check_post']
+  default['haproxy']['backends']['roles']['activiti']['entries'] = ['option httpchk GET /activiti', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
   default['haproxy']['backends']['roles']['activiti']['port'] = 8060
 end
 
