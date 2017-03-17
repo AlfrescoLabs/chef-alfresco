@@ -47,7 +47,6 @@ control 'alfresco-05' do
   describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
     it { should exist }
     it { should be_file }
-    its('content') { should match '' }
     its('owner') { should cmp 'tomcat' }
     its('group') { should cmp 'tomcat' } 
     it { should be_readable.by_user('tomcat') }
