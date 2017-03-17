@@ -1,7 +1,7 @@
 services = ['alfresco', 'solr', 'share']
 control 'alfresco-05' do
   impact 0.7
-  title 'Checks for the Repo'
+  title 'Repo Checks'
 
   describe directory('/usr/share/tomcat/alf_data') do
     it { should exist }
@@ -42,22 +42,24 @@ control 'alfresco-05' do
   describe file('/usr/share/tomcat/shared/classes/alfresco/log4j.properties') do
     it { should exist }
     it { should be_file }
-    its('content') { should match '' }
+    its('content') { should match 'log4j.logger.org.hibernate=error' }
+    its('content') { should match 'log4j.logger.org.springframework=warn' }
   end
 
 
   describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
     it { should exist }
     it { should be_file }
-    its('content') { should match '' }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
     it { should_not be_writable.by_user('nginx') }
     it { should be_readable.by_user('nginx') }
     it { should be_executable.by_user('nginx') }
+    its('content') { should match 'db.driver=org.gjt.mm.mysql.Driver' }
+    its('content') { should match 'db.username=alfresco' }
   end
   # permissions to be verified
   services.each do |service|

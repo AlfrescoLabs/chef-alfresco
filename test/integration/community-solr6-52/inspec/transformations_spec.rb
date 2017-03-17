@@ -1,4 +1,4 @@
-control 'alfresco-04' do
+control 'alfresco-10' do
   impact 0.7
   title 'Libreoffice installation'
   desc 'Checks to be sure that Libreoffice has been installed correctly'

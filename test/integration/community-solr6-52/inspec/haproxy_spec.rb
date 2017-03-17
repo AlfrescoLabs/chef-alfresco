@@ -1,4 +1,4 @@
-control 'alfresco-10' do
+control 'alfresco-04' do
   impact 0.7
   title 'Haproxy configurations'
 
