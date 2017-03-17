@@ -1,4 +1,4 @@
-control "alfresco-05" do
+control "alfresco-09" do
   impact 0.5
   title "Solr core properties"
 

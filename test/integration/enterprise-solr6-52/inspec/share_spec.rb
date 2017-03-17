@@ -1,6 +1,6 @@
-control 'alfresco-06' do
+control 'alfresco-08' do
   impact 0.7
-  title 'Checks for the Share'
+  title 'Share Checks'
 
   describe directory('/usr/share/tomcat/shared/classes/alfresco/web-extension') do
     it { should exist }
@@ -26,6 +26,9 @@ control 'alfresco-06' do
     it { should be_readable.by_user('nginx') }
     it { should_not be_executable.by_user('nginx') }
     it { should_not be_writable.by_user('nginx') }
+    its('content') { should match 'http://127.0.0.1:9000/alfresco/s' }
+    its('content') { should match 'http://127.0.0.1:9000/alfresco/activiti-admin' }
+    its('content') { should match 'http://127.0.0.1:9000/alfresco/api' }
   end
   describe file('/usr/share/tomcat/shared/classes/alfresco/web-extension/share-cluster-application-context.xml') do
     it { should exist }
@@ -38,5 +41,8 @@ control 'alfresco-06' do
     it { should be_readable.by_user('nginx') }
     it { should_not be_executable.by_user('nginx') }
     it { should_not be_writable.by_user('nginx') }
+    its('content') { should match 'webframework.cluster.slingshot' }
+    its('content') { should match '5802' }
+    its('content') { should match 'pwd' }
   end
 end
