@@ -33,18 +33,16 @@ include_recipe 'artifact-deployer::awscli'
 # [New implementation]
 
 if node['alfresco']['edition'] == 'enterprise'
-  node.default['artifacts']['alfresco']['artifactId'] = 'alfresco-enterprise'
-  # if alf_version_le?('5.0')
-  #  node.default['artifacts']['share']['artifactId'] = 'share-enterprise'
-  # else
-  #  node.default['artifacts']['share']['artifactId'] = 'share'
-  # end
-
-  node.default['artifacts']['share']['artifactId'] = if alf_version_le?('5.0')
-                                                       'share-enterprise'
-                                                     else
-                                                       'share'
-                                                     end
+  if alf_version_ge?('5.0')
+    node.default['artifacts']['share']['artifactId'] = 'share'
+    node.default['artifacts']['alfresco']['artifactId'] = if alf_version_ge?('5.1')
+                                                            'alfresco-platform-enterprise'
+                                                          else
+                                                            'alfresco-enterprise'
+                                                          end
+  else
+    node.default['artifacts']['share']['artifactId'] = 'share-enterprise'
+  end
 end
 
 # Chef::Log.warn("this is my condition2 #{node['alfresco']['enable.web.xml.nossl.patch'] or node['alfresco']['edition'] == 'enterprise'}")

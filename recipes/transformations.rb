@@ -1,6 +1,3 @@
-# TODO: - build-essential shouldnt really be here. move it to default (or essentials.rb)
-include_recipe 'build-essential::default'
-
 if alf_version_lt?('5.2')
   node.default['alfresco']['libreoffice_version'] = '4.4.5.2'
   node.default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice4.4/'
