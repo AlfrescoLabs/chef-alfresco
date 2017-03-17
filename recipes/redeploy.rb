@@ -122,7 +122,7 @@ memory['solr'] = ((node['memory']['total'].to_i * node['alfresco']['solr_tomcat_
 memory['activiti'] = ((node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
 
 memory.each do |instance_name, xmx|
-  sed_command = "sed -i -E \"s/(.+Xmx)([0-9]*)(m+)/\\1" + xmx + "\\3/\" /etc/sysconfig/tomcat-#{instance_name}"
+  sed_command = "sed -i -E \"s/(.+Xmx)([0-9]*)(m+)/\\1#{xmx}\\3/\" /etc/sysconfig/tomcat-#{instance_name}"
   execute 'patch-tomcat-sysconfig' do
     command sed_command
     only_if "ls /etc/sysconfig/tomcat-#{instance_name}"

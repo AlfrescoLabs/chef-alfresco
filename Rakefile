@@ -3,6 +3,7 @@
 
 require 'foodcritic'
 require 'rspec/core/rake_task'
+require 'cookstyle'
 
 desc 'Runs knife cookbook test'
 task :knife do
