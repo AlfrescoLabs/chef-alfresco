@@ -1,4 +1,4 @@
-services = ['alfresco', 'solr', 'share']
+services = %w(alfresco solr share)
 control 'alfresco-07' do
   impact 0.7
   title 'Repo Checks'
@@ -7,7 +7,7 @@ control 'alfresco-07' do
     it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
@@ -46,12 +46,11 @@ control 'alfresco-07' do
     its('content') { should match 'log4j.logger.org.springframework=warn' }
   end
 
-
   describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }

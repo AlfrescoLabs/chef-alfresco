@@ -1,4 +1,4 @@
-services = ['alfresco', 'solr', 'share']
+services = %w(alfresco solr share)
 control 'alfresco-05' do
   impact 05
   title 'Repo Checks'
@@ -7,7 +7,7 @@ control 'alfresco-05' do
     it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
@@ -48,7 +48,7 @@ control 'alfresco-05' do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }

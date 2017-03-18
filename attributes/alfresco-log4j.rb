@@ -48,15 +48,15 @@ default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.security.pers
 
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.sample'] = 'info'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web'] = 'info'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.AlfrescoNavigationHandler'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.ui.repo.component.UIActions'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.ui.repo.tag.PageTag'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.bean.clipboard'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.AlfrescoNavigationHandler'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.ui.repo.component.UIActions'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.ui.repo.tag.PageTag'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.bean.clipboard'] = 'debug'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.service.descriptor.DescriptorService'] = 'info'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.page'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.page'] = 'debug'
 
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.importer.ImporterBootstrap'] = 'error'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.importer.ImporterBootstrap'] = 'info'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.importer.ImporterBootstrap'] = 'info'
 
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.admin.patch.PatchExecuter'] = 'info'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.domain.patch.ibatis.PatchDAOImpl'] = 'info'
@@ -80,48 +80,48 @@ default['alfresco']['log4j_items']['log4j.logger.org.alfresco.util.AbstractTrigg
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.enterprise.repo.cluster'] = 'info'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.version.Version2ServiceImpl'] = 'warn'
 
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.DebugPhaseListener'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.DebugPhaseListener'] = 'debug'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.node.db.NodeStringLengthWorker'] = 'info'
 
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.workflow'] = 'info'
 
 # CIFS server debugging
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.smb.protocol'] = 'error'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.smb.protocol.auth'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.acegi'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.smb.protocol.auth'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.acegi'] = 'debug'
 
 # FTP server debugging
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.ftp.protocol'] = 'error'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.ftp.server'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.ftp.server'] = 'debug'
 
 # WebDAV debugging
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.webdav.protocol'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.webdav.protocol'] = 'debug'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.webdav.protocol'] = 'info'
 
 # NTLM servlet filters
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.servlet.NTLMAuthenticationFilter'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.webdav.auth.NTLMAuthenticationFilter'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.servlet.NTLMAuthenticationFilter'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.webdav.auth.NTLMAuthenticationFilter'] = 'debug'
 
 # Kerberos servlet filters
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.servlet.KerberosAuthenticationFilter'] = 'debug'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.webdav.auth.KerberosAuthenticationFilter'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.web.app.servlet.KerberosAuthenticationFilter'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.webdav.auth.KerberosAuthenticationFilter'] = 'debug'
 
 # File servers'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.fileserver'] = 'warn'
 
 # Repo filesystem debug logging
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.filesys.repo.ContentDiskDriver'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.filesys.repo.ContentDiskDriver'] = 'debug'
 
 # Integrity message threshold - if 'failOnViolation' is off, then WARNINGS are generated'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.node.integrity'] = 'ERROR'
 
 # Indexer debugging
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.Indexer'] = 'error'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.Indexer'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.Indexer'] = 'debug'
 
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.impl.lucene.index'] = 'error'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.impl.lucene.fts.FullTextSearchIndexerImpl'] = 'warn'
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.impl.lucene.index'] = 'DEBUG'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.search.impl.lucene.index'] = 'DEBUG'
 
 # Audit debugging
 # default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.audit'] = 'DEBUG'
@@ -145,7 +145,7 @@ default['alfresco']['log4j_items']['log4j.logger.org.alfresco.util.RuntimeSystem
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.content.ReplicatingContentStore'] = 'error'
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.content.replication'] = 'error'
 
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.deploy.DeploymentServiceImpl'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.deploy.DeploymentServiceImpl'] = 'debug'
 
 # Activity service
 default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.activities'] = 'warn'
@@ -176,7 +176,7 @@ default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.imap'] = 'inf
 # Note: non-fatal errors (eg. logged during job execution) should be handled by Alfresco's retrying transaction handler'
 default['alfresco']['log4j_items']['log4j.logger.org.jbpm.graph.def.GraphElement'] = 'fatal'
 
-#default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.googledocs'] = 'debug'
+# default['alfresco']['log4j_items']['log4j.logger.org.alfresco.repo.googledocs'] = 'debug'
 
 ###### Scripting #######
 

@@ -1,6 +1,6 @@
-control "alfresco-08" do
+control 'alfresco-08' do
   impact 0.5
-  title "HA Proxy Configuration Check"
+  title 'HA Proxy Configuration Check'
 
   describe file('/etc/haproxy/haproxy.cfg') do
     it { should exist }
