@@ -12,10 +12,10 @@ log_foward_items = node['logstash-forwarder']['items']
 if log_foward_items
   include_recipe 'logstash-forwarder'
 
-  log_foward_items.each do |itemName,itemProps|
-    log_forward itemName do
-      paths itemProps['paths']
-      fields types: itemProps['type']
+  log_foward_items.each do |item_name, item_props|
+    log_forward item_name do
+      paths item_props['paths']
+      fields types: item_props['type']
     end
   end
 end

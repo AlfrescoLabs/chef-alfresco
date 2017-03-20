@@ -1,6 +1,6 @@
-control "alfresco-06" do
+control 'alfresco-03' do
   impact 0.5
-  title "Alfresco version"
+  title 'Alfresco version'
 
   describe file('/var/lib/tomcat-alfresco/webapps/alfresco/WEB-INF/classes/alfresco/version.properties') do
     it { should exist }
@@ -8,5 +8,4 @@ control "alfresco-06" do
     its('content') { should match 'version.major=5' }
     its('content') { should match 'version.minor=2' }
   end
-
 end

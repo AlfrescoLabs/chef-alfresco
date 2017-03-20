@@ -2,12 +2,13 @@ control 'alfresco-10' do
   impact 0.7
   title 'Haproxy configurations'
 
-  describe file("/etc/haproxy/haproxy.cfg") do
+  describe file('/etc/haproxy/haproxy.cfg') do
     it { should exist }
     it { should be_file }
-    its('content') { should match("acl is_solr6 path_beg /solr") }
-    its('content') { should match("use_backend solr6 if is_solr6") }
+    its('content') { should match('acl is_solr6 path_beg /solr') }
+    its('content') { should match('use_backend solr6 if is_solr6') }
     its('content') { should match('acl solr_path path_reg \^\/share\/\.\*\/proxy\/alfresco\/api\/solr\/\.\*') }
+
     its('content') { should match("http-request deny if solr_path") }
     its('content') { should match("backend solr6") }
     its('content') { should match("option httpchk GET /solr") }
