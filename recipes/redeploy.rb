@@ -141,9 +141,7 @@ if node['alfresco']['components'].include?('solr6')
 
   solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
 
-  config_files = ["#{solr_home}/conf/shared.properties",
-                  "#{node['solr6']['solr_env_dir']}/solr.in.sh"
-  ]
+  config_files = ["#{solr_home}/conf/shared.properties", "#{node['solr6']['solr_env_dir']}/solr.in.sh"]
 
   # replacing configuration files
   config_files.each do |config_file|
