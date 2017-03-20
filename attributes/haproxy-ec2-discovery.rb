@@ -1,10 +1,10 @@
 default['haproxy']['ec2']['discovery_enabled'] = false
 
-# TODO - are these needed?
-default['haproxy']['ec2']['discovery_chef_erb']['source'] = "haproxy/haproxy-discovery.cron.erb"
-default['haproxy']['ec2']['discovery_chef_erb']['dest'] = "/etc/cron.d/haproxy-discovery.cron"
-default['haproxy']['ec2']['discovery_chef_json']['source'] = "haproxy/haproxy-discovery.json.erb"
-default['haproxy']['ec2']['discovery_chef_json']['dest'] = "/etc/chef/haproxy-discovery.json"
+# TODO: - are these needed?
+default['haproxy']['ec2']['discovery_chef_erb']['source'] = 'haproxy/haproxy-discovery.cron.erb'
+default['haproxy']['ec2']['discovery_chef_erb']['dest'] = '/etc/cron.d/haproxy-discovery.cron'
+default['haproxy']['ec2']['discovery_chef_json']['source'] = 'haproxy/haproxy-discovery.json.erb'
+default['haproxy']['ec2']['discovery_chef_json']['dest'] = '/etc/chef/haproxy-discovery.json'
 
 # Following attributes are only used to build haproxy-discovery.json
 #
@@ -12,14 +12,14 @@ default['haproxy']['ec2']['discovery_chef_json']['dest'] = "/etc/chef/haproxy-di
 # default['commons']['ec2_discovery']['query_tags']['status'] = "complete"
 # default['commons']['ec2_discovery']['query_tags']['stack_name'] = "mystack"
 
-default['commons']['ec2_discovery']['group_by'] = ['haproxy_backends','az','id']
+default['commons']['ec2_discovery']['group_by'] = %w(haproxy_backends az id)
 
-default['commons']['ec2_discovery']['filter_in']['state'] = "running"
+default['commons']['ec2_discovery']['filter_in']['state'] = 'running'
 default['commons']['ec2_discovery']['filter_out']['current_ip'] = true
 
 default['commons']['ec2_discovery']['output']['elements']['state'] = 'State/Name'
 default['commons']['ec2_discovery']['output']['elements']['id'] = 'InstanceId'
-default['commons']['ec2_discovery']['output']['elements']['ip'] = "PrivateIpAddress"
+default['commons']['ec2_discovery']['output']['elements']['ip'] = 'PrivateIpAddress'
 default['commons']['ec2_discovery']['output']['elements']['az'] = 'Placement/AvailabilityZone'
 default['commons']['ec2_discovery']['output']['tags']['haproxy_backends'] = 'haproxy_backends'
 default['commons']['ec2_discovery']['output']['tags']['instance_name'] = 'Name'

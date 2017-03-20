@@ -6,7 +6,7 @@ control 'alfresco-02' do
     it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
@@ -19,7 +19,7 @@ control 'alfresco-02' do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should_not be_executable.by_user('tomcat') }
@@ -30,12 +30,12 @@ control 'alfresco-02' do
     its('content') { should match 'http://127.0.0.1:9000/alfresco/activiti-admin' }
     its('content') { should match 'http://127.0.0.1:9000/alfresco/api' }
   end
-  
+
   describe file('/usr/share/tomcat/shared/classes/alfresco/web-extension/share-cluster-application-context.xml') do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should_not be_executable.by_user('tomcat') }

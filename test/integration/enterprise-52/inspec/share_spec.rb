@@ -6,7 +6,7 @@ control 'alfresco-08' do
     it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
@@ -19,7 +19,7 @@ control 'alfresco-08' do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should_not be_executable.by_user('tomcat') }
@@ -34,7 +34,7 @@ control 'alfresco-08' do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
-    its('group') { should cmp 'tomcat' } 
+    its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should_not be_executable.by_user('tomcat') }

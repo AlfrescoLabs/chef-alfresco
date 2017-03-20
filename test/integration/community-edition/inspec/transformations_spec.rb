@@ -3,14 +3,22 @@ control 'alfresco-04' do
   title 'Libreoffice installation'
   desc 'Checks to be sure that Libreoffice has been installed correctly'
 
+<<<<<<< HEAD
   describe directory('/opt/libreoffice4.4/') do
+=======
+  describe file('/opt/libreoffice4.4/') do
+>>>>>>> ed6c949bf2601b2fafa490b104c272c63e4e0b26
     it { should exist }
     it { should be_directory }
     it { should be_owned_by 'tomcat' }
   end
 
   describe command('/opt/libreoffice4.4/program/soffice.bin --version') do
+<<<<<<< HEAD
     its(:stdout) { should include("LibreOffice 4.4.5.2") }
+=======
+    its(:stdout) { should include('LibreOffice 4.4.5.2') }
+>>>>>>> ed6c949bf2601b2fafa490b104c272c63e4e0b26
   end
 
   describe file('/tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm.tar.gz') do

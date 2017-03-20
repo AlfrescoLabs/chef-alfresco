@@ -22,7 +22,6 @@ depends 'nginx-hardening', '~> 1.1.0'
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
 depends 'artifact-deployer', '>= 0.8.18'
-depends 'build-essential', '>= 2.2.3'
 depends 'database', '>= 4.0.6'
 depends 'ffmpeg', '>= 0.4.4'
 depends 'haproxy', '~> 1.6.6'

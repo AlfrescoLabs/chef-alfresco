@@ -86,19 +86,19 @@ node.default['tomcat']['jvm_route'] = node['alfresco']['public_hostname']
 node.default['tomcat']['global_templates'] = [{
   'dest' => "#{node['alfresco']['home']}/conf",
   'filename' => 'jmxremote.access',
-  'owner' => 'tomcat'
+  'owner' => 'tomcat',
 }, {
   'dest' => "#{node['alfresco']['home']}/conf",
   'filename' => 'jmxremote.password',
-  'owner' => 'tomcat'
+  'owner' => 'tomcat',
 }, {
   'dest' => "#{node['alfresco']['home']}-alfresco/lib/org/apache/catalina/util",
   'filename' => 'ServerInfo.properties',
-  'owner' => 'tomcat'
+  'owner' => 'tomcat',
 }, {
   'dest' => '/etc/security/limits.d',
   'filename' => 'tomcat_limits.conf',
-  'owner' => 'tomcat'
+  'owner' => 'tomcat',
 }]
 
 # Setting JAVA_OPTS
