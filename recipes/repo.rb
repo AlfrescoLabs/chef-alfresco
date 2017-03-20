@@ -1,7 +1,7 @@
 node.default['artifacts']['alfresco']['enabled'] = true
 
 # Not needed on standard a installation, unless Solr SSL is enabled
-#node.default['artifacts']['keystore']['enabled'] = true
+# node.default['artifacts']['keystore']['enabled'] = true
 
 if node['artifacts']['keystore']['enabled'] == true
   node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
@@ -28,20 +28,20 @@ if node['alfresco']['generate.repo.log4j.properties'] == true
   node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
 end
 
-directory "alfresco-rootdir" do
+directory 'alfresco-rootdir' do
   path root_folder
   owner user
   group group
-  mode "0775"
+  mode '0775'
   recursive true
 end
 
-#TODO - make it generic using File.dirName(repo_log4j_path)
-directory "alfresco-extension" do
+# TODO: - make it generic using File.dirName(repo_log4j_path)
+directory 'alfresco-extension' do
   path "#{shared_folder}/classes/alfresco/extension"
   owner user
   group group
-  mode "0775"
+  mode '0775'
   recursive true
 end
 
@@ -53,35 +53,35 @@ remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   group group
   files_owner user
   files_group group
-  files_mode "0777"
-  mode "0777"
+  files_mode '0777'
+  mode '0777'
   ignore_failure true
 end
 
 file "#{shared_folder}/classes/alfresco/log4j.properties" do
   action :create
-  content ""
+  content ''
 end
 
-file "alfresco-global-empty" do
+file 'alfresco-global-empty' do
   path "#{shared_folder}/classes/alfresco-global.properties"
-  content ""
+  content ''
   owner user
   group group
-  mode "0775"
+  mode '0775'
   only_if { generate_alfresco_global == true }
 end
 
 file_replace_line "#{config_folder}/catalina.properties" do
-  replace "shared.loader="
+  replace 'shared.loader='
   with "shared.loader=#{shared_folder}/classes,#{shared_folder}/lib/*.jar"
   only_if { File.exist?("#{config_folder}/catalina.properties") }
 end
 
-directory "tomcat-logs-permissions" do
+directory 'tomcat-logs-permissions' do
   path log_folder
   owner user
   group group
-  mode "0775"
+  mode '0775'
   recursive true
 end

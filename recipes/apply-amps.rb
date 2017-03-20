@@ -4,32 +4,32 @@ bin_folder        = node['alfresco']['bin']
 user              = node['alfresco']['user']
 group             = node['tomcat']['group']
 
-directory "amps-repo" do
+directory 'amps-repo' do
   path        amps_folder
   owner       user
   group       group
-  mode        "0775"
+  mode        '0775'
   recursive   true
 end
 
-directory "amps-share" do
+directory 'amps-share' do
   path        amps_share_folder
   owner       user
   group       group
-  mode        "0775"
+  mode        '0775'
   recursive   true
 end
 
-template "apply_amps.sh" do
+template 'apply_amps.sh' do
   path        "#{bin_folder}/apply_amps.sh"
-  source      "apply_amps.sh.erb"
+  source      'apply_amps.sh.erb'
   owner       user
   group       group
-  mode        "0775"
+  mode        '0775'
 end
 
-execute "run-apply-amps" do
-  command "./apply_amps.sh"
+execute 'run-apply-amps' do
+  command './apply_amps.sh'
   cwd         bin_folder
   user        user
   group       group

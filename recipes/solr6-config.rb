@@ -14,7 +14,7 @@ ruby_block 'copy Solr File to parent folder' do
   block do
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/#{alf_ss_id}/*"), alf_ss_path)
   end
-  only_if { Dir.exists?("#{alf_ss_path}/#{alf_ss_id}") }
+  only_if { Dir.exist?("#{alf_ss_path}/#{alf_ss_id}") }
   notifies :delete, "directory[#{alf_ss_path}/#{alf_ss_id}]", :immediately
   action :run
 end
@@ -26,14 +26,11 @@ directory "#{alf_ss_path}/#{alf_ss_id}" do
 end
 
 config_files = ["#{alf_ss_path}/solrhome/conf/shared.properties",
-                "#{alf_ss_path}/solrhome/templates/rerank/conf/solrcore.properties"
-]
+                "#{alf_ss_path}/solrhome/templates/rerank/conf/solrcore.properties"]
 
 # replacing configuration files
 config_files.each do |config_file|
-
   filename = File.basename(config_file)
-
   template config_file do
     source "solr6/#{filename}.erb"
     mode 00440
@@ -59,7 +56,7 @@ end
 
 service 'solr' do
   action :nothing
-  supports :status => true, :restart => true, :start => true, :stop => true
+  supports status: 'true', restart: 'true', start: 'true', stop: 'true'
 end
 
 directory solr_pid_dir do
@@ -91,7 +88,7 @@ ruby_block 'Copying solrhome into new location' do
   block do
     FileUtils.cp_r(Dir.glob("#{alf_ss_path}/solrhome/*"), solr_home)
   end
-  only_if { Dir.exists?("#{alf_ss_path}/solrhome") }
+  only_if { Dir.exist?("#{alf_ss_path}/solrhome") }
   action :run
 end
 
@@ -102,14 +99,14 @@ template log4j_props do
   group solr_user
 end
 
-files_to_delete = ["#{alf_ss_path}/solr.in.cmd","#{alf_ss_path}/solr.in.sh"]
+files_to_delete = ["#{alf_ss_path}/solr.in.cmd", "#{alf_ss_path}/solr.in.sh"]
 files_to_delete.each do |file_to_delete|
   file file_to_delete do
     action :delete
   end
 end
 
-dirs_to_delete = ["#{alf_ss_path}/solrhome","#{alf_ss_path}/logs"]
+dirs_to_delete = ["#{alf_ss_path}/solrhome", "#{alf_ss_path}/logs"]
 dirs_to_delete.each do |dir_to_delete|
   directory dir_to_delete do
     recursive true

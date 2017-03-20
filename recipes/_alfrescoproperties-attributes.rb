@@ -24,7 +24,7 @@ mailsmtp_databag = node['alfresco']['mailsmtp_databag']
 mailsmtp_databag_item = node['alfresco']['mailsmtp_databag_item']
 
 begin
-  db_item = data_bag_item(mailsmtp_databag,mailsmtp_databag_item)
+  db_item = data_bag_item(mailsmtp_databag, mailsmtp_databag_item)
   node.default['alfresco']['properties']['mail.username'] = db_item['username']
   node.default['alfresco']['properties']['mail.password'] = db_item['password']
 rescue

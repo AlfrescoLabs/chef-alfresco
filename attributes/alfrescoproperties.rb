@@ -1,7 +1,7 @@
-#General
+# General
 default['alfresco']['system.serverMode'] = 'PRODUCTION'
 
-#Database
+# Database
 default['alfresco']['mysql_version'] = '5.6'
 default['alfresco']['properties']['db.driver'] = 'org.gjt.mm.mysql.Driver'
 default['alfresco']['properties']['db.username'] = 'alfresco'
@@ -12,7 +12,7 @@ default['alfresco']['properties']['db.port'] = '3306'
 default['alfresco']['properties']['db.dbname'] = 'alfresco'
 default['alfresco']['properties']['db.params'] = 'useUnicode=yes&characterEncoding=UTF-8'
 default['alfresco']['properties']['db.ssl_params'] = node['alfresco']['db_ssl_enabled'] == true ? "&useSSL=true&requireSSL=true&verifyServerCertificate=true&trustCertificateKeyStoreUrl=file://#{node['alfresco']['truststore_file']}&trustCertificateKeyStoreType=#{node['alfresco']['truststore_type']}&trustCertificateKeyStorePassword=#{node['alfresco']['truststore_password']}" : ''
-default['alfresco']['properties']['db.url'] = "jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}"
+default['alfresco']['properties']['db.url'] = 'jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}'
 default['alfresco']['properties']['db.pool.initial'] = 30
 default['alfresco']['properties']['db.pool.max'] = 500
 default['alfresco']['properties']['db.pool.min'] = 0
@@ -23,12 +23,12 @@ default['alfresco']['properties']['db.pool.evict.validate'] = true
 
 default['alfresco']['apply_amps'] = false
 
-#JMX
+# JMX
 default['alfresco']['properties']['alfresco.rmi.services.host'] = '0.0.0.0'
 default['alfresco']['properties']['monitor.rmi.services.port']  = 50508
 
 # OpenCMIS
-default['alfresco']['properties']['opencmis.server.value'] = "${opencmis.server.protocol}://${opencmis.server.host}/alfresco/api"
+default['alfresco']['properties']['opencmis.server.value'] = '${opencmis.server.protocol}://${opencmis.server.host}/alfresco/api'
 default['alfresco']['properties']['opencmis.context.override'] = true
 default['alfresco']['properties']['opencmis.context.value'] = ''
 default['alfresco']['properties']['opencmis.servletpath.override'] = true
@@ -39,13 +39,13 @@ default['alfresco']['properties']['opencmis.server.override'] = true
 default['alfresco']['properties']['share.context'] = 'share'
 default['alfresco']['properties']['alfresco.context'] = 'alfresco'
 
-#Search Config
+# Search Config
 default['alfresco']['properties']['index.subsystem.name'] = 'solr4' if node['alfresco']['components'].include?('solr')
 default['alfresco']['properties']['index.subsystem.name'] = 'solr6' if node['alfresco']['components'].include?('solr6')
 
 default['alfresco']['properties']['solr.secureComms'] = 'none'
 
-#Email
+# Email
 default['alfresco']['properties']['mail.protocol'] = 'smtp'
 default['alfresco']['properties']['mail.host'] = '0.0.0.0'
 default['alfresco']['properties']['mail.port'] = '25'
@@ -56,15 +56,15 @@ default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
 # AOS
-default['alfresco']['properties']['aos.baseUrlOverwrite'] = "${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos"
+default['alfresco']['properties']['aos.baseUrlOverwrite'] = '${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos'
 
-#Cluster
+# Cluster
 default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescocluster'
 
-#Auth - no guest login
+# Auth - no guest login
 default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = false
 
-#Transformations
+# Transformations
 default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
 default['alfresco']['properties']['ooo.enabled'] = false
 default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice5.2/'
@@ -82,16 +82,16 @@ default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/
 # Enable smart folders
 default['alfresco']['properties']['smart.folders.enabled'] = true
 
-#FTP
+# FTP
 default['alfresco']['properties']['ftp.enabled'] = false
 
-#IMAP
+# IMAP
 default['alfresco']['properties']['imap.server.enabled'] = false
 default['alfresco']['properties']['imap.server.imap.enabled'] = false
 default['alfresco']['properties']['imap.server.port'] = '1143'
 default['alfresco']['properties']['imap.server.host'] = '0.0.0.0'
 
-#CIFS
+# CIFS
 default['alfresco']['properties']['cifs.enabled'] = false
 default['alfresco']['properties']['cifs.serverName'] = 'alfresco'
 default['alfresco']['properties']['cifs.ipv6.enabled'] = false
