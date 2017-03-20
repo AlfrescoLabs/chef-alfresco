@@ -17,10 +17,11 @@ control 'alfresco-07' do
     it { should exist }
     it { should be_file }
     it { should be_owned_by 'tomcat' }
+    its('group') { should cmp 'tomcat' }
   end
-  describe command('tar -xf /tmp/kitchen/cache/LibreOffice_5.2.1.2_Linux_x86-64_rpm.tar.gz') do
-    its('exit_status') { should eq 0 }
-  end
+  # describe command('tar -xf /tmp/kitchen/cache/LibreOffice_5.2.1.2_Linux_x86-64_rpm.tar.gz') do
+  #   its('exit_status') { should eq 0 }
+  # end
 
   describe directory('/tmp/kitchen/cache/LibreOffice_5.2.1.2_Linux_x86-64_rpm') do
     it { should exist }
