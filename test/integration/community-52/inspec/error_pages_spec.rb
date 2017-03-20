@@ -1,6 +1,6 @@
-control "alfresco-04" do
+control 'alfresco-04' do
   impact 0.5
-  title "Error pages"
+  title 'Error pages'
 
   describe file('/var/www/html/errors/400.http') do
     it { should_not exist }
@@ -33,5 +33,4 @@ control "alfresco-04" do
   describe file('/var/www/html/errors/504.http') do
     it { should_not exist }
   end
-
 end
