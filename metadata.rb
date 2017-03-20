@@ -6,7 +6,7 @@ description      'Installs Alfresco Community and Enterprise Edition.'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 issues_url       'https://github.com/Alfresco/chef-alfresco/issues'
 source_url       'https://github.com/Alfresco/chef-alfresco'
-version '0.7.26'
+version '0.7.27'
 
 supports 'centos', '>= 7.0'
 supports 'redhat', '>= 7.0'
@@ -22,7 +22,6 @@ depends 'nginx-hardening', '~> 1.1.0'
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
 depends 'artifact-deployer', '>= 0.8.18'
-depends 'build-essential', '>= 2.2.3'
 depends 'database', '>= 4.0.6'
 depends 'ffmpeg', '>= 0.4.4'
 depends 'haproxy', '~> 1.6.6'

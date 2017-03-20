@@ -1,6 +1,6 @@
 default['solr6']['solr-in-sh']['SOLR_JAVA_HOME'] = ''
 default['solr6']['solr-in-sh']['SOLR_STOP_WAIT'] = '180'
-solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio'] ).floor / 1024}m"
+solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio']).floor / 1024}m"
 default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
 default['solr6']['solr-in-sh']['SOLR_JAVA_MEM'] = "-Xms#{solr_memory} -Xmx#{solr_memory}"
 default['solr6']['solr-in-sh']['GC_LOG_OPTS'] = '-verbose:gc -XX:+PrintHeapAtGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCApplicationStoppedTime'
@@ -33,5 +33,5 @@ default['solr6']['solr-in-sh']['SOLR_PID_DIR'] = '/var/solr'
 default['solr6']['solr-in-sh']['SOLR_HOME'] = "#{node['solr6']['solr-in-sh']['SOLR_PID_DIR']}/data"
 default['solr6']['solr-in-sh']['LOG4J_PROPS'] = "#{node['solr6']['solr-in-sh']['SOLR_PID_DIR']}/log4j.properties"
 default['solr6']['solr-in-sh']['SOLR_LOG_LEVEL'] = 'INFO'
-default['solr6']['solr-in-sh']['SOLR_LOGS_DIR'] = "/var/log/solr"
+default['solr6']['solr-in-sh']['SOLR_LOGS_DIR'] = '/var/log/solr'
 default['solr6']['solr-in-sh']['SOLR_PORT'] = 8090

@@ -15,6 +15,6 @@ install: bundle install
 before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
 
 script:
-  - bundle exec rake
+  - bundle exec rake default
   # Run test-kitchen with docker driver, for example:
   - bundle exec rake "integration:docker[$SUITE, test]"

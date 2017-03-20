@@ -7,7 +7,7 @@ content_services_user = node['media']['content_services_user']
 # Fixing temporary downtime of atrpms,
 # used for libmp3lame0 package
 
-# TODO - switch to http://repo.enetres.net/
+# TODO: - switch to http://repo.enetres.net/
 # Read more on  http://vicendominguez.blogspot.nl/2015/09/atrpms-is-dead-and-i-need-ffmpeg-for.html
 
 # node.set['yum']['atrpms']['baseurl'] = "https://www.mirrorservice.org/sites/dl.atrpms.net/el$releasever-$basearch/atrpms/stable"
@@ -21,7 +21,7 @@ end
 
 user content_services_user do
   action :create
-  shell "/sbin/nologin"
+  shell '/sbin/nologin'
 end
 
 # Installing  codecs needed for FFMpeg
@@ -32,7 +32,7 @@ content_services_packages.each do |pkg|
 end
 
 template content_services_config_path do
-  source "media/config.yml.erb"
+  source 'media/config.yml.erb'
   owner content_services_user
 end
 
@@ -48,11 +48,11 @@ directory content_services_pid_path do
   recursive true
 end
 
-template "/etc/init.d/alfresco-content-services" do
-  source "media/alfresco-content-services.erb"
-  mode "0755"
+template '/etc/init.d/alfresco-content-services' do
+  source 'media/alfresco-content-services.erb'
+  mode '0755'
 end
 
-service "alfresco-content-services" do
+service 'alfresco-content-services' do
   action :enable
 end

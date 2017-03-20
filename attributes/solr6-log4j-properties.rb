@@ -1,4 +1,4 @@
-default['solr6']['log4j-properties']['solr.log'] =  '${solr.log.dir}'
+default['solr6']['log4j-properties']['solr.log'] = '${solr.log.dir}'
 default['solr6']['log4j-properties']['log4j.rootLogger'] = 'WARN, file, CONSOLE'
 default['solr6']['log4j-properties']['log4j.appender.CONSOLE'] = 'org.apache.log4j.ConsoleAppender'
 default['solr6']['log4j-properties']['log4j.appender.CONSOLE.layout'] = 'org.apache.log4j.EnhancedPatternLayout'
