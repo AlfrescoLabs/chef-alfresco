@@ -11,4 +11,37 @@ control 'alfresco-04' do
   describe command("/opt/libreoffice4.4/program/soffice.bin --version") do
     its(:stdout) { should include("LibreOffice 4.4.5.2") }
   end
+  describe file('/tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm.tar.gz') do
+    it { should exist }
+    it { should be_file }
+    it { should be_owned_by 'tomcat' }
+  end
+  describe command('tar -xf /tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm.tar.gz') do
+    its('exit_status') { should eq 0 }
+  end
+
+  describe directory('/tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm') do
+    it { should exist }
+    it { should be_directory }
+  end
+
+  describe command('yum -y localinstall /tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm/RPMS/*.rpm') do
+    its('exit_status') { should eq 0 }
+  end
+
+  # describe command('chown tomcat:tomcat -R /opt/libreoffice4.4') do
+  #   its('exit_status') { should eq 0 }
+  # end
+
+  # describe command("yum install -y *fonts.noarch --exclude='tv-fonts chkfontpath pagul-fonts\*'") do
+  #     its('exit_status') { should eq 0 }
+  # end
+  # packages.each do |package|
+  #   describe package(package ) do
+  #     it { should be_installed }
+  #   end
+  # end
+  # describe package('perl-Image-ExifTool') do
+  #   it { should be_installed }
+  # end
 end
