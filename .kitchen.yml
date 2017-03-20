@@ -64,7 +64,10 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "haproxy" : {
+        "error_codes": []
+        }
      }
   - name: community-solr6-52
     run_list:
