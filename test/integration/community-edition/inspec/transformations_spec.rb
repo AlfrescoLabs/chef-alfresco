@@ -29,7 +29,6 @@ control 'alfresco-04' do
   end
 
   describe command('yum list installed | grep libreoffice') do
-    its(:stdout) { should include('libreoffice-opensymbol-fonts.noarch') }
     its(:stdout) { should include('libreoffice4.4.x86_64') }
     its(:stdout) { should include('libreoffice4.4-base.x86_64') }
     its(:stdout) { should include('libreoffice4.4-calc.x86_64') }
