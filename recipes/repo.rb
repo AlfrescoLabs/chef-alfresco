@@ -19,7 +19,7 @@ alfresco_license_cookbook = node['alfresco']['license_cookbook']
 generate_alfresco_global = node['alfresco']['generate.global.properties']
 
 node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties'] if node['alfresco']['generate.global.properties']
-node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j'] node['alfresco']['generate.repo.log4j.properties']
+node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j'] if node['alfresco']['generate.repo.log4j.properties']
 
 directory 'alfresco-rootdir' do
   path root_folder

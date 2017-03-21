@@ -74,7 +74,7 @@ include_recipe 'java::default'
 include_recipe 'alfresco::yourkit' if node['alfresco']['components'].include?('yourkit')
 include_recipe 'alfresco::tomcat' if node['alfresco']['components'].include?('tomcat')
 include_recipe 'alfresco-webserver::default' if node['alfresco']['components'].include?('nginx')
-include_recipe 'alfresco::transformations' node['alfresco']['components'].include?('transform')
+include_recipe 'alfresco::transformations' if node['alfresco']['components'].include?('transform')
 include_recipe 'alfresco::aos' if node['alfresco']['components'].include?('aos')
 include_recipe 'alfresco::googledocs' if node['alfresco']['components'].include?('googledocs')
 include_recipe 'alfresco::rm' if node['alfresco']['components'].include?('rm')
@@ -84,15 +84,15 @@ if node['media']['install.content.services']
   install_activemq = true
 end
 
-include_recipe 'alfresco::media-alfresco' if node['alfresco']['components'].include? 'media'
+include_recipe 'alfresco::media-alfresco' if node['alfresco']['components'].include?('media')
 
-if node['alfresco']['components'].include? 'repo'
-  node.set['alfresco']['apply_amps'] = true
+if node['alfresco']['components'].include?('repo')
+  node.default['alfresco']['apply_amps'] = true
   include_recipe 'alfresco::repo'
 end
 
-if node['alfresco']['components'].include? 'share'
-  node.set['alfresco']['apply_amps'] = true
+if node['alfresco']['components'].include?('share')
+  node.default['alfresco']['apply_amps'] = true
   include_recipe 'alfresco::share'
 end
 
@@ -100,7 +100,7 @@ include_recipe 'alfresco::solr' if node['alfresco']['components'].include?('solr
 include_recipe 'alfresco::solr6' if node['alfresco']['components'].include?('solr6')
 # include_recipe 'alfresco::tomcat-instance-config' if node['alfresco']['components'].include? 'tomcat'
 
-if node['alfresco']['components'].include? 'haproxy'
+if node['alfresco']['components'].include?('haproxy')
   include_recipe 'openssl::default'
   include_recipe 'alfresco::haproxy'
 end
