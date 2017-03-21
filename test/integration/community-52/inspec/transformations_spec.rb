@@ -41,7 +41,7 @@ control 'alfresco-07' do
     its(:stdout) { should include('libreoffice5.2-ure.x86_64') }
     its(:stdout) { should include('libreoffice5.2-writer.x86_64') }
   end
-  
+
   describe package('perl-Image-ExifTool') do
     it { should be_installed }
   end
