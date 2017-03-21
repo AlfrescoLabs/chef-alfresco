@@ -28,5 +28,4 @@ control 'alfresco-11' do
     it { should be_listening }
     its('processes') { should include 'mysqld' }
   end
-
 end
