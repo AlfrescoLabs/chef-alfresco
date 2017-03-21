@@ -3,9 +3,7 @@ node.default['artifacts']['alfresco']['enabled'] = true
 # Not needed on standard a installation, unless Solr SSL is enabled
 # node.default['artifacts']['keystore']['enabled'] = true
 
-if node['artifacts']['keystore']['enabled'] == true
-  node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore"
-end
+node.default['alfresco']['properties']['dir.keystore'] = "#{node['alfresco']['properties']['dir.root']}/keystore/alfresco/keystore" if node['artifacts']['keystore']['enabled']
 
 root_folder = node['alfresco']['properties']['dir.root']
 shared_folder = node['alfresco']['shared']
@@ -20,13 +18,8 @@ alfresco_license_cookbook = node['alfresco']['license_cookbook']
 
 generate_alfresco_global = node['alfresco']['generate.global.properties']
 
-if node['alfresco']['generate.global.properties'] == true
-  node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties']
-end
-
-if node['alfresco']['generate.repo.log4j.properties'] == true
-  node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j']
-end
+node.default['artifacts']['sharedclasses']['properties']['alfresco-global.properties'] = node['alfresco']['properties'] if node['alfresco']['generate.global.properties']
+node.default['artifacts']['sharedclasses']['properties']['alfresco/log4j.properties'] = node['alfresco']['log4j'] node['alfresco']['generate.repo.log4j.properties']
 
 directory 'alfresco-rootdir' do
   path root_folder
@@ -45,7 +38,7 @@ directory 'alfresco-extension' do
   recursive true
 end
 
-# Install license
+# Install Alfresco license
 remote_directory "#{shared_folder}/classes/alfresco/extension/license" do
   source alfresco_license_source
   cookbook alfresco_license_cookbook

@@ -22,9 +22,7 @@ if install_haproxy_discovery
   end
 end
 
-if node['haproxy']['logging_json_enabled']
-  node.default['haproxy']['logformat'] = node['haproxy']['json_logformat']
-end
+node.default['haproxy']['logformat'] = node['haproxy']['json_logformat'] if node['haproxy']['logging_json_enabled']
 
 include_recipe 'haproxy::default'
 
@@ -43,6 +41,13 @@ selinux_commands.each do |command, already_permissive|
     only_if 'which semanage'
     not_if already_permissive
   end
+end
+
+log 'Stopping default haproxy service' do
+  message "Stopping default haproxy service"
+  level :warn
+  notifies :stop, 'service[haproxy]', :immediately
+  notifies :disable, 'service[haproxy]', :immediately
 end
 
 include_recipe 'alfresco::haproxy-config'

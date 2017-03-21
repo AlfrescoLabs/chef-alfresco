@@ -14,19 +14,17 @@ node.default['alfresco']['truststore_type'] = 'JCEKS'
 node.default['alfresco']['properties']['db.ssl_params'] = node['alfresco']['db_ssl_enabled'] == true ? "&useSSL=true&requireSSL=true&verifyServerCertificate=true&trustCertificateKeyStoreUrl=file://#{node['alfresco']['truststore_file']}&trustCertificateKeyStoreType=#{node['alfresco']['truststore_type']}&trustCertificateKeyStorePassword=#{node['alfresco']['truststore_password']}" : ''
 node.default['alfresco']['properties']['db.url'] = 'jdbc:${db.prefix}://${db.host}/${db.dbname}?${db.params}${db.ssl_params}'
 
-node.default['artifacts']['json-logging-repo-amp']['groupId'] = 'org.alfresco.devops'
-node.default['artifacts']['json-logging-repo-amp']['artifactId'] = 'alfresco-json-logging-amp'
-node.default['artifacts']['json-logging-repo-amp']['version'] = '0.5'
-node.default['artifacts']['json-logging-repo-amp']['type'] = 'amp'
-node.default['artifacts']['json-logging-repo-amp']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['json-logging-repo-amp']['owner'] = node['alfresco']['user']
+node.default['amps']['repo']['json-logging-repo-amp']['groupId'] = 'org.alfresco.devops'
+node.default['amps']['repo']['json-logging-repo-amp']['artifactId'] = 'alfresco-json-logging-amp'
+node.default['amps']['repo']['json-logging-repo-amp']['version'] = '0.5'
+node.default['amps']['repo']['json-logging-repo-amp']['type'] = 'amp'
+node.default['amps']['repo']['json-logging-repo-amp']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['json-logging-share-amp']['groupId'] = 'org.alfresco.devops'
-node.default['artifacts']['json-logging-share-amp']['artifactId'] = 'alfresco-json-logging-amp'
-node.default['artifacts']['json-logging-share-amp']['version'] = '0.5'
-node.default['artifacts']['json-logging-share-amp']['type'] = 'amp'
-node.default['artifacts']['json-logging-share-amp']['destination'] = node['alfresco']['amps_share_folder']
-node.default['artifacts']['json-logging-share-amp']['owner'] = node['alfresco']['user']
+node.default['amps']['share']['json-logging-share-amp']['groupId'] = 'org.alfresco.devops'
+node.default['amps']['share']['json-logging-share-amp']['artifactId'] = 'alfresco-json-logging-amp'
+node.default['amps']['share']['json-logging-share-amp']['version'] = '0.5'
+node.default['amps']['share']['json-logging-share-amp']['type'] = 'amp'
+node.default['amps']['share']['json-logging-share-amp']['owner'] = node['alfresco']['user']
 
 if node['alfresco']['components'].include? 'repo'
   node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
@@ -51,7 +49,7 @@ hz_share_databag_item = node['alfresco']['hz_share_databag_item']
 
 begin
   db_item = data_bag_item(s3_databag, s3_databag_item)
-  node.default['artifacts']['alfresco-s3-connector']['enabled'] = true
+  node.default['amps']['repo']['alfresco-s3-connector']['enabled'] = true
   node.default['alfresco']['properties']['s3.accessKey'] = db_item['aws_access_key_id']
   node.default['alfresco']['properties']['s3.secretKey'] = db_item['aws_secret_access_key']
   # S3 default values (if not enabled, alfresco will ignore them)
@@ -107,12 +105,12 @@ node.default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin
 node.default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco-mmt']['unzip'] = false
 
-node.default['artifacts']['share-services']['groupId'] = node['alfresco']['groupId']
-node.default['artifacts']['share-services']['artifactId'] = 'alfresco-share-services'
-node.default['artifacts']['share-services']['version'] = node['alfresco']['version']
-node.default['artifacts']['share-services']['type'] = 'amp'
-node.default['artifacts']['share-services']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['share-services']['owner'] = node['alfresco']['user']
+node.default['amps']['repo']['share-services']['groupId'] = node['alfresco']['groupId']
+node.default['amps']['repo']['share-services']['artifactId'] = 'alfresco-share-services'
+node.default['amps']['repo']['share-services']['version'] = node['alfresco']['version']
+node.default['amps']['repo']['share-services']['type'] = 'amp'
+node.default['amps']['repo']['share-services']['destination'] = node['alfresco']['amps_folder']
+node.default['amps']['repo']['share-services']['owner'] = node['alfresco']['user']
 
 # Filtering properties with placeholders defined in the mentioned files
 # (only if classes zip is part of the artifact list, see recipes)
@@ -121,3 +119,5 @@ node.default['artifacts']['sharedclasses']['filtering_mode'] = 'append'
 node.default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
 node.default['artifacts']['sharedclasses']['destinationName'] = 'classes'
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
+
+node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}/webapps"

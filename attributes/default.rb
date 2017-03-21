@@ -76,6 +76,7 @@ default['alfresco']['license_source'] = 'alfresco-license'
 default['alfresco']['license_cookbook'] = 'alfresco'
 
 # Using Alfresco Nexus public by default (in case databags aren't in place)
+default['alfresco']['install_maven'] = true
 default['artifact-deployer']['maven']['repositories']['public']['url'] = 'https://artifacts.alfresco.com/nexus/content/groups/public'
 
 # 3rd-party defaults
@@ -121,12 +122,12 @@ default['alfresco']['db']['allowed_host'] = '%'
 
 # Alfresco services configuration
 default['alfresco']['start_service'] = true
-default['alfresco']['restart_services'] = []
-default['alfresco']['restart_services'].push('tomcat-solr') if node['alfresco']['components'].include?('solr')
-default['alfresco']['restart_services'].push('tomcat-alfresco') if node['alfresco']['components'].include?('repo')
-default['alfresco']['restart_services'].push('tomcat-share') if node['alfresco']['components'].include?('share')
-default['alfresco']['restart_services'].push('solr') if node['alfresco']['components'].include?('solr6')
-default['alfresco']['restart_action'] = [:enable, :restart]
+# default['alfresco']['restart_services'] = []
+# default['alfresco']['restart_services'].push('tomcat-solr') if node['alfresco']['components'].include?('solr')
+# default['alfresco']['restart_services'].push('tomcat-alfresco') if node['alfresco']['components'].include?('repo')
+# default['alfresco']['restart_services'].push('tomcat-share') if node['alfresco']['components'].include?('share')
+# default['alfresco']['restart_services'].push('solr') if node['alfresco']['components'].include?('solr6')
+default['alfresco']['restart_action'] = [:restart]
 
 # Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
 default['artifacts']['keystore']['enabled'] = false

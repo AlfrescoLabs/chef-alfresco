@@ -2,7 +2,7 @@ source 'https://api.berkshelf.com'
 
 metadata
 
-cookbook 'tomcat', git: 'https://github.com/maoo/tomcat.git', tag: 'v11.17.3'
++cookbook 'apache_tomcat', git:'https://gitlab.com/maoo/chef-apache_tomcat.git', tag: 'v0.5.2'
 # cookbook 'tomcat', path: '../tomcat'
 
 # Resolve transitive deps of artifact-deployer

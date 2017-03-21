@@ -8,12 +8,10 @@ node.default['media']['target']['file']['path'] = node['media']['content_service
 
 node.default['artifacts']['media']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['media-repo']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
-node.default['artifacts']['media-repo']['destination'] = node['alfresco']['amps_folder']
-node.default['artifacts']['media-repo']['owner'] = node['alfresco']['user']
-node.default['artifacts']['media-repo']['type'] = 'amp'
+node.default['amps']['repo']['media-repo']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-repository/alfresco-mm-repo-#{node['artifacts']['media']['version']}.amp"
+node.default['amps']['repo']['media-repo']['owner'] = node['alfresco']['user']
+node.default['amps']['repo']['media-repo']['type'] = 'amp'
 
-node.default['artifacts']['media-share']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-share/alfresco-mm-share-#{node['artifacts']['media']['version']}.amp"
-node.default['artifacts']['media-share']['destination'] = node['alfresco']['amps_share_folder']
-node.default['artifacts']['media-share']['owner'] = node['alfresco']['user']
-node.default['artifacts']['media-share']['type'] = 'amp'
+node.default['amps']['share']['media-share']['path'] = "#{node['artifacts']['media']['destination']}/media/amps-share/alfresco-mm-share-#{node['artifacts']['media']['version']}.amp"
+node.default['amps']['share']['media-share']['owner'] = node['alfresco']['user']
+node.default['amps']['share']['media-share']['type'] = 'amp'

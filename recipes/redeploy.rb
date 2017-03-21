@@ -3,7 +3,7 @@
 # would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
 #
 include_recipe 'alfresco::initialise_libreoffice' if node['libreoffice']['initialise']
-include_recipe 'tomcat::_attributes'
+# include_recipe 'tomcat::_attributes'
 include_recipe 'alfresco::_common-attributes'
 include_recipe 'alfresco::_tomcat-attributes'
 include_recipe 'alfresco::_alfrescoproperties-attributes'
@@ -88,7 +88,7 @@ if node['alfresco']['components'].include? 'solr'
 end
 
 # TODO: - why this is here and not into _tomcat-attributes.rb ?
-file_append '/etc/tomcat/tomcat.conf' do
+file_append "#{node['alfresco']['home']}/tomcat.conf" do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
   only_if 'ls /etc/tomcat/tomcat.conf'
 end
@@ -129,10 +129,8 @@ memory.each do |instance_name, xmx|
   end
 end
 
-restart_tomcat_services.each do |service_name|
-  service service_name do
-    action :restart
-  end
+alfresco_services 'Starting the required services' do
+  start_services true
 end
 
 if node['alfresco']['components'].include?('solr6')

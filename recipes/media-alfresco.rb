@@ -1,9 +1,9 @@
 node.default['media']['install.content.services'] = true
 
 node.default['artifacts']['media']['enabled'] = true
-node.default['artifacts']['media-repo']['enabled'] = true
+node.default[['amps']['repo']'media-repo']['enabled'] = true
 node.default['artifacts']['media-repo-messaging']['enabled'] = true
-node.default['artifacts']['media-share']['enabled'] = true
+node.default['amps']['repo']['media-share']['enabled'] = true
 
 source_type = node['media']['source_type']
 target_type = node['media']['target_type']

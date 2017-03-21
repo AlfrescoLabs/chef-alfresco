@@ -13,7 +13,7 @@ supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends 'file'
-depends 'tomcat'
+depends 'apache_tomcat'
 depends 'maven'
 depends 'commons'
 depends 'alfresco-webserver', '~> 0.7.4'
@@ -38,3 +38,4 @@ depends 'rsyslog', '>= 1.15.0'
 depends 'swftools', '>= 0.2.4'
 depends 'yum-epel'
 depends 'yum-atrpms', '>= 0.1.0'
+depends 'supervisor', '>= 0.4.12'
