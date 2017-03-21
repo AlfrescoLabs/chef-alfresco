@@ -21,7 +21,7 @@ truststore_type = node['alfresco']['truststore_type']
 ruby_block 'Import AWS RDS Certs' do
   block do
     Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
-      Chef::ShellOut.new(
+      Mixlib::ShellOut.new(
         %[ keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
         -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
       ).run_command
