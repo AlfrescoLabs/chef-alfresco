@@ -7,6 +7,7 @@ control 'alfresco-04' do
     it { should exist }
     it { should be_directory }
     it { should be_owned_by 'tomcat' }
+    its('group') { should cmp 'tomcat' }
   end
 
   describe command('/opt/libreoffice4.4/program/soffice.bin --version') do
@@ -19,9 +20,6 @@ control 'alfresco-04' do
     it { should be_owned_by 'tomcat' }
     its('group') { should cmp 'tomcat' }
   end
-  # describe command('tar -xf /tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm.tar.gz') do
-  #   its('exit_status') { should eq 0 }
-  # end
 
   describe directory('/tmp/kitchen/cache/LibreOffice_4.4.5.2_Linux_x86-64_rpm') do
     it { should exist }
@@ -42,10 +40,6 @@ control 'alfresco-04' do
     its(:stdout) { should include('libreoffice4.4-math.x86_64') }
     its(:stdout) { should include('libreoffice4.4-ure.x86_64') }
     its(:stdout) { should include('libreoffice4.4-writer.x86_64') }
-  end
-
-  describe command('chown tomcat:tomcat -R /opt/libreoffice4.4') do
-    its('exit_status') { should eq 0 }
   end
 
   describe package('perl-Image-ExifTool') do
