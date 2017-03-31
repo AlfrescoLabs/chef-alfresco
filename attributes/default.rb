@@ -75,7 +75,7 @@ default['alfresco']['license_cookbook'] = 'alfresco'
 
 # Using Alfresco Nexus public by default (in case databags aren't in place)
 default['alfresco']['install_maven'] = true
-default['artifact-deployer']['maven']['repositories']['public']['url'] = 'https://artifacts.alfresco.com/nexus/content/groups/public'
+default['commons']['maven']['repositories']['public']['url'] = 'https://artifacts.alfresco.com/nexus/content/groups/public'
 
 # 3rd-party defaults
 default['alfresco']['imagemagick_version'] = '6.9.5-9'

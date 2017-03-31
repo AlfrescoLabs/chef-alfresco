@@ -108,7 +108,7 @@ suites:
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {
@@ -147,7 +147,7 @@ suites:
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {
