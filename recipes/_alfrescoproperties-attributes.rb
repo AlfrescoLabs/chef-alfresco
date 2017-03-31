@@ -1,6 +1,7 @@
 # Additional Alfresco paths
 node.default['alfresco']['bin'] = "#{node['alfresco']['home']}/bin"
 node.default['alfresco']['shared'] = "#{node['alfresco']['home']}/shared"
+node.default['alfresco']['config_dir'] = "#{node['alfresco']['home']}/conf"
 node.default['alfresco']['shared_lib'] = "#{node['alfresco']['shared']}/lib"
 node.default['alfresco']['amps_folder'] = "#{node['alfresco']['home']}/amps"
 node.default['alfresco']['amps_share_folder'] = "#{node['alfresco']['home']}/amps_share"
@@ -13,10 +14,6 @@ if node['alfresco']['log.json.enabled']
   node.default['amps']['share']['json-logging-amp']['enabled'] = true
   node.default['logging']['log4j.appender.File.layout'] = 'net.logstash.log4j.JSONEventLayoutV1'
   node.default['logging']['log4j.appender.File.File'] = '${logfilename}.json'
-  node.default['logstash-forwarder']['items']['alfresco-repo']['paths'] =
-  ["#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}/logs/alfresco.log.json"]
-  node.default['logstash-forwarder']['items']['alfresco-share']['paths'] = ["#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}/logs/share.log.json"]
-  node.default['logstash-forwarder']['items']['alfresco-solr']['paths'] = ["#{node['alfresco']['home']}#{"/solr" unless node['tomcat']['run_single_instance']}/logs/solr.log.json"]
 end
 
 node.default['alfresco']['log4j'] = node['logging'].merge(node['alfresco']['log4j_items'])
@@ -72,11 +69,6 @@ node.default['alfresco']['properties']['share.protocol'] = node['alfresco']['pub
 # OpenCMIS
 node.default['alfresco']['properties']['opencmis.server.host'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['opencmis.server.protocol'] = node['alfresco']['public_protocol']
-
-# Activiti
-node.default['alfresco']['properties']['activiti.host'] = node['alfresco']['public_hostname']
-node.default['alfresco']['properties']['activiti.port'] = node['alfresco']['public_portssl']
-node.default['alfresco']['properties']['activiti.protocol'] = node['alfresco']['public_protocol']
 
 # AOS
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['public_protocol']

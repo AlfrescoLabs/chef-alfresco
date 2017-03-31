@@ -20,11 +20,11 @@ yumrepos = %w(epel nginx)
 # alfresco_host = "chef-alfresco-testing.alfresco.test"
 # alfresco_host = 'localhost'
 
-yumrepos.each do |yumrepo|
-  describe yum.repo(yumrepo) do
-    it { should exist }
-  end
-end
+# yumrepos.each do |yumrepo|
+#   describe yum.repo(yumrepo) do
+#     it { should exist }
+#   end
+# end
 
 # TODO: - this logic should be provided by another cookbook
 #
@@ -119,10 +119,6 @@ describe 'Alfresco daemons' do
   # end
 end
 
-# TODO: - Rsyslog files for haproxy
-# describe file('/var/log/haproxy/haproxy.log') do
-#   it { should exist }
-# end
 # describe file('/var/log/haproxy/alfresco.log') do
 #   it { should exist }
 # end

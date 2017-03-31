@@ -1,7 +1,7 @@
 node.default['media']['install.content.services'] = true
 
 node.default['artifacts']['media']['enabled'] = true
-node.default[['amps']['repo']'media-repo']['enabled'] = true
+node.default['amps']['repo']['media-repo']['enabled'] = true
 node.default['artifacts']['media-repo-messaging']['enabled'] = true
 node.default['amps']['repo']['media-share']['enabled'] = true
 

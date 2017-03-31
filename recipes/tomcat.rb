@@ -36,11 +36,11 @@ directory '/etc/cron.d' do
   action :create
 end
 
-if node['tomcat']['run_single_instance']
-  install_name = 'tomcat-single'
-else
-  install_name = 'tomcat-multi'
-end
+install_name = if node['tomcat']['run_single_instance']
+                 'tomcat-single'
+               else
+                 'tomcat-multi'
+               end
 
 apache_tomcat install_name do
   url node['tomcat']['tar']['url']
@@ -99,91 +99,89 @@ apache_tomcat install_name do
 
   else
 
-  node['tomcat']['instances'].each do |name, attrs|
-    logs_path = attrs['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
-    cache_path = attrs['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
+    node['tomcat']['instances'].each do |name, attrs|
+      logs_path = attrs['logs_path'] || "#{node['alfresco']['home']}/#{name}/logs"
+      cache_path = attrs['cache_path'] || "#{node['alfresco']['home']}/#{name}/temp"
 
-    apache_tomcat_instance name do
-      setenv_options do
-        config(
-          [
-            "export JAVA_OPTS=\"#{attrs['java_options'].map { |_k, v| v }.join(' ')}\""
-          ]
-        )
-      end
-      apache_tomcat_config 'server' do
-        source node['tomcat']['server_template_source']
-        cookbook node['tomcat']['server_template_cookbook']
-        options do
-          port attrs['port']
-          proxy_port attrs['proxy_port']
-          ajp_port attrs['ajp_port']
-          shutdown_port attrs['shutdown_port']
-          # jmx_port attrs['jmx_port']
-          max_threads attrs['max_threads']
-          tomcat_auth attrs['tomcat_auth']
-          # config_dir attrs['config_dir']
-          # ssl_port attrs['ssl_port']
-          # ssl_proxy_port attrs['ssl_proxy_port']
-          # ssl_max_threads attrs['ssl_max_threads']
-          # keystore_file attrs['keystore_file']
-          # keystore_type attrs['keystore_type']
+      apache_tomcat_instance name do
+        setenv_options do
+          config(
+            [
+              "export JAVA_OPTS=\"#{attrs['java_options'].map { |_k, v| v }.join(' ')}\""
+            ]
+          )
         end
-      end
+        apache_tomcat_config 'server' do
+          source node['tomcat']['server_template_source']
+          cookbook node['tomcat']['server_template_cookbook']
+          options do
+            port attrs['port']
+            proxy_port attrs['proxy_port']
+            ajp_port attrs['ajp_port']
+            shutdown_port attrs['shutdown_port']
+            # jmx_port attrs['jmx_port']
+            max_threads attrs['max_threads']
+            tomcat_auth attrs['tomcat_auth']
+            # config_dir attrs['config_dir']
+            # ssl_port attrs['ssl_port']
+            # ssl_proxy_port attrs['ssl_proxy_port']
+            # ssl_max_threads attrs['ssl_max_threads']
+            # keystore_file attrs['keystore_file']
+            # keystore_type attrs['keystore_type']
+          end
+        end
 
-      template "/etc/cron.d/#{name}-cleaner.cron" do
-        source 'tomcat/cleaner.cron.erb'
-        owner 'root'
-        group 'root'
-        mode '0755'
-        variables(tomcat_log_path: logs_path,
-                  tomcat_cache_path: cache_path)
-      end
+        template "/etc/cron.d/#{name}-cleaner.cron" do
+          source 'tomcat/cleaner.cron.erb'
+          owner 'root'
+          group 'root'
+          mode '0755'
+          variables(tomcat_log_path: logs_path,
+                    tomcat_cache_path: cache_path)
+        end
 
-      apache_tomcat_config 'context' do
-        source context_template_source
-        cookbook context_template_cookbook
-      end
+        apache_tomcat_config 'context' do
+          source context_template_source
+          cookbook context_template_cookbook
+        end
 
-      %W(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
-        link "linking #{linked_file}" do
-          target_file "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
-          to "#{node['alfresco']['home']}/conf/#{linked_file}"
+        %w(catalina.properties catalina.policy logging.properties tomcat-users.xml).each do |linked_file|
+          link "linking #{linked_file}" do
+            target_file "#{node['alfresco']['home']}/#{name}/conf/#{linked_file}"
+            to "#{node['alfresco']['home']}/conf/#{linked_file}"
+            owner node['tomcat']['user']
+            group node['tomcat']['group']
+            mode '0755'
+          end
+        end
+
+        directory attrs['endorsed_dir'] do
           owner node['tomcat']['user']
           group node['tomcat']['group']
           mode '0755'
+          action :create
         end
+
+        # Add LimitNOFILE=16000 into tomcat systemd and restart services
+        # TODO - make it working with supervisor
+        # TODO - add #{processes_limit} to systemd file
+        # TODO - Add it to apache_tomcat cookbook (apache_tomcat_service LWRP)
+        # open_files_limit = node['tomcat']['open_files_limit']
+        # processes_limit = node['tomcat']['processes_limit']
+        # execute "extend-open-files-limit-for-#{name}" do
+        #   command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
+        #   action :run
+        #   not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
+        # end
       end
 
-      directory attrs['endorsed_dir'] do
-        owner node['tomcat']['user']
-        group node['tomcat']['group']
-        mode '0755'
-        action :create
+      template 'Creating logging.properties file' do
+        path "#{node['alfresco']['home']}/conf/logging.properties"
+        source 'tomcat/logging.properties.erb'
+        owner 'root'
+        group 'root'
+        mode '0644'
       end
-
-      # Add LimitNOFILE=16000 into tomcat systemd and restart services
-      # TODO - make it working with supervisor
-      # TODO - add #{processes_limit} to systemd file
-      # TODO - Add it to apache_tomcat cookbook (apache_tomcat_service LWRP)
-      # open_files_limit = node['tomcat']['open_files_limit']
-      # processes_limit = node['tomcat']['processes_limit']
-      # execute "extend-open-files-limit-for-#{name}" do
-      #   command "sed -i '/\\[Service\\]/a LimitNOFILE=#{open_files_limit}' /etc/systemd/system/tomcat-#{name}.service ; systemctl daemon-reload"
-      #   action :run
-      #   not_if "cat /etc/systemd/system/tomcat-#{name}.service | grep LimitNOFILE"
-      # end
-
     end
-
-    template "Creating logging.properties file" do
-      path "#{node['alfresco']['home']}/conf/logging.properties"
-      source 'tomcat/logging.properties.erb'
-      owner 'root'
-      group 'root'
-      mode '0644'
-    end
-
-  end
   end
 end

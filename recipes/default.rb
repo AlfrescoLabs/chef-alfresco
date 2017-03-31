@@ -10,7 +10,6 @@
 # include_recipe 'tomcat::_attributes'
 include_recipe 'alfresco::_common-attributes'
 include_recipe 'alfresco::_tomcat-attributes'
-include_recipe 'alfresco::_activiti-attributes'
 include_recipe 'alfresco::_alfrescoproperties-attributes'
 include_recipe 'alfresco::_repo-attributes'
 include_recipe 'alfresco::_share-attributes'
@@ -19,7 +18,7 @@ include_recipe 'alfresco::_googledocs-attributes'
 include_recipe 'alfresco::_aos-attributes'
 include_recipe 'alfresco::_media-attributes'
 include_recipe 'alfresco::_analytics-attributes'
-include_recipe "alfresco::_supervisor-attributes"
+include_recipe 'alfresco::_supervisor-attributes'
 
 # If there are no components that need artifact deployment,
 # don't invoke apply_amps
@@ -56,7 +55,7 @@ unless node['alfresco']['enable.web.xml.nossl.patch'] || node['alfresco']['editi
 end
 
 if alf_version_gt?('5.0') && node['alfresco']['components'].include?('repo')
-  node.default['artifacts']['amps']['repo']['enabled'] = true
+  node.default['amps']['repo']['share-services']['enabled'] = true
   node.default['artifacts']['ROOT']['artifactId'] = 'alfresco-server-root'
 end
 
@@ -71,7 +70,6 @@ end
 
 include_recipe 'java::default'
 
-include_recipe 'alfresco::yourkit' if node['alfresco']['components'].include?('yourkit')
 include_recipe 'alfresco::tomcat' if node['alfresco']['components'].include?('tomcat')
 include_recipe 'alfresco-webserver::default' if node['alfresco']['components'].include?('nginx')
 include_recipe 'alfresco::transformations' if node['alfresco']['components'].include?('transform')
@@ -107,14 +105,14 @@ end
 
 maven_setup 'setup maven' do
   maven_home node['maven']['m2_home']
-  only_if {node['alfresco']['install_maven']}
+  only_if { node['alfresco']['install_maven'] }
 end
 
 artifact 'deploy artifacts'
 
 apply_amps 'apply alfresco and share amps' do
-  alfresco_root "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}"
-  share_root "#{node['alfresco']['home']}#{"/share" unless node['tomcat']['run_single_instance']}"
+  alfresco_root "#{node['alfresco']['home']}#{'/alfresco' unless node['tomcat']['run_single_instance']}"
+  share_root "#{node['alfresco']['home']}#{'/share' unless node['tomcat']['run_single_instance']}"
   unixUser node['alfresco']['user']
   unixGroup node['tomcat']['group']
   only_if { apply_amps }
@@ -130,16 +128,13 @@ if node['alfresco']['components'].include? 'analytics'
 end
 
 include_recipe 'activemq::default' if install_activemq
-include_recipe 'rsyslog::default' if node['alfresco']['components'].include? 'rsyslog'
-include_recipe 'alfresco::logstash-forwarder' if node['alfresco']['components'].include? 'logstash-forwarder'
-include_recipe 'alfresco::activiti' if node['alfresco']['components'].include? 'activiti'
 
 # TODO: - This should go... as soon as Alfresco Community NOSSL war is shipped
 # Patching web.xml to configure Alf-Solr comms to none (instead of https)
 #
 if node['alfresco']['components'].include?('tomcat') && node['alfresco']['enable.web.xml.nossl.patch']
   cookbook_file '/usr/local/bin/nossl-patch.sh' do
-    source 'nossl-patch.erb'
+    source 'nossl-patch.sh'
     mode '0755'
   end
   execute 'run-nossl-patch.sh' do

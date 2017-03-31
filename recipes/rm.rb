@@ -1,13 +1,3 @@
-# destination has to be set at recipe time since amp_folder path is calculated at recipe time
-node.default['amps']['repo']['alfresco-rm-enterprise-repo']['destination'] = node['alfresco']['amps_folder']
-node.default['amps']['share']['alfresco-rm-enterprise-share']['destination'] = node['alfresco']['amps_share_folder']
-node.default['amps']['repo']['alfresco-rm-community-repo']['destination'] = node['alfresco']['amps_folder']
-node.default['amps']['share']['alfresco-rm-community-share']['destination'] = node['alfresco']['amps_share_folder']
-node.default['amps']['repo']['alfresco-rm-core-repo']['destination'] = node['alfresco']['amps_folder']
-node.default['amps']['share']['alfresco-rm-core-share']['destination'] = node['alfresco']['amps_share_folder']
-node.default['amps']['repo']['alfresco-rm-server']['destination'] = node['alfresco']['amps_folder']
-node.default['amps']['share']['alfresco-rm-share']['destination'] = node['alfresco']['amps_share_folder']
-
 if node['alfresco']['edition'] == 'enterprise'
   if alf_version_ge?('5.0') && alf_version_lt?('5.1.0')
     node.default['amps']['repo']['alfresco-rm-server']['enabled'] = true

@@ -46,11 +46,11 @@ describe 'Alfresco daemons' do
   # let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
   # let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
-  services.each do |service|
-    it "Has a running #{service} service" do
-      expect(service(service)).to be_running
-    end
-  end
+  # services.each do |service|
+  #   it "Has a running #{service} service" do
+  #     expect(service(service)).to be_running
+  #   end
+  # end
 
   # The following tests are all  Validation testing, thus they don't have space in an integration test suite
   # Keeping them as memento to create future validation testing
@@ -119,10 +119,6 @@ describe 'Alfresco daemons' do
   # end
 end
 
-# TODO: - Rsyslog files for haproxy
-# describe file('/var/log/haproxy/haproxy.log') do
-#   it { should exist }
-# end
 # describe file('/var/log/haproxy/alfresco.log') do
 #   it { should exist }
 # end

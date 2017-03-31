@@ -20,11 +20,11 @@ yumrepos = %w(epel nginx)
 # alfresco_host = "chef-alfresco-testing.alfresco.test"
 # alfresco_host = 'localhost'
 
-yumrepos.each do |yumrepo|
-  describe yum.repo(yumrepo) do
-    it { should exist }
-  end
-end
+# yumrepos.each do |yumrepo|
+#   describe yum.repo(yumrepo) do
+#     it { should exist }
+#   end
+# end
 
 # TODO: - this logic should be provided by another cookbook
 #
@@ -39,7 +39,6 @@ describe 'Alfresco daemons' do
   # let(:repoConnection) { $repoConnection ||= getFaradayConnection "http://localhost:8070" }
   # let(:shareConnection) { $shareConnection ||= getFaradayConnection "http://localhost:8081" }
   # let(:solrConnection) { $solrConnection ||= getFaradayConnection "http://localhost:8090" }
-  # let(:activitiConnection) { $activitiConnection ||= getFaradayConnection "http://localhost:8060" }
   # let(:haproxyConnection) { $haproxyConnection ||= getFaradayConnection "http://localhost:9001" }
   # let(:haproxyIntConnection) { $haproxyIntConnection ||= getFaradayConnection "http://localhost:9000" }
   # let(:httpNginxConnection) { $httpNginxConnection ||= getFaradayConnection "http://localhost" }
@@ -67,10 +66,6 @@ describe 'Alfresco daemons' do
   #   expect(solrConnection.get('/solr4/').body).to include('Apache SOLR')
   # end
 
-  # it 'Has a running Activiti application' do
-  #   expect(activitiConnection.get('/activiti/').body).to include('Activiti')
-  # end
-
   # it 'Has a running Haproxy service wrapping all Alfresco public applications' do
   #   expect(haproxyConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   #   expect(haproxyConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
@@ -90,10 +85,6 @@ describe 'Alfresco daemons' do
   #   expect(nginxConnection.get('/alfresco/').body).to include('Welcome to Alfresco')
   #   expect(nginxConnection.get('/share/page/').body).to include('Alfresco Software Inc. All rights reserved. Simple + Smart')
   # end
-
-  # it 'Has a running Nginx service wrapping /activiti Haproxy endpoints' do
-  #    expect(nginxConnection.get('/activiti/').body).to include('Activiti')
-  #  end
 
   # TODO: - uncomment this!
   # it 'Has an HTTP redirect' do

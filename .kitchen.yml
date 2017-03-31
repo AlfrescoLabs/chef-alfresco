@@ -37,7 +37,7 @@ suites:
       "name": "chef-alfresco-community",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs','yourkit'],
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
         "version" : "5.1.g",
         "ssl_enabled" : false
       },
@@ -58,7 +58,7 @@ suites:
       "name": "chef-alfresco-community-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs','yourkit'],
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
         "version" : "5.2.d",
         "ssl_enabled" : false
       },
@@ -82,7 +82,7 @@ suites:
       "name": "chef-alfresco-community-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
-        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs','yourkit'],
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs'],
         "version" : "5.2.d",
         "ssl_enabled" : false
       },
@@ -196,7 +196,7 @@ suites:
         "edition" : "enterprise",
         "ssl_enabled" : false
       },
-      "artifact-deployer" : {
+      "commons" : {
         "maven" : {
           "timeout" : 1500,
           "repositories" : {

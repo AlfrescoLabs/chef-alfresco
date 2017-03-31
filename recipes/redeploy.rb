@@ -106,7 +106,7 @@ restart_tomcat_services.each do |service|
       use_security_manager: false,
       tmp_dir: "/var/cache/#{service}/temp",
       catalina_options: '',
-      endorsed_dir: '/usr/share/tomcat/lib/endorsed'
+      endorsed_dir: '/usr/share/tomcat-multi/lib/endorsed'
     )
     owner 'root'
     group 'root'
@@ -119,7 +119,6 @@ memory = {}
 memory['alfresco'] = ((node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
 memory['share'] = ((node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
 memory['solr'] = ((node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
-memory['activiti'] = ((node['memory']['total'].to_i * node['alfresco']['activiti_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
 
 memory.each do |instance_name, xmx|
   sed_command = "sed -i -E \"s/(.+Xmx)([0-9]*)(m+)/\\1#{xmx}\\3/\" /etc/sysconfig/tomcat-#{instance_name}"

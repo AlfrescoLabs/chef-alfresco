@@ -17,14 +17,10 @@ node.default['alfresco']['properties']['db.url'] = 'jdbc:${db.prefix}://${db.hos
 node.default['amps']['repo']['json-logging-repo-amp']['groupId'] = 'org.alfresco.devops'
 node.default['amps']['repo']['json-logging-repo-amp']['artifactId'] = 'alfresco-json-logging-amp'
 node.default['amps']['repo']['json-logging-repo-amp']['version'] = '0.5'
-node.default['amps']['repo']['json-logging-repo-amp']['type'] = 'amp'
-node.default['amps']['repo']['json-logging-repo-amp']['owner'] = node['alfresco']['user']
 
 node.default['amps']['share']['json-logging-share-amp']['groupId'] = 'org.alfresco.devops'
 node.default['amps']['share']['json-logging-share-amp']['artifactId'] = 'alfresco-json-logging-amp'
 node.default['amps']['share']['json-logging-share-amp']['version'] = '0.5'
-node.default['amps']['share']['json-logging-share-amp']['type'] = 'amp'
-node.default['amps']['share']['json-logging-share-amp']['owner'] = node['alfresco']['user']
 
 if node['alfresco']['components'].include? 'repo'
   node.default['artifacts']['mysql']['enabled'] = node['alfresco']['properties']['db.prefix'] == 'mysql'
@@ -108,9 +104,6 @@ node.default['artifacts']['alfresco-mmt']['unzip'] = false
 node.default['amps']['repo']['share-services']['groupId'] = node['alfresco']['groupId']
 node.default['amps']['repo']['share-services']['artifactId'] = 'alfresco-share-services'
 node.default['amps']['repo']['share-services']['version'] = node['alfresco']['version']
-node.default['amps']['repo']['share-services']['type'] = 'amp'
-node.default['amps']['repo']['share-services']['destination'] = node['alfresco']['amps_folder']
-node.default['amps']['repo']['share-services']['owner'] = node['alfresco']['user']
 
 # Filtering properties with placeholders defined in the mentioned files
 # (only if classes zip is part of the artifact list, see recipes)
@@ -120,4 +113,4 @@ node.default['artifacts']['sharedclasses']['destination'] = node['alfresco']['sh
 node.default['artifacts']['sharedclasses']['destinationName'] = 'classes'
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
 
-node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{"/alfresco" unless node['tomcat']['run_single_instance']}/webapps"
+node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{'/alfresco' unless node['tomcat']['run_single_instance']}/webapps"

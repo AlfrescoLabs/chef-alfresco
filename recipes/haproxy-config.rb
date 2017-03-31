@@ -1,7 +1,6 @@
 if node['tomcat']['run_single_instance']
   node.default['haproxy']['backends']['roles']['share']['port'] = node['tomcat']['port']
   node.default['haproxy']['backends']['roles']['solr']['port'] = node['tomcat']['port']
-  node.default['haproxy']['backends']['roles']['activiti']['port'] = node['tomcat']['port']
   node.default['haproxy']['backends']['roles']['alfresco']['port'] = node['tomcat']['port']
   node.default['haproxy']['backends']['roles']['aos_vti']['port'] = node['tomcat']['port']
   node.default['haproxy']['backends']['roles']['aos_root']['port'] = node['tomcat']['port']

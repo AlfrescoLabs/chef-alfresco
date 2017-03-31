@@ -1,10 +1,7 @@
 default['haproxy']['ec2']['discover_cron'] = '*/5 * * * *'
 default['haproxy']['ec2']['install_haproxy_discovery'] = false
 
-# Force rsyslog to use UDP on localhost
-default['haproxy']['enable_rsyslog_server'] = false
 default['haproxy']['enable_local_logging'] = false
-default['haproxy']['rsyslog_bind'] = '127.0.0.1'
 default['haproxy']['domain'] = 'localhost'
 
 # HAproxy cookbook attributes
@@ -40,7 +37,6 @@ default['haproxy']['error_codes'] = %w( 400 403 404 408 500 502 503 504 )
 
 default['haproxy']['general_config'] = [
   'tune.ssl.default-dh-param 2048',
-  # Logging should be handled with logstash-forwarder
   "log 127.0.0.1 local2 #{node['haproxy']['log_level']}",
   'pidfile /var/run/haproxy.pid',
   'stats socket /var/run/haproxy.stat user haproxy group haproxy mode 600 level admin',
@@ -110,8 +106,6 @@ default['haproxy']['frontends']['external']['other_config'] = [
   # "http-request deny if alfresco_path",
   'http-request deny if robots',
   'http-request deny if solr_path',
-  'http-request deny if activiti_path',
-  'http-request deny if activity_path',
   'http-request deny if webinf',
 ]
 
@@ -206,13 +200,6 @@ default['haproxy']['backends']['roles']['solr']['port'] = 8090
 default['haproxy']['frontends']['internal']['acls']['solr6'] = ['path_beg /solr']
 default['haproxy']['backends']['roles']['solr6']['entries'] = ['option httpchk GET /solr', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
 default['haproxy']['backends']['roles']['solr6']['port'] = 8090
-
-# Activiti Haproxy configuration
-if node['alfresco']['components'].include?('activiti')
-  default['haproxy']['frontends']['internal']['acls']['activiti'] = ['path_beg /activiti']
-  default['haproxy']['backends']['roles']['activiti']['entries'] = ['option httpchk GET /activiti', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
-  default['haproxy']['backends']['roles']['activiti']['port'] = 8060
-end
 
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ['path_beg /alfresco']

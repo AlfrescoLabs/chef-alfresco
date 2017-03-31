@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 # Used by Travis
 
 gem 'inspec', '~>1.2.1'
-gem 'foodcritic', '~> 6.3.0'
+gem 'foodcritic', '~> 10.2.0'
 gem 'cookstyle', '~> 1.2.0'
 gem 'berkshelf', '~> 5.1.0'
 gem 'chefspec', '~> 5.3.0'
@@ -27,5 +27,5 @@ group :development do
   gem 'guard'
   gem 'guard-rspec'
   gem 'guard-rubocop'
-  gem 'guard-foodcritic', '~> 2.1.0'
+  gem 'guard-foodcritic', '~> 3.0.0'
 end

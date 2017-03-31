@@ -2,12 +2,10 @@
 # analytics - Alfresco Reporting and Analytics feature; enterprise-only
 # aos - Alfresco Office Services (WARs); enterprise-only
 # media - Alfresco media-management; enterprise-only
-# rsyslog - Remote logging
-# logstash-forwarder - Remote logging
 #
 # Default Alfresco components
 #
-default['alfresco']['components'] = %w(haproxy nginx tomcat transform repo share solr mysql rm googledocs yourkit)
+default['alfresco']['components'] = %w(haproxy nginx tomcat transform repo share solr mysql rm googledocs )
 
 # See .kitchen.yml
 # default['alfresco']['s3_databag'] = ""
