@@ -13,18 +13,18 @@
 #
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
-services = ['tomcat-alfresco', 'tomcat-share', 'haproxy', 'nginx']
-yumrepos = %w(epel nginx)
+# services = ['tomcat-alfresco', 'tomcat-share', 'haproxy', 'nginx']
+# yumrepos = %w(epel nginx)
 
 # TODO: - should be the FQDN, but still need to configure /etc/hosts to get this to work
 # alfresco_host = "chef-alfresco-testing.alfresco.test"
 # alfresco_host = 'localhost'
 
-yumrepos.each do |yumrepo|
-  describe yum.repo(yumrepo) do
-    it { should exist }
-  end
-end
+# yumrepos.each do |yumrepo|
+#   describe yum.repo(yumrepo) do
+#     it { should exist }
+#   end
+# end
 
 # TODO: - this logic should be provided by another cookbook
 #

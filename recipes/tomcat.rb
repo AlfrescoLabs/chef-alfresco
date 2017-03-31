@@ -58,7 +58,7 @@ apache_tomcat install_name do
       setenv_options do
         config(
           [
-            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map { |_k, v| v }.join(' ')}\""
+            "export JAVA_OPTS=\"#{node['tomcat']['java_options'].map { |_k, v| v }.join(' ')}\"",
           ]
         )
       end
@@ -107,7 +107,7 @@ apache_tomcat install_name do
         setenv_options do
           config(
             [
-              "export JAVA_OPTS=\"#{attrs['java_options'].map { |_k, v| v }.join(' ')}\""
+              "export JAVA_OPTS=\"#{attrs['java_options'].map { |_k, v| v }.join(' ')}\"",
             ]
           )
         end

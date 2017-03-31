@@ -13,8 +13,8 @@
 #
 # Configure Bamboo build to run kitchen converge && kitchen verify || kitchen converge && kitchen verify, avoid folder purging, run on commit; also check with kitchen list if any box is running; every friday evening, run a kitchen destroy && kitchen converge || kitchen converge
 
-services = ['tomcat-alfresco', 'tomcat-share', 'haproxy', 'nginx']
-yumrepos = %w(epel nginx)
+# services = ['tomcat-alfresco', 'tomcat-share', 'haproxy', 'nginx']
+# yumrepos = %w(epel nginx)
 
 # TODO: - should be the FQDN, but still need to configure /etc/hosts to get this to work
 # alfresco_host = "chef-alfresco-testing.alfresco.test"
@@ -45,11 +45,11 @@ describe 'Alfresco daemons' do
   # let(:nginxConnection) { $nginxConnection ||= getFaradayConnection "http://#{alfresco_host}" }
   # let(:authNginxConnection) { $authNginxConnection ||= getFaradayConnection "http://admin:admin@#{alfresco_host}" }
 
-  services.each do |service|
-    it "Has a running #{service} service" do
-      expect(service(service)).to be_running
-    end
-  end
+  # services.each do |service|
+  #   it "Has a running #{service} service" do
+  #     expect(service(service)).to be_running
+  #   end
+  # end
 
   # The following tests are all  Validation testing, thus they don't have space in an integration test suite
   # Keeping them as memento to create future validation testing
