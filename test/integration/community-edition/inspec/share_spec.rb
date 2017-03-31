@@ -10,7 +10,7 @@ control 'alfresco-06' do
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
-    it { should be_readable.by_user('nginx') }
+    it { should_not be_readable.by_user('nginx') }
     it { should_not be_executable.by_user('nginx') }
     it { should_not be_writable.by_user('nginx') }
   end
@@ -23,7 +23,7 @@ control 'alfresco-06' do
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should_not be_executable.by_user('tomcat') }
-    it { should be_readable.by_user('nginx') }
+    it { should_not be_readable.by_user('nginx') }
     it { should_not be_executable.by_user('nginx') }
     it { should_not be_writable.by_user('nginx') }
     its('content') { should match 'http://127.0.0.1:9000/alfresco/s' }
