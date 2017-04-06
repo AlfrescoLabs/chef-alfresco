@@ -38,6 +38,25 @@ end
 
 include_recipe 'tomcat::default'
 
+# Reset back to Oracle Java as apache tomcat installs OpenJDK via Yum
+java_ark 'jdk' do
+  url node['java']['jdk']['8']['x86_64']['url']
+  default node['java']['set_default']
+  checksum node['java']['jdk']['8']['x86_64']['checksum']
+  app_home node['java']['java_home']
+  bin_cmds node['java']['jdk']['8']['bin_cmds']
+  alternatives_priority node['java']['alternatives_priority']
+  retries node['java']['ark_retries']
+  retry_delay node['java']['ark_retry_delay']
+  connect_timeout node['java']['ark_timeout']
+  use_alt_suffix node['java']['use_alt_suffix']
+  reset_alternatives node['java']['reset_alternatives']
+  download_timeout node['java']['ark_download_timeout']
+  proxy node['java']['ark_proxy']
+  action :install
+  notifies :write, 'log[jdk-version-changed]', :immediately
+end
+
 selinux_commands = {}
 selinux_commands['semanage permissive -a tomcat_t'] = 'semanage permissive -l | grep tomcat_t'
 

@@ -32,6 +32,7 @@ suites:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - path: test/integration/community-edition/inspec
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",
