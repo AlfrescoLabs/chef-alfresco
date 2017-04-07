@@ -77,7 +77,7 @@ action :run do
     ordered_role << role['az']['local'] if role['az']['local']
     ordered_role << role['az'][current_az] if current_az && role['az'][current_az]
     role['az'].each do |az_name, az|
-      if 'local' != az_name && (current_az == nil? || current_az != azName)
+      if 'local' != az_name && (current_az == nil? || current_az != az_name)
         ordered_role << az if az
       end
     end
