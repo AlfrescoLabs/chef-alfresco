@@ -58,6 +58,10 @@ action :run do
   end
 
   # Duplicate alfresco backend into aos_vti, root and alfresco_api
+  new_hash = (Marshal.load(Marshal.dump(haproxy_backends)))
+
+  haproxy_backends['alfresco']['az'] = new_hash['share']['az']
+  haproxy_backends['aos']['az'] = new_hash['share']['az']
   haproxy_backends['aos_vti']['az'] = haproxy_backends['alfresco']['az']
   # haproxy_backends['aos_root']['az'] = haproxy_backends['alfresco']['az']
 
@@ -100,7 +104,9 @@ action :run do
         if balanced
           options = "cookie #{instance['jvm_route']} check inter 5000"
         elsif index > 0
-          options = 'check inter 5000 backup'
+          if instance['haproxy_backends'] == 'solr'
+            options = 'check inter 5000 backup'
+          end
         end
         instance['options'] = options
       end

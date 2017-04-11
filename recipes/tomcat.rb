@@ -38,7 +38,25 @@ end
 
 include_recipe 'tomcat::default'
 
-# Reset back to Oracle Java as apache tomcat installs OpenJDK via Yum
+# Find openjdk version
+ruby_block "Find openjdk version" do
+  block do
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+    command = 'rpm -qa | grep openjdk | grep -v headless'
+    command_out = shell_out(command)
+    node.run_state['openjdk_version'] = command_out.stdout
+  end
+  action :create
+end
+
+# Unset openjdk alternatives for java and javac commands
+java_alternatives "un-set java alternatives" do
+  java_location "/usr/lib/jvm/#{node.run_state['openjdk_version']}"
+  bin_cmds ["java", "javac"]
+  action :unset
+end
+
+# Reset back to Oracle Java as Apache Tomcat installs OpenJDK via Yum
 java_ark 'jdk' do
   url node['java']['jdk']['8']['x86_64']['url']
   default node['java']['set_default']
