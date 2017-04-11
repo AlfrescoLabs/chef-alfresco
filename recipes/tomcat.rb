@@ -39,7 +39,7 @@ end
 include_recipe 'tomcat::default'
 
 # Find openjdk version
-ruby_block "Find openjdk version" do
+ruby_block 'Find openjdk version' do
   block do
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
     command = 'rpm -qa | grep openjdk | grep -v headless'
@@ -50,9 +50,9 @@ ruby_block "Find openjdk version" do
 end
 
 # Unset openjdk alternatives for java and javac commands
-java_alternatives "un-set java alternatives" do
+java_alternatives 'un-set java alternatives' do
   java_location "/usr/lib/jvm/#{node.run_state['openjdk_version']}"
-  bin_cmds ["java", "javac"]
+  bin_cmds ['java', 'javac']
   action :unset
 end
 

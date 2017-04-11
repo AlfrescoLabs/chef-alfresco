@@ -58,7 +58,7 @@ action :run do
   end
 
   # Duplicate alfresco backend into aos_vti, root and alfresco_api
-  new_hash = (Marshal.load(Marshal.dump(haproxy_backends)))
+  new_hash = Marshal.load(Marshal.dump(haproxy_backends))
 
   haproxy_backends['alfresco']['az'] = new_hash['share']['az']
   haproxy_backends['aos']['az'] = new_hash['share']['az']
