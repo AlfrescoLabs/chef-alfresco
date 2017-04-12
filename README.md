@@ -2,7 +2,7 @@ chef-alfresco
 ---
 <img align="left" src="chef-alfresco-logo.png" alt="Chef Alfresco Logo" title="Chef Alfresco Logo"/>
 
-[![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg)](https://travis-ci.org/Alfresco/chef-alfresco)
+[![Build Status](https://travis-ci.org/Alfresco/chef-alfresco.svg?branch=master)](https://travis-ci.org/Alfresco/chef-alfresco)
 
 chef-alfresco is a Chef cookbook that provides a modular, configurable and extensible way to install an Alfresco node/stack; `alfresco::default` parses `node['alfresco']['components']` and includes other `alfresco::*` recipes accordingly.
 
