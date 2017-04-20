@@ -45,15 +45,15 @@ ruby_block 'Find openjdk version & jre path' do
     command = 'rpm -qa | grep openjdk | grep -v headless'
     command_out = shell_out(command)
     openjdk_version = command_out.stdout.chomp
-    node.run_state['openjdk_path'] = "/usr/lib/jvm/#{openjdk_version}/jre"
+    node.run_state['alfresco']['openjdk_path'] = "/usr/lib/jvm/#{openjdk_version}/jre"
   end
   action :run
 end
 
 # Unset openjdk alternatives for java and javac commands
 java_alternatives 'un-set java alternatives for openjdk' do
-  java_location lazy { node.run_state['openjdk_path'] }
-  bin_cmds ['java', 'javac', 'keytool']
+  java_location lazy { node.run_state['alfresco']['openjdk_path'] }
+  bin_cmds %w(java javac keytool)
   action :unset
 end
 
