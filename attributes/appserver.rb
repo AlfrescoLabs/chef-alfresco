@@ -1,0 +1,17 @@
+default['appserver']['alfresco']['components'] = node['alfresco']['components']
+default['appserver']['alfresco']['user'] = node['alfresco']['user']
+default['appserver']['alfresco']['public_hostname'] = default['alfresco']['public_hostname']
+default['appserver']['alfresco']['rmi_server_hostname'] = default['alfresco']['rmi_server_hostname']
+# default['appserver']['alfresco']['jmxremote_databag'] = ''
+# default['appserver']['alfresco']['jmxremote_databag_items'] = ''
+default['appserver']['alfresco']['solr']['home'] = default['alfresco']['solr']['home']
+default['appserver']['alfresco']['solr']['alfresco_models'] = default['alfresco']['solr']['alfresco_models']
+default['appserver']['alfresco']['solr']['contentstore.path'] = default['alfresco']['solr']['contentstore.path']
+default['appserver']['alfresco']['keystore_file'] = default['alfresco']['keystore_file']
+default['appserver']['alfresco']['keystore_password'] = default['alfresco']['keystore_password']
+default['appserver']['alfresco']['keystore_type'] = default['alfresco']['keystore_type']
+default['appserver']['alfresco']['truststore_file'] = default['alfresco']['truststore_file']
+default['appserver']['alfresco']['truststore_type'] = default['alfresco']['truststore_type']
+default['appserver']['alfresco']['truststore_password'] = default['alfresco']['truststore_password']
+default['appserver']['alfresco']['server_info'] = default['alfresco']['server_info']
+default['appserver']['alfresco']['home'] = default['alfresco']['home']

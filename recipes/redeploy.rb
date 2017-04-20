@@ -1,11 +1,8 @@
-# Invoke attribute recipes; if defined as attributes/*.rb files,
-# The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
-# would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
-#
+
+include_recipe 'alfresco-appserver::default'
+
 include_recipe 'alfresco::initialise_libreoffice' if node['libreoffice']['initialise']
-# include_recipe 'tomcat::_attributes'
 include_recipe 'alfresco::_common-attributes'
-include_recipe 'alfresco::_tomcat-attributes'
 include_recipe 'alfresco::_alfrescoproperties-attributes'
 include_recipe 'alfresco::_repo-attributes'
 include_recipe 'alfresco::_share-attributes'
@@ -24,11 +21,7 @@ include_recipe 'alfresco::_certs'
 # Enabling encrypted communication to the DB (rds as of now)
 include_recipe 'alfresco::db-ssl' if node['alfresco']['db_ssl_enabled'] == true
 
-restart_tomcat_services = []
-
 if node['alfresco']['components'].include? 'repo'
-  restart_tomcat_services << 'tomcat-alfresco'
-  # alfresco-global.properties updates
   replace_property_map = node['alfresco']['properties']
   # TODO: - reuse existing attributes
   file_to_patch = "#{node['alfresco']['home']}/shared/classes/alfresco-global.properties"
@@ -59,7 +52,6 @@ end
 include_recipe 'alfresco-webserver::start' if node['alfresco']['components'].include? 'nginx'
 
 if node['alfresco']['components'].include? 'share'
-  restart_tomcat_services << 'tomcat-share'
   # Update share-config-custom.xml
   file_replace_line 'share-config-origin' do
     path      share_config
@@ -80,51 +72,6 @@ if node['alfresco']['components'].include? 'share'
     owner node['alfresco']['user']
     owner node['tomcat']['group']
     only_if { !node['tomcat']['memcached_nodes'].empty? }
-  end
-end
-
-if node['alfresco']['components'].include? 'solr'
-  restart_tomcat_services << 'tomcat-solr'
-end
-
-# TODO: - why this is here and not into _tomcat-attributes.rb ?
-file_append "#{node['alfresco']['home']}/tomcat.conf" do
-  line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
-  only_if 'ls /etc/tomcat/tomcat.conf'
-end
-
-restart_tomcat_services.each do |service|
-  component = service.gsub('tomcat-', '')
-  component = component == 'alfresco' ? 'repo' : component
-  template "/etc/sysconfig/#{service}" do
-    source 'tomcat/sysconfig.erb'
-    variables(
-      user: 'tomcat',
-      home: "/usr/share/#{service}",
-      base: "/usr/share/#{service}",
-      java_options: node['alfresco']["#{component}_tomcat_instance"]['java_options'],
-      use_security_manager: false,
-      tmp_dir: "/var/cache/#{service}/temp",
-      catalina_options: '',
-      endorsed_dir: '/usr/share/tomcat-multi/lib/endorsed'
-    )
-    owner 'root'
-    group 'root'
-    mode '0644'
-  end
-end
-
-# Patching sysconfig file with XMX values
-memory = {}
-memory['alfresco'] = ((node['memory']['total'].to_i * node['alfresco']['repo_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
-memory['share'] = ((node['memory']['total'].to_i * node['alfresco']['share_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
-memory['solr'] = ((node['memory']['total'].to_i * node['alfresco']['solr_tomcat_instance']['xmx_ratio']).floor / 1024).to_s
-
-memory.each do |instance_name, xmx|
-  sed_command = "sed -i -E \"s/(.+Xmx)([0-9]*)(m+)/\\1#{xmx}\\3/\" /etc/sysconfig/tomcat-#{instance_name}"
-  execute 'patch-tomcat-sysconfig' do
-    command sed_command
-    only_if "ls /etc/sysconfig/tomcat-#{instance_name}"
   end
 end
 

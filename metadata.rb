@@ -15,11 +15,12 @@ supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 depends 'file'
-depends 'apache_tomcat'
 depends 'maven'
 depends 'commons'
 depends 'alfresco-webserver', '~> 0.7.4'
 depends 'nginx-hardening', '~> 1.1.0'
+depends 'alfresco-appserver'
+depends 'alfresco-utils'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
@@ -28,7 +29,6 @@ depends 'database', '>= 4.0.6'
 depends 'ffmpeg', '>= 0.4.4'
 depends 'haproxy', '~> 1.6.6'
 depends 'imagemagick', '>= 0.2.3'
-depends 'java', '>= 1.31.0'
 depends 'libreoffice', '>= 0.0.2'
 depends 'line', '>= 0.6.2'
 depends 'mysql', '~> 7.2'

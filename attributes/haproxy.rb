@@ -33,7 +33,7 @@ haproxy_logging = node['haproxy']['logging_json_enabled'] ? node['haproxy']['jso
 hsts_header = node['haproxy']['ssl_header'] if node['haproxy']['enable_ssl_header']
 
 # when adding new error codes make sure there is an error page file in templates/default/errors
-default['haproxy']['error_codes'] = %w( 400 403 404 408 500 502 503 504 )
+default['haproxy']['error_codes'] = %w( 400 403 408 500 502 503 504 )
 
 default['haproxy']['general_config'] = [
   'tune.ssl.default-dh-param 2048',

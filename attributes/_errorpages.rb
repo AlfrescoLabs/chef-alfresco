@@ -5,7 +5,6 @@ default['alfresco']['errorpages']['error_file_source'] = 'errors'
 
 default['alfresco']['errorpages']['400_error_page_message'] = 'Alfresco received a bad request!'
 default['alfresco']['errorpages']['403_error_page_message'] = 'Alfresco forbids you from doing that!'
-default['alfresco']['errorpages']['404_error_page_message'] = 'Alfresco couldnt find your file.'
 default['alfresco']['errorpages']['408_error_page_message'] = 'Alfresco timed out.'
 default['alfresco']['errorpages']['500_error_page_message'] = 'Alfresco is having some issues, sorry.'
 default['alfresco']['errorpages']['502_error_page_message'] = 'Alfresco is having some issues!'

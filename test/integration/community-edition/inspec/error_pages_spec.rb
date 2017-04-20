@@ -10,9 +10,9 @@ control 'alfresco-04' do
     it { should exist }
   end
 
-  describe file('/var/www/html/errors/404.http') do
-    it { should exist }
-  end
+  # describe file('/var/www/html/errors/404.http') do
+  #   it { should exist }
+  # end
 
   describe file('/var/www/html/errors/408.http') do
     it { should exist }

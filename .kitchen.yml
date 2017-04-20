@@ -9,6 +9,7 @@ driver:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: 12.18.31
 
 verifier:
   name: inspec
@@ -38,12 +39,14 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
-        "version" : "5.1.g",
-        "ssl_enabled" : false
+        "version" : "5.1.g"
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: community-52
     run_list:
@@ -59,14 +62,16 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
-        "version" : "5.2.d",
-        "ssl_enabled" : false
+        "version" : "5.2.d"
       },
       "nginx" : {
         "use_nossl_config" : true
       },
       "haproxy" : {
         "error_codes": []
+        },
+      "appserver" : {
+        "ssl_enabled" : false
         }
      }
   - name: community-solr6-52
@@ -83,12 +88,14 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs'],
-        "version" : "5.2.d",
-        "ssl_enabled" : false
+        "version" : "5.2.d"
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: enterprise-edition
     run_list:
@@ -105,8 +112,7 @@ suites:
       "alfresco" : {
         "version" : "5.1.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
-        "edition" : "enterprise",
-        "ssl_enabled" : false
+        "edition" : "enterprise"
       },
       "commons" : {
         "maven" : {
@@ -127,7 +133,10 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: enterprise-52
     run_list:
@@ -145,7 +154,6 @@ suites:
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
         "edition" : "enterprise",
-        "ssl_enabled" : false
       },
       "commons" : {
         "maven" : {
@@ -176,7 +184,10 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: enterprise-solr6-52
     run_list:
@@ -193,8 +204,7 @@ suites:
       "alfresco" : {
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr6","mysql","aos","rm"],
-        "edition" : "enterprise",
-        "ssl_enabled" : false
+        "edition" : "enterprise"
       },
       "commons" : {
         "maven" : {
@@ -225,5 +235,11 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        },
+      "tomcat": {
+        "run_single_instance" : false
       }
      }

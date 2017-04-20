@@ -92,15 +92,6 @@ node.default['artifacts']['alfresco']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
 node.default['artifacts']['alfresco']['destination'] = node['tomcat']['run_base_instance'] ? node['tomcat']['webapp_dir'] : "#{node['alfresco']['home']}-alfresco/webapps"
 
-# Alfresco MMT artifact
-node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
-node.default['artifacts']['alfresco-mmt']['artifactId'] = 'alfresco-mmt'
-node.default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
-node.default['artifacts']['alfresco-mmt']['type'] = 'jar'
-node.default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
-node.default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
-node.default['artifacts']['alfresco-mmt']['unzip'] = false
-
 node.default['amps']['repo']['share-services']['groupId'] = node['alfresco']['groupId']
 node.default['amps']['repo']['share-services']['artifactId'] = 'alfresco-share-services'
 node.default['amps']['repo']['share-services']['version'] = node['alfresco']['version']
@@ -112,5 +103,15 @@ node.default['artifacts']['sharedclasses']['filtering_mode'] = 'append'
 node.default['artifacts']['sharedclasses']['destination'] = node['alfresco']['shared']
 node.default['artifacts']['sharedclasses']['destinationName'] = 'classes'
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
+node.default['artifacts']['sharedclasses']['enabled'] = true
 
 node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{'/alfresco' unless node['tomcat']['run_single_instance']}/webapps"
+
+node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
+node.default['artifacts']['alfresco-mmt']['artifactId'] = 'alfresco-mmt'
+node.default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
+node.default['artifacts']['alfresco-mmt']['type'] = 'jar'
+node.default['artifacts']['alfresco-mmt']['destination'] = node['alfresco']['bin']
+node.default['artifacts']['alfresco-mmt']['owner'] = node['alfresco']['user']
+node.default['artifacts']['alfresco-mmt']['unzip'] = false
+node.default['artifacts']['alfresco-mmt']['enabled'] = true

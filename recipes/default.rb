@@ -1,15 +1,8 @@
-# Setting Tomcat version
-# Needs to be done before invoking "tomcat::_attributes"
-# TODO: - try using node.default or node.set
-# node.override['tomcat']['base_version'] = 7
+include_recipe 'java::default'
+include_recipe 'alfresco-appserver::default'
 
-# Invoke attribute recipes; if defined as attributes/*.rb files,
-# The derived values (ie node['artifacts']['share']['version'] = node['alfresco']['version'])
-# would not take the right value, if a calling cookbook changes (ie default['alfresco']['version'])
-#
-# include_recipe 'tomcat::_attributes'
 include_recipe 'alfresco::_common-attributes'
-include_recipe 'alfresco::_tomcat-attributes'
+# include_recipe 'alfresco-appserver::default'
 include_recipe 'alfresco::_alfrescoproperties-attributes'
 include_recipe 'alfresco::_repo-attributes'
 include_recipe 'alfresco::_share-attributes'
@@ -59,8 +52,7 @@ if alf_version_gt?('5.0') && node['alfresco']['components'].include?('repo')
   node.default['artifacts']['ROOT']['artifactId'] = 'alfresco-server-root'
 end
 
-include_recipe 'alfresco::package-repositories'
-include_recipe 'java::default'
+include_recipe 'alfresco-utils::package-repositories'
 
 if node['alfresco']['components'].include? 'postgresql'
   include_recipe 'alfresco::postgresql-local-server'
@@ -70,7 +62,6 @@ end
 
 include_recipe 'java::default'
 
-include_recipe 'alfresco::tomcat' if node['alfresco']['components'].include?('tomcat')
 include_recipe 'alfresco-webserver::default' if node['alfresco']['components'].include?('nginx')
 include_recipe 'alfresco::transformations' if node['alfresco']['components'].include?('transform')
 include_recipe 'alfresco::aos' if node['alfresco']['components'].include?('aos')
@@ -96,7 +87,6 @@ end
 
 include_recipe 'alfresco::solr' if node['alfresco']['components'].include?('solr')
 include_recipe 'alfresco::solr6' if node['alfresco']['components'].include?('solr6')
-# include_recipe 'alfresco::tomcat-instance-config' if node['alfresco']['components'].include? 'tomcat'
 
 if node['alfresco']['components'].include?('haproxy')
   include_recipe 'openssl::default'
@@ -107,6 +97,8 @@ maven_setup 'setup maven' do
   maven_home node['maven']['m2_home']
   only_if { node['alfresco']['install_maven'] }
 end
+
+node.default['artifacts']['alfresco-mmt']['enabled'] = true
 
 artifact 'deploy artifacts'
 
