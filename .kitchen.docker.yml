@@ -18,6 +18,7 @@ platforms:
       platform: centos
       run_command: /usr/sbin/init
       privileged: true
+      require_chef_omnibus: 12.19.36
       forward:
       - 80:80
       - 8070:8070

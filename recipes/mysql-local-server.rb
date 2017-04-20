@@ -31,8 +31,8 @@ end
 # end
 
 selinux_commands = {}
-selinux_commands['mkdir -p /var/lib/mysql-default ; semanage fcontext -a -t mysqld_db_t \"/var/lib/mysql-default(/.*)?\" ; restorecon -Rv /var/lib/mysql-default;']  = 'ls -lZ /var/lib/mysql-default | grep mysqld_db_t'
-selinux_commands['mkdir -p /var/log/mysql-default ; semanage fcontext -a -t mysqld_log_t \"/var/log/mysql-default(/.*)?\" ; restorecon -Rv /var/log/mysql-default;'] = 'ls -lZ /var/log/mysql-default | grep mysqld_log_t'
+selinux_commands['mkdir -p /var/lib/mysql-default ; semanage fcontext -a -t mysqld_db_t "/var/lib/mysql-default(/.*)?" ; restorecon -Rv /var/lib/mysql-default;']  = 'ls -lZ /var/lib/mysql-default | grep mysqld_db_t'
+selinux_commands['mkdir -p /var/log/mysql-default ; semanage fcontext -a -t mysqld_log_t "/var/log/mysql-default(/.*)?" ; restorecon -Rv /var/log/mysql-default;'] = 'ls -lZ /var/log/mysql-default | grep mysqld_log_t'
 # TODO: - add nginx 2100 port rule => into nginx.rb
 
 # TODO: - make it a custom resource
