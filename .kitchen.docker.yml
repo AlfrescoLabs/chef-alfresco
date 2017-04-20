@@ -64,7 +64,11 @@ suites:
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs','yourkit'],
         "version" : "5.2.d",
-        "ssl_enabled" : false
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
       },
       "nginx" : {
         "use_nossl_config" : true
