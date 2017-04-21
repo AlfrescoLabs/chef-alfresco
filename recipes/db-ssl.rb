@@ -28,15 +28,15 @@ certstore_type = 'JCK'
 ruby_block 'Import AWS RDS Certs' do
   block do
     Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
-      trust_store = Mixlib::ShellOut.new(
-                      %[ keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
-                      -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
-                    ).run_command
+      Mixlib::ShellOut.new(
+        %[ keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt \
+        -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
+      ).run_command
 
-      cacert_store = Mixlib::ShellOut.new(
-                       %[ keytool -import -keystore #{certstore} -storepass #{certstore_pass} -storetype #{certstore_type} -noprompt \
-                       -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
-                     ).run_command
+      Mixlib::ShellOut.new(
+        %[ keytool -import -keystore #{certstore} -storepass #{certstore_pass} -storetype #{certstore_type} -noprompt \
+        -alias \"$(openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print')\" -file #{cert} ]
+      ).run_command
     end
   end
   action :run
