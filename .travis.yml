@@ -17,4 +17,4 @@ before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
 script:
   - travis_wait 20 bundle exec rake default
   # Run test-kitchen with docker driver, for example:
-  - travis_wait 20 bundle exec rake "integration:docker[$SUITE, test]"
+  - bundle exec rake "integration:docker[$SUITE, test]"
