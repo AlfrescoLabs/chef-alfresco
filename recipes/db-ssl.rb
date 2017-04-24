@@ -18,24 +18,18 @@ certstore_pass = node['alfresco']['certstore']['pass']
 ruby_block 'Import AWS RDS Certs' do
   block do
     Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
-    
-    split_crt = "cd #{Chef::Config[:file_cache_path]} && csplit -sz #{pem_file} '/-BEGIN CERTIFICATE-/' '{*}'"
-    split_crt_out = shell_out(split_crt)
-
+    csplit = "cd #{Chef::Config[:file_cache_path]} && csplit -sz #{pem_file} '/-BEGIN CERTIFICATE-/' '{*}'"
+    split = shell_out(csplit)
     Dir.glob("#{Chef::Config[:file_cache_path]}/xx*").each do |cert|
-
       alias_cmd = "openssl x509 -noout -text -in #{cert} | perl -ne 'next unless /Subject:/; s/.*CN=//; print'"
       crt_alias = shell_out(alias_cmd).stdout.chomp.split.join
-      
       f = Chef::Resource::JavaCertificate.new('java_certificate', run_context)
       f.cert_alias = crt_alias
       f.cert_file = cert
       f.run_action :install
-
       # Java certificate library don't have option of storetype other than JKS hence passing this way
       tstore_cmd = "keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias #{crt_alias} -file #{cert}"
-      tstore_out = shell_out(tstore_cmd)
-
+      tstore = shell_out(tstore_cmd)
     end
   end
   action :run
