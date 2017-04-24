@@ -29,7 +29,6 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
-      - recipe[alfresco::db-ssl]
     verifier:
       inspec_tests:
         - name: nginx-hardening
