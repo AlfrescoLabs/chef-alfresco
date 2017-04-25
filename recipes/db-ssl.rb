@@ -26,6 +26,8 @@ ruby_block 'Import AWS RDS Certs' do
       f = Chef::Resource::JavaCertificate.new('java_certificate', run_context)
       f.cert_alias = crt_alias
       f.cert_file = cert
+      f.keystore_path = certstore
+      f.keystore_passwd = certstore_pass
       f.run_action :install
       # Java certificate library don't have option of storetype other than JKS hence passing this way
       tstore_cmd = "keytool -import -keystore #{truststore} -storepass #{truststore_pass} -storetype #{truststore_type} -noprompt -alias #{crt_alias} -file #{cert}"
