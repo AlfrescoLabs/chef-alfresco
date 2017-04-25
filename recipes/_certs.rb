@@ -12,7 +12,7 @@ end
 begin
   ssl = data_bag_item(ssl_databag, ssl_databag_item)
   ssl.each do |ssl_item_name, ssl_item_value|
-    next unless ssl_item_name == 'id'
+    next if ssl_item_name == 'id'
     ssl_file = "#{ssl_folder}/#{filename}.#{ssl_item_name}"
     file ssl_file do
       action :create
@@ -26,7 +26,6 @@ rescue
   ssl_chain_file = "#{ssl_folder}/#{filename}.chain"
   ssl_nginxcrt_file = "#{ssl_folder}/#{filename}.nginxcrt"
   ssl_dhparam_file = "#{ssl_folder}/#{filename}.dhparam"
-
   unless node['alfresco']['skip_certificate_creation']
     execute 'create-fake-ssl-keypair' do
       command "openssl req -subj '/C=UK/ST=Berkshire/L=Maidenhead/O=Alfresco/CN=#{ssl_fqdn}' -x509 -days 3650 -batch -nodes -newkey rsa:4096 -keyout #{ssl_key_file} -out #{ssl_crt_file}"
