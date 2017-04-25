@@ -67,12 +67,12 @@ if node['alfresco']['components'].include? 'share'
     not_if    "cat #{share_config} | grep '<referer>#{node['alfresco']['shareproperties']['referer']}</referer>'"
   end
 
-  template "#{node['alfresco']['home']}/share/conf/Catalina/localhost/share.xml" do
-    source 'tomcat/share.xml.erb'
-    owner node['appserver']['user']
-    owner node['appserver']['group']
-    only_if { !node['tomcat']['memcached_nodes'].empty? }
-  end
+  # template "#{node['alfresco']['home']}/share/conf/Catalina/localhost/share.xml" do
+  #   source 'tomcat/share.xml.erb'
+  #   owner node['appserver']['user']
+  #   owner node['appserver']['group']
+  #   only_if { !node['tomcat']['memcached_nodes'].empty? }
+  # end
 end
 
 alfresco_services 'Starting the required services' do

@@ -105,7 +105,6 @@ node.default['artifacts']['sharedclasses']['destinationName'] = 'classes'
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
 node.default['artifacts']['sharedclasses']['enabled'] = true
 
-
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = 'alfresco-mmt'
 node.default['artifacts']['alfresco-mmt']['version'] = node['alfresco']['version']
