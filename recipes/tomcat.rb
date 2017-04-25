@@ -38,6 +38,44 @@ end
 
 include_recipe 'tomcat::default'
 
+# Find openjdk version
+ruby_block 'Find openjdk version' do
+  block do
+    Chef::Resource::RubyBlock.send(:include, Chef::Mixin::ShellOut)
+    command = 'rpm -qa | grep openjdk | grep -v headless'
+    command_out = shell_out(command)
+    openjdk_version = command_out.stdout.chomp
+    node.run_state['openjdk_path'] = "/usr/lib/jvm/#{openjdk_version}/jre"
+  end
+  action :run
+end
+
+# Unset openjdk alternatives for java and javac commands
+java_alternatives 'un-set java alternatives' do
+  java_location lazy { node.run_state['openjdk_path'] }
+  bin_cmds %w(java javac keytool)
+  action :unset
+end
+
+# Reset back to Oracle Java as Apache Tomcat installs OpenJDK via Yum
+java_ark 'jdk' do
+  url node['java']['jdk']['8']['x86_64']['url']
+  default node['java']['set_default']
+  checksum node['java']['jdk']['8']['x86_64']['checksum']
+  app_home node['java']['java_home']
+  bin_cmds node['java']['jdk']['8']['bin_cmds']
+  alternatives_priority node['java']['alternatives_priority']
+  retries node['java']['ark_retries']
+  retry_delay node['java']['ark_retry_delay']
+  connect_timeout node['java']['ark_timeout']
+  use_alt_suffix node['java']['use_alt_suffix']
+  reset_alternatives node['java']['reset_alternatives']
+  download_timeout node['java']['ark_download_timeout']
+  proxy node['java']['ark_proxy']
+  action :install
+  notifies :write, 'log[jdk-version-changed]', :immediately
+end
+
 selinux_commands = {}
 selinux_commands['semanage permissive -a tomcat_t'] = 'semanage permissive -l | grep tomcat_t'
 

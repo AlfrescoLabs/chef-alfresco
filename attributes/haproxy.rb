@@ -217,14 +217,18 @@ end
 # HAproxy configuration
 default['haproxy']['frontends']['internal']['acls']['alfresco'] = ['path_beg /alfresco']
 default['haproxy']['frontends']['external']['acls']['alfresco'] = ['path_beg /alfresco', 'path_reg ^/alfresco/aos/.*', 'path_reg ^/alfresco/aos$']
+default['haproxy']['frontends']['external']['acls']['aos_vti'] = ['path_reg ^/_vti_inf.html$', 'path_reg ^/_vti_bin/.*']
+default['haproxy']['frontends']['external']['acls']['aos_root'] = ['path_reg ^/$ method OPTIONS', 'path_reg ^/$ method PROPFIND']
+
 default['haproxy']['backends']['roles']['alfresco']['entries'] = ['option httpchk GET /alfresco', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
 default['haproxy']['backends']['roles']['alfresco']['port'] = 8070
 
-default['haproxy']['frontends']['external']['acls']['aos_vti'] = ['path_reg ^/_vti_inf.html$', 'path_reg ^/_vti_bin/.*']
+default['haproxy']['backends']['roles']['aos']['entries'] = ['option httpchk GET /alfresco', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
+default['haproxy']['backends']['roles']['aos']['port'] = 8070
+
 default['haproxy']['backends']['roles']['aos_vti']['entries'] = ['option httpchk GET /_vti_inf.html', 'cookie JSESSIONID prefix', 'balance url_param JSESSIONID check_post']
 default['haproxy']['backends']['roles']['aos_vti']['port'] = 8070
 
-default['haproxy']['frontends']['external']['acls']['aos_root'] = ['path_reg ^/$ method OPTIONS', 'path_reg ^/$ method PROPFIND']
 default['haproxy']['backends']['roles']['aos_root']['entries'] = ['option httpchk GET /']
 default['haproxy']['backends']['roles']['aos_root']['port'] = 8070
 
