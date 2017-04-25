@@ -32,45 +32,87 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
-        "version" : "5.1.g",
-        "ssl_enabled" : false
+        "version" : "5.1.g"
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: community-52
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
-        "version" : "5.2.d",
-        "ssl_enabled" : false
+        "version" : "5.2.d"
       },
       "nginx" : {
         "use_nossl_config" : true
       },
       "haproxy" : {
         "error_codes": []
+        },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
+     }
+  - name: community-solr6-52
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+    data_bags_path: "test/integration/data_bags"
+    attributes: {
+      "name": "chef-alfresco-community-52",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr6','mysql','googledocs'],
+        "version" : "5.2.d"
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      },
+      "appserver" : {
+        "ssl_enabled" : false
         }
      }
   - name: enterprise-edition
@@ -82,14 +124,17 @@ suites:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     attributes: {
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.1.2",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm",'googledocs'],
-        "edition" : "enterprise",
-        "ssl_enabled" : false
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
+        "edition" : "enterprise"
       },
       "commons" : {
         "maven" : {
@@ -100,7 +145,7 @@ suites:
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
             },
-            "staging" : {
+            "internal-staging" : {
               "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
               "username" : "<%= ENV['NEXUS_USERNAME'] %>",
               "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
@@ -110,17 +155,25 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: enterprise-52
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
@@ -128,7 +181,6 @@ suites:
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
         "edition" : "enterprise",
-        "ssl_enabled" : false
       },
       "commons" : {
         "maven" : {
@@ -159,25 +211,32 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false
+        }
      }
   - name: enterprise-solr6-52
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils          
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr6","mysql","aos","rm"],
-        "edition" : "enterprise",
-        "ssl_enabled" : false
+        "edition" : "enterprise"
       },
       "commons" : {
         "maven" : {
@@ -208,5 +267,9 @@ suites:
       },
       "nginx" : {
         "use_nossl_config" : true
-      }
+      },
+      "appserver" : {
+        "ssl_enabled" : false,
+        "run_single_instance" : false
+        }
      }

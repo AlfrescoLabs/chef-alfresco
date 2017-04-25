@@ -2,7 +2,7 @@ control 'alfresco-08' do
   impact 0.7
   title 'Share Checks'
 
-  describe directory('/usr/share/tomcat-multi/shared/classes/alfresco/web-extension') do
+  describe directory('/usr/share/tomcat/shared/classes/alfresco/web-extension') do
     it { should exist }
     it { should be_directory }
     its('owner') { should cmp 'tomcat' }
@@ -15,7 +15,7 @@ control 'alfresco-08' do
     it { should_not be_writable.by_user('nginx') }
   end
 
-  describe file('/usr/share/tomcat-multi/shared/classes/alfresco/web-extension/share-config-custom.xml') do
+  describe file('/usr/share/tomcat/shared/classes/alfresco/web-extension/share-config-custom.xml') do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }
@@ -30,7 +30,7 @@ control 'alfresco-08' do
     its('content') { should match 'http://127.0.0.1:9000/alfresco/activiti-admin' }
     its('content') { should match 'http://127.0.0.1:9000/alfresco/api' }
   end
-  describe file('/usr/share/tomcat-multi/shared/classes/alfresco/web-extension/share-cluster-application-context.xml') do
+  describe file('/usr/share/tomcat/shared/classes/alfresco/web-extension/share-cluster-application-context.xml') do
     it { should exist }
     it { should be_file }
     its('owner') { should cmp 'tomcat' }

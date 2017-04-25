@@ -199,7 +199,7 @@ control 'alfresco-09' do
     it { should be_readable.by_user('tomcat') }
   end
 
-  describe file('/usr/share/tomcat-multi/shared/classes/alfresco-global.properties') do
+  describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
     its('content') { should match('index.subsystem.name=solr6') }
   end
 end

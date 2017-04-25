@@ -90,7 +90,7 @@ node.default['artifacts']['alfresco']['type'] = 'war'
 
 node.default['artifacts']['alfresco']['owner'] = node['alfresco']['user']
 node.default['artifacts']['alfresco']['unzip'] = false
-node.default['artifacts']['alfresco']['destination'] = node['tomcat']['run_base_instance'] ? node['tomcat']['webapp_dir'] : "#{node['alfresco']['home']}-alfresco/webapps"
+node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{'/alfresco' unless node['appserver']['run_single_instance']}/webapps"
 
 node.default['amps']['repo']['share-services']['groupId'] = node['alfresco']['groupId']
 node.default['amps']['repo']['share-services']['artifactId'] = 'alfresco-share-services'
@@ -105,7 +105,6 @@ node.default['artifacts']['sharedclasses']['destinationName'] = 'classes'
 node.default['artifacts']['sharedclasses']['owner'] = node['alfresco']['user']
 node.default['artifacts']['sharedclasses']['enabled'] = true
 
-node.default['artifacts']['alfresco']['destination'] = "#{node['alfresco']['home']}#{'/alfresco' unless node['tomcat']['run_single_instance']}/webapps"
 
 node.default['artifacts']['alfresco-mmt']['groupId'] = node['alfresco']['groupId']
 node.default['artifacts']['alfresco-mmt']['artifactId'] = 'alfresco-mmt'

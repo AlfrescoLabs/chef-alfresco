@@ -31,9 +31,6 @@ if node['alfresco']['components'].include? 'haproxy'
   }
 end
 
-# If enabled, Tomcat SSL Connector will use this redirectPort
-node.default['tomcat']['ssl_redirect_port'] = node['alfresco']['public_portssl']
-
 if node['alfresco']['components'].include? 'nginx'
   node.default['logrotate']['global']['/var/log/nginx/*.log'] = {
     'daily' => true,

@@ -30,10 +30,15 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",
@@ -53,10 +58,15 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community-52",
@@ -79,10 +89,15 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community-52",
@@ -107,6 +122,10 @@ suites:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     attributes: {
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
@@ -143,11 +162,16 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils          
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
@@ -194,11 +218,16 @@ suites:
     run_list:
       - recipe[alfresco::default]
       - recipe[alfresco::redeploy]
+      - recipe[alfresco-utils::node_json]
     data_bags_path: "test/integration/data_bags"
     verifier:
       inspec_tests:
         - name: nginx-hardening
           git: https://github.com/Alfresco/tests-nginx-hardening
+        - name: chef-alfresco-inspec-tomcat
+          git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+        - name: utils
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
@@ -238,9 +267,7 @@ suites:
         "use_nossl_config" : true
       },
       "appserver" : {
-        "ssl_enabled" : false
-        },
-      "tomcat": {
+        "ssl_enabled" : false,
         "run_single_instance" : false
-      }
+        }
      }

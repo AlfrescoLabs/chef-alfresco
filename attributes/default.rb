@@ -43,7 +43,7 @@ default['alfresco']['version'] = '5.2.d'
 default['alfresco']['edition'] = 'community'
 
 default['alfresco']['home'] = '/usr/share/tomcat'
-default['alfresco']['user'] = 'tomcat'
+default['alfresco']['user'] = node['appserver']['user']
 
 default['alfresco']['skip_certificate_creation'] = true
 

@@ -4,7 +4,7 @@ property :resource_name, String, name_property: true
 property :start_services, kind_of: [TrueClass, FalseClass], default: false
 
 # Cookbook defaults
-property :run_single_instance, kind_of: [TrueClass, FalseClass], default: lazy { node['tomcat']['run_single_instance'] }
+property :run_single_instance, kind_of: [TrueClass, FalseClass], default: lazy { node['appserver']['run_single_instance'] }
 property :components, default: lazy { node['alfresco']['components'] }
 property :alfresco_home, default: lazy { node['alfresco']['home'] }
 property :java_home, default: lazy { node['java']['java_home'] }

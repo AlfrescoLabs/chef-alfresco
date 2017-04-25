@@ -103,10 +103,10 @@ node.default['artifacts']['alfresco-mmt']['enabled'] = true
 artifact 'deploy artifacts'
 
 apply_amps 'apply alfresco and share amps' do
-  alfresco_root "#{node['alfresco']['home']}#{'/alfresco' unless node['tomcat']['run_single_instance']}"
-  share_root "#{node['alfresco']['home']}#{'/share' unless node['tomcat']['run_single_instance']}"
-  unixUser node['alfresco']['user']
-  unixGroup node['tomcat']['group']
+  alfresco_root "#{node['alfresco']['home']}#{'/alfresco' unless node['appserver']['run_single_instance']}"
+  share_root "#{node['alfresco']['home']}#{'/share' unless node['appserver']['run_single_instance']}"
+  unixUser node['appserver']['user']
+  unixGroup node['appserver']['group']
   only_if { apply_amps }
   only_if { node['amps'] }
 end

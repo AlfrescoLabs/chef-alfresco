@@ -9,8 +9,8 @@ node.default['artifacts']['sharedclasses']['terms']['alfresco/web-extension/shar
 # TODO: - make it generic using File.dirName(share_log4j_path)
 directory 'web-extension' do
   path        "#{shared_folder}/classes/alfresco/web-extension"
-  owner       node['alfresco']['user']
-  group       node['tomcat']['group']
+  owner       node['appserver']['user']
+  group       node['appserver']['group']
   mode        '0775'
   recursive   true
 end
@@ -18,8 +18,8 @@ end
 template 'share-config-custom.xml' do
   path        "#{shared_folder}/classes/alfresco/web-extension/share-config-custom.xml"
   source      'share-config-custom.xml.erb'
-  owner       node['alfresco']['user']
-  group       node['tomcat']['group']
+  owner       node['appserver']['user']
+  group       node['appserver']['group']
   # TODO: add note
   # cookbook
   # source
@@ -31,7 +31,7 @@ end
 template 'share-cluster-application-context.xml' do
   path        "#{shared_folder}/classes/alfresco/web-extension/share-cluster-application-context.xml"
   source      'share-cluster-application-context.xml.erb'
-  owner       node['alfresco']['user']
-  group       node['tomcat']['group']
+  owner       node['appserver']['user']
+  group       node['appserver']['group']
   mode        '0664'
 end

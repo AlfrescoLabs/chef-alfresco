@@ -32,4 +32,4 @@ else
 end
 
 # Solr WAR destination
-node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}#{'/solr' unless node['tomcat']['run_single_instance']}/webapps"
+node.default['artifacts']['solr4']['destination'] = "#{node['alfresco']['home']}#{'/solr' unless node['appserver']['run_single_instance']}/webapps"

@@ -10,8 +10,8 @@ shared_folder = node['alfresco']['shared']
 config_folder = node['alfresco']['config_dir']
 # log_folder = node['tomcat']['log_dir']
 
-user = node['alfresco']['user']
-group = node['tomcat']['group']
+user = node['appserver']['user']
+group = node['appserver']['group']
 
 alfresco_license_source = node['alfresco']['license_source']
 alfresco_license_cookbook = node['alfresco']['license_cookbook']

@@ -26,14 +26,7 @@ node.default['alfresco']['shareproperties']['origin'] = '.*'
 #   node.default['alfresco']['shareproperties']['origin'] = "https://#{node['alfresco']['public_hostname']}:#{node['alfresco']['public_portssl']}"
 # end
 
-# Share WAR destination
-# if node['tomcat']['run_base_instance']
-#  node.default['artifacts']['share']['destination'] = node['tomcat']['webapp_dir']
-# else
-#  node.default['artifacts']['share']['destination'] = "#{node['alfresco']['home']}-share/webapps"
-# end
-
-node.default['artifacts']['share']['destination'] = if node['tomcat']['run_single_instance']
+node.default['artifacts']['share']['destination'] = if node['appserver']['run_single_instance']
                                                       "#{node['alfresco']['home']}/webapps"
                                                     else
                                                       "#{node['alfresco']['home']}/share/webapps"
