@@ -102,3 +102,5 @@ default['alfresco']['properties']['cifs.netBIOSSMB.sessionPort'] = '1139'
 
 # Replication
 default['alfresco']['properties']['replication.enabled'] = true
+
+default['alfresco']['properties']['dir.root'] = lazy { "#{node['alfresco']['home']}/alf_data" }

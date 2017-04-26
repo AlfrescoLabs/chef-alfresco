@@ -26,3 +26,10 @@ default['alfresco']['workspace-solrproperties']['alfresco.keepAliveTime'] = 120
 default['alfresco']['workspace-solrproperties']['alfresco.threadPriority'] = 5
 default['alfresco']['workspace-solrproperties']['alfresco.threadDaemon'] = true
 default['alfresco']['workspace-solrproperties']['alfresco.workQueueSize'] = -1
+
+default['alfresco']['workspace-solrproperties']['data.dir.root'] = lazy { "#{node['alfresco']['properties']['dir.root']}/solrhome" }
+default['alfresco']['workspace-solrproperties']['alfresco.baseUrl'] = lazy { "/#{node['alfresco']['properties']['alfresco.context']}" }
+default['alfresco']['workspace-solrproperties']['alfresco.secureComms'] = lazy { node['alfresco']['properties']['solr.secureComms'] }
+default['alfresco']['archive-solrproperties']['data.dir.root'] = lazy { "#{node['alfresco']['properties']['dir.root']}/solrhome" }
+default['alfresco']['archive-solrproperties']['alfresco.baseUrl'] = lazy { "/#{node['alfresco']['properties']['alfresco.context']}" }
+default['alfresco']['archive-solrproperties']['alfresco.secureComms'] = node['alfresco']['properties']['solr.secureComms']
