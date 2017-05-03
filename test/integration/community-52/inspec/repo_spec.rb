@@ -47,15 +47,15 @@ control 'alfresco-05' do
   describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
     it { should exist }
     it { should be_file }
+    its('mode') { should cmp '0740' }
     its('owner') { should cmp 'tomcat' }
     its('group') { should cmp 'tomcat' }
     it { should be_readable.by_user('tomcat') }
     it { should be_writable.by_user('tomcat') }
     it { should be_executable.by_user('tomcat') }
     it { should_not be_writable.by_user('nginx') }
-    its('mode') { should cmp '0740' }
-    # it { should be_readable.by_user('nginx') }
-    # it { should be_executable.by_user('nginx') }
+    it { should_not be_readable.by_user('nginx') }
+    it { should_not be_executable.by_user('nginx') }
     its('content') { should match 'db.driver=org.gjt.mm.mysql.Driver' }
     its('content') { should match 'db.username=alfresco' }
   end
