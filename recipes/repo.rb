@@ -68,7 +68,7 @@ file 'alfresco-global-empty' do
   content ''
   owner user
   group group
-  mode '0775'
+  mode '0740'
   only_if { generate_alfresco_global == true }
 end
 
