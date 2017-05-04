@@ -9,7 +9,7 @@ driver:
 
 provisioner:
   name: chef_zero
-  require_chef_omnibus: 12.18.31
+  require_chef_omnibus: 12.19.36
 
 verifier:
   name: inspec
@@ -39,6 +39,7 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+        - path: test/integration/community-edition/inspec
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",
@@ -73,7 +74,12 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "components" : ['haproxy','nginx','tomcat','transform','repo','share','solr','mysql','googledocs'],
-        "version" : "5.2.d"
+        "version" : "5.2.d",
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
       },
       "nginx" : {
         "use_nossl_config" : true
@@ -132,7 +138,12 @@ suites:
       "alfresco" : {
         "version" : "5.1.2",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos", "rm"],
-        "edition" : "enterprise"
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
       },
       "commons" : {
         "maven" : {
@@ -171,7 +182,7 @@ suites:
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
         - name: utils
-          git: https://github.com/Alfresco/chef-alfresco-inspec-utils          
+          git: https://github.com/Alfresco/chef-alfresco-inspec-utils
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
@@ -179,6 +190,11 @@ suites:
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
         "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
       },
       "commons" : {
         "maven" : {
@@ -234,7 +250,12 @@ suites:
       "alfresco" : {
         "version" : "5.2.0",
         "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr6","mysql","aos","rm"],
-        "edition" : "enterprise"
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
       },
       "commons" : {
         "maven" : {

@@ -129,3 +129,7 @@ default['alfresco']['restart_action'] = [:restart]
 
 # Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
 default['artifacts']['keystore']['enabled'] = false
+
+# Java CA Certstore
+default['alfresco']['certstore']['path'] = lazy { "#{node['java']['java_home']}/jre/lib/security/cacerts" }
+default['alfresco']['certstore']['pass'] = 'changeit'

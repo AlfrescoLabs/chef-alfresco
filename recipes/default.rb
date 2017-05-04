@@ -54,11 +54,7 @@ end
 
 include_recipe 'alfresco-utils::package-repositories'
 
-if node['alfresco']['components'].include? 'postgresql'
-  include_recipe 'alfresco::postgresql-local-server'
-elsif node['alfresco']['components'].include? 'mysql'
-  include_recipe 'alfresco::mysql-local-server'
-end
+include_recipe 'alfresco-db::default'
 
 include_recipe 'java::default'
 
