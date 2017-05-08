@@ -20,9 +20,9 @@ depends 'commons'
 depends 'java'
 depends 'alfresco-webserver', '~> 0.7.4'
 depends 'nginx-hardening', '~> 1.1.0'
-depends 'alfresco-appserver'
-depends 'alfresco-utils'
-depends 'alfresco-db'
+depends 'alfresco-appserver', '~> 1.0.0'
+depends 'alfresco-utils', '~> 1.0.0'
+depends 'alfresco-db', '~> 1.1.0'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'

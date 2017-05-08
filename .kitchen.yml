@@ -37,8 +37,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
         - path: test/integration/community-edition/inspec
     data_bags_path: "test/integration/data_bags"
     attributes: {
@@ -66,8 +71,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community-52",
@@ -102,8 +112,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community-52",
@@ -130,8 +145,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise",
       "hostname": "alfresco-allinone-test",
@@ -181,8 +201,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
@@ -242,8 +267,13 @@ suites:
           git: https://github.com/Alfresco/tests-nginx-hardening
         - name: chef-alfresco-inspec-tomcat
           git: https://github.com/Alfresco/chef-alfresco-inspec-tomcat
+          tag: v0.1
         - name: utils
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
+          tag: v0.1
+        - name: chef-alfresco-inspec-mysql
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise-52",
       "hostname": "alfresco-allinone-test",
