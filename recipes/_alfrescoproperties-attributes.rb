@@ -81,3 +81,4 @@ node.default['alfresco']['properties']['activiti.protocol'] = node['alfresco']['
 node.default['alfresco']['properties']['aos.baseProtocol'] = node['alfresco']['public_protocol']
 node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['public_hostname']
 node.default['alfresco']['properties']['aos.port'] = node['alfresco']['public_port']
+node.default['alfresco']['properties']['aos.baseUrlOverwrite'] = '${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos'
