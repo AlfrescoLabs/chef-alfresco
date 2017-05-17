@@ -12,17 +12,17 @@ supports 'centos', '>= 7.0'
 supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
-depends 'file'
 depends 'tomcat'
 depends 'maven'
+depends 'file'
 depends 'commons'
-depends 'alfresco-webserver', '~> 0.7.4'
-depends 'nginx-hardening', '~> 1.1.0'
+depends 'database'
+depends 'alfresco-webserver'
+depends 'nginx-hardening'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
 depends 'artifact-deployer', '>= 0.8.18'
-depends 'database', '>= 4.0.6'
 depends 'ffmpeg', '>= 0.4.4'
 depends 'haproxy', '~> 1.6.6'
 depends 'imagemagick', '>= 0.2.3'
