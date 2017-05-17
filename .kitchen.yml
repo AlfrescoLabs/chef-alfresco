@@ -19,7 +19,6 @@ platforms:
     driver_config:
       network:
       - ["private_network", {ip: "192.168.33.23"}]
-      require_chef_omnibus: 12.19.36
 
     driver:
       box_url: http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.2_chef-provisionerless.box
