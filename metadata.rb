@@ -17,8 +17,7 @@ depends 'maven'
 depends 'file'
 depends 'commons'
 depends 'database'
-depends 'alfresco-webserver'
-depends 'nginx-hardening'
+depends 'alfresco-webserver', '~> 0.7.4'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
