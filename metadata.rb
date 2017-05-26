@@ -14,24 +14,21 @@ supports 'centos', '>= 7.0'
 supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
+
+
 depends 'commons'
-depends 'java', '>= 1.31.0'
 depends 'alfresco-webserver', '~> 0.7.5'
-depends 'alfresco-appserver', '~> 1.1.0'
-depends 'alfresco-utils', '~> 1.1.0'
-depends 'alfresco-db', '~> 1.2.0'
+depends 'alfresco-appserver', '~> 1.3.0'
+depends 'alfresco-utils', '~> 1.2.0'
+depends 'alfresco-db', '~> 1.3.0'
+depends 'alfresco-transformations', '~> 1.0'
 
 # Community cookbooks
 depends 'activemq', '>= 1.3.3'
 depends 'artifact-deployer', '>= 0.8.18'
-depends 'ffmpeg', '>= 0.4.4'
 depends 'haproxy', '~> 1.6.6'
-depends 'imagemagick', '>= 0.2.3'
-depends 'libreoffice', '>= 0.0.2'
 depends 'line', '>= 0.6.2'
 depends 'openssl', '>= 4.0.0'
 depends 'postgresql', '>= 3.4.18'
-depends 'swftools', '>= 0.2.4'
-depends 'yum-epel'
 depends 'yum-atrpms', '>= 0.1.0'
 depends 'supervisor', '>= 0.4.12'

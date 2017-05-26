@@ -15,3 +15,4 @@ default['appserver']['alfresco']['truststore_password'] = default['alfresco']['t
 # default['appserver']['alfresco']['server_info'] = default['alfresco']['server_info']
 default['appserver']['alfresco']['home'] = default['alfresco']['home']
 default['appserver']['run_single_instance'] = false
+default['appserver']['install_java'] = true

@@ -4,6 +4,6 @@ control 'alfresco-03' do
   desc 'Checks Alfresco configuration for LibreOffice'
 
   describe file('/usr/share/tomcat/shared/classes/alfresco-global.properties') do
-    its('content') { should match('jodconverter.officeHome=/opt/libreoffice5.2/') }
+    its('content') { should match('jodconverter.officeHome=/opt/libreoffice') }
   end
 end

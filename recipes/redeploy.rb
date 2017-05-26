@@ -1,7 +1,7 @@
 
 include_recipe 'alfresco-appserver::default'
 
-include_recipe 'alfresco::initialise_libreoffice' if node['libreoffice']['initialise']
+include_recipe 'alfresco-transformations::initialise_libreoffice'
 include_recipe 'alfresco::_common-attributes'
 include_recipe 'alfresco::_alfrescoproperties-attributes'
 include_recipe 'alfresco::_repo-attributes'

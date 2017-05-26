@@ -66,7 +66,8 @@ default['alfresco']['properties']['alfresco.authentication.allowGuestLogin'] = f
 # Transformations
 default['alfresco']['properties']['ffmpeg.exe'] = '/usr/bin/ffmpeg'
 default['alfresco']['properties']['ooo.enabled'] = false
-default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice5.2/'
+# default['alfresco']['properties']['jodconverter.officeHome'] = '/opt/libreoffice'
+default['alfresco']['properties']['jodconverter.officeHome'] = lazy { node['transformations']['libreoffice']['link_directory'] }
 default['alfresco']['properties']['jodconverter.portNumbers'] = '8101'
 default['alfresco']['properties']['jodconverter.enabled'] = true
 default['alfresco']['properties']['jodconverter.connectTimeout'] = 50000
@@ -75,8 +76,8 @@ default['alfresco']['properties']['swf.exe'] = '/usr/local/bin/pdf2swf'
 default['alfresco']['properties']['img.exe'] = '/usr/bin/convert'
 default['alfresco']['properties']['img.dyn'] = '${img.root}/lib64'
 default['alfresco']['properties']['img.gslib'] = '${img.dyn}'
-default['alfresco']['properties']['img.coders'] = '${img.dyn}/ImageMagick-6.7.8/modules-Q16/coders'
-default['alfresco']['properties']['img.config'] = '${img.dyn}/ImageMagick-6.7.8/config'
+default['alfresco']['properties']['img.coders'] = lazy { "#{node['transformations']['imagemagick']['link_modules']}/coders" }
+default['alfresco']['properties']['img.config'] = lazy { (node['transformations']['imagemagick']['link_config']).to_s }
 
 # Enable smart folders
 default['alfresco']['properties']['smart.folders.enabled'] = true

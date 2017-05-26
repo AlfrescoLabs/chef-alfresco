@@ -41,9 +41,12 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
           tag: v1.1
         - path: test/integration/community-edition/inspec
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
+          tag: v1.1
     data_bags_path: "test/integration/data_bags"
     attributes: {
       "name": "chef-alfresco-community",
@@ -75,7 +78,10 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
+          tag: v1.1
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
           tag: v1.1
     data_bags_path: "test/integration/data_bags"
     attributes: {
@@ -116,7 +122,10 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
+          tag: v1.1
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
           tag: v1.1
     data_bags_path: "test/integration/data_bags"
     attributes: {
@@ -149,7 +158,10 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
+          tag: v1.1
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
           tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise",
@@ -205,7 +217,10 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
+          tag: v1.1
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
           tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise-52",
@@ -271,7 +286,10 @@ suites:
           git: https://github.com/Alfresco/chef-alfresco-inspec-utils
           tag: v0.1
         - name: chef-alfresco-inspec-mysql
-          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql.git
+          git: https://github.com/Alfresco/chef-alfresco-inspec-mysql
+          tag: v1.1
+        - name: chef-alfresco-inspec-transformations
+          git: https://github.com/Alfresco/chef-alfresco-inspec-transformations
           tag: v1.1
     attributes: {
       "name": "chef-alfresco-enterprise-52",

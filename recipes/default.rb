@@ -1,4 +1,3 @@
-include_recipe 'java::default'
 include_recipe 'alfresco-appserver::default'
 
 include_recipe 'alfresco::_common-attributes'
@@ -56,10 +55,14 @@ include_recipe 'alfresco-utils::package-repositories'
 
 include_recipe 'alfresco-db::default'
 
-include_recipe 'java::default'
-
 include_recipe 'alfresco-webserver::default' if node['alfresco']['components'].include?('nginx')
-include_recipe 'alfresco::transformations' if node['alfresco']['components'].include?('transform')
+
+if alf_version_lt?('5.2')
+  node.default['alfresco']['libreoffice_version'] = '4.5.0'
+end
+
+include_recipe 'alfresco-transformations::default' if node['alfresco']['components'].include?('transform')
+
 include_recipe 'alfresco::aos' if node['alfresco']['components'].include?('aos')
 include_recipe 'alfresco::googledocs' if node['alfresco']['components'].include?('googledocs')
 include_recipe 'alfresco::rm' if node['alfresco']['components'].include?('rm')
