@@ -15,7 +15,6 @@ supports 'redhat', '>= 7.0'
 
 # Resolved by Berkshelf, not present in Supermarket or forked
 
-
 depends 'commons'
 depends 'alfresco-webserver', '~> 0.7.5'
 depends 'alfresco-appserver', '~> 1.3.0'
