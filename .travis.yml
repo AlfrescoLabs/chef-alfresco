@@ -9,12 +9,12 @@ env:
     - SUITE=community-52
     # - SUITE=community-solr6-52
 
-before_install: curl -L https://www.getchef.com/chef/install.sh | sudo bash -s -- -P chefdk -v 0.9.0
-install: bundle install
+before_install: curl -L https://www.getchef.com/chef/install.sh | sudo bash -s -- -P chefdk -v 1.2.20
+install: chef exec bundle install
 
 before_script: sudo iptables -L DOCKER || sudo iptables -N DOCKER
 
 script:
-  - bundle exec rake default
+  - chef exec bundle exec rake default
   # Run test-kitchen with docker driver, for example:
-  - bundle exec rake "integration:docker[$SUITE, test]"
+  - chef exec bundle exec rake "integration:docker[$SUITE, test]"
