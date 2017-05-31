@@ -4,21 +4,26 @@
 require 'foodcritic'
 require 'rspec/core/rake_task'
 require 'cookstyle'
+require 'yaml'
+
+KITCHEN_DOCKER_FILENAME = '.kitchen.docker.yml'
+KITCHEN_VAGRANT_FILENAME = '.kitchen.yml'
+KITCHEN_DOCKER_DIFF_FILENAME = '.kitchen-diff.docker.yml'
 
 desc 'Runs knife cookbook test'
 task :knife do
-  sh 'bundle exec knife cookbook test cookbook -o ./ -a'
+  sh 'chef exec bundle exec knife cookbook test cookbook -o ./ -a'
 end
 
 desc 'Runs ChefSpec tests'
 task :chefspec do
-  sh 'rspec'
+  sh 'chef exec bundle exec rspec'
 end
 
 desc 'Runs foodcritic test'
 task :foodcritic do
   FoodCritic::Rake::LintTask.new
-  sh 'bundle exec foodcritic -f any .'
+  sh 'chef exec bundle exec foodcritic -f any .'
 end
 
 desc 'Runs rspec tests in test/unit folder'
@@ -30,7 +35,7 @@ end
 
 desc 'Runs cookstyle'
 task :cookstyle do
-  sh 'bundle exec cookstyle'
+  sh 'chef exec bundle exec cookstyle'
 end
 
 desc 'Run Test Kitchen integration tests'
@@ -67,7 +72,10 @@ namespace :integration do
 
   desc 'Run integration tests with kitchen-docker'
   task :docker, [:regexp, :action] do |_t, args|
-    run_kitchen(args.action, args.regexp, local_config: '.kitchen.docker.yml')
+    kvf = YAML::load_file(File.join(__dir__, KITCHEN_VAGRANT_FILENAME))
+    kdf = YAML::load_file(File.join(__dir__, KITCHEN_DOCKER_DIFF_FILENAME))
+    File.write(KITCHEN_DOCKER_FILENAME,kvf.merge(kdf).to_yaml)
+    run_kitchen(args.action, args.regexp, local_config: KITCHEN_DOCKER_FILENAME)
   end
 end
 

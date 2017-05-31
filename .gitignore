@@ -13,7 +13,7 @@ nohup.out
 
 # Vagrant/Kitchen/Travis ignores
 .vagrant
-.kitchen.local.yml
+.kitchen.docker.yml
 .kitchen/
 
 # Alfresco license ignores
