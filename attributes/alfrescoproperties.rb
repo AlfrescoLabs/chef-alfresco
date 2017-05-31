@@ -54,9 +54,6 @@ default['alfresco']['properties']['mail.smtp.auth'] = false
 default['alfresco']['properties']['mail.smtps.starttls.enable'] = false
 default['alfresco']['properties']['mail.smtps.auth'] = false
 
-# AOS
-default['alfresco']['properties']['aos.baseUrlOverwrite'] = '${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos'
-
 # Cluster
 default['alfresco']['properties']['alfresco.cluster.name'] = 'alfrescocluster'
 
