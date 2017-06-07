@@ -73,7 +73,7 @@ run_command() {
 }
 
 start_command() {
-  if [ -d <%= node['solr6']['solr-in-sh']['SOLR_PID_DIR'] %>/data/alfresco ]; then
+  if [ -d <%= node['solr6']['solr-in-sh']['SOLR_HOME'] %>/alfresco ]; then
     command="start"
   else
     echo "Creating Alfresco cores"

@@ -141,7 +141,15 @@ if node['alfresco']['components'].include?('solr6')
 
   solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
 
-  config_files = ["#{solr_home}/conf/shared.properties", "#{node['solr6']['solr_env_dir']}/solr.in.sh"]
+  ["#{solr_home}/alfresco","#{solr_home}/archive"].each do | dir_to_delete |
+    directory dir_to_delete do
+      recursive true
+      action :delete
+      only_if { Dir.exist?(dir_to_delete) }
+    end
+  end
+
+  config_files = ["#{solr_home}/conf/shared.properties", "#{node['solr6']['solr_env_dir']}/solr.in.sh","#{solr_home}/templates/rerank/conf/solrcore.properties"]
 
   # replacing configuration files
   config_files.each do |config_file|
@@ -154,7 +162,7 @@ if node['alfresco']['components'].include?('solr6')
   end
 
   service 'solr' do
-    action :restart
+    action [:enable, :restart]
   end
 
 end
