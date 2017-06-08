@@ -141,5 +141,5 @@ template '/etc/init.d/solr' do
   source 'solr6/solr.erb'
   mode 00744
   owner 'root'
-  notifies :enable, 'service[solr]', :immediately
+  # notifies :enable, 'service[solr]', :immediately
 end
