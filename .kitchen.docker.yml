@@ -242,7 +242,7 @@ suites:
       "hostname": "alfresco-allinone-test",
       "alfresco" : {
         "version" : "5.2.1",
-        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm"],
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm","googledocs"],
         "edition" : "enterprise",
         "ssl_enabled" : false,
         "certs" : {
