@@ -87,6 +87,7 @@ end
 
 imagemagick_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_name']}"
 imagemagick_libs_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_libs_name']}"
+pdfium_path = "#{Chef::Config[:file_cache_path]}/alfresco-pdf-renderer-1.0-1.x86_64.rpm"
 
 # Imagemagick OS repo installation
 if node['alfresco']['install_imagemagick'] && node['alfresco']['use_imagemagick_os_repo']
@@ -100,16 +101,27 @@ packages = [
   'urw-fonts',
   'libwmf-lite',
   'libtool-ltdl',
-  'ghostscript',
-  'poppler-data',
-  'ghostscript-fonts',
+  'poppler-data'
 ]
+# Only install ghostscript if the version of Alfresco is 5.2.0 or lower
+packages += %w(ghostscript ghostscript-fonts) if alf_version_lt?('5.2.1')
 packages.each do |package|
   package package do
     action :install
     only_if { node['alfresco']['install_imagemagick'] }
     not_if { node['alfresco']['use_imagemagick_os_repo'] }
   end
+end
+
+# Only install PDFium if the version of Alfresco is equal or greater than 5.2.1
+remote_file pdfium_path do
+  source node['alfresco']['pdfium_url']
+  only_if { alf_version_ge?('5.2.1') }
+end
+
+package pdfium_path do
+  action :install
+  only_if { alf_version_ge?('5.2.1') }
 end
 
 remote_file imagemagick_libs_path do
