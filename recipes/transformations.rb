@@ -113,15 +113,14 @@ packages.each do |package|
   end
 end
 
-# Only install PDFium if the version of Alfresco is equal or greater than 5.2.1
-remote_file pdfium_path do
-  source node['alfresco']['pdfium_url']
-  only_if { alf_version_ge?('5.2.1') }
-end
+node.default['artifacts']['pdfium']['enabled'] = alf_version_ge?('5.2.1')
 
-package pdfium_path do
-  action :install
-  only_if { alf_version_ge?('5.2.1') }
+# Only install PDFium if the version of Alfresco is equal or greater than 5.2.1
+execute 'extract pdfium tgz' do
+  command 'tar xzvf /usr/local/bin/pdfium.tgz'
+  cwd '/usr/local/bin'
+  only_if { node['artifacts']['pdfium']['enabled'] }
+  creates '/usr/local/bin/alfresco-pdf-renderer'
 end
 
 remote_file imagemagick_libs_path do
