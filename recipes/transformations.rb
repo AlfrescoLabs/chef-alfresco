@@ -101,7 +101,7 @@ packages = [
   'urw-fonts',
   'libwmf-lite',
   'libtool-ltdl',
-  'poppler-data'
+  'poppler-data',
 ]
 # Only install ghostscript if the version of Alfresco is 5.2.0 or lower
 packages += %w(ghostscript ghostscript-fonts) if alf_version_lt?('5.2.1')

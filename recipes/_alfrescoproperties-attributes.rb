@@ -83,7 +83,7 @@ node.default['alfresco']['properties']['aos.baseHost'] = node['alfresco']['publi
 node.default['alfresco']['properties']['aos.port'] = node['alfresco']['public_port']
 node.default['alfresco']['properties']['aos.baseUrlOverwrite'] = '${aos.baseProtocol}://${aos.baseHost}:${aos.port}/alfresco/aos'
 
-#PDFium
+# PDFium
 if alf_version_ge?('5.2.1')
   node.default['alfresco']['properties']['alfresco-pdf-renderer.root'] = '/usr/local/bin'
   node.default['alfresco']['properties']['alfresco-pdf-renderer.exe'] = '${alfresco-pdf-renderer.root}/alfresco-pdf-renderer'
