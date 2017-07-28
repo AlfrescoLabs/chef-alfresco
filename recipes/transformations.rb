@@ -87,7 +87,6 @@ end
 
 imagemagick_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_name']}"
 imagemagick_libs_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_libs_name']}"
-pdfium_path = "#{Chef::Config[:file_cache_path]}/alfresco-pdf-renderer-1.0-1.x86_64.rpm"
 
 # Imagemagick OS repo installation
 if node['alfresco']['install_imagemagick'] && node['alfresco']['use_imagemagick_os_repo']
@@ -114,14 +113,6 @@ packages.each do |package|
 end
 
 node.default['artifacts']['pdfium']['enabled'] = alf_version_ge?('5.2.1')
-
-# Only install PDFium if the version of Alfresco is equal or greater than 5.2.1
-execute 'extract pdfium tgz' do
-  command 'tar xzvf /usr/local/bin/pdfium.tgz'
-  cwd '/usr/local/bin'
-  only_if { node['artifacts']['pdfium']['enabled'] }
-  creates '/usr/local/bin/alfresco-pdf-renderer'
-end
 
 remote_file imagemagick_libs_path do
   source node['alfresco']['imagemagick_libs_url']

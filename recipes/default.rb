@@ -131,6 +131,10 @@ end
 
 include_recipe 'artifact-deployer::default'
 
+if node['artifacts']['pdfium']['enabled']
+  include_recipe 'alfresco::pdfium'
+end
+
 if node['alfresco']['components'].include?('solr6')
   include_recipe 'alfresco::solr6-config'
 end
