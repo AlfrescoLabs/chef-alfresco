@@ -57,3 +57,4 @@ module AlfrescoHelper
 end
 
 Chef::Recipe.send(:include, AlfrescoHelper)
+Chef::Resource.send(:include, AlfrescoHelper)

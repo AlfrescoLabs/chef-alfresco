@@ -228,3 +228,56 @@ suites:
         "use_nossl_config" : true
       }
      }
+  - name: enterprise-521
+    run_list:
+      - recipe[alfresco::default]
+      - recipe[alfresco::redeploy]
+    data_bags_path: "test/integration/data_bags"
+    verifier:
+      inspec_tests:
+        - name: nginx-hardening
+          git: https://github.com/Alfresco/tests-nginx-hardening
+    attributes: {
+      "name": "chef-alfresco-enterprise-52",
+      "hostname": "alfresco-allinone-test",
+      "alfresco" : {
+        "version" : "5.2.1",
+        "components" : ["haproxy","nginx","tomcat","transform","repo","share","solr","mysql","aos","rm","googledocs"],
+        "edition" : "enterprise",
+        "ssl_enabled" : false,
+        "certs" : {
+          "ssl_databag" : "ssl",
+          "ssl_databag_item" : "certs"
+        }
+      },
+      "artifact-deployer" : {
+        "maven" : {
+          "timeout" : 1500,
+          "repositories" : {
+            "internal" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/internal",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "internal-staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "internal-releases" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/repositories/internal-releases",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            },
+            "staging" : {
+              "url" : "https://artifacts.alfresco.com/nexus/content/groups/staging",
+              "username" : "<%= ENV['NEXUS_USERNAME'] %>",
+              "password" : "<%= ENV['NEXUS_PASSWORD'] %>"
+            }
+          }
+        }
+      },
+      "nginx" : {
+        "use_nossl_config" : true
+      }
+     }
