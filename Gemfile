@@ -12,6 +12,7 @@ gem 'simplecov', '~> 0.12.0'
 gem 'simplecov-rcov', '~> 0.2.3'
 gem 'chef-zero', '5.3.2'
 gem 'rake'
+gem 'molinillo', '~> 0.5.7'
 
 group :docker do
   gem 'test-kitchen', '~> 1.4'
