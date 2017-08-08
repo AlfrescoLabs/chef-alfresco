@@ -5,6 +5,6 @@ control 'alfresco-googledocs-check' do
   describe command('java -jar /usr/share/tomcat/bin/alfresco-mmt.jar \
    list /var/lib/tomcat-alfresco/webapps/alfresco.war') do
     its('stdout') { should match /'org.alfresco.integrations.google.docs' installed/ }
-    its('stdout') { should match /Version:      3.0.4/ }
+    its('stdout') { should match /Version:      3.0.4.1/ }
   end
 end
