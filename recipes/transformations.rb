@@ -89,7 +89,7 @@ imagemagick_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagem
 imagemagick_libs_path = "#{Chef::Config[:file_cache_path]}/#{node['alfresco']['imagemagick_libs_name']}"
 
 # Imagemagick OS repo installation
-if node['alfresco']['install_imagemagick'] && node['alfresco']['use_imagemagick_os_repo']
+if node['alfresco']['use_imagemagick_os_repo']
   include_recipe 'imagemagick::default'
 end
 
