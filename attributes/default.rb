@@ -78,9 +78,12 @@ default['alfresco']['license_cookbook'] = 'alfresco'
 # Using Alfresco Nexus public by default (in case databags aren't in place)
 default['artifact-deployer']['maven']['repositories']['public']['url'] = 'https://artifacts.alfresco.com/nexus/content/groups/public'
 
-# 3rd-party defaults
-default['alfresco']['imagemagick_version'] = '6.9.5-9'
+# ImageMagick
+default['alfresco']['install_imagemagick'] = true
+# Since ImageMagic can cause a lot of dependancy problems, we try to use the OS provided package rather than installing it manually
 default['alfresco']['use_imagemagick_os_repo'] = true
+# The values below are only used in the case of use_imagemagick_os_repo==false, ignored otherwise
+default['alfresco']['imagemagick_version'] = '6.9.5-9'
 default['alfresco']['imagemagick_libs_name'] = "ImageMagick-libs-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
 default['alfresco']['imagemagick_libs_url'] = "ftp://ftp.icm.edu.pl/vol/rzm4/ImageMagick/linux/CentOS/x86_64/#{node['alfresco']['imagemagick_libs_name']}"
 default['alfresco']['imagemagick_name'] = "ImageMagick-#{node['alfresco']['imagemagick_version']}.x86_64.rpm"
@@ -92,7 +95,6 @@ default['alfresco']['libreoffice_version'] = '5.2.1.2'
 default['alfresco']['install_fonts'] = false
 # swftools are no longer used in Alfresco 5.2
 default['alfresco']['install_swftools'] = false
-default['alfresco']['install_imagemagick'] = true
 
 # Exclude chkfontpath due to unsatisfied dependency on xfs
 default['alfresco']['exclude_font_packages'] = 'tv-fonts chkfontpath pagul-fonts\*'
