@@ -2,8 +2,8 @@
 default['java']['install_flavor'] = 'oracle'
 default['java']['jdk_version'] = '8'
 default['java']['java_home'] = '/usr/lib/jvm/java'
-default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz'
-default['java']['jdk']['8']['x86_64']['checksum'] = '2d59a3add1f213cd249a67684d4aeb83'
+default['java']['jdk']['8']['x86_64']['url'] = 'http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-x64.tar.gz'
+default['java']['jdk']['8']['x86_64']['checksum'] = '20dddd28ced3179685a5f58d3fcbecd8'
 default['java']['oracle']['accept_oracle_download_terms'] = true
 
 # Java CA Certstore
