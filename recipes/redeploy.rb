@@ -26,6 +26,41 @@ include_recipe 'alfresco::db-ssl' if node['alfresco']['db_ssl_enabled'] == true
 
 restart_tomcat_services = []
 
+if node['alfresco']['components'].include? 'solr'
+  restart_tomcat_services << 'tomcat-solr'
+end
+
+if node['alfresco']['components'].include?('solr6')
+  solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio']).floor / 1024}m"
+  node.default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
+
+  solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
+
+  ["#{solr_home}/alfresco", "#{solr_home}/archive"].each do |dir_to_delete|
+    directory dir_to_delete do
+      recursive true
+      action :delete
+      only_if { Dir.exist?(dir_to_delete) }
+    end
+  end
+
+  config_files = ["#{solr_home}/conf/shared.properties", "#{node['solr6']['solr_env_dir']}/solr.in.sh", "#{solr_home}/templates/rerank/conf/solrcore.properties"]
+
+  # replacing configuration files
+  config_files.each do |config_file|
+    filename = File.basename(config_file)
+    template config_file do
+      source "solr6/#{filename}.erb"
+      action :create
+      only_if { Dir.exist?(File.dirname(config_file)) }
+    end
+  end
+
+  service 'solr' do
+    action [:enable, :restart]
+  end
+end
+
 if node['alfresco']['components'].include? 'repo'
   restart_tomcat_services << 'tomcat-alfresco'
   # alfresco-global.properties updates
@@ -83,10 +118,6 @@ if node['alfresco']['components'].include? 'share'
   end
 end
 
-if node['alfresco']['components'].include? 'solr'
-  restart_tomcat_services << 'tomcat-solr'
-end
-
 # TODO: - why this is here and not into _tomcat-attributes.rb ?
 file_append '/etc/tomcat/tomcat.conf' do
   line "JAVA_OPTS=\"$JAVA_OPTS -Djava.rmi.server.hostname=#{node['alfresco']['rmi_server_hostname']}\""
@@ -133,36 +164,10 @@ restart_tomcat_services.each do |service_name|
   service service_name do
     action :restart
   end
-end
 
-if node['alfresco']['components'].include?('solr6')
-  solr_memory = "#{(node['memory']['total'].to_i * node['solr6']['xmx_ratio']).floor / 1024}m"
-  node.default['solr6']['solr-in-sh']['SOLR_HEAP'] = solr_memory
-
-  solr_home = node['solr6']['solr-in-sh']['SOLR_HOME']
-
-  ["#{solr_home}/alfresco", "#{solr_home}/archive"].each do |dir_to_delete|
-    directory dir_to_delete do
-      recursive true
-      action :delete
-      only_if { Dir.exist?(dir_to_delete) }
+  if service_name == 'alfresco'
+    if node['alfresco']['edition'] == 'enterprise'
+      sleep 40
     end
   end
-
-  config_files = ["#{solr_home}/conf/shared.properties", "#{node['solr6']['solr_env_dir']}/solr.in.sh", "#{solr_home}/templates/rerank/conf/solrcore.properties"]
-
-  # replacing configuration files
-  config_files.each do |config_file|
-    filename = File.basename(config_file)
-    template config_file do
-      source "solr6/#{filename}.erb"
-      action :create
-      only_if { Dir.exist?(File.dirname(config_file)) }
-    end
-  end
-
-  service 'solr' do
-    action [:enable, :restart]
-  end
-
 end
