@@ -165,9 +165,7 @@ restart_tomcat_services.each do |service_name|
     action :restart
   end
 
-  if service_name == 'alfresco'
-    if node['alfresco']['edition'] == 'enterprise'
-      sleep 40
-    end
+  if service_name == 'alfresco' && node['alfresco']['edition'] == 'enterprise'
+    sleep 40
   end
 end
