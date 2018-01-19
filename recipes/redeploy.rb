@@ -167,7 +167,7 @@ restart_tomcat_services.each do |service_name|
 
   if service_name == 'tomcat-alfresco' && node['alfresco']['edition'] == 'enterprise'
     execute 'wait-alfresco-to-start' do
-      command 'sleep 40'
+      command 'sleep 90'
       action :run
     end
   end
