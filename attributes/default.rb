@@ -119,6 +119,8 @@ default['alfresco']['db']['allowed_host'] = '%'
 
 # Alfresco services configuration
 default['alfresco']['start_service'] = true
+# Alfresco service to wait in seconds for Enterprise edition to validate license
+default['alfresco']['start_service']['wait_time'] = '90'
 default['alfresco']['restart_services'] = []
 default['alfresco']['restart_services'].push('tomcat-solr') if node['alfresco']['components'].include?('solr')
 default['alfresco']['restart_services'].push('tomcat-alfresco') if node['alfresco']['components'].include?('repo')
