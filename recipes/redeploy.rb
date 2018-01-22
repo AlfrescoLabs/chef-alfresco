@@ -161,14 +161,14 @@ memory.each do |instance_name, xmx|
 end
 
 restart_tomcat_services.each do |service_name|
-  service service_name do
-    action :restart
-  end
-
-  if service_name == 'tomcat-alfresco' && node['alfresco']['edition'] == 'enterprise'
+  if service_name == 'tomcat-share' && node['alfresco']['edition'] == 'enterprise'
     execute 'wait-alfresco-to-start' do
       command 'sleep 90'
       action :run
     end
+  end
+
+  service service_name do
+    action :restart
   end
 end
