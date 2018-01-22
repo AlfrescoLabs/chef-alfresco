@@ -164,7 +164,7 @@ restart_tomcat_services.each do |service_name|
   # Adding a pause between Alfresco & Share services for Enterprise license validation and Share UI open into Enterprise mode
   if service_name == 'tomcat-share' && node['alfresco']['edition'] == 'enterprise'
     execute 'wait-alfresco-to-start' do
-      command "sleep #{node['alfresco']['start_service']['wait_time']}"
+      command "sleep #{node['alfresco']['service']['wait_time']}"
       action :run
     end
   end
