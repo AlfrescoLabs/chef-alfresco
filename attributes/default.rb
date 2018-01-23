@@ -128,3 +128,6 @@ default['alfresco']['restart_action'] = [:enable, :restart]
 
 # Not needed on standard a installation, unless DB ssl or SOLR ssl is enabled
 default['artifacts']['keystore']['enabled'] = false
+
+# Alfresco service to wait in seconds for Enterprise edition to validate license
+default['alfresco']['service']['wait_time'] = '90'
